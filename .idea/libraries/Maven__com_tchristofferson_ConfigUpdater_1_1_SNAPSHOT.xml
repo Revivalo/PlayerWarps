@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.tchristofferson:ConfigUpdater:1.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tchristofferson/ConfigUpdater/1.1-SNAPSHOT/ConfigUpdater-1.1-20200214.211053-5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tchristofferson/ConfigUpdater/1.1-SNAPSHOT/ConfigUpdater-1.1-20200214.211053-5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/tchristofferson/ConfigUpdater/1.1-SNAPSHOT/ConfigUpdater-1.1-20200214.211053-5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

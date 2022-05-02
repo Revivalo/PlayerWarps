@@ -1,0 +1,271 @@
+#    ______ _                       _    _
+#    | ___ \ |                     | |  | |
+#    | |_/ / | __ _ _   _  ___ _ __| |  | | __ _ _ __ _ __  ___
+#    |  __/| |/ _` | | | |/ _ \ '__| |/\| |/ _` | '__| '_ \/ __|
+#    | |   | | (_| | |_| |  __/ |  \  /\  / (_| | |  | |_) \__ \
+#    \_|   |_|\__,_|\__, |\___|_|   \/  \/ \__,_|_|  | .__/|___/
+#                   __/ |                            | |
+#                 |___/                             |_|
+#
+#                                                by Revivalo
+#
+# If you have some questions, join https://discord.gg/TfUC8uJ for help
+#
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+#
+config:
+  update-checker: true
+  autosave-enabled: true # recommended setting to true
+  autosave-announce: true
+  date-format: dd/MM/yyyy
+  # 30 minutes is recommended
+  autosave-interval: 30 # in minutes
+  teleport-delay: 3
+  currency: "&6$"
+  # This option works only with installed Vault plugin
+  # For no price just set it to 0
+  warp-price: 5000
+  # To disable refund set to 0
+  delete-warp-refund: 2000
+  max-warp-admission: 100000
+  # Make sure you are using valid IDs
+  default-warp-item: ENDER_PEARL
+  banned-items:
+    - DEBUG_STICK
+    - BARRIER
+    - STRUCTURE_VOID
+  default-limit-size: 1
+  warp-name-max-lenght: 24
+  disabled-worlds:
+    - disabledworld1
+    - disabledworld2
+    - disabledworld3
+  enable-categories: true
+  category-title: "Categories"
+  # Set none to disable this option
+  categories-background-item: LIGHT_GRAY_STAINED_GLASS_PANE
+
+  # This option note player that warp teleportation is charged
+  allow-teleport-accept-menu: true
+  # Checking if the warp destination is safe (fire, lava, fall from a height or of the world)
+  check-for-safe-teleport: true
+  bad-command-syntax: "&f[&bPlayer&3Warps&f]&f Wrong command syntax, use /pwarp help"
+  help-message-lore:
+    - "&f-------------------< &bPlayer&3Warps&f >--------------------"
+    - "&b/pwarp &8- &7opens the main menu with all listed warps"
+    - "&b/pwarp <warp> &8- &7teleports to the specified warp"
+    - "&b/pwarp create <warp> &8- &7creates warp with stated name"
+    - "&b/pwarp remove <warp> &8- &7removes the specified warp"
+    - "&b/pwarp favorite <warp> &8- &7add warp to favorite list"
+    - "&b/pwarp unfavorite <warp> &8- &7remove warp from favorite list"
+    - "&b/pwarp type <warp> <type> &8- &7set type of stated warp"
+    - "&7 - available types: &fshop, farm, event, building, other"
+    - "&b/pwarp item <warp> <item> &8- &7sets the item of the warp"
+    - "&b/pwarp lore <warp> &8- &7sets the lore of the warp"
+    - "&b/pwarp private <warp> &8- &7change the warp privacy"
+    - "&b/pwarp price <warp> <price> &8- &7change teleportation cost"
+    - "&b/pwarp freeze <warp> &8- &7temporarily disables warp"
+    - "&b/pwarp rename <warp> <newName> &8- &7rename stated warp"
+    - "&b/pwarp transfer <warp> <newOwner> &8- &7change owner of warp"
+    - "&b/pwarp reload &8- &7reloads the files of the plugin"
+    - "&f-----------------------------------------------------"
+  reload-message: "&f[&bPlayer&3Warps&f]&f Plugin was successfully reloaded!"
+  limit-reached: "&f[&bPlayer&3Warps&f]&f You have reached your limit of created warps &7(%limit%)"
+  no-warps: "&cNo warp created"
+  non-existing-warp: "&f[&bPlayer&3Warps&f]&f This warp does not exist!"
+  warp-already-created: "&f[&bPlayer&3Warps&f]&f A warp with this name already exists!"
+  warp-created: "&f[&bPlayer&3Warps&f]&f You have created a warp &e%name%"
+  # This message will be send with Vault installed
+  warp-created-with-price: "&f[&bPlayer&3Warps&f]&f You have created a warp &e%name% &c(-%price% $)"
+  insufficient-balance: "&f[&bPlayer&3Warps&f]&f Not enough money to create a warp!"
+  insufficient-balance-to-teleport: "&f[&bPlayer&3Warps&f]&f Not enough money to teleport to %warp% warp"
+  warp-removed: "&f[&bPlayer&3Warps&f]&f You have removed this warp"
+  # This message will be send with Vault installed
+  warp-removed-with-refund: "&f[&bPlayer&3Warps&f]&f You have removed this warp &a(+ %refund% $)"
+  try-to-remove-not-owning-warp: "&f[&bPlayer&3Warps&f]&f You can not remove others warps"
+  teleportation: "&f[&bPlayer&3Warps&f]&f Teleportation in &e%time% seconds!"
+  teleportation-cancelled: "&f[&bPlayer&3Warps&f]&f Teleportation canceled!"
+  teleport-to-warp: "&f[&bPlayer&3Warps&f]&f Teleportation to warp of player %player%"
+  teleport-to-warp-with-admission: "&f[&bPlayer&3Warps&f]&f Teleportation to warp of player %player% &c(-%price% $)"
+  accept-teleport-with-admission: "Teleport? &c(-%price% $)"
+  teleport-between-worlds-error: "&f[&bPlayer&3Warps&f]&f Teleportation was cancelled. You can only teleport to warps in your world!"
+  name-cant-contains-dot: "&f[&bPlayer&3Warps&f]&f Name can not contains dot"
+  insufficient-perms: "&f[&bPlayer&3Warps&f]&f Insufficient permission"
+  item-changed: "&f[&bPlayer&3Warps&f]&f Changed menu item to %item%"
+  title-write-msg: "&f[&bPlayer&3Warps&f]&f Now write your text below your %warp% warp in warp list:"
+  item-write-msg: "&f[&bPlayer&3Warps&f]&f Now write item name that will represent %warp% warp:"
+  text-write-canceled: "&f[&bPlayer&3Warps&f]&f You leaved edit mode of your lore"
+  text-size-error: "&f[&bPlayer&3Warps&f]&f Your lore must be between 5 and 32 chars"
+  text-changed: "&f[&bPlayer&3Warps&f]&f You have changed your warp %warp% lore"
+  not-owning: "&f[&bPlayer&3Warps&f]&f This is not your warp"
+  invalid-item: "&f[&bPlayer&3Warps&f]&f This item does not exist"
+  already-reviewed: "&f[&bPlayer&3Warps&f]&f You had already reviewed this warp!"
+  invalid-review: "&f[&bPlayer&3Warps&f]&f You must choose between 1 - 5 stars"
+  selfreview: "&f[&bPlayer&3Warps&f]&f You can not review your own warp!"
+  warp-reviewed: "&f[&bPlayer&3Warps&f]&f You have reviewed this warp (%warp%) with %stars% stars"
+  tried-to-set-banned-item: "&f[&bPlayer&3Warps&f]&f This item is not allowed"
+  not-a-number: "&f[&bPlayer&3Warps&f]&f Entered price isn't a number"
+  price-write-msg: "&f[&bPlayer&3Warps&f]&f Please now write the %warp%'s price of teleport:"
+  price-changed: "&f[&bPlayer&3Warps&f]&f Price teleportation to yours warp %warp% has been changed to %price%"
+  invalid-entered-price: "&f[&bPlayer&3Warps&f]&f Price can't be negative"
+  entered-higher-price-than-allowed: "&f[&bPlayer&3Warps&f]&f Price can't be higher than %max% $"
+  ownership-transfer-successful: "&f[&bPlayer&3Warps&f]&f You have successfully transfered this warp to player %player%"
+  ownership-transfer-info: "&f[&bPlayer&3Warps&f]&f Player %player% transfered warp %warp% to you"
+  ownership-transfer-error: "&f[&bPlayer&3Warps&f]&f This player doesn't exist"
+  owner-change-msg: "&f[&bPlayer&3Warps&f]&f Now write owner's name of %warp% warp:"
+  warp-name-changed: "&f[&bPlayer&3Warps&f]&f Successfully renamed warp %oldName% to %newName%"
+  rename-write-msg: "&f[&bPlayer&3Warps&f]&f Now write new %warps%'s name:"
+  dangerous-position-msg: "&f[&bPlayer&3Warps&f]&f Warp's location isn't save, canceling teleportation"
+  warp-name-is-above-letters-limit: "&f[&bPlayer&3Warps&f]&f Name of warp must be shorter than %limit% letters"
+  warp-list-item: PAPER
+  warps-item-name: "&e&lWarps overview"
+  my-warps-item: REPEATER
+  my-warps-item-name: "&e&lManage my warps"
+  own-warp-item-name: "&fWarp: &a%warp%"
+  help-item: OAK_SIGN
+  help-item-name: "&e&lHow to create warp"
+  favorite-warps-item: NAME_TAG
+  favorite-warps-item-name: "&e&lSaved Warps"
+  my-warp-title: "My Warps &7%page%. page"
+  warps-title: "Warps &7%page%. page"
+  help-title: "Help"
+  favorites-title: "Saved Warps &7%page%. page"
+  accept-menu-title: "Delete this warp? (%warp%)"
+  accept: "&a&lAccept"
+  deny: "&c&lDeny"
+  page-item: ARROW
+  next-page: "&aNext page"
+  previous-page: "&cPrevious page"
+  no-description: "&3&oOwner doesn't set description"
+  star-review-item: sunflower
+  back-item: oak_button
+  back-name: "&c&lBack"
+  1star: "&e&l1 star"
+  2star: "&e&l2 stars"
+  3star: "&e&l3 stars"
+  4star: "&e&l4 stars"
+  5star: "&e&l5 stars"
+  warp-enabled: "&f[&bPlayer&3Warps&f]&f You have &aunfreezed &fyour warp %warp%"
+  warp-disabled: "&f[&bPlayer&3Warps&f]&f You have &cfreezed&f your %warp%&f warp"
+  warp-is-disabled: "&f[&bPlayer&3Warps&f]&f Owner temporarily disabled this warp &7(%warp%)"
+  entered-invalid-type-of-warp: "&f[&bPlayer&3Warps&f]&f Entered bad type, available types: &9%types%"
+  warp-type-changed: "&f[&bPlayer&3Warps&f]&f You have changed type of &7%warp%&f warp to &7%type%"
+  privacy-changed: "&f[&bPlayer&3Warps&f]&f You have changed the privacy of %warp% warp"
+  favorite-warp-added: "&f[&bPlayer&3Warps&f]&f Warp %warp% was added to your favorite list"
+  remove-favorite-warp: "&f[&bPlayer&3Warps&f]&f You have removed %warp% warp from your favorite list"
+  warp-not-contains-favlist: "&f[&bPlayer&3Warps&f]&f Warp %warp% does not contains your favorite list"
+  warp-already-contains-favlist: "&f[&bPlayer&3Warps&f]&f Warp %warp% is already added in your favorite list"
+  warp-name-format: "&b&n%warpName%"
+  # Lore inside /pwarp GUI
+  # Possible placeholders:
+  #   %owner-name% - the name of the player that own this pwarp
+  #   %visits% - number of all time visits
+  #   %today% - attendance in 1 day
+  #   %stars% - draws the stars given by the rating (★☆☆☆☆ - ★★★★★)
+  #   %voters% - how many players voted
+  #   %ratings% - rating in number (1 - 5)
+  #   %lore% - lore of player's pwarp
+  #   %availability% - show if pwarp is enabled/disabled
+  #   %creationDate% - when pwarp was created
+  #   %world% - where pwarp is located
+  warp-lore:
+    - " "
+    - "&7Owner: &f%owner-name%"
+    - "&7Created: &f%creationDate%"
+    - "&7World: &f%world%"
+    - "&7Visits: &f%visits% &8(%today% today)"
+    - "&7Ratings: &e%stars% &6%ratings% &8(%voters% voters)"
+    - "&7Availability: %availability%"
+    - "&7Price: &6%price%"
+    - "&7Description:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Left click to teleport"
+    - "&e► SHIFT + Left click to un/save"
+    - "&e► Right click to review"
+  own-warp-lore:
+    - " "
+    - "&7Visits: &f%visits% &8(%today% today)"
+    - "&7Created: &f%creationDate%"
+    - "&7Ratings: &e%stars% &6%ratings% &8(%voters% voters)"
+    - "&7Availability: %availability%"
+    - "&7Price: &6%price%"
+    - "&7Description:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Left click to teleport"
+    - "&e► Right click to edit"
+    # This will be used, if the teleportation price is 0
+  free-of-charge: "&fFree"
+  warp-active: "&a✔ Active"
+  warp-inactive: "&c❌ Inactive"
+  help-lore:
+    - ' '
+    - '&7 To create warp use'
+    - '&7 command:'
+    - ' '
+    - '&2  ● &a/pwarp create ◁name▷'
+    - ' '
+    - '&7  then you can remove'
+    - '&7  your warp by:'
+    - ' '
+    - '&4  ● &c/pwarp remove ◁name▷'
+    - ' '
+    - '&7 Edit your warp by'
+    - ' '
+    - '&8  ● &f/pwarp settings ◁warp▷'
+  #
+  # Settings menu
+  #
+  remove-warp: "&cRemove warp"
+  remove-warp-lore:
+    - " "
+    - "&e► Click to remove"
+  change-type: "&aChange type of warp"
+  change-type-lore:
+    - " "
+    - "&e► Click to change"
+  change-item: "&aChange item of warp"
+  change-item-lore:
+    - " "
+    - "&e► Click to change"
+  change-label: "&aChange lore of warp"
+  change-label-lore:
+    - " "
+    - "&e► Click to change"
+  pwarp-enable: "&aWarp accessibility"
+  pwarp-enabled-lore:
+    - " "
+    - "&e► Click to disable"
+  pwarp-disabled-lore:
+    - " "
+    - "&e► Click to enable"
+  privacy: "&aWarp privacy"
+  private-disabled-lore:
+    - " "
+    - "&7Private warps wont be"
+    - "&7listed on warp-list"
+    - " "
+    - "&e► Click to make warp private"
+  private-enabled-lore:
+    - " "
+    - "&7Public warps will be"
+    - "&7listed on warp-list"
+    - " "
+    - "&e► Click to make warp public"
+  set-price: "&aTeleportation price"
+  set-price-lore:
+    - " "
+    - "&7You can setup price for"
+    - "&7visiting your warp"
+    - " "
+    - "&e► Click to set price"
+  change-owner: "&eChange owner"
+  change-owner-lore:
+    - " "
+    - "&e► Click to change owner"
+  rename-warp: "&eRename warp"
+  rename-warp-lore:
+    - " "
+    - "&b► Click to rename"

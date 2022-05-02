@@ -1,0 +1,53 @@
+categories:
+  event:
+    name: "&aEvents &2(%number%)"
+    position: 20 # item's position inside category menu
+    item: DIAMOND
+    lore:
+      - "&7Events created by players"
+      - " "
+      - "&e► Click to open"
+  building:
+    name: "&aBuildings &2(%number%)"
+    position: 21
+    item: BRICKS
+    lore:
+      - "&7Players houses or towns"
+      - " "
+      - "&e► Click to open"
+  shop:
+    name: "&aShops &2(%number%)"
+    position: 22
+    item: CHEST
+    lore:
+      - "&7Here you can find"
+      - "&7shops by players"
+      - " "
+      - "&e► Click to open"
+  farm:
+    name: "&aFarms &2(%number%)"
+    position: 23
+    item: WHEAT
+    lore:
+      - "&7Public farms are"
+      - "&7located here"
+      - " "
+      - "&e► Click to open"
+  other:
+    name: "&aOther &2(%number%)"
+    position: 24
+    item: PAPER
+    lore:
+      - "&7Warps that do not fit"
+      - "&7into the previous categories"
+      - " "
+      - "&e► Click to open"
+  all:
+    name: "&aAll Warps &2(%number%)"
+    position: 31
+    item: BOOK
+    lore:
+      - "&7List of all"
+      - "&7available player warps"
+      - " "
+      - "&e► Click to open"

@@ -1,0 +1,22 @@
+name: PlayerWarps
+version: 2.3.0
+main: cz.revivalo.playerwarps.PlayerWarps
+api-version: 1.13
+softdepend: [Vault,Multiverse-Core,Multiworld,DiscordSRV,ChatControlRed,ChatControl]
+authors: [Revivalo]
+description: Warps created by players for players
+commands:
+  pwarp:
+    description: Main command for PlayerWarps plugin
+    usage: /<command>
+    aliases: [pw]
+permissions:
+  playerwarps.use:
+    description: Allows you to teleport to public warps
+    default: true
+  playerwarps.create:
+    description: Allows you to create a warp
+    default: true
+  playerwarps.settings:
+    description: Allows you to setup the warp
+    default: true
