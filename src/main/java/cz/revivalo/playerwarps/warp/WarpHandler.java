@@ -346,7 +346,7 @@ public class WarpHandler {
     }
 
     public void rename(Player p, String warpName, String newWarpName, boolean open){
-        String warpNameTemp = warpName;
+        //String warpNameTemp = warpName;
         boolean isAdmin = p.hasPermission("playerwarps.admin");
         if (p.hasPermission("playerwarps.rename") || isAdmin){
             if (checkWarp(warpName)){
@@ -362,13 +362,11 @@ public class WarpHandler {
                         if (newWarpName.contains(".") || newWarpName.contains(" ")) {
                             p.sendMessage(Lang.NAMECANTCONTAINSDOT.content());
                         } else {
-                            Warp warp = warpsHashMap.get(warpName);
-                            UUID id = p.getUniqueId();
+                            final Warp warp = warpsHashMap.get(warpName);
+                            final UUID id = p.getUniqueId();
                             if (Objects.equals(id, warp.getOwner()) || isAdmin) {
-                                warpsHashMap.remove(warpName);
+                                warpsHashMap.put(newWarpName, warpsHashMap.remove(warpName));
                                 warp.setName(newWarpName);
-                                warpsHashMap.put(newWarpName, warp);
-                                warpNameTemp = newWarpName;
                                 p.sendMessage(Lang.WARPRENAMED.content().replace("%oldName%", warpName).replace("%newName%", newWarpName));
                             } else p.sendMessage(Lang.NOTOWNING.content());
                         }
@@ -376,7 +374,7 @@ public class WarpHandler {
                 }
             }
         } else p.sendMessage(Lang.INSUFFICIENTPERMS.content());
-        if (open) playerWarps.getGuiManager().openSetUpMenu(p, warpNameTemp);
+        if (open) playerWarps.getGuiManager().openSetUpMenu(p, newWarpName);
     }
 
     public void teleportPlayer(Player p, Location loc, boolean cooldown){
