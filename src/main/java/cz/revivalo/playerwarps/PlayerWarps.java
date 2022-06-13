@@ -39,7 +39,7 @@ public final class PlayerWarps extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        isHexSupport = Bukkit.getBukkitVersion().contains("6") || Bukkit.getBukkitVersion().contains("7") || Bukkit.getBukkitVersion().contains("8");
+        isHexSupport = Bukkit.getBukkitVersion().contains("6") || Bukkit.getBukkitVersion().contains("7") || Bukkit.getBukkitVersion().contains("8") || Bukkit.getBukkitVersion().contains("9");
 
         new Metrics(this, 12061);
 

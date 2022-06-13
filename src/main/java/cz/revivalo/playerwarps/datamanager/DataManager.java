@@ -1,5 +1,6 @@
 package cz.revivalo.playerwarps.datamanager;
 
+import cz.revivalo.playerwarps.PlayerWarps;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,7 +15,7 @@ public class DataManager {
     private FileConfiguration data;
 
     public void setup(){
-        dataFile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("PlayerWarps")).getDataFolder(), "data.yml");
+        dataFile = new File(PlayerWarps.getPlugin(PlayerWarps.class).getDataFolder(), "data.yml");
 
         if (!dataFile.exists()){
             try {
