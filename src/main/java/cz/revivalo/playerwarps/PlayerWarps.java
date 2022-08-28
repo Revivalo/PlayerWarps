@@ -31,7 +31,6 @@ public final class PlayerWarps extends JavaPlugin {
 
     public static boolean newestVersion;
 
-    private DataManager dataManager;
     private GUIManager guiManager;
     private WarpHandler warpHandler;
 
@@ -43,10 +42,10 @@ public final class PlayerWarps extends JavaPlugin {
 
         new Metrics(this, 12061);
 
-        Logger logger = this.getLogger();
+        final Logger logger = this.getLogger();
 
         new UpdateChecker(this, 79089).getVersion(version -> {
-            if (Lang.UPDATECHECKER.getBoolean()) {
+            if (Lang.UPDATE_CHECKER.getBoolean()) {
                 String actualVersion = this.getDescription().getVersion();
                 if (actualVersion.equalsIgnoreCase(version)) {
                     logger.info("You are running latest release (" + version + ")");
@@ -68,7 +67,7 @@ public final class PlayerWarps extends JavaPlugin {
         }
 
         reloadConfig();
-        dataManager = new DataManager();
+        DataManager dataManager = new DataManager();
         dataManager.setup();
         dataManager.saveData();
         setupEconomy();
@@ -78,8 +77,8 @@ public final class PlayerWarps extends JavaPlugin {
         warpHandler.loadWarps();
         guiManager = new GUIManager(warpHandler);
 
-        if (Lang.AUTOSAVEENABLED.getBoolean()) {
-            long intervalInTicks = (Lang.AUTOSAVEINTERVAL.getLong() * 60) * 20;
+        if (Lang.AUTO_SAVE_ENABLED.getBoolean()) {
+            long intervalInTicks = (Lang.AUTO_SAVE_INTERVAL.getLong() * 60) * 20;
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -93,20 +92,15 @@ public final class PlayerWarps extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        warpHandler.saveWarps();
-        dataManager = null;
-        guiManager = null;
-        warpHandler = null;
-        econ = null;
-    }
+    public void onDisable() {warpHandler.saveWarps();}
+
 
     private void registerCommands(){
         Objects.requireNonNull(getCommand("pwarp")).setExecutor(new PWarpCommand(warpHandler, guiManager));
     }
 
     private void implementEvents(){
-        PluginManager pm = getServer().getPluginManager();
+        final PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new InventoryClickListener(warpHandler, guiManager), this);
         pm.registerEvents(new ChatSendListener(this, guiManager, warpHandler), this);
         pm.registerEvents(new Notification(), this);

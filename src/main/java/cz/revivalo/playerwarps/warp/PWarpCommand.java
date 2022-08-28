@@ -29,7 +29,7 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("pwarp")){
             if (!warpsHashMap.isEmpty()){
-                List<String> warps = new ArrayList<>();
+                List<String> warps = new Vector<>();
                 for (String warp : warpsHashMap.keySet()){
                     if (warpsHashMap.get(warp).isPrivateState()) continue;
                     if (warp.toLowerCase().contains(args[0].toLowerCase())){
@@ -49,55 +49,55 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
             sender.sendMessage("[PlayerWarps] Only in-game command!");
             return true;
         } else {
-            Player p = (Player) sender;
-            UUID id = p.getUniqueId();
+            final Player player = (Player) sender;
+            final UUID id = player.getUniqueId();
 
             switch (args.length) {
                 case 0:
-                    if (p.hasPermission("playerwarps.use")) {
-                        if (Lang.ENABLECATEGORIES.getBoolean()){
-                            guiManager.openCategories(p);
+                    if (player.hasPermission("playerwarps.use")) {
+                        if (Lang.ENABLE_CATEGORIES.getBoolean()){
+                            guiManager.openCategories(player);
                         } else {
-                            guiManager.openWarpsMenu(p, "all", false);
+                            guiManager.openWarpsMenu(player, "all", false);
                         }
                     } else {
-                        p.sendMessage(Lang.INSUFFICIENTPERMS.content());
+                        player.sendMessage(Lang.INSUFFICIENT_PERMS.getString());
                     }
                     break;
                 case 1:
                     String warpName;
                     switch (args[0]) {
                         case "reload":
-                            warpHandler.reloadWarps(p);
+                            warpHandler.reloadWarps(player);
                             break;
                         case "help":
-                            for (String str : Lang.HELP.contentLore()){
-                                p.sendMessage(str);
+                            for (final String str : Lang.HELP.getStringList()){
+                                player.sendMessage(str);
                             }
                             break;
                         default:
-                            if (p.hasPermission("playerwarps.use")){
+                            if (player.hasPermission("playerwarps.use")){
                                 warpName = args[0];
                                 boolean valid = !warpHandler.checkWarp(warpName);
                                 if (!valid){
-                                    p.sendMessage(Lang.NONEXISTINGWARP.content());
+                                    player.sendMessage(Lang.NON_EXISTING_WARP.getString());
                                     return true;
                                 }
-                                Warp warp = warpsHashMap.get(warpName);
+                                final Warp warp = warpsHashMap.get(warpName);
                                 int price = warp.getPrice();
                                 if (!Objects.equals(id, warp.getOwner())) {
-                                    if (price != 0 && Lang.ALLOWACCEPTTELEMPORTMENU.getBoolean()) {
+                                    if (price != 0 && Lang.ALLOW_ACCEPT_TELEPORT_MENU.getBoolean()) {
                                         warpHandler.remove.put(id, warpName);
-                                        warpHandler.openedFromCommand.add(p);
-                                        guiManager.openTeleportAcceptMenu(p, price);
+                                        warpHandler.openedFromCommand.add(player);
+                                        guiManager.openTeleportAcceptMenu(player, price);
                                     } else {
-                                        warpHandler.warp(p, warpName);
+                                        warpHandler.warp(player, warpName);
                                     }
                                 } else {
-                                    warpHandler.warp(p, warpName);
+                                    warpHandler.warp(player, warpName);
                                 }
                             } else {
-                                p.sendMessage(Lang.INSUFFICIENTPERMS.content());
+                                player.sendMessage(Lang.INSUFFICIENT_PERMS.getString());
                             }
                     }
                     break;
@@ -106,94 +106,94 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
                     if (!args[0].equalsIgnoreCase("create")) {
                         boolean valid = !warpHandler.checkWarp(warpName);
                         if (!valid) {
-                            p.sendMessage(Lang.NONEXISTINGWARP.content());
+                            player.sendMessage(Lang.NON_EXISTING_WARP.getString());
                             return true;
                         }
                     }
-                    Warp warp = warpsHashMap.get(warpName);
-                    boolean isAdmin = p.hasPermission("playerwarps.admin");
+                    final Warp warp = warpsHashMap.get(warpName);
+                    boolean isAdmin = player.hasPermission("playerwarps.admin");
                     switch (args[0]) {
                         case "create":
-                            warpHandler.createWarp(p, warpName);
+                            warpHandler.createWarp(player, warpName);
                             break;
                         case "private":
-                            warpHandler.makePrivate(p, warpName, true);
+                            warpHandler.makePrivate(player, warpName, true);
                             break;
                         case "disable":
                         case "freeze":
-                            if (p.hasPermission("playerwarps.disable") || isAdmin){
-                                warpHandler.disable(p, warpName);
-                            } else p.sendMessage(Lang.INSUFFICIENTPERMS.content());
+                            if (player.hasPermission("playerwarps.disable") || isAdmin){
+                                warpHandler.disable(player, warpName);
+                            } else player.sendMessage(Lang.INSUFFICIENT_PERMS.getString());
                             break;
                         case "text":
                         case "title":
                         case "lore":
-                            if (p.hasPermission("playerwarps.lore") || isAdmin){
+                            if (player.hasPermission("playerwarps.lore") || isAdmin){
                                 if (isAdmin || Objects.equals(id, warp.getOwner())) {
                                     //guiManager.getChat().put(id, warpName + ":lore:false");
-                                    p.sendMessage(Lang.TITLEWRITEMSG.content().replace("%warp%", warpName));
-                                } else p.sendMessage(Lang.NOTOWNING.content());
-                            } else p.sendMessage(Lang.INSUFFICIENTPERMS.content());
+                                    player.sendMessage(Lang.TITLE_WRITE_MSG.getString().replace("%warp%", warpName));
+                                } else player.sendMessage(Lang.NOTOWNING.getString());
+                            } else player.sendMessage(Lang.INSUFFICIENT_PERMS.getString());
                             break;
                         case "settings":
                         case "setup":
-                            if (p.hasPermission("playerwarps.settings") || isAdmin) {
+                            if (player.hasPermission("playerwarps.settings") || isAdmin) {
                                 if (warpHandler.checkWarp(warpName)) {
-                                    if (warpHandler.isOwner(id, warp) || p.hasPermission("playerwarps.admin")) {
-                                        guiManager.openSetUpMenu(p, warpName);
-                                    } else p.sendMessage(Lang.NOTOWNING.content());
-                                } else p.sendMessage(Lang.NONEXISTINGWARP.content());
-                            } else p.sendMessage(Lang.INSUFFICIENTPERMS.content());
+                                    if (warpHandler.isOwner(id, warp) || player.hasPermission("playerwarps.admin")) {
+                                        guiManager.openSetUpMenu(player, warpName);
+                                    } else player.sendMessage(Lang.NOTOWNING.getString());
+                                } else player.sendMessage(Lang.NON_EXISTING_WARP.getString());
+                            } else player.sendMessage(Lang.INSUFFICIENT_PERMS.getString());
                             break;
                         case "delete":
                         case "remove":
                             warpHandler.remove.put(id, warpName + ":true");
                             guiManager.getActualPage().put(id, 0);
-                            guiManager.openAcceptMenu(p, warpName);
+                            guiManager.openAcceptMenu(player, warpName);
                             break;
                         case "favorite":
-                            warpHandler.favorite(p, warpName);
+                            warpHandler.favorite(player, warpName);
                             break;
                         case "unfavorite":
-                            warpHandler.unfavored(p, warpName);
+                            warpHandler.unfavored(player, warpName);
                             break;
                         default:
-                            p.sendMessage(Lang.BADCOMMANDSYNTAX.content());
+                            player.sendMessage(Lang.BAD_COMMAND_SYNTAX.getString());
                             break;
                     }
                     break;
                 case 3:
                     String warpName2 = args[1];
                     if (warpHandler.checkWarp(warpName2)){
-                        p.sendMessage(Lang.NONEXISTINGWARP.content());
+                        player.sendMessage(Lang.NON_EXISTING_WARP.getString());
                         return true;
                     }
                     String input = args[2];
                     switch (args[0]){
                         case "price":
-                            warpHandler.setPrice(p, warpName2, input, false);
+                            warpHandler.setPrice(player, warpName2, input, false);
                             break;
                         case "settype":
                         case "type":
-                            warpHandler.setType(p, warpName2, input);
+                            warpHandler.setType(player, warpName2, input);
                             break;
                         case "item":
                         case "setitem":
-                            warpHandler.setItem(p, warpName2, input, false);
+                            warpHandler.setItem(player, warpName2, input, false);
                             break;
                         case "rename":
-                            warpHandler.rename(p, warpName2, input, false);
+                            warpHandler.rename(player, warpName2, input, false);
                             break;
                         case "transfer":
-                            warpHandler.transferOwnership(p, Bukkit.getPlayer(input), warpName2, false);
+                            warpHandler.transferOwnership(player, Bukkit.getPlayer(input), warpName2, false);
                             break;
                         default:
-                            p.sendMessage(Lang.BADCOMMANDSYNTAX.content());
+                            player.sendMessage(Lang.BAD_COMMAND_SYNTAX.getString());
                             break;
                     }
                     break;
                 default:
-                    p.sendMessage(Lang.BADCOMMANDSYNTAX.content());
+                    player.sendMessage(Lang.BAD_COMMAND_SYNTAX.getString());
             }
         }
         return true;

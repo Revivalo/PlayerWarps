@@ -22,34 +22,33 @@ public class ChatSendListener implements Listener {
         this.warpHandler = warpHandler;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(final AsyncPlayerChatEvent event){
-        if (event.isCancelled()) return;
         final UUID id = event.getPlayer().getUniqueId();
         if (guiManager.getChat().containsKey(id)){
             event.setCancelled(true);
-            String[] value = guiManager.getChat().get(id).split(":");
-            String warp = value[0];
-            String choice = value[1];
-            boolean open = Boolean.parseBoolean(value[2]);
-            Player p = event.getPlayer();
-            String msg = event.getMessage();
+            final String[] value = guiManager.getChat().get(id).split(":");
+            final String warp = value[0];
+            final String choice = value[1];
+            final boolean open = Boolean.parseBoolean(value[2]);
+            final Player editor = event.getPlayer();
+            final String message = event.getMessage();
             Bukkit.getScheduler().runTask(playerWarps, () -> {
                 switch (choice){
                     case "lore":
-                        warpHandler.setLore(p, warp, msg, open);
+                        warpHandler.setLore(editor, warp, message, open);
                         break;
                     case "item":
-                        warpHandler.setItem(p, warp, msg, open);
+                        warpHandler.setItem(editor, warp, message, open);
                         break;
                     case "price":
-                        warpHandler.setPrice(p, warp, msg, open);
+                        warpHandler.setPrice(editor, warp, message, open);
                         break;
                     case "rename":
-                        warpHandler.rename(p, warp, msg, open);
+                        warpHandler.rename(editor, warp, message, open);
                         break;
                     case "owner":
-                        warpHandler.transferOwnership(p, Bukkit.getPlayer(msg), warp, open);
+                        warpHandler.transferOwnership(editor, Bukkit.getPlayer(message), warp, open);
                         break;
                 }
             });

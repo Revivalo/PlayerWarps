@@ -35,34 +35,34 @@ public class GUIManager {
         this.warpHandler = warpHandler;
 
         warpList = warpHandler.getWarpList();
-        formatter = new SimpleDateFormat(Lang.DATEFORMAT.content());
+        formatter = new SimpleDateFormat(Lang.DATE_FORMAT.getString());
     }
 
-    public void openCategories(Player p){
+    public void openCategories(final Player player){
         categories = warpHandler.getCategories();
-        Inventory inv = Bukkit.createInventory(new Holders.Categories(), 54, Lang.CATEGORYTITLE.content());
+        final Inventory inv = Bukkit.createInventory(new Holders.Categories(), 54, Lang.CATEGORY_TITLE.getString());
 
-        if (!Lang.ENABLECATEGORIESBACKGROUND.content().equalsIgnoreCase("none")){
+        if (!Lang.ENABLE_CATEGORIES_BACKGROUND.getString().equalsIgnoreCase("none")){
             for (int i = 0; i < 54; i++){
-                inv.setItem(i, createGuiItem(Lang.ENABLECATEGORIESBACKGROUND.content().toUpperCase(), 1, false, " ", null));
+                inv.setItem(i, createGuiItem(Lang.ENABLE_CATEGORIES_BACKGROUND.getString().toUpperCase(), 1, false, " ", null));
             }
         }
 
-        for (Category category : categories){
+        for (final Category category : categories){
             inv.setItem(category.getPosition(), createGuiItem(category.getItem(), 1, false, category.getName().replace("%number%", String.valueOf(warpHandler.getWarpOfType(category.getType()))), category.getLore()));
         }
         createGuiItems(inv, "list");
 
-        p.openInventory(inv);
+        player.openInventory(inv);
     }
 
-    public void openWarpsMenu(Player p, String type, boolean myWarps){
-        UUID id = p.getUniqueId();
+    public void openWarpsMenu(final Player player, String type, boolean myWarps){
+        final UUID id = player.getUniqueId();
         actualPage.put(id, 0);
         if (!warpList.isEmpty()) {
             List<Warp> warps = new ArrayList<>();
             if (type.equalsIgnoreCase("all")){
-                for (Warp warp : warpList.values()) {
+                for (final Warp warp : warpList.values()) {
                     if (myWarps) {
                         if (!Objects.equals(id, warp.getOwner())) continue;
                     }
@@ -70,7 +70,7 @@ public class GUIManager {
                     warps.add(warp);
                 }
             } else {
-                for (Warp warp : warpList.values()) {
+                for (final Warp warp : warpList.values()) {
                     if (warp.isPrivateState()) continue;
                     if (warp.getType() == null) continue;
                     if (warp.getType().equalsIgnoreCase(type)){
@@ -87,120 +87,119 @@ public class GUIManager {
                 ++j;
             }
             for (int k = 0; k < j; k++) {
-                Inventory inv = Bukkit.createInventory(myWarps ? new Holders.MyWarps() : new Holders.WarpsList(), 54, myWarps ? Lang.MYWARPSTITLE.content().replace("%page%", String.valueOf(k + 1)) : Lang.WARPSTITLE.content().replace("%page%", String.valueOf(k + 1)));
+                final Inventory inv = Bukkit.createInventory(myWarps ? new Holders.MyWarps() : new Holders.WarpsList(), 54, myWarps ? Lang.MYWARPSTITLE.getString().replace("%page%", String.valueOf(k + 1)) : Lang.WARPSTITLE.getString().replace("%page%", String.valueOf(k + 1)));
                 if ((k + 1) == j) {
                     for (int l = 0; l < (i + 45); l++) {
-                        Warp warp = warpList.get(warps.get(number - 1).getName());
-                        String warpName = Lang.WARPNAMEFORMAT.content().replace("%warpName%", warp.getName());
-                        inv.setItem(l, createGuiItem(warp.getItem(), 1,false, warpName, myWarps ? replace(Lang.OWNWARPLORE.contentLore(), warp.getName()) : replace(Lang.WARPLORE.contentLore(), warp.getName())));
+                        final Warp warp = warpList.get(warps.get(number - 1).getName());
+                        final String warpName = Lang.WARP_NAME_FORMAT.getString().replace("%warpName%", warp.getName());
+                        inv.setItem(l, createGuiItem(warp.getItem(), 1,false, warpName, myWarps ? replace(Lang.OWN_WARP_LORE.getStringList(), warp.getName()) : replace(Lang.WARP_LORE.getStringList(), warp.getName())));
                         ++number;
                     }
                 } else {
                     for (int l = 0; l < 45; l++) {
-                        Warp warp = warpList.get(warps.get(number - 1).getName());
-                        String warpName = Lang.WARPNAMEFORMAT.content().replace("%warpName%", warp.getName());
-                        inv.setItem(l, createGuiItem(warp.getItem(), 1,false, warpName, myWarps ? replace(Lang.OWNWARPLORE.contentLore(), warp.getName()) : replace(Lang.WARPLORE.contentLore(), warp.getName())));
+                        final Warp warp = warpList.get(warps.get(number - 1).getName());
+                        final String warpName = Lang.WARP_NAME_FORMAT.getString().replace("%warpName%", warp.getName());
+                        inv.setItem(l, createGuiItem(warp.getItem(), 1,false, warpName, myWarps ? replace(Lang.OWN_WARP_LORE.getStringList(), warp.getName()) : replace(Lang.WARP_LORE.getStringList(), warp.getName())));
                         ++number;
                     }
                 }
 
                 createGuiItems(inv, myWarps ? "mywarps" : "list");
                 if (k != 0){
-                    inv.setItem(45, createGuiItem(Lang.PAGEITEM.content().toUpperCase(), 1,false, Lang.PREVIOUSPAGE.content(), null));
+                    inv.setItem(45, createGuiItem(Lang.PAGEITEM.getString().toUpperCase(), 1,false, Lang.PREVIOUS_PAGE.getString(), null));
                 } if (k != (j - 1)){
-                    inv.setItem(53, createGuiItem(Lang.PAGEITEM.content().toUpperCase(), 1,false, Lang.NEXTPAGE.content(), null));
+                    inv.setItem(53, createGuiItem(Lang.PAGEITEM.getString().toUpperCase(), 1,false, Lang.NEXTPAGE.getString(), null));
                 }
 
                 page.add(inv);
             }
 
             pages.put(id, page);
-
-            p.openInventory(pages.get(id).get(0));
+            player.openInventory(pages.get(id).get(0));
         } else {
-            Inventory inv = Bukkit.createInventory(myWarps ? new Holders.MyWarps() : new Holders.WarpsList(), 54, myWarps ? Lang.MYWARPSTITLE.content().replace("%page%", "1") : Lang.WARPSTITLE.content().replace("%page%", "1"));
-            if (!myWarps) inv.setItem(22, createGuiItem("BARRIER", 1,false, Lang.NOWARPS.content(), null));
-            else inv.setItem(22, createGuiItem("BARRIER", 1, false, Lang.HELPITEMNAME.content(), Lang.HELPLORE.contentLore()));
+            final Inventory inv = Bukkit.createInventory(myWarps ? new Holders.MyWarps() : new Holders.WarpsList(), 54, myWarps ? Lang.MYWARPSTITLE.getString().replace("%page%", "1") : Lang.WARPSTITLE.getString().replace("%page%", "1"));
+            if (!myWarps) inv.setItem(22, createGuiItem("BARRIER", 1,false, Lang.NO_WARPS.getString(), null));
+            else inv.setItem(22, createGuiItem("BARRIER", 1, false, Lang.HELPITEMNAME.getString(), Lang.HELP_LORE.getStringList()));
 
             createGuiItems(inv, myWarps ? "mywarps" : "list");
-            p.openInventory(inv);
+            player.openInventory(inv);
         }
     }
 
     public void openSetUpMenu(Player p, String warpName){
-        Inventory inv = Bukkit.createInventory(new Holders.SetUp(), 54, warpName);
+        final Inventory inv = Bukkit.createInventory(new Holders.SetUp(), 54, warpName);
 
-        Warp warp = warpList.get(warpName);
+        final Warp warp = warpList.get(warpName);
 
         String item = warp.getItem();
         String type = warp.getType();
-        List<String> lore = replace(Lang.OWNWARPLORE.contentLore(), warpName);
+        List<String> lore = replace(Lang.OWN_WARP_LORE.getStringList(), warpName);
         boolean disabled = warp.isDisabled();
         boolean privacy = warp.isPrivateState();
-        inv.setItem(4, createGuiItem(item,1, false, Lang.OWNWARPITEMNAME.content().replace("%warp%", warpName), lore));
-        inv.setItem(11, createGuiItem("SUNFLOWER",1, false, Lang.SETPRICE.content(), Lang.SETPRICELORE.contentLore()));
-        inv.setItem(12, createGuiItem(type == null ? "WHITE_BANNER" : getItemOfCategory(type),1, false, Lang.CHANGETYPE.content(), Lang.CHANGETYPELORE.contentLore()));
-        inv.setItem(13, createGuiItem("IRON_DOOR",1, privacy, Lang.PRIVACY.content(), privacy ? Lang.PRIVATEENABLELORE.contentLore() : Lang.PRIVATEDISABLE.contentLore()));
-        inv.setItem(14, createGuiItem("ITEM_FRAME", 1,false, Lang.CHANGEITEM.content(), Lang.CHANGEITEMLORE.contentLore()));
-        inv.setItem(15, createGuiItem("NAME_TAG",1, false, Lang.CHANGELABEL.content(), Lang.CHANGELABELLORE.contentLore()));
-        inv.setItem(22, createGuiItem(disabled ? "GRAY_DYE" : "LIME_DYE",1, false, Lang.PWARPENABLE.content(), disabled ? Lang.PWARPDISABLELORE.contentLore() : Lang.PWARPENABLELORE.contentLore()));
-        inv.setItem(39, createGuiItem("OAK_SIGN", 1, false, Lang.RENAMEWARP.content(), Lang.RENAMEWARPLORE.contentLore()));
-        inv.setItem(40, createGuiItem("BARRIER",1, false, Lang.REMOVEWARP.content(), Lang.REMOVEWARPLORE.contentLore()));
-        inv.setItem(41, createGuiItem("PLAYER_HEAD", 1, false, Lang.CHANGEOWNER.content(), Lang.CHANGEOWNERLORE.contentLore()));
+        inv.setItem(4, createGuiItem(item,1, false, Lang.OWN_WARP_ITEM_NAME.getString().replace("%warp%", warpName), lore));
+        inv.setItem(11, createGuiItem("SUNFLOWER",1, false, Lang.SET_PRICE.getString(), Lang.SET_PRICE_LORE.getStringList()));
+        inv.setItem(12, createGuiItem(type == null ? "WHITE_BANNER" : getItemOfCategory(type),1, false, Lang.CHANGE_TYPE.getString(), Lang.CHANGE_TYPE_LORE.getStringList()));
+        inv.setItem(13, createGuiItem("IRON_DOOR",1, privacy, Lang.PRIVACY.getString(), privacy ? Lang.PRIVATE_ENABLE_LORE.getStringList() : Lang.PRIVATE_DISABLE_LORE.getStringList()));
+        inv.setItem(14, createGuiItem("ITEM_FRAME", 1,false, Lang.CHANGE_ITEM.getString(), Lang.CHANGE_ITEM_LORE.getStringList()));
+        inv.setItem(15, createGuiItem("NAME_TAG",1, false, Lang.CHANGE_LABEL.getString(), Lang.CHANGE_LABEL_LORE.getStringList()));
+        inv.setItem(22, createGuiItem(disabled ? "GRAY_DYE" : "LIME_DYE",1, false, Lang.PWARP_ENABLE.getString(), disabled ? Lang.PWARP_DISABLE_LORE.getStringList() : Lang.PWARP_ENABLE_LORE.getStringList()));
+        inv.setItem(39, createGuiItem("OAK_SIGN", 1, false, Lang.RENAME_WARP.getString(), Lang.RENAME_WARP_LORE.getStringList()));
+        inv.setItem(40, createGuiItem("BARRIER",1, false, Lang.REMOVE_WARP.getString(), Lang.REMOVE_WARP_LORE.getStringList()));
+        inv.setItem(41, createGuiItem("PLAYER_HEAD", 1, false, Lang.CHANGE_OWNER.getString(), Lang.CHANGE_OWNER_LORE.getStringList()));
         createGuiItems(inv, "");
 
         p.openInventory(inv);
     }
 
-    public void openChangeTypeMenu(Player p, String warp){
-        Inventory inv = Bukkit.createInventory(new Holders.ChangeType(), 36, warp);
+    public void openChangeTypeMenu(final Player player, String warp){
+        final Inventory inv = Bukkit.createInventory(new Holders.ChangeType(), 36, warp);
 
         int i = 0;
         if (categories != null) {
             for (Category category : categories) {
-                inv.setItem(i, createGuiItem(category.getItem(), 1, false, "§e" + StringUtils.capitalize(category.getType()), null));
+                inv.setItem(i, createGuiItem(category.getItem(), 1, false, Lang.applyColor("&e" + StringUtils.capitalize(category.getType())), null));
                 ++i;
             }
-        } else inv.setItem(13, createGuiItem("BARRIER", 1, false, "§cCategories are disabled", null));
+        } else inv.setItem(13, createGuiItem("BARRIER", 1, false, Lang.applyColor("&cCategories are disabled"), null));
 
-        p.openInventory(inv);
+        player.openInventory(inv);
     }
 
-    public void reviewMenu(Player p, String warp){
-        Inventory inv = Bukkit.createInventory(new Holders.Review(), 36, Lang.applyColor(warp));
+    public void openReviewMenu(final Player player, String warp){
+        final Inventory inv = Bukkit.createInventory(new Holders.Review(), 36, Lang.applyColor(warp));
 
-        String item = Lang.STARREVIEWITEM.content().toUpperCase();
-        inv.setItem(11, createGuiItem(item,1, false, Lang.ONESTAR.content(), null));
-        inv.setItem(12, createGuiItem(item,2, false, Lang.TWOSTARS.content(), null));
-        inv.setItem(13, createGuiItem(item,3, false, Lang.THREESTARS.content(), null));
-        inv.setItem(14, createGuiItem(item,4, false, Lang.FOURSTARS.content(), null));
-        inv.setItem(15, createGuiItem(item,5, false, Lang.FIVESTARS.content(), null));
-        inv.setItem(31, createGuiItem(Lang.BACKITEM.content().toUpperCase(),1, false, Lang.BACKNAME.content(), null));
+        String item = Lang.STAR_REVIEW_ITEM.getString().toUpperCase();
+        inv.setItem(11, createGuiItem(item,1, false, Lang.ONE_STAR.getString(), null));
+        inv.setItem(12, createGuiItem(item,2, false, Lang.TWO_STARS.getString(), null));
+        inv.setItem(13, createGuiItem(item,3, false, Lang.THREE_STARS.getString(), null));
+        inv.setItem(14, createGuiItem(item,4, false, Lang.FOUR_STARS.getString(), null));
+        inv.setItem(15, createGuiItem(item,5, false, Lang.FIVE_STARS.getString(), null));
+        inv.setItem(31, createGuiItem(Lang.BACK_ITEM.getString().toUpperCase(),1, false, Lang.BACK_NAME.getString(), null));
 
-        p.openInventory(inv);
+        player.openInventory(inv);
     }
 
-    public void openTeleportAcceptMenu(Player p, int price){
-        Inventory inv = Bukkit.createInventory(new Holders.TeleportAccept(), 27, Lang.ACCEPTTELEPORTWITHADMISSION.content().replace("%price%", String.valueOf(price)));
+    public void openTeleportAcceptMenu(final Player player, int price){
+        final Inventory inv = Bukkit.createInventory(new Holders.TeleportAccept(), 27, Lang.ACCEPT_TELEPORT_WITH_ADMISSION.getString().replace("%price%", String.valueOf(price)));
 
-        inv.setItem(11, createGuiItem("LIME_STAINED_GLASS_PANE",1, false,  Lang.ACCEPT.content(), null));
-        inv.setItem(15, createGuiItem("RED_STAINED_GLASS_PANE",1, false,  Lang.DENY.content(), null));
+        inv.setItem(11, createGuiItem("LIME_STAINED_GLASS_PANE",1, false, Lang.ACCEPT.getString(), null));
+        inv.setItem(15, createGuiItem("RED_STAINED_GLASS_PANE",1, false, Lang.DENY.getString(), null));
 
-        p.openInventory(inv);
+        player.openInventory(inv);
     }
 
     public void openAcceptMenu(Player p, String warp){
-        Inventory inv = Bukkit.createInventory(new Holders.Accept(), 27, Lang.ACCEPTMENUTITLE.content().replace("%warp%", warp));
+        Inventory inv = Bukkit.createInventory(new Holders.Accept(), 27, Lang.ACCEPTMENUTITLE.getString().replace("%warp%", warp));
 
-        inv.setItem(11, createGuiItem("LIME_STAINED_GLASS_PANE",1, false,  Lang.ACCEPT.content(), null));
-        inv.setItem(15, createGuiItem("RED_STAINED_GLASS_PANE",1, false,  Lang.DENY.content(), null));
+        inv.setItem(11, createGuiItem("LIME_STAINED_GLASS_PANE",1, false, Lang.ACCEPT.getString(), null));
+        inv.setItem(15, createGuiItem("RED_STAINED_GLASS_PANE",1, false, Lang.DENY.getString(), null));
 
         p.openInventory(inv);
     }
 
     public void openFavorites(Player p){
-        UUID id = p.getUniqueId();
-        PlayerConfig playerData = PlayerConfig.getConfig(id);
+        final UUID id = p.getUniqueId();
+        final PlayerConfig playerData = PlayerConfig.getConfig(id);
 
         actualPage.put(id, 0);
         if (warpHandler.isWarps()) {
@@ -215,27 +214,27 @@ public class GUIManager {
                 ++j;
             }
             for (int k = 0; k < j; k++) {
-                Inventory inv = Bukkit.createInventory(new Holders.Favorites(), 54, Lang.FAVORITESTITLE.content().replace("%page%", String.valueOf(k + 1)));
+                Inventory inv = Bukkit.createInventory(new Holders.Favorites(), 54, Lang.FAVORITESTITLE.getString().replace("%page%", String.valueOf(k + 1)));
                 if ((k + 1) == j) {
                     for (int l = 0; l < (i + 45); l++) {
                         Warp warp = warpList.get(warps.get(number - 1));
-                        inv.setItem(l, createGuiItem(warp.getItem(), 1, false, warp.getName(), replace(Lang.WARPLORE.contentLore(), warp.getName())));
+                        inv.setItem(l, createGuiItem(warp.getItem(), 1, false, warp.getName(), replace(Lang.WARP_LORE.getStringList(), warp.getName())));
                         ++number;
                     }
                 } else {
                     for (int l = 0; l < 45; l++) {
                         Warp warp = warpList.get(warps.get(number - 1));
-                        inv.setItem(l, createGuiItem(warp.getItem(), 1, false, warp.getName(), replace(Lang.WARPLORE.contentLore(), warp.getName())));
+                        inv.setItem(l, createGuiItem(warp.getItem(), 1, false, warp.getName(), replace(Lang.WARP_LORE.getStringList(), warp.getName())));
                         ++number;
                     }
                 }
 
                 createGuiItems(inv, "favorites");
                 if (k != 0) {
-                    inv.setItem(45, createGuiItem(Lang.PAGEITEM.content().toUpperCase(), 1,false, Lang.PREVIOUSPAGE.content(), null));
+                    inv.setItem(45, createGuiItem(Lang.PAGEITEM.getString().toUpperCase(), 1,false, Lang.PREVIOUS_PAGE.getString(), null));
                 }
                 if (k != (j - 1)) {
-                    inv.setItem(53, createGuiItem(Lang.PAGEITEM.content().toUpperCase(),1, false, Lang.NEXTPAGE.content(), null));
+                    inv.setItem(53, createGuiItem(Lang.PAGEITEM.getString().toUpperCase(),1, false, Lang.NEXTPAGE.getString(), null));
                 }
 
                 page.add(inv);
@@ -244,22 +243,22 @@ public class GUIManager {
 
             p.openInventory(pages.get(id).get(0));
         } else{
-            Inventory inv = Bukkit.createInventory(new Holders.Favorites(), 54, Lang.FAVORITESTITLE.content().replace("%page%", "1"));
-            inv.setItem(22, createGuiItem("BARRIER", 1,false, Lang.NOWARPS.content(), null));
+            Inventory inv = Bukkit.createInventory(new Holders.Favorites(), 54, Lang.FAVORITESTITLE.getString().replace("%page%", "1"));
+            inv.setItem(22, createGuiItem("BARRIER", 1,false, Lang.NO_WARPS.getString(), null));
             createGuiItems(inv, "favorites");
             p.openInventory(inv);
         }
     }
 
-    private void createGuiItems(Inventory inv, String glow){
-        inv.setItem(48, createGuiItem(Lang.WARPLISTITEM.content().toUpperCase(),1, glow.equalsIgnoreCase("list"), Lang.WARPSITEMNAME.content(), null));
-        inv.setItem(49, createGuiItem(Lang.MYWARPSITEM.content().toUpperCase(),1, glow.equalsIgnoreCase("mywarps"), Lang.MYWARPSITEMNAME.content(), null));
-        inv.setItem(50, createGuiItem(Lang.FAVORITEWARPSITEM.content().toUpperCase(),1, glow.equalsIgnoreCase("favorites"), Lang.FAVORITEWARPSITEMNAME.content(), null));
+    private void createGuiItems(final Inventory inventory, final String glow){
+        inventory.setItem(48, createGuiItem(Lang.WARP_LIST_ITEM.getString().toUpperCase(),1, glow.equalsIgnoreCase("list"), Lang.WARPSITEMNAME.getString(), null));
+        inventory.setItem(49, createGuiItem(Lang.MY_WARPS_ITEM.getString().toUpperCase(),1, glow.equalsIgnoreCase("mywarps"), Lang.MYWARPSITEMNAME.getString(), null));
+        inventory.setItem(50, createGuiItem(Lang.FAVORITE_WARPS_ITEM.getString().toUpperCase(),1, glow.equalsIgnoreCase("favorites"), Lang.FAVORITEWARPSITEMNAME.getString(), null));
     }
 
     private ItemStack createGuiItem(String id, int amount, boolean glow, String name, List<String> lore) {
-        ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(id)), amount);
-        ItemMeta meta = item.getItemMeta();
+        final ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(id)), amount);
+        final ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             if (!id.equalsIgnoreCase("PLAYER_HEAD")) {
                 if (glow) {
@@ -291,9 +290,9 @@ public class GUIManager {
             Warp warp = warpList.get(warpName);
             int price = warp.getPrice();
             for (String str : lore){
-                String text = Lang.NODESCRIPTION.content();
+                String text = Lang.NO_DESCRIPTION.getString();
                 StringBuilder ratings = new StringBuilder();
-                List<UUID> reviewers = warp.getReviewers();
+                Collection<UUID> reviewers = warp.getReviewers();
                 double pocet;
                 if (reviewers.size() == 0){
                     pocet = warp.getRating();
@@ -315,7 +314,7 @@ public class GUIManager {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(warp.getDateCreated());
-                newLore.add(Lang.applyColor(str.replace("%creationDate%", formatter.format(calendar.getTime())).replace("%world%", warp.getLoc().getWorld().getName()).replace("%voters%", String.valueOf(warp.getReviewers().size())).replace("%price%", price == 0 ? Lang.FREEOFCHARGE.content() : price + " " + Lang.CURRENCY.content()).replace("%today%", String.valueOf(warp.getTodayVisits())).replace("%ratings%", String.valueOf(round(pocet, 1))).replace("%availability%", warp.isDisabled() ? Lang.WARPINACTIVE.content() : Lang.WARPACTIVE.content())).replace("%stars%", ratings.toString()).replace("%lore%", Objects.requireNonNull(text)).replace("%visits%", String.valueOf(warp.getVisits())).replace("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName())));
+                newLore.add(Lang.applyColor(str.replace("%creationDate%", formatter.format(calendar.getTime())).replace("%world%", warp.getLoc().getWorld().getName()).replace("%voters%", String.valueOf(warp.getReviewers().size())).replace("%price%", price == 0 ? Lang.FREE_OF_CHARGE.getString() : price + " " + Lang.CURRENCY.getString()).replace("%today%", String.valueOf(warp.getTodayVisits())).replace("%ratings%", String.valueOf(round(pocet, 1))).replace("%availability%", warp.isDisabled() ? Lang.WARP_INACTIVE.getString() : Lang.WARP_ACTIVE.getString())).replace("%stars%", ratings.toString()).replace("%lore%", Objects.requireNonNull(text)).replace("%visits%", String.valueOf(warp.getVisits())).replace("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName())));
             }
         } else {
             for (String str : lore){

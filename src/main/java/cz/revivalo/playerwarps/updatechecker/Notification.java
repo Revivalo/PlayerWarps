@@ -4,18 +4,19 @@ import cz.revivalo.playerwarps.PlayerWarps;
 import cz.revivalo.playerwarps.lang.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class Notification implements Listener {
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e){
-        Player p = e.getPlayer();
-        if (p.isOp()){
-            if (Boolean.parseBoolean(Lang.UPDATECHECKER.content())) {
+    @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onJoin(final PlayerJoinEvent event){
+        final Player player = event.getPlayer();
+        if (player.isOp()){
+            if (Boolean.parseBoolean(Lang.UPDATE_CHECKER.getString())) {
                 if (!PlayerWarps.newestVersion) {
-                    p.sendMessage("§f[§bPlayer§3Warps§f]§f There is a new version of plugin. Download:");
-                    p.sendMessage("§f§nhttps://bit.ly/revivalo-playerwarps");
+                    player.sendMessage(Lang.applyColor("&f[&bPlayer&3Warps&f]&f There is a new version of plugin. Download:"));
+                    player.sendMessage(Lang.applyColor("&f&nhttps://bit.ly/revivalo-playerwarps"));
                 }
             }
         }

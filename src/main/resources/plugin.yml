@@ -9,7 +9,7 @@ commands:
   pwarp:
     description: Main command for PlayerWarps plugin
     usage: /<command>
-    aliases: [pw]
+    aliases: [pw, playerwarps]
 permissions:
   playerwarps.use:
     description: Allows you to teleport to public warps

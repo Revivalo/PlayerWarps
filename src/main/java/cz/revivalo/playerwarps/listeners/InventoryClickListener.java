@@ -38,24 +38,24 @@ public class InventoryClickListener implements Listener {
         InventoryHolder holder = event.getInventory().getHolder();
         if (holder instanceof Holders.Favorites || holder instanceof Holders.TeleportAccept || holder instanceof Holders.ChangeType || holder instanceof Holders.SetUp || holder instanceof Holders.Categories || holder instanceof Holders.WarpsList || holder instanceof Holders.MyWarps || holder instanceof Holders.Review || holder instanceof Holders.Accept) {
             if (event.getClickedInventory() == null) return;
-            Player p = (Player) event.getWhoClicked();
-            UUID id = p.getUniqueId();
+            final Player player = (Player) event.getWhoClicked();
+            final UUID id = player.getUniqueId();
             event.setCancelled(true);
-            if (Objects.equals(event.getClickedInventory().getHolder(), p)) {return;}
+            if (Objects.equals(event.getClickedInventory().getHolder(), player)) {return;}
             if (event.getCurrentItem() == null) {return;}
-            if (Objects.equals(Objects.requireNonNull(event.getClickedInventory()).getHolder(), p)) {return;}
+            if (Objects.equals(Objects.requireNonNull(event.getClickedInventory()).getHolder(), player)) {return;}
             int slot = event.getSlot();
             ClickType click = event.getClick();
             if (slot == 46 || slot == 48 || slot == 49 || slot == 50) {
                 if (slot == 48) {
-                    if (Lang.ENABLECATEGORIES.getBoolean()) {
-                        guiManager.openCategories(p);
+                    if (Lang.ENABLE_CATEGORIES.getBoolean()) {
+                        guiManager.openCategories(player);
                     } else {
-                        guiManager.openWarpsMenu(p, "all", false);
+                        guiManager.openWarpsMenu(player, "all", false);
                     }
                 }
-                else if (slot == 49) guiManager.openWarpsMenu(p, "all", true);
-                else if (slot == 50) guiManager.openFavorites(p);
+                else if (slot == 49) guiManager.openWarpsMenu(player, "all", true);
+                else if (slot == 50) guiManager.openFavorites(player);
                 return;
             }
             if (holder instanceof Holders.Accept){
@@ -64,30 +64,29 @@ public class InventoryClickListener implements Listener {
                 boolean fromCommand = Boolean.parseBoolean(data[1]);
                 switch (slot){
                     case 11:
-                        warpHandler.removeWarp(p, warp);
+                        warpHandler.removeWarp(player, warp);
                         warpHandler.remove.remove(id);
                         if (fromCommand){
-                            p.closeInventory();
+                            player.closeInventory();
                         } else {
-                            guiManager.openWarpsMenu(p, "all", true);
+                            guiManager.openWarpsMenu(player, "all", true);
                         }
                         break;
                     case 15:
                         if (fromCommand){
-                            p.closeInventory();
+                            player.closeInventory();
                         } else {
-                            guiManager.openSetUpMenu(p, warp);
+                            guiManager.openSetUpMenu(player, warp);
                         }
                         warpHandler.remove.remove(id);
                         break;
                 }
             } else if (holder instanceof Holders.ChangeType){
                 String warp = event.getView().getTitle();
-                warpHandler.setType(p, warp, ChatColor.stripColor(Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName().toUpperCase()));
-                guiManager.openSetUpMenu(p, warp);
+                warpHandler.setType(player, warp, ChatColor.stripColor(Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName().toUpperCase()));
+                guiManager.openSetUpMenu(player, warp);
             } else if (holder instanceof Holders.SetUp){
-                String warpName = event.getView().getTitle();
-                Warp warp = warpHandler.getWarpList().get(warpName);
+                final String warpName = event.getView().getTitle();
                 switch (slot) {
                     case 11:
                        /* new AnvilGUI.Builder()
@@ -114,71 +113,71 @@ public class InventoryClickListener implements Listener {
                         openInput(p, warpHandler.getWarpList().get(warp));*/
                         // TODO: Dodělat
                         guiManager.getChat().put(id, warpName + ":price:true");
-                        p.closeInventory();
-                        p.sendMessage(Lang.PRICEWRITEMSG.content().replace("%warp%", warpName));
+                        player.closeInventory();
+                        player.sendMessage(Lang.PRICEWRITEMSG.getString().replace("%warp%", warpName));
                         break;
                     case 12:
-                        guiManager.openChangeTypeMenu(p, warpName);
+                        guiManager.openChangeTypeMenu(player, warpName);
                         break;
                     case 13:
-                        warpHandler.makePrivate(p, warpName, false);
-                        guiManager.openSetUpMenu(p, warpName);
+                        warpHandler.makePrivate(player, warpName, false);
+                        guiManager.openSetUpMenu(player, warpName);
                         break;
                     case 14:
                         guiManager.getChat().put(id, warpName + ":item:true");
-                        p.closeInventory();
-                        p.sendMessage(Lang.ITEMWRITEMSG.content().replace("%warp%", warpName));
+                        player.closeInventory();
+                        player.sendMessage(Lang.ITEMWRITEMSG.getString().replace("%warp%", warpName));
                         break;
                     case 15:
                         guiManager.getChat().put(id, warpName + ":lore:true");
-                        p.closeInventory();
-                        p.sendMessage(Lang.TITLEWRITEMSG.content().replace("%warp%", warpName));
+                        player.closeInventory();
+                        player.sendMessage(Lang.TITLE_WRITE_MSG.getString().replace("%warp%", warpName));
                         break;
                     case 22:
-                        warpHandler.disable(p, warpName);
-                        guiManager.openSetUpMenu(p, warpName);
+                        warpHandler.disable(player, warpName);
+                        guiManager.openSetUpMenu(player, warpName);
                         break;
                     case 39:
-                        p.closeInventory();
+                        player.closeInventory();
                         guiManager.getChat().put(id, warpName + ":rename:true");
-                        p.sendMessage(Lang.RENAMEMSG.content().replace("%warp%", warpName));
+                        player.sendMessage(Lang.RENAME_MSG.getString().replace("%warp%", warpName));
                         break;
                     case 40:
                         warpHandler.remove.put(id, warpName + ":false");
-                        guiManager.openAcceptMenu(p, warpName);
+                        guiManager.openAcceptMenu(player, warpName);
                         break;
                     case 41:
-                        p.closeInventory();
+                        player.closeInventory();
                         guiManager.getChat().put(id, warpName + ":owner:true");
-                        p.sendMessage(Lang.OWNERCHANGEMSG.content().replace("%warp%", warpName));
+                        player.sendMessage(Lang.OWNER_CHANGE_MSG.getString().replace("%warp%", warpName));
                         break;
                 }
             } else if (holder instanceof Holders.Review){
-                String warp = event.getView().getTitle();
+                final String warp = event.getView().getTitle();
                 int actualPage = guiManager.getActualPage().get(id);
                 switch (slot){
                     case 11:
-                        warpHandler.review(p, warp, 1);
+                        warpHandler.review(player, warp, 1);
                         break;
                     case 12:
-                        warpHandler.review(p, warp, 2);
+                        warpHandler.review(player, warp, 2);
                         break;
                     case 13:
-                        warpHandler.review(p, warp, 3);
+                        warpHandler.review(player, warp, 3);
                         break;
                     case 14:
-                        warpHandler.review(p, warp, 4);
+                        warpHandler.review(player, warp, 4);
                         break;
                     case 15:
-                        warpHandler.review(p, warp, 5);
+                        warpHandler.review(player, warp, 5);
                         break;
                     case 31:
                 }
-                p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                player.openInventory(guiManager.getPages().get(id).get(actualPage));
             } else if (holder instanceof Holders.Categories){
                 for (Category category : warpHandler.getCategories()){
                     if (slot == category.getPosition()){
-                        guiManager.openWarpsMenu(p, category.getType(), false);
+                        guiManager.openWarpsMenu(player, category.getType(), false);
                         break;
                     }
                 }
@@ -188,13 +187,13 @@ public class InventoryClickListener implements Listener {
                     case 53:
                         if (guiManager.getPages().get(id).size() > actualPage + 1) {
                             guiManager.getActualPage().put(id, ++actualPage);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         }
                         break;
                     case 45:
                         if (actualPage >= 1) {
                             guiManager.getActualPage().put(id, --actualPage);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         }
                         break;
                     default:
@@ -204,31 +203,31 @@ public class InventoryClickListener implements Listener {
                             UUID owner = warp.getOwner();
                             int price = warp.getPrice();
                             if (click == ClickType.LEFT) {
-                                p.closeInventory();
+                                player.closeInventory();
                                 if (!id.equals(owner)) {
-                                    if (price != 0 && Lang.ALLOWACCEPTTELEMPORTMENU.getBoolean()) {
+                                    if (price != 0 && Lang.ALLOW_ACCEPT_TELEPORT_MENU.getBoolean()) {
                                         warpHandler.remove.put(id, warpName);
-                                        guiManager.openTeleportAcceptMenu(p, price);
+                                        guiManager.openTeleportAcceptMenu(player, price);
                                         break;
                                     }
                                 }
-                                warpHandler.warp(p, warpName);
-                            } else if (click == ClickType.RIGHT) guiManager.reviewMenu(p, warpName);
-                            else if (click == ClickType.SHIFT_LEFT) warpHandler.favorite(p, warpName);
+                                warpHandler.warp(player, warpName);
+                            } else if (click == ClickType.RIGHT) guiManager.openReviewMenu(player, warpName);
+                            else if (click == ClickType.SHIFT_LEFT) warpHandler.favorite(player, warpName);
                         }
                 }
             } else if (holder instanceof Holders.TeleportAccept){
                 switch (slot){
                     case 11:
-                        warpHandler.warp(p, warpHandler.remove.get(id));
-                        p.closeInventory();
+                        warpHandler.warp(player, warpHandler.remove.get(id));
+                        player.closeInventory();
                         break;
                     case 15:
-                        if (!warpHandler.openedFromCommand.contains(p)){
+                        if (!warpHandler.openedFromCommand.contains(player)){
                             int actualPage = guiManager.getActualPage().get(id);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         } else {
-                            p.closeInventory();
+                            player.closeInventory();
                         }
                         break;
                 }
@@ -239,27 +238,27 @@ public class InventoryClickListener implements Listener {
                     case 53:
                         if (guiManager.getPages().get(id).size() > actualPage + 1) {
                             guiManager.getActualPage().put(id, ++actualPage);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         }
                         break;
                     case 45:
                         if (actualPage >= 1) {
                             guiManager.getActualPage().put(id, --actualPage);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         }
                         break;
                     default:
                         if (warpHandler.isWarps()) {
                             String warpName = Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName();
                             if (event.getClick() == ClickType.LEFT) {
-                                warpHandler.warp(p, ChatColor.stripColor(warpName));
-                                p.closeInventory();
+                                warpHandler.warp(player, ChatColor.stripColor(warpName));
+                                player.closeInventory();
                             } else if (click == ClickType.RIGHT) {
-                                if (!p.hasPermission("playerwarps.settings")){
-                                    p.sendMessage(Lang.INSUFFICIENTPERMS.content());
+                                if (!player.hasPermission("playerwarps.settings")){
+                                    player.sendMessage(Lang.INSUFFICIENT_PERMS.getString());
                                     return;
                                 }
-                                guiManager.openSetUpMenu(p, ChatColor.stripColor(warpName));
+                                guiManager.openSetUpMenu(player, ChatColor.stripColor(warpName));
                             }
                         }
                 }
@@ -269,13 +268,13 @@ public class InventoryClickListener implements Listener {
                     case 53:
                         if (guiManager.getPages().get(id).size() > actualPage + 1) {
                             guiManager.getActualPage().put(id, ++actualPage);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         }
                         break;
                     case 45:
                         if (actualPage >= 1) {
                             guiManager.getActualPage().put(id, --actualPage);
-                            p.openInventory(guiManager.getPages().get(id).get(actualPage));
+                            player.openInventory(guiManager.getPages().get(id).get(actualPage));
                         }
                         break;
                     default:
@@ -286,24 +285,24 @@ public class InventoryClickListener implements Listener {
                             UUID owner = warp.getOwner();
                             switch (click) {
                                 case LEFT:
-                                    p.closeInventory();
+                                    player.closeInventory();
                                     if (!id.equals(owner)) {
-                                        if (price != 0 && Lang.ALLOWACCEPTTELEMPORTMENU.getBoolean()) {
+                                        if (price != 0 && Lang.ALLOW_ACCEPT_TELEPORT_MENU.getBoolean()) {
                                             warpHandler.remove.put(id, warpName);
-                                            guiManager.openTeleportAcceptMenu(p, price);
+                                            guiManager.openTeleportAcceptMenu(player, price);
                                         } else {
-                                            warpHandler.warp(p, warpName);
+                                            warpHandler.warp(player, warpName);
                                         }
                                     } else {
-                                        warpHandler.warp(p, warpName);
+                                        warpHandler.warp(player, warpName);
                                     }
                                     break;
                                 case RIGHT:
-                                    guiManager.reviewMenu(p, warpName);
+                                    guiManager.openReviewMenu(player, warpName);
                                     break;
                                 case SHIFT_LEFT:
-                                    warpHandler.unfavored(p, warpName);
-                                    guiManager.openFavorites(p);
+                                    warpHandler.unfavored(player, warpName);
+                                    guiManager.openFavorites(player);
                                     break;
                             }
                         }
@@ -313,10 +312,10 @@ public class InventoryClickListener implements Listener {
     }
 
     @EventHandler
-    public void onTeleportMenuClose(InventoryCloseEvent event){
+    public void onTeleportMenuClose(final InventoryCloseEvent event){
         if (event.getInventory().getHolder() instanceof Holders.TeleportAccept){
-            Player p = (Player) event.getPlayer();
-            warpHandler.openedFromCommand.remove(p);
+            final Player player = (Player) event.getPlayer();
+            warpHandler.openedFromCommand.remove(player);
         }
     }
 }

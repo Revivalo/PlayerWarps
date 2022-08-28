@@ -2,7 +2,7 @@ package cz.revivalo.playerwarps.warp;
 
 import org.bukkit.Location;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 public class Warp {
@@ -11,7 +11,7 @@ public class Warp {
     private Location loc;
     private String item;
     private int rating;
-    private List<UUID> reviewers;
+    private Collection<UUID> reviewers;
     private int visits;
     private int todayVisits;
     private String type;
@@ -21,7 +21,7 @@ public class Warp {
     private boolean privateState;
     private long dateCreated;
 
-    public Warp(String name, UUID owner, Location loc, String item, int rating, List<UUID> reviewers, int visits, String type, int price, String lore, boolean disabled, boolean privateState, long dateCreated, int todayVisits) {
+    public Warp(String name, UUID owner, Location loc, String item, int rating, Collection<UUID> reviewers, int visits, String type, int price, String lore, boolean disabled, boolean privateState, long dateCreated, int todayVisits) {
         setName(name);
         setOwner(owner);
         setLoc(loc);
@@ -78,11 +78,11 @@ public class Warp {
         this.rating = rating;
     }
 
-    public List<UUID> getReviewers() {
+    public Collection<UUID> getReviewers() {
         return reviewers;
     }
 
-    public void setReviewers(List<UUID> reviewers) {
+    public void setReviewers(Collection<UUID> reviewers) {
         this.reviewers = reviewers;
     }
 
