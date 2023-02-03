@@ -252,7 +252,7 @@ public class GUIManager {
         final Gui gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(3)
-                .title(Component.text(Lang.ACCEPT_MENU_TITLE.asReplacedString(new HashMap<String, String>(){{put("%warp%", warp.getName());}})))
+                .title(Component.text(Lang.CHANGE_WARP_CATEGORY_TITLE.asReplacedString(new HashMap<String, String>(){{put("%warp%", warp.getName());}})))
                 .create();
 
         if (categories != null) {

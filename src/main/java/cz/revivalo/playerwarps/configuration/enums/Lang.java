@@ -99,6 +99,7 @@ public enum Lang {
     TRIED_TO_CREATE_PWARP_IN_DISABLED_WORLD("tried-to-create-warp-in-disabled-world"),
     WARP_NAME_IS_ABOVE_LETTER_LIMIT("warp-name-is-above-letters-limit"),
     CATEGORY_TITLE("category-title"),
+    CHANGE_WARP_CATEGORY_TITLE("change-warp-category-title"),
     FREE_OF_CHARGE("free-of-charge"),
     WARP_ACTIVE("warp-active"),
     WARP_INACTIVE("warp-inactive"),

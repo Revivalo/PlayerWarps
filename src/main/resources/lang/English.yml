@@ -77,6 +77,7 @@ lang:
   favorite-warps-item-name: "&e&lSaved Warps"
   my-warp-title: "My Warps &7%page%. page"
   warps-title: "Warps &7%page%. page"
+  change-warp-category-title: "Change %warp%'s category:"
   edit-warp-menu-title: "Editing warp %warp%"
   category-title: "Categories"
   help-title: "Help"
