@@ -1,152 +1,82 @@
 package cz.revivalo.playerwarps.warp;
 
+import cz.revivalo.playerwarps.categories.Category;
+import cz.revivalo.playerwarps.categories.CategoryManager;
+import cz.revivalo.playerwarps.configuration.enums.Config;
+import lombok.Data;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class Warp {
+@Data
+public class Warp implements ConfigurationSerializable {
+    private UUID warpID;
     private String name;
     private UUID owner;
-    private Location loc;
-    private String item;
+    private Location location;
     private int rating;
     private Collection<UUID> reviewers;
     private int visits;
     private int todayVisits;
-    private String type;
+    private Category category;
     private int price;
-    private String lore;
+    private String description;
     private boolean disabled;
     private boolean privateState;
     private long dateCreated;
+    private ItemStack menuItem;
+    private String stars;
 
-    public Warp(String name, UUID owner, Location loc, String item, int rating, Collection<UUID> reviewers, int visits, String type, int price, String lore, boolean disabled, boolean privateState, long dateCreated, int todayVisits) {
-        setName(name);
-        setOwner(owner);
-        setLoc(loc);
-        setItem(item);
-        setRating(rating);
-        setReviewers(reviewers);
-        setVisits(visits);
-        setTodayVisits(todayVisits);
-        setType(type);
-        setPrice(price);
-        setLore(lore);
-        setDisabled(disabled);
-        setPrivateState(privateState);
-        setDateCreated(dateCreated);
+    public Warp(Map<String, Object> map) {
+        for (String key : map.keySet()){
+            final Object value = map.get(key);
+            switch (key){
+                case "uuid": warpID = UUID.fromString((String) value);
+                case "name": setName((String) value); break;
+                case "owner-id": setOwner(UUID.fromString((String) value)); break;
+                case "loc": setLocation((Location) value); break;
+                case "lore": setDescription((String) value); break;
+                case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
+                case "item": setMenuItem(new ItemStack(Material.valueOf((String) value))); break;
+                case "ratings": setRating((int) value); break;
+                case "reviewers": setReviewers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(TreeSet::new))); break;
+                case "visits": setVisits((int) value); break;
+                case "private": setPrivateState((boolean) value); break;
+                case "disabled": setDisabled((boolean) value); break;
+                case "price": setPrice((int) value); break;
+                case "date-created": setDateCreated((long) value); break;
+            }
+        }
+
+        stars = Config.createRatingFormat(this);
     }
 
-    public String getName() {
-        return name;
+    @NotNull
+    @Override
+    public Map<String, Object> serialize() {
+        return new HashMap<String, Object>(){{
+            put("uuid", getWarpID().toString());
+            put("name", getName());
+            put("owner-id", getOwner().toString());
+            put("loc", getLocation());
+            put("lore", getDescription());
+            put("item", getMenuItem().getType().name());
+            put("ratings", getRating());
+            put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
+            put("category", getCategory().getType());
+            put("visits", getVisits());
+            put("private", isPrivateState());
+            put("disabled", isDisabled());
+            put("price", getPrice());
+            put("date-created", getDateCreated());
+        }};
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public UUID getOwner() {
-        return owner;
-    }
-
-    public void setOwner(UUID owner) {
-        this.owner = owner;
-    }
-
-    public Location getLoc() {
-        return loc;
-    }
-
-    public void setLoc(Location loc) {
-        this.loc = loc;
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public Collection<UUID> getReviewers() {
-        return reviewers;
-    }
-
-    public void setReviewers(Collection<UUID> reviewers) {
-        this.reviewers = reviewers;
-    }
-
-    public int getVisits() {
-        return visits;
-    }
-
-    public void setVisits(int visits) {
-        this.visits = visits;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getLore() {
-        return lore;
-    }
-
-    public void setLore(String lore) {
-        this.lore = lore;
-    }
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
-    public boolean isPrivateState() {
-        return privateState;
-    }
-
-    public void setPrivateState(boolean privateState) {
-        this.privateState = privateState;
-    }
-
-    public long getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(long dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public int getTodayVisits() {
-        return todayVisits;
-    }
-
-    public void setTodayVisits(int todayVisits) {
-        this.todayVisits = todayVisits;
-    }
+    @Override
+    public String toString(){return warpID.toString();}
 }

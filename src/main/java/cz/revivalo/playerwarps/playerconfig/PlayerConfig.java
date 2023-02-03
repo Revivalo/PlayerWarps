@@ -1,7 +1,6 @@
 package cz.revivalo.playerwarps.playerconfig;
 
 import cz.revivalo.playerwarps.PlayerWarps;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,7 +17,7 @@ public class PlayerConfig extends YamlConfiguration {
 
     public static PlayerConfig getConfig(OfflinePlayer player) {
         UUID uuid = player.getUniqueId();
-        if (!new File(PlayerWarps.getPlugin(PlayerWarps.class).getDataFolder(), "userdata" + File.separator + uuid + ".yml").exists()) {
+        if (!new File(PlayerWarps.getPlugin().getDataFolder(), "userdata" + File.separator + uuid + ".yml").exists()) {
             return null;
         }
         return getConfig(uuid);
@@ -50,7 +49,7 @@ public class PlayerConfig extends YamlConfiguration {
 
     public PlayerConfig(UUID uuid) {
         super();
-        file = new File(PlayerWarps.getPlugin(PlayerWarps.class).getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml");
+        file = new File(PlayerWarps.getPlugin().getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml");
         this.uuid = uuid;
         reload();
     }

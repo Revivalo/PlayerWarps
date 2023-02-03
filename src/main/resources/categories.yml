@@ -43,6 +43,7 @@ categories:
       - " "
       - "&e► Click to open"
   all:
+    default: true
     name: "&aAll Warps &2(%number%)"
     position: 31
     item: BOOK

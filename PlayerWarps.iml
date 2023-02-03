@@ -24,7 +24,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.guava:guava:21.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.16-R0.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.27" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.MilkBowl:VaultAPI:1.7" level="project" />
@@ -35,5 +35,15 @@
     <orderEntry type="library" name="Maven: com.tchristofferson:ConfigUpdater:1.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.bstats:bstats-base:3.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.24" level="project" />
+    <orderEntry type="library" name="Maven: dev.triumphteam:triumph-gui:3.1.4" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-api:4.11.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-key:4.11.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:examination-api:1.3.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:examination-string:1.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:23.0.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-text-serializer-legacy:4.11.0" level="project" />
+    <orderEntry type="library" name="Maven: net.kyori:adventure-text-serializer-gson:4.11.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.Revxrsal.Lamp:common:3.1.2" level="project" />
   </component>
 </module>

@@ -11,16 +11,16 @@ import java.util.Scanner;
 
 public class UpdateChecker {
     private final PlayerWarps playerWarps;
-    private final int resourceId;
+    private final int RESOURCE_ID;
 
-    public UpdateChecker(final PlayerWarps playerWarps, int resourceId) {
+    public UpdateChecker(final PlayerWarps playerWarps, int RESOURCE_ID) {
         this.playerWarps = playerWarps;
-        this.resourceId = resourceId;
+        this.RESOURCE_ID = RESOURCE_ID;
     }
 
     public void getVersion(final Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(this.playerWarps, () -> {
-            try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream();
+            try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.RESOURCE_ID).openStream();
                  Scanner scanner = new Scanner(inputStream)) {
                 if (scanner.hasNext()) {
                     consumer.accept(scanner.next());
