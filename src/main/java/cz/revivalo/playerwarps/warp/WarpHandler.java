@@ -8,11 +8,13 @@ import cz.revivalo.playerwarps.configuration.enums.Config;
 import cz.revivalo.playerwarps.configuration.enums.Lang;
 import cz.revivalo.playerwarps.datamanager.DataManager;
 import cz.revivalo.playerwarps.playerconfig.PlayerConfig;
-import net.milkbowl.vault.economy.Economy;
+import cz.revivalo.playerwarps.user.UserManager;
+import cz.revivalo.playerwarps.user.WarpAction;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -23,12 +25,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class WarpHandler {
 
     private final PlayerWarps playerWarps;
-    private final Economy econ;
     private final DataManager dataManager;
     private final YamlConfiguration data;
     private final HashMap<UUID, Warp> warpsHashMap;
@@ -37,11 +40,10 @@ public class WarpHandler {
     private final List<String> bannedWorlds;
     public  List<Player> openedFromCommand = new ArrayList<>();
 
-    public WarpHandler(final PlayerWarps playerWarps, final DataManager dataManager, final Economy econ){
+    public WarpHandler(final PlayerWarps playerWarps, final DataManager dataManager){
         this.playerWarps = playerWarps;
         this.dataManager = dataManager;
         this.data = dataManager.getData();
-        this.econ = econ;
 
         warpsHashMap = new HashMap<>();
 
@@ -60,48 +62,99 @@ public class WarpHandler {
     public void warp(Player player, Warp warp){
         if (warp == null) {
             player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
-        } else {
-            final UUID ownerID = warp.getOwner();
-            final String warpName = warp.getName();
-            boolean isOwner = Objects.equals(player.getUniqueId(), ownerID);
-            if (warp.isDisabled() && (!player.hasPermission("playerwarps.admin") || !isOwner)) {
-                player.sendMessage(Lang.WARP_IS_DISABLED.asColoredString().replace("%warp%", warpName));
-            } else {
-                int price = warp.getPrice();
-                Location loc = warp.getLocation();
-                boolean hasBypass = player.hasPermission("playerwarps.delay.bypass");
-                if (!isOwner) {
-                    if (econ == null) teleportPlayer(player, loc, hasBypass);
-                    else {
-                        if (price == 0) {
-                            teleportPlayer(player, loc, hasBypass);
-                        } else {
-                            if (econ.withdrawPlayer(player, price).transactionSuccess()) {
-                                add(Bukkit.getOfflinePlayer(ownerID), price);
-                                teleportPlayer(player, loc, hasBypass);
-                            } else {
-                                player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString().replace("%warp%", warpName));
-                                return;
-                            }
-                        }
-                    }
-                } else teleportPlayer(player, loc, hasBypass);
-                if (price != 0 && !isOwner) {
-                    player.sendMessage(Lang.TELEPORT_TO_WARP_WITH_ADMISSION.asColoredString()
-                            .replace("%price%", String.valueOf(price))
-                            .replace("%warp%", warpName)
-                            .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
-                } else
-                    player.sendMessage(Lang.TELEPORT_TO_WARP.asColoredString()
-                            .replace("%warp%", warpName)
-                            .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
-                if (!isOwner) {
-                    warp.setVisits(warp.getVisits() + 1);
-                    warp.setTodayVisits(warp.getTodayVisits() + 1);
+            return;
+        }
+
+        final UUID ownerID = warp.getOwner();
+        final String warpName = warp.getName();
+        boolean isOwner = Objects.equals(player.getUniqueId(), ownerID);
+        boolean hasBypass = player.hasPermission("playerwarps.delay.bypass");
+
+        if (!warp.isAccessible() && (!player.hasPermission("playerwarps.admin") || !isOwner)) {
+            player.sendMessage(Lang.WARP_IS_DISABLED.asColoredString().replace("%warp%", warpName));
+            return;
+        }
+
+        if (warp.getStatus() == WarpStatus.PASSWORD_PROTECTED){
+
+        }
+
+        if (PlayerWarps.getECONOMY() != null){
+            if (warp.getPrice() != 0){
+                if (!PlayerWarps.getECONOMY().withdrawPlayer(player, warp.getPrice()).transactionSuccess()){
+                    player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asReplacedString(new HashMap<String, String>(){{put("%warp%", warpName);}}));
+                    return;
                 }
+
+                PlayerWarps.getECONOMY().depositPlayer(Bukkit.getOfflinePlayer(warp.getOwner()), warp.getPrice());
             }
         }
+        teleportPlayer(player, warp.getLocation(), hasBypass);
+
+        if (warp.getPrice() != 0 && !isOwner) {
+            player.sendMessage(Lang.TELEPORT_TO_WARP_WITH_ADMISSION.asColoredString()
+                    .replace("%price%", String.valueOf(warp.getPrice()))
+                    .replace("%warp%", warpName)
+                    .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
+        } else
+            player.sendMessage(Lang.TELEPORT_TO_WARP.asColoredString()
+                    .replace("%warp%", warpName)
+                    .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
+        if (!isOwner) {
+            warp.setVisits(warp.getVisits() + 1);
+            warp.setTodayVisits(warp.getTodayVisits() + 1);
+        }
+
+//        new AnvilGUI.Builder()
+//                .onClose(inputer -> inputer.sendMessage("You closed the inventory."))
+//                .onComplete((completion) -> {
+//                    if (completion.getText().equals(warp.getPassword())) {
+//                        return Collections.singletonList(AnvilGUI.ResponseAction.close());
+//                    } else
+//                        return Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText("WRONG PASSWORD!"));
+//                })
+//                .interactableSlots(AnvilGUI.Slot.INPUT_RIGHT)
+//                .text("<password>>")
+//                .title("Enter warp's password:")
+//                .plugin(PlayerWarps.getPlugin())
+//                .open(player)
     }
+
+    /*public void warp(Player player, Warp warp){
+
+        int price = warp.getPrice();
+        final Location loc = warp.getLocation();
+        boolean hasBypass = player.hasPermission("playerwarps.delay.bypass");
+        if (!isOwner) {
+            if (econ == null) teleportPlayer(player, loc, hasBypass);
+            else {
+                if (price == 0) {
+                    teleportPlayer(player, loc, hasBypass);
+                } else {
+                    if (econ.withdrawPlayer(player, price).transactionSuccess()) {
+                        add(Bukkit.getOfflinePlayer(ownerID), price);
+                        teleportPlayer(player, loc, hasBypass);
+                    } else {
+                        player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString().replace("%warp%", warpName));
+                        return;
+                    }
+                }
+            }
+        } else teleportPlayer(player, loc, hasBypass);
+        if (price != 0 && !isOwner) {
+            player.sendMessage(Lang.TELEPORT_TO_WARP_WITH_ADMISSION.asColoredString()
+                    .replace("%price%", String.valueOf(price))
+                    .replace("%warp%", warpName)
+                    .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
+        } else
+            player.sendMessage(Lang.TELEPORT_TO_WARP.asColoredString()
+                    .replace("%warp%", warpName)
+                    .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
+        if (!isOwner) {
+            warp.setVisits(warp.getVisits() + 1);
+            warp.setTodayVisits(warp.getTodayVisits() + 1);
+        }
+    }*/
 
     public void warp(Player player, String warpName) {
         warp(player, getWarpFromName(warpName));
@@ -137,9 +190,9 @@ public class WarpHandler {
         if (/*warpName.contains(".") ||*/ warpName.contains(" ")) {
             player.sendMessage(Lang.NAME_CANT_CONTAINS_DOT.asColoredString());
         }
-        if (econ != null) {
+        if (PlayerWarps.getECONOMY() != null) {
             int price = Config.WARP_PRICE.asInt();
-                if (!econ.withdrawPlayer(player, price).transactionSuccess()) {
+                if (!PlayerWarps.getECONOMY().withdrawPlayer(player, price).transactionSuccess()) {
                     return Lang.INSUFFICIENT_BALANCE.asColoredString();
                 }
             }
@@ -162,12 +215,11 @@ public class WarpHandler {
                     put("todayVisits", 0);
                     put("date-created", System.currentTimeMillis());
                     put("item", Config.DEFAULT_WARP_ITEM.asAnItem().getType().name());
-                    put("disabled", false);
-                    put("private", false);
+                    put("status", "OPENED");
                 }}
 
         ));
-        if (econ != null)
+        if (PlayerWarps.getECONOMY() != null)
             return Lang.WARP_CREATED_WITH_PRICE.asColoredString()
                     .replace("%name%", warpName)
                     .replace("%price%", Config.WARP_PRICE.asString());
@@ -181,12 +233,22 @@ public class WarpHandler {
         final UUID id = player.getUniqueId();
         boolean isOwner = Objects.equals(warp.getOwner(), id);
         if (isOwner || hasPermission(player, "playerwarps.remove.others", "playerwarps.admin")){
-            add(Bukkit.getOfflinePlayer(warp.getOwner()), Config.DELETE_WARP_REFUND.asInt());
+            PlayerWarps.getECONOMY().depositPlayer(Bukkit.getOfflinePlayer(warp.getOwner()), Config.DELETE_WARP_REFUND.asInt());
             warpsHashMap.remove(warp.getWarpID());
-            if (econ != null){
+            if (PlayerWarps.getECONOMY() != null){
                 player.sendMessage(Lang.WARP_REMOVED_WITH_REFUND.asColoredString().replace("%warp%", warp.getName()).replace("%refund%", Config.DELETE_WARP_REFUND.asString()));
             } else player.sendMessage(Lang.WARP_REMOVED.asColoredString().replace("%warp%", warp.getName()));
         } else player.sendMessage(Lang.NOT_OWNING.asColoredString());
+    }
+
+    public void relocateWarp(Player player, Warp warp){
+        if (!warp.canManage(player.getUniqueId())){
+            player.sendMessage(Lang.NOT_OWNING.asColoredString());
+            return;
+        }
+
+        warp.setLocation(player.getLocation());
+        player.sendMessage(Lang.WARP_RELOCATED.asReplacedString(new HashMap<String, String>(){{put("%warp%", warp.getName());}}));
     }
 
     public void favorite(Player player, Warp warp){
@@ -229,7 +291,7 @@ public class WarpHandler {
             }
             warp.getReviewers().add(id);
             warp.setRating(warp.getRating() + stars);
-            warp.setStars(Config.createRatingFormat(warp));
+            warp.setStars(TextUtils.createRatingFormat(warp));
             player.sendMessage(Lang.WARP_REVIEWED.asColoredString().
                     replace("%warp%", warp.getName()).
                     replace("%stars%", String.valueOf(stars)));
@@ -258,7 +320,7 @@ public class WarpHandler {
                         types.append(category.getType()).append(" ");
                     }
                     player.sendMessage(Lang.ENTERED_INVALID_TYPE.asColoredString().replace("%types%", types.toString()));
-                } else Lang.sendListToPlayer(player, Lang.NOT_OWNING.asReplacedList(Collections.emptyMap()));
+                } else TextUtils.sendListToPlayer(player, Lang.NOT_OWNING.asReplacedList(Collections.emptyMap()));
             }
         } else {
             player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
@@ -342,17 +404,27 @@ public class WarpHandler {
         if (executedFromGui) playerWarps.getGuiManager().openSetUpMenu(player, warp);
     }
 
-    public void makePrivate(Player player, Warp warp, boolean fromCommand){
-        UUID id = player.getUniqueId();
-        if (checkWarp(warp)){
-            player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
-        } else {
-            if (Objects.equals(id, warp.getOwner()) || player.hasPermission("playerwarps.admin")) {
-                warp.setPrivateState(!warp.isPrivateState());
-                if (fromCommand) player.sendMessage(Lang.PRIVACY_CHANGED.asColoredString().replace("%warp%", warp.getName()));
-            } else player.sendMessage(Lang.NOT_OWNING.asColoredString());
+    public void changeStatus(Player player, Warp warp, WarpStatus status){
+        if (!warp.canManage(player.getUniqueId())){
+            player.sendMessage(Lang.NOT_OWNING.asColoredString());
+            return;
         }
+
+        warp.setStatus(status);
+        player.sendMessage(Lang.WARPS_STATUS_CHANGED.asReplacedString(new HashMap<String, String>(){{put("%status%", status.name());}}));
     }
+
+//    public void makePrivate(Player player, Warp warp, boolean fromCommand){
+//        UUID id = player.getUniqueId();
+//        if (checkWarp(warp)){
+//            player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
+//        } else {
+//            if (Objects.equals(id, warp.getOwner()) || player.hasPermission("playerwarps.admin")) {
+//                warp.setPrivateState(!warp.isPrivateState());
+//                if (fromCommand) player.sendMessage(Lang.PRIVACY_CHANGED.asColoredString().replace("%warp%", warp.getName()));
+//            } else player.sendMessage(Lang.NOT_OWNING.asColoredString());
+//        }
+//    }
 
     public void transferOwnership(Player originalOwner, Player newOwner, Warp warp, boolean open) {
         if (newOwner == null) {
@@ -445,24 +517,24 @@ public class WarpHandler {
         } else player.teleport(loc);
     }
 
-    public void disable(Player player, Warp warp, boolean executedFromCommand) {
-        if (player.hasPermission("playerwarps.freeze") || player.hasPermission("playerwarps.admin")) {
-            if (checkWarp(warp)) {
-                player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
-            } else {
-                final UUID id = player.getUniqueId();
-                if (Objects.equals(id, warp.getOwner()) || player.hasPermission("playerwarps.admin")) {
-                    if (!warp.isDisabled()) {
-                        warp.setDisabled(true);
-                        if (executedFromCommand) player.sendMessage(Lang.WARP_DISABLED.asColoredString().replace("%warp%", warp.getName()));
-                    } else {
-                        warp.setDisabled(false);
-                        if (executedFromCommand) player.sendMessage(Lang.WARP_ENABLED.asColoredString().replace("%warp%", warp.getName()));
-                    }
-                } else player.sendMessage(Lang.NOT_OWNING.asColoredString());
-            }
-        } else player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
-    }
+//    public void disable(Player player, Warp warp, boolean executedFromCommand) {
+//        if (player.hasPermission("playerwarps.freeze") || player.hasPermission("playerwarps.admin")) {
+//            if (checkWarp(warp)) {
+//                player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
+//            } else {
+//                final UUID id = player.getUniqueId();
+//                if (Objects.equals(id, warp.getOwner()) || player.hasPermission("playerwarps.admin")) {
+//                    if (!warp.isDisabled()) {
+//                        warp.setDisabled(true);
+//                        if (executedFromCommand) player.sendMessage(Lang.WARP_DISABLED.asColoredString().replace("%warp%", warp.getName()));
+//                    } else {
+//                        warp.setDisabled(false);
+//                        if (executedFromCommand) player.sendMessage(Lang.WARP_ENABLED.asColoredString().replace("%warp%", warp.getName()));
+//                    }
+//                } else player.sendMessage(Lang.NOT_OWNING.asColoredString());
+//            }
+//        } else player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
+//    }
 
     public void reloadWarps(Player sender){
         if (!sender.hasPermission("playerwarps.admin")) {
@@ -502,7 +574,7 @@ public class WarpHandler {
         int privateWarps = 0;
         for (Warp warp : warpsHashMap.values()){
             warpsSection.set(warp.getWarpID().toString(), warp);
-            if (warp.isPrivateState()) ++privateWarps;
+            if (!warp.isAccessible()) ++privateWarps;
         }
 
         dataManager.saveData();
@@ -543,26 +615,51 @@ public class WarpHandler {
         return owned;
     }
 
-    public int getWarpOfType(String type) {
-        int number = 0;
-        if (type.equalsIgnoreCase("all")){
-            for (Warp warp : warpsHashMap.values()){
-                if (warp.isPrivateState()) continue;
-                ++number;
-            }
-        } else {
-            for (Warp warp : warpsHashMap.values()){
-                if (warp.getCategory() == null) continue;
-                String warpType = warp.getCategory().getType();
-                if (warpType == null) continue;
-                if (warp.isPrivateState()) continue;
-                if (warpType.equalsIgnoreCase(type)){
-                    ++number;
-                }
-            }
+    public void markPlayerForChatInput(final Player player, Warp warp, WarpAction warpAction, Object[] data){
+        player.closeInventory();
+        UserManager.createUser(player, data);
+
+        String messageToSent;
+        switch (warpAction){
+            case SET_GUI_ITEM: messageToSent = Lang.ITEM_WRITE_MSG.asColoredString(); break;
+            case SET_ADMISSION: messageToSent = Lang.PRICE_WRITE_MESSAGE.asColoredString(); break;
+            case RENAME: messageToSent = Lang.RENAME_MSG.asColoredString(); break;
+            case CHANGE_OWNERSHIP: messageToSent = Lang.OWNER_CHANGE_MSG.asColoredString(); break;
+            case SET_DESCRIPTION: messageToSent = Lang.SET_DESCRIPTION_MESSAGE.asColoredString(); break;
+            case WRITE_PASSWORD: messageToSent = "Napiš heslo od warpu"; break;
+            default: messageToSent = "error";
         }
-        return number;
+
+        player.sendMessage(TextUtils.replaceString(messageToSent, new HashMap<String, String>(){{put("%warp%", warp.getName());}}));
     }
+
+    public int getWarpOfType(String type) {
+        return (int) warpsHashMap.values().stream()
+                .filter(Warp::isAccessible)
+                .filter(warp -> type.equalsIgnoreCase("all") || warp.getCategory() != null && warp.getCategory().getType() != null && warp.getCategory().getType().equalsIgnoreCase(type))
+                .count();
+    }
+
+//    public int getWarpOfType(String type) {
+//        int number = 0;
+//        if (type.equalsIgnoreCase("all")){
+//            for (Warp warp : warpsHashMap.values()){
+//                if (!warp.isAccessible()) continue;
+//                ++number;
+//            }
+//        } else {
+//            for (Warp warp : warpsHashMap.values()){
+//                if (warp.getCategory() == null) continue;
+//                String warpType = warp.getCategory().getType();
+//                if (warpType == null) continue;
+//                if (!warp.isAccessible()) continue;
+//                if (warpType.equalsIgnoreCase(type)){
+//                    ++number;
+//                }
+//            }
+//        }
+//        return number;
+//    }
 
     public boolean isInt(String str) {
         try {
@@ -571,14 +668,6 @@ public class WarpHandler {
             return false;
         }
         return true;
-    }
-
-    private void add(OfflinePlayer offlinePlayer, int money){
-        if (money > 0) {
-            if (econ != null) {
-                econ.depositPlayer(offlinePlayer, money);
-            }
-        }
     }
 
     private boolean hasPermission(Player player, String... permissions){

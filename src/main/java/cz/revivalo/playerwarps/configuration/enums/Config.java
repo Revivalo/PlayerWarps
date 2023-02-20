@@ -3,9 +3,8 @@ package cz.revivalo.playerwarps.configuration.enums;
 import com.google.common.base.Splitter;
 import cz.revivalo.playerwarps.PlayerWarps;
 import cz.revivalo.playerwarps.configuration.YamlFile;
-import cz.revivalo.playerwarps.warp.Warp;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -47,10 +46,6 @@ public enum Config {
     private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
     private static final Map<String, ItemStack> items = new HashMap<>();
 
-    static {
-        reload();
-    }
-
     private final String text;
 
     public static void reload() {
@@ -75,33 +70,15 @@ public enum Config {
         Lang.reload();
     }
 
-    public static String createRatingFormat(final Warp warp) {
-        StringBuilder ratings = new StringBuilder();
-        Collection <UUID> reviewers = warp.getReviewers ();
-        double numberOfStars = (double) warp.getRating () / reviewers.size ();
-        for (int i = 0; i < 5; i++) {
-            ratings.append (numberOfStars - 1 >= 0 ? "★" : "☆");
-            numberOfStars--;
-        }
-        return ratings.toString ();
-    }
-
-    private static String replaceString(String messageToReplace, final Map<String, String> definitions){
-        final String[] keys = definitions.keySet().toArray(new String[0]);
-        final String[] values = definitions.values().toArray(new String[0]);
-
-        return StringUtils.replaceEach(messageToReplace, keys, values);
-    }
-
     public List<String> asReplacedList(final Map<String, String> definitions) {
-        return Splitter.on("⎶").splitToList(replaceString(listsStoredAsStrings.get(this.text), definitions));
+        return Splitter.on("⎶").splitToList(TextUtils.replaceString(listsStoredAsStrings.get(this.text), definitions));
     }
 
     public String asString() {
         return messages.get(text);
     }
     public String asReplacedString(Map<String, String> definitions) {
-        return replaceString(messages.get(text), definitions);
+        return TextUtils.replaceString(messages.get(text), definitions);
     }
     public ItemStack asAnItem(){
         return items.get(this.text);

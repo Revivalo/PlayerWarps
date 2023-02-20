@@ -3,6 +3,7 @@ package cz.revivalo.playerwarps.configuration.enums;
 import com.google.common.base.Splitter;
 import cz.revivalo.playerwarps.PlayerWarps;
 import cz.revivalo.playerwarps.configuration.YamlFile;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
@@ -70,6 +71,9 @@ public enum Lang {
     ACCEPT_MENU_TITLE("accept-menu-title"),
     ACCEPT("accept"),
     DENY("deny"),
+    OPENED_STATUS("opened-status"),
+    CLOSED_STATUS("closed-status"),
+    PASSWORD_PROTECTED_STATUS("password-protected-status"),
     SORTER("warps-sorter"),
     NEXT_PAGE("next-page"),
     PREVIOUS_PAGE("previous-page"),
@@ -96,10 +100,15 @@ public enum Lang {
     TRANSFER_ERROR("ownership-transfer-error"),
     OWNER_CHANGE_MSG("owner-change-msg"),
     WARP_RENAMED("warp-name-changed"),
+    WARPS_STATUS_CHANGED("warp-status-changed"),
+    WARP_RELOCATED("warp-relocated"),
+    WARP_RELOCATION("warp-relocation"),
+    WARP_RELOCATION_LORE("warp-relocation-lore"),
     TRIED_TO_CREATE_PWARP_IN_DISABLED_WORLD("tried-to-create-warp-in-disabled-world"),
     WARP_NAME_IS_ABOVE_LETTER_LIMIT("warp-name-is-above-letters-limit"),
     CATEGORY_TITLE("category-title"),
     CHANGE_WARP_CATEGORY_TITLE("change-warp-category-title"),
+    SET_WARP_STATUS_TITLE("set-warp-status-title"),
     FREE_OF_CHARGE("free-of-charge"),
     WARP_ACTIVE("warp-active"),
     WARP_INACTIVE("warp-inactive"),
@@ -118,17 +127,13 @@ public enum Lang {
     CHANGE_TYPE_LORE("change-type-lore"),
     CHANGE_ITEM_LORE("change-item-lore"),
     CHANGE_DESCRIPTION_LORE("change-label-lore"),
-    PWARP_ENABLE_LORE("pwarp-enabled-lore"),
-    PWARP_DISABLE_LORE("pwarp-disabled-lore"),
-    PRIVATE_ENABLE_LORE("private-enabled-lore"),
-    PRIVATE_DISABLE_LORE("private-disabled-lore"),
+    PWARP_STATUS_LORE("pwarp-status-lore"),
     SET_PRICE_LORE("set-price-lore"),
     CHANGE_OWNER_LORE("change-owner-lore"),
     RENAME_WARP_LORE("rename-warp-lore");
 
     private static final Map<String, String> messages = new HashMap<>();
     private static final Map<String, String> listsStoredAsString = new HashMap<>();
-    private static final Pattern hexPattern = Pattern.compile("<#([A-Fa-f\\d]){6}>");
     private final String text;
 
     public static void reload() {
@@ -141,46 +146,12 @@ public enum Lang {
                 .getKeys(false)
                 .forEach(key -> {
                     if (key.endsWith("lore") || key.endsWith("notification") || key.endsWith("help")) {
-                        listsStoredAsString.put(key, applyColor(String.join("⎶", languageSection.getStringList(key))));
+                        listsStoredAsString.put(key, TextUtils.applyColor(String.join("⎶", languageSection.getStringList(key))));
                         return;
                     }
-                    messages.put(key, applyColor(languageSection.getString(key)));
+                    messages.put(key, TextUtils.applyColor(languageSection.getString(key)));
                 });
     }
-
-    @SuppressWarnings("deprecation")
-    public static String applyColor(String message) {
-        if (PlayerWarps.isHexSupported()) {
-            Matcher matcher = hexPattern.matcher(message);
-            while (matcher.find()) {
-                message = String.format("%s%s%s", message.substring(0, matcher.start()),
-                        ChatColor.valueOf(matcher.group().substring(1, matcher.group().length() - 1)),
-                        message.substring(matcher.end()));
-                matcher = hexPattern.matcher(message);
-            }
-        }
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    public static List<String> applyColor(List<String> list){
-        return list.stream().map(Lang::applyColor).collect(Collectors.toList());
-    }
-
-    public static String replaceString(String messageToReplace, final Map<String, String> definitions){
-        final String[] keys = definitions.keySet().toArray(new String[0]);
-        final String[] values = definitions.values().toArray(new String[0]);
-
-        return StringUtils.replaceEach(messageToReplace, keys, values);
-    }
-
-    public static String stripColor(String input){
-        return ChatColor.stripColor(input);
-    }
-
-    public static void sendListToPlayer(final Player player, final List<String> list) {
-        list.forEach(player::sendMessage);
-    }
-
     public List<String> asColoredList(){
         return Splitter.on("⎶").splitToList(listsStoredAsString.get(this.text));
     }
@@ -198,6 +169,6 @@ public enum Lang {
     }
 
     public String asReplacedString(Map<String, String> definitions){
-        return replaceString(messages.get(text), definitions);
+        return TextUtils.replaceString(messages.get(text), definitions);
     }
 }

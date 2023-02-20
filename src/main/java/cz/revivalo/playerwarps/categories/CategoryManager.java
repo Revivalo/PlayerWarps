@@ -2,18 +2,20 @@ package cz.revivalo.playerwarps.categories;
 
 import cz.revivalo.playerwarps.PlayerWarps;
 import cz.revivalo.playerwarps.configuration.YamlFile;
-import cz.revivalo.playerwarps.configuration.enums.Lang;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Objects;
 
 public class CategoryManager {
-    @Setter
-    private static HashMap<String, Category> categoriesMap;
+    @Setter private static HashMap<String, Category> categoriesMap;
 
     public static void loadCategories(){
         final YamlConfiguration categoriesData = new YamlFile("categories.yml",
@@ -30,10 +32,10 @@ public class CategoryManager {
                             new Category(
                                 categorySection.getName(),
                                 categorySection.getBoolean("default"),
-                                Lang.applyColor(categorySection.getString("name")),
+                                    TextUtils.applyColor(categorySection.getString("name")),
                                 new ItemStack(Material.valueOf(categorySection.getString("item").toUpperCase(Locale.ENGLISH))),
                                 categorySection.getInt("position"),
-                                Lang.applyColor(categorySection.getStringList("lore"))
+                                TextUtils.applyColor(categorySection.getStringList("lore"))
                         )
                 ));
 

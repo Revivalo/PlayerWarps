@@ -3,10 +3,12 @@ package cz.revivalo.playerwarps.warp;
 import cz.revivalo.playerwarps.categories.Category;
 import cz.revivalo.playerwarps.categories.CategoryManager;
 import cz.revivalo.playerwarps.configuration.enums.Config;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import lombok.Data;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class Warp implements ConfigurationSerializable {
     private UUID warpID;
     private String name;
+    private String password;
     private UUID owner;
     private Location location;
     private int rating;
@@ -26,8 +29,7 @@ public class Warp implements ConfigurationSerializable {
     private Category category;
     private int price;
     private String description;
-    private boolean disabled;
-    private boolean privateState;
+    private WarpStatus status;
     private long dateCreated;
     private ItemStack menuItem;
     private String stars;
@@ -46,14 +48,14 @@ public class Warp implements ConfigurationSerializable {
                 case "ratings": setRating((int) value); break;
                 case "reviewers": setReviewers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(TreeSet::new))); break;
                 case "visits": setVisits((int) value); break;
-                case "private": setPrivateState((boolean) value); break;
-                case "disabled": setDisabled((boolean) value); break;
-                case "price": setPrice((int) value); break;
+                case "status": setStatus(WarpStatus.valueOf((String) value)); break;
+                case "password": setPassword((String) value);
+                case "price": setPrice((int) (value == null ? 0 : value)); break;
                 case "date-created": setDateCreated((long) value); break;
             }
         }
 
-        stars = Config.createRatingFormat(this);
+        stars = TextUtils.createRatingFormat(this);
     }
 
     @NotNull
@@ -69,12 +71,28 @@ public class Warp implements ConfigurationSerializable {
             put("ratings", getRating());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("category", getCategory().getType());
+            put("password", getPassword());
             put("visits", getVisits());
-            put("private", isPrivateState());
-            put("disabled", isDisabled());
+            put("status", getStatus().name());
             put("price", getPrice());
             put("date-created", getDateCreated());
         }};
+    }
+
+    public boolean isDisplayable(){
+        return
+                getStatus() == WarpStatus.OPENED
+                        || getStatus() == WarpStatus.PASSWORD_PROTECTED;
+    }
+
+    public boolean isAccessible(){
+        return
+                getStatus() == WarpStatus.OPENED
+                        || getStatus() == WarpStatus.PASSWORD_PROTECTED;
+    }
+
+    public boolean canManage(UUID playerID){
+        return Objects.equals(playerID, getOwner());
     }
 
     @Override

@@ -7,8 +7,10 @@ import cz.revivalo.playerwarps.configuration.enums.Lang;
 import cz.revivalo.playerwarps.playerconfig.PlayerConfig;
 import cz.revivalo.playerwarps.user.UserManager;
 import cz.revivalo.playerwarps.user.WarpAction;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import cz.revivalo.playerwarps.warp.Warp;
 import cz.revivalo.playerwarps.warp.WarpHandler;
+import cz.revivalo.playerwarps.warp.WarpStatus;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
@@ -87,17 +89,18 @@ public class GUIManager {
                 .disableAllInteractions()
                 .create();
 
-        paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).name(Component.text(Lang.PREVIOUS_PAGE.asColoredString())).asGuiItem(event -> {
+        if (paginatedGui.previous()) paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).name(Component.text(Lang.PREVIOUS_PAGE.asColoredString())).asGuiItem(event -> {
             paginatedGui.previous();
             paginatedGui.updateTitle(menuType.getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
-        paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).name(Component.text(Lang.NEXT_PAGE.asColoredString())).asGuiItem(event -> {
+
+        if (paginatedGui.next()) paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).name(Component.text(Lang.NEXT_PAGE.asColoredString())).asGuiItem(event -> {
             paginatedGui.next();
             paginatedGui.updateTitle(menuType.getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
         paginatedGui.setItem(46, ItemBuilder.from(Material.REPEATER)
-                .name(Component.text(Lang.replaceString(Lang.SORTER.asColoredString(), new HashMap<String, String>(){{put("%sortingBy%", sortType.name());}})
+                .name(Component.text(TextUtils.replaceString(Lang.SORTER.asColoredString(), new HashMap<String, String>(){{put("%sortingBy%", sortType.name());}})
                 )).asGuiItem(event -> openWarpsMenu(player, menuType, category, page,
                         sortType == SortType.VISITS ? SortType.LATEST
                                 : sortType == SortType.LATEST
@@ -109,7 +112,7 @@ public class GUIManager {
             case DEFAULT:
                 warps.addAll(warpHandler.getWarps().stream().filter(warp ->
                         (openedCategory.isDefault() || warp.getCategory().getType().equalsIgnoreCase(category))
-                        && !warp.isPrivateState()).collect(Collectors.toList()));
+                        && (warp.isAccessible())).collect(Collectors.toList()));
                 warps.sort(sortType.getComparator());
                 break;
             case OWNED:
@@ -125,7 +128,7 @@ public class GUIManager {
 
         warps.forEach(warp -> {
             final GuiItem guiItem = new GuiItem(ItemBuilder.from(warp.getMenuItem())
-                    .name(Component.text(Lang.applyColor(Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getName()))))
+                    .name(Component.text(TextUtils.applyColor(Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getName()))))
                     .setLore(Lang.WARP_LORE.asReplacedList(new HashMap<String, String>(){{
                                                                put("%creationDate%", formatter.format(warp.getDateCreated()));
                                                                put("%world%", warp.getLocation().getWorld().getName());
@@ -134,14 +137,12 @@ public class GUIManager {
                                                                        ? Lang.FREE_OF_CHARGE.asColoredString()
                                                                        : warp.getPrice() + " " + Config.CURRENCY_SYMBOL.asString());
                                                                put("%today%", String.valueOf(warp.getTodayVisits()));
-                                                               put("%availability%", warp.isDisabled()
-                                                                       ? Lang.WARP_INACTIVE.asColoredString()
-                                                                       : Lang.WARP_ACTIVE.asColoredString());
+                                                               put("%status%", warp.getStatus().getText());
                                                                put("%ratings%", String.valueOf(round(warp.getRating(), 1)));
-                                                               put("%stars%", Config.createRatingFormat(warp));
+                                                               put("%stars%", TextUtils.createRatingFormat(warp));
                                                                put("%lore%", warp.getDescription() == null
                                                                        ? Lang.NO_DESCRIPTION.asColoredString()
-                                                                       : Lang.applyColor(warp.getDescription()));
+                                                                       : TextUtils.applyColor(warp.getDescription()));
                                                                put("%visits%", String.valueOf(warp.getVisits()));
                                                                put("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName()));
                                                            }}
@@ -197,55 +198,57 @@ public class GUIManager {
                             ? Lang.FREE_OF_CHARGE.asColoredString()
                             : warp.getPrice() + " " + Config.CURRENCY_SYMBOL.asString());
                     put("%today%", String.valueOf(warp.getTodayVisits()));
-                    put("%availability%", warp.isDisabled()
-                            ? Lang.WARP_INACTIVE.asColoredString()
-                            : Lang.WARP_ACTIVE.asColoredString());
+                    put("%status%", warp.getStatus().getText());
                     put("%ratings%", String.valueOf(round(warp.getRating(), 1)));
-                    put("%stars%", Config.createRatingFormat(warp));
+                    put("%stars%", TextUtils.createRatingFormat(warp));
                     put("%lore%", warp.getDescription() == null
                             ? Lang.NO_DESCRIPTION.asColoredString()
-                            : Lang.applyColor(warp.getDescription()));
+                            : TextUtils.applyColor(warp.getDescription()));
                     put("%visits%", String.valueOf(warp.getVisits()));
                     put("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName()));
                 }}
         )).asGuiItem());
 
-        gui.setItem(11, ItemBuilder.from(Material.SUNFLOWER).name(Component.text(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName()))).setLore(Lang.SET_PRICE_LORE.asColoredList()).asGuiItem(event -> markPlayerForChatInput(player, warp, WarpAction.SET_ADMISSION, new Object[]{warp.getWarpID(), WarpAction.SET_ADMISSION, true})));
+        gui.setItem(11, ItemBuilder.from(Material.SUNFLOWER).name(Component.text(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName()))).setLore(Lang.SET_PRICE_LORE.asColoredList()).asGuiItem(event -> warpHandler.markPlayerForChatInput(player, warp, WarpAction.SET_ADMISSION, new Object[]{warp.getWarpID(), WarpAction.SET_ADMISSION, true})));
         gui.setItem(12, ItemBuilder.from(warp.getCategory() == null ? new ItemStack(Material.WHITE_BANNER) : warp.getCategory().getItem()).name(Component.text(Lang.CHANGE_TYPE.asColoredString())).setLore(Lang.CHANGE_TYPE_LORE.asColoredList()).asGuiItem(event -> openChangeTypeMenu(player, warp)));
-        gui.setItem(13, ItemBuilder.from(Material.IRON_DOOR).glow(warp.isPrivateState()).name(Component.text(Lang.PRIVACY.asColoredString())).setLore(warp.isPrivateState() ? Lang.PRIVATE_ENABLE_LORE.asColoredList() : Lang.PRIVATE_DISABLE_LORE.asColoredList()).asGuiItem(event -> {
+        /*gui.setItem(13, ItemBuilder.from(Material.IRON_DOOR).glow(warp.isPrivateState()).name(Component.text(Lang.PRIVACY.asColoredString())).setLore(warp.isPrivateState() ? Lang.PRIVATE_ENABLE_LORE.asColoredList() : Lang.PRIVATE_DISABLE_LORE.asColoredList()).asGuiItem(event -> {
             warpHandler.makePrivate(player, warp,false);
             openSetUpMenu(player, warp);
-        }));
-        gui.setItem(14, ItemBuilder.from(Material.ITEM_FRAME).name(Component.text(Lang.CHANGE_ITEM.asColoredString())).setLore(Lang.CHANGE_ITEM_LORE.asColoredList()).asGuiItem(event -> markPlayerForChatInput(player, warp, WarpAction.SET_GUI_ITEM, new Object[]{warp.getWarpID(), WarpAction.SET_GUI_ITEM, true})));
-        gui.setItem(15, ItemBuilder.from(Material.NAME_TAG).name(Component.text(Lang.CHANGE_DESCRIPTION.asColoredString())).setLore(Lang.CHANGE_DESCRIPTION_LORE.asColoredList()).asGuiItem(event -> markPlayerForChatInput(player, warp, WarpAction.SET_DESCRIPTION, new Object[]{warp.getWarpID(), WarpAction.SET_DESCRIPTION, true})));
-        gui.setItem(22, ItemBuilder.from(warp.isDisabled() ? Material.GRAY_DYE : Material.LIME_DYE).name(Component.text(Lang.PWARP_ENABLE.asColoredString())).setLore(warp.isDisabled() ? Lang.PWARP_DISABLE_LORE.asColoredList() : Lang.PWARP_ENABLE_LORE.asColoredList()).asGuiItem(event -> {
-            warpHandler.disable(player, warp, false);
-            openSetUpMenu(player, warp);
-        }));
-        gui.setItem(39, ItemBuilder.from(Material.OAK_SIGN).name(Component.text(Lang.RENAME_WARP.asColoredString())).setLore(Lang.RENAME_WARP_LORE.asColoredList()).asGuiItem(event -> markPlayerForChatInput(player, warp, WarpAction.RENAME, new Object[]{warp.getWarpID(), WarpAction.RENAME, true})));
+        }));*/
+        gui.setItem(14, ItemBuilder.from(Material.ITEM_FRAME).name(Component.text(Lang.CHANGE_ITEM.asColoredString())).setLore(Lang.CHANGE_ITEM_LORE.asColoredList()).asGuiItem(event -> warpHandler.markPlayerForChatInput(player, warp, WarpAction.SET_GUI_ITEM, new Object[]{warp.getWarpID(), WarpAction.SET_GUI_ITEM, true})));
+        gui.setItem(15, ItemBuilder.from(Material.NAME_TAG).name(Component.text(Lang.CHANGE_DESCRIPTION.asColoredString())).setLore(Lang.CHANGE_DESCRIPTION_LORE.asColoredList()).asGuiItem(event -> warpHandler.markPlayerForChatInput(player, warp, WarpAction.SET_DESCRIPTION, new Object[]{warp.getWarpID(), WarpAction.SET_DESCRIPTION, true})));
+        gui.setItem(22, ItemBuilder.from(Material.IRON_DOOR).name(Component.text(Lang.PWARP_ENABLE.asColoredString())).setLore(Lang.PWARP_STATUS_LORE.asReplacedList(new HashMap<String, String>(){{put("%status%", warp.getStatus().getText());}})).asGuiItem(event -> openSetStatusMenu(player, warp)));
+        gui.setItem(39, ItemBuilder.from(Material.OAK_SIGN).name(Component.text(Lang.RENAME_WARP.asColoredString())).setLore(Lang.RENAME_WARP_LORE.asColoredList()).asGuiItem(event -> warpHandler.markPlayerForChatInput(player, warp, WarpAction.RENAME, new Object[]{warp.getWarpID(), WarpAction.RENAME, true})));
         gui.setItem(40, ItemBuilder.from(Material.BARRIER).name(Component.text(Lang.REMOVE_WARP.asColoredString())).setLore(Lang.REMOVE_WARP_LORE.asColoredList()).asGuiItem(event -> openAcceptMenu(player, warp, WarpAction.REMOVE)));
-        gui.setItem(41, ItemBuilder.from(Material.PLAYER_HEAD).name(Component.text(Lang.CHANGE_OWNER.asColoredString())).setLore(Lang.CHANGE_OWNER_LORE.asColoredList()).asGuiItem(event -> markPlayerForChatInput(player, warp, WarpAction.CHANGE_OWNERSHIP, new Object[]{warp.getWarpID(), WarpAction.CHANGE_OWNERSHIP, true})));
+        gui.setItem(41, ItemBuilder.from(Material.WHITE_BANNER).name(Component.text(Lang.WARP_RELOCATION.asColoredString())).setLore(Lang.WARP_RELOCATION_LORE.asColoredList()).asGuiItem(evemt -> warpHandler.relocateWarp(player, warp)));
+        gui.setItem(42, ItemBuilder.from(Material.PLAYER_HEAD).name(Component.text(Lang.CHANGE_OWNER.asColoredString())).setLore(Lang.CHANGE_OWNER_LORE.asColoredList()).asGuiItem(event -> warpHandler.markPlayerForChatInput(player, warp, WarpAction.CHANGE_OWNERSHIP, new Object[]{warp.getWarpID(), WarpAction.CHANGE_OWNERSHIP, true})));
 
         createGuiItems(player, gui, WarpMenuType.OWNED);
 
         gui.open(player);
     }
 
-    private void markPlayerForChatInput(final Player player, Warp warp, WarpAction warpAction, Object[] data){
-        player.closeInventory();
-        UserManager.createUser(player, data);
+    public void openSetStatusMenu(final Player player, Warp warp){
+        final Gui gui = Gui.gui()
+                .disableAllInteractions()
+                .rows(3)
+                .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(new HashMap<String, String>(){{put("%warp%", warp.getName());}})))
+                .create();
 
-        String messageToSent;
-        switch (warpAction){
-            case SET_GUI_ITEM: messageToSent = Lang.ITEM_WRITE_MSG.asColoredString(); break;
-            case SET_ADMISSION: messageToSent = Lang.PRICE_WRITE_MESSAGE.asColoredString(); break;
-            case RENAME: messageToSent = Lang.RENAME_MSG.asColoredString(); break;
-            case CHANGE_OWNERSHIP: messageToSent = Lang.OWNER_CHANGE_MSG.asColoredString(); break;
-            case SET_DESCRIPTION: messageToSent = Lang.SET_DESCRIPTION_MESSAGE.asColoredString(); break;
-            default: messageToSent = "error";
-        }
+        gui.setItem(12, ItemBuilder.from(Material.BARRIER).name(Component.text(Lang.CLOSED_STATUS.asColoredString())).asGuiItem(event -> {
+            warp.setStatus(WarpStatus.CLOSED);
+            openSetUpMenu(player, warp);
+        }));
+        gui.setItem(13, ItemBuilder.from(Material.OAK_DOOR).name(Component.text(Lang.OPENED_STATUS.asColoredString())).asGuiItem(event -> {
+            warp.setStatus(WarpStatus.OPENED);
+            openSetUpMenu(player, warp);
+        }));
+        gui.setItem(14, ItemBuilder.from(Material.IRON_DOOR).name(Component.text(Lang.PASSWORD_PROTECTED_STATUS.asColoredString())).asGuiItem(event -> {
+            warp.setStatus(WarpStatus.PASSWORD_PROTECTED);
+            openSetUpMenu(player, warp);
+        }));
 
-        player.sendMessage(Lang.replaceString(messageToSent, new HashMap<String, String>(){{put("%warp%", warp.getName());}}));
+        gui.open(player);
     }
 
     public void openChangeTypeMenu(final Player player, Warp warp){

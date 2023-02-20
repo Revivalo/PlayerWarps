@@ -42,13 +42,16 @@ public final class PlayerWarps extends JavaPlugin {
     private GUIManager guiManager;
     private WarpHandler warpHandler;
 
-    private static Economy econ = null;
+    @Getter
+    private static Economy ECONOMY = null;
     @Getter @Setter
     private static PlayerWarps plugin;
 
     @Override
     public void onEnable() {
         setPlugin(this);
+        Config.reload();
+
         final String bukkitVersion = Bukkit.getBukkitVersion();
         setHexSupported(bukkitVersion.contains("6")
                 || bukkitVersion.contains("7")
@@ -91,7 +94,7 @@ public final class PlayerWarps extends JavaPlugin {
         dataManager.saveData();
         setupEconomy();
 
-        warpHandler = new WarpHandler(this, dataManager, econ);
+        warpHandler = new WarpHandler(this, dataManager);
         warpHandler.loadWarps();
         guiManager = new GUIManager(warpHandler);
 
@@ -131,7 +134,7 @@ public final class PlayerWarps extends JavaPlugin {
         if (rsp == null) {
             return false;
         }
-        econ = rsp.getProvider();
+        ECONOMY = rsp.getProvider();
         return true;
     }
 

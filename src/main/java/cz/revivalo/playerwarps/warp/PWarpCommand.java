@@ -4,6 +4,7 @@ import cz.revivalo.playerwarps.configuration.enums.Config;
 import cz.revivalo.playerwarps.guimanager.GUIManager;
 import cz.revivalo.playerwarps.configuration.enums.Lang;
 import cz.revivalo.playerwarps.user.WarpAction;
+import cz.revivalo.playerwarps.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +35,7 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
             if (!warpsHashMap.isEmpty()){
                 List<String> warps = new Vector<>();
                 for (final Warp warp : warpsHashMap.values()){
-                    if (warp.isPrivateState()) continue;
+                    if (!warp.isAccessible()) continue;
                     if (warp.getName().contains(args[0].toLowerCase())){
                         warps.add(warp.getName());
                     }
@@ -74,7 +75,7 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
                             warpHandler.reloadWarps(player);
                             break;
                         case "help":
-                            Lang.sendListToPlayer(player, Lang.HELP.asReplacedList(Collections.emptyMap()));
+                            TextUtils.sendListToPlayer(player, Lang.HELP.asReplacedList(Collections.emptyMap()));
                             break;
                         default:
                             if (player.hasPermission("playerwarps.use")){
@@ -114,21 +115,12 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
                         case "create":
                             player.sendMessage(warpHandler.createWarp(player, args[1]));
                             break;
-                        case "private":
-                            warpHandler.makePrivate(player, warp, true);
-                            break;
                         case "disable":
-                        case "freeze":
-                            if (player.hasPermission("playerwarps.disable") || isAdmin){
-                                warpHandler.disable(player, warp, true);
-                            } else player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
-                            break;
                         case "text":
                         case "title":
                         case "lore":
                             if (player.hasPermission("playerwarps.lore") || isAdmin){
                                 if (isAdmin || Objects.equals(id, warp.getOwner())) {
-                                    //guiManager.getChat().put(id, warpName + ":lore:false");
                                     player.sendMessage(Lang.TITLE_WRITE_MSG.asColoredString().replace("%warp%", warp.getName()));
                                 } else player.sendMessage(Lang.NOT_OWNING.asColoredString());
                             } else player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
@@ -147,29 +139,20 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
                         case "remove":
                             guiManager.openAcceptMenu(player, warp, WarpAction.REMOVE);
                             break;
-                        case "favorite":
-                            warpHandler.favorite(player, warp);
-                            break;
-                        case "unfavorite":
-                            warpHandler.unfavored(player, warp);
-                            break;
-                        default:
-                            player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString());
-                            break;
+                        case "favorite": warpHandler.favorite(player, warp);break;
+                        case "unfavorite": warpHandler.unfavored(player, warp);break;
+                        default: player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString());
                     }
                     break;
                 case 3:
                     warp = warpHandler.getWarpFromName(args[1]);
-                    //String warpName2 = args[1];
                     if (warpHandler.checkWarp(warp)){
                         player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
                         return true;
                     }
                     String input = args[2];
                     switch (args[0]){
-                        case "price":
-                            warpHandler.setAdmission(player, warp, input, false);
-                            break;
+                        case "price": warpHandler.setAdmission(player, warp, input, false); break;
                         case "settype":
                         case "type":
                             warpHandler.setType(player, warp, input);
@@ -178,19 +161,12 @@ public class PWarpCommand implements CommandExecutor, TabExecutor {
                         case "setitem":
                             warpHandler.setItem(player, warp, input, false);
                             break;
-                        case "rename":
-                            warpHandler.rename(player, warp, input, false);
-                            break;
-                        case "transfer":
-                            warpHandler.transferOwnership(player, Bukkit.getPlayer(input), warp, false);
-                            break;
-                        default:
-                            player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString());
-                            break;
+                        case "rename": warpHandler.rename(player, warp, input, false); break;
+                        case "transfer": warpHandler.transferOwnership(player, Bukkit.getPlayer(input), warp, false); break;
+                        default: player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString());
                     }
                     break;
-                default:
-                    player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString());
+                default: player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString());
             }
         }
         return true;
