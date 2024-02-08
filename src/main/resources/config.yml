@@ -25,9 +25,20 @@ config:
   autosave-interval: 30 # in minutes
   teleport-delay: 3
   currency-symbol: "$"
+  allow-colors-in-warp-display-names: true
   # This option works only with installed Vault plugin
   # For no price just set it to 0
   warp-price: 5000
+  # To disable the fee features, set them to 0
+  relocate-warp-fee: 1000
+  rename-warp-fee: 500
+  transfer-ownership-fee: 0
+  set-status-fee: 0
+  set-type-fee: 0
+  set-preview-item-fee: 0
+  set-description-fee: 0
+  set-display-name-fee: 200
+  set-admission-fee: 0
   # To disable refund set to 0
   delete-warp-refund: 2000
   max-warp-admission: 100000
@@ -38,7 +49,7 @@ config:
     - BARRIER
     - STRUCTURE_VOID
   default-limit-size: 1
-  warp-name-max-lenght: 24
+  warp-name-max-length: 24
   disabled-worlds:
     - disabledworld1
     - disabledworld2

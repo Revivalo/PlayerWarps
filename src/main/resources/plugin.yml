@@ -1,10 +1,11 @@
 name: PlayerWarps
-version: 2.3.0
-main: cz.revivalo.playerwarps.PlayerWarps
+version: ${project.version}
+main: dev.revivalo.playerwarps.PlayerWarpsPlugin
 api-version: 1.13
-softdepend: [Vault,Multiverse-Core,Multiworld,DiscordSRV,ChatControlRed,ChatControl]
+softdepend: [Vault, Multiverse-Core, Multiworld, DiscordSRV, ChatControlRed, ChatControl]
 authors: [Revivalo]
 description: Warps created by players for players
+
 commands:
   pwarp:
     description: Main command for PlayerWarps plugin

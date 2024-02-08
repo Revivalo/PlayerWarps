@@ -10,8 +10,5 @@
         <module name="PlayerWarps" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="PlayerWarps" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

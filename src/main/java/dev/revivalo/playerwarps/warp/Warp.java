@@ -1,0 +1,265 @@
+package dev.revivalo.playerwarps.warp;
+
+import dev.revivalo.playerwarps.categories.Category;
+import dev.revivalo.playerwarps.categories.CategoryManager;
+import dev.revivalo.playerwarps.utils.PermissionUtils;
+import dev.revivalo.playerwarps.utils.TextUtils;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Warp implements ConfigurationSerializable {
+    private UUID warpID;
+    private String name;
+    private String displayName;
+    private String password;
+    private UUID owner;
+    private Location location;
+    private int rating;
+    private Set<UUID> reviewers;
+    private int visits;
+    private int todayVisits;
+    private Category category;
+    private int admission;
+    private String description;
+    private WarpState status;
+    private long dateCreated;
+    private long lastActivity;
+    private ItemStack menuItem;
+    private String stars;
+
+    public Warp(Map<String, Object> map) {
+        for (String key : map.keySet()){
+            final Object value = map.get(key);
+            switch (key){
+                case "uuid": warpID = UUID.fromString((String) value);
+                case "name": setName((String) value); break;
+                case "displayName": setDisplayName((String) value); break;
+                case "owner-id": setOwner(UUID.fromString((String) value)); break;
+                case "loc": setLocation((Location) value); break;
+                case "lore": setDescription((String) value); break;
+                case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
+                case "item": setMenuItem(new ItemStack(Material.valueOf((String) value))); break;
+                case "ratings": setRating((int) value); break;
+                case "reviewers": setReviewers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(HashSet::new))); break;
+                case "visits": setVisits((int) value); break;
+                case "status": setStatus(WarpState.valueOf((String) value)); break;
+                case "password": setPassword(String.valueOf(value)); break;
+                case "admission": setAdmission(Integer.parseInt(String.valueOf(value))); break;
+                case "date-created": setDateCreated(Long.parseLong(String.valueOf(value))); break;
+                case "last-activity": setLastActivity(Long.parseLong(String.valueOf(value))); break;
+            }
+        }
+
+        stars = TextUtils.createRatingFormat(this);
+    }
+
+    @NotNull
+    @Override
+    public Map<String, Object> serialize() {
+        return new HashMap<String, Object>(){{
+            put("uuid", getWarpID().toString());
+            put("name", getName());
+            put("displayName", getDisplayName());
+            put("owner-id", getOwner().toString());
+            put("loc", getLocation());
+            put("lore", getDescription());
+            put("item", getMenuItem().getType().name());
+            put("ratings", getRating());
+            put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
+            put("category", getCategory().getType());
+            put("password", getPassword());
+            put("visits", getVisits());
+            put("status", getStatus().name());
+            put("admission", getAdmission());
+            put("date-created", getDateCreated());
+            put("last-activity", getLastActivity());
+        }};
+    }
+
+    public float getConvertedRating() {
+        return (float) getRating() / getReviewers().size();
+    }
+
+    public boolean isPasswordProtected(){
+        return getStatus() == WarpState.PASSWORD_PROTECTED;
+    }
+
+    public boolean isAccessible(){
+        return getStatus() != WarpState.CLOSED;
+    }
+
+    public boolean canManage(Player player){
+        return PermissionUtils.hasPermission(player, PermissionUtils.Permission.MANAGE_OTHERS)
+            || Objects.equals(player.getUniqueId(), getOwner());
+    }
+
+    public UUID getWarpID() {
+        return warpID;
+    }
+
+    public void setWarpID(UUID warpID) {
+        this.warpID = warpID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean validatePassword(String passwordToValidate) {
+        return this.password.equals(passwordToValidate);
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UUID owner) {
+        this.owner = owner;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public Set<UUID> getReviewers() {
+        return reviewers;
+    }
+
+    public void setReviewers(Set<UUID> reviewers) {
+        this.reviewers = reviewers;
+    }
+
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
+    }
+
+    public int getTodayVisits() {
+        return todayVisits;
+    }
+
+    public void setTodayVisits(int todayVisits) {
+        this.todayVisits = todayVisits;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getAdmission() {
+        return admission;
+    }
+
+    public void setAdmission(int admission) {
+        this.admission = admission;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public WarpState getStatus() {
+        return status;
+    }
+
+    public void setStatus(WarpState status) {
+        this.status = status;
+    }
+
+    public long getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(long dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public long getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(long lastActivity) {
+        this.lastActivity = lastActivity;
+    }
+
+    public ItemStack getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(ItemStack menuItem) {
+        this.menuItem = menuItem;
+    }
+
+    public String getStars() {
+        return stars;
+    }
+
+    public void setStars(String stars) {
+        this.stars = stars;
+    }
+
+    @Override
+    public String toString(){return warpID.toString();}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Warp warp = (Warp) o;
+        return Objects.equals(warpID, warp.warpID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(warpID);
+    }
+}
