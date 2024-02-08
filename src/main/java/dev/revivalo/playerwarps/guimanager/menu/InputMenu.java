@@ -46,7 +46,7 @@ public class InputMenu implements Menu {
 
                     warp.setStatus(WarpState.PASSWORD_PROTECTED);
 
-                    PlayerWarpsPlugin.get().runDelayed(() -> new SetUpMenu(warp).open(player)/*openSetUpMenu(player, warp)*/, 3);
+                    PlayerWarpsPlugin.get().runDelayed(() -> new ManageMenu(warp).open(player)/*openSetUpMenu(player, warp)*/, 3);
 
                     return Collections.emptyList();
                 })

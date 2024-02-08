@@ -35,11 +35,11 @@ public class SetStatusMenu implements Menu {
     public void open(Player player) {
         gui.setItem(12, ItemBuilder.from(Material.BARRIER).name(Component.text(Lang.CLOSED_STATUS.asColoredString())).asGuiItem(event -> {
             warp.setStatus(WarpState.CLOSED);
-            new SetUpMenu(warp).open(player);
+            new ManageMenu(warp).open(player);
         }));
         gui.setItem(13, ItemBuilder.from(Material.OAK_DOOR).name(Component.text(Lang.OPENED_STATUS.asColoredString())).asGuiItem(event -> {
             warp.setStatus(WarpState.OPENED);
-            new SetUpMenu(warp).open(player);
+            new ManageMenu(warp).open(player);
         }));
         gui.setItem(14, ItemBuilder.from(Material.IRON_DOOR).name(Component.text(Lang.PASSWORD_PROTECTED_STATUS.asColoredString())).asGuiItem(event -> {
             new InputMenu(warp).open(player);

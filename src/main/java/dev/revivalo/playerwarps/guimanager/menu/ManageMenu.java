@@ -21,10 +21,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class SetUpMenu implements Menu {
+public class ManageMenu implements Menu {
     private final Warp warp;
     private final Gui gui;
-    public SetUpMenu(Warp warp) {
+    public ManageMenu(Warp warp) {
         this.warp = warp;
         this.gui = Gui.gui()
                 .title(Component.text(Lang.EDIT_WARP_MENU_TITLE.asColoredString().replace("%warp%", warp.getName())))

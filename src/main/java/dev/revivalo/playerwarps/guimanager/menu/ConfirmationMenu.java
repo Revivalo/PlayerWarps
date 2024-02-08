@@ -52,7 +52,7 @@ public class ConfirmationMenu implements Menu {
         }));
         gui.setItem(15, ItemBuilder.from(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()).name(Component.text(Lang.DENY.asColoredString())).asGuiItem(event -> {
             if (action == WarpAction.REMOVE) {
-                new SetUpMenu(warp).open(player);
+                new ManageMenu(warp).open(player);
             }
         }));
         gui.open(player);

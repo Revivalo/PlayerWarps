@@ -162,7 +162,7 @@ public class WarpsMenu implements Menu {
                                         player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
                                         return;
                                     }
-                                    new SetUpMenu(warp).open(player); //openSetUpMenu(player, warp);
+                                    new ManageMenu(warp).open(player); //openSetUpMenu(player, warp);
                                 } else {
                                     new ReviewMenu(warp).open(player); //openReviewMenu(player, warp);
                                 }

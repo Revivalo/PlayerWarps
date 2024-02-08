@@ -1,8 +1,8 @@
 package dev.revivalo.playerwarps.warp;
 
 import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
-import dev.revivalo.playerwarps.guimanager.menu.SetUpMenu;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
 import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
@@ -35,7 +35,7 @@ public interface WarpAction<T> {
         if (menuToOpen != null) {
             switch (menuToOpen) {
                 case SET_UP_MENU:
-                    new SetUpMenu(warp).open(player);
+                    new ManageMenu(warp).open(player);
                     break;
                 case DEFAULT_LIST_MENU:
                 case FAVORITE_LIST_MENU:
@@ -46,7 +46,7 @@ public interface WarpAction<T> {
 //            if (warp == null) {
 //                new WarpsMenu(MenuType.OWNED_LIST_MENU, 1).open(player, null, SortingUtils.SortType.LATEST);//PlayerWarpsPlugin.getGuiManager().openWarpsMenu(player, GUIManager.WarpMenuType.OWNED, null, 1, SortingUtils.SortType.LATEST);
 //            } else {
-//                new SetUpMenu(warp).open(player); //PlayerWarpsPlugin.getGuiManager().openSetUpMenu(player, warp);
+//                new ManageMenu(warp).open(player); //PlayerWarpsPlugin.getGuiManager().openSetUpMenu(player, warp);
 //            }
         }
     }
