@@ -168,7 +168,7 @@ public class WarpsMenu implements Menu {
                                 }
                                 break;
                             case SHIFT_LEFT:
-                                new FavoriteWarpAction().preExecute(player, warp, null, MenuType.FAVORITE_LIST_MENU);
+                                new FavoriteWarpAction().preExecute(player, warp, null, MenuType.DEFAULT_LIST_MENU);
 
                                 break;
                         }

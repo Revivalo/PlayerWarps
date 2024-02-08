@@ -35,7 +35,7 @@ public class ManageMenu implements Menu {
 
     @Override
     public MenuType getMenuType() {
-        return MenuType.SET_UP_MENU;
+        return MenuType.MANAGE_MENU;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ManageMenu implements Menu {
         }})).asGuiItem(event -> new SetStatusMenu(warp).open(player))); //openSetStatusMenu(player, warp)));
         gui.setItem(39, ItemBuilder.from(Material.OAK_SIGN).name(Component.text(Lang.RENAME_WARP.asColoredString())).lore(Lang.RENAME_WARP_LORE.asColoredList()).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.RENAME, new Object[]{warp.getWarpID(), WarpAction.RENAME, true})));
         gui.setItem(38, ItemBuilder.from(Material.BARRIER).name(Component.text(Lang.REMOVE_WARP.asColoredString())).lore(Lang.REMOVE_WARP_LORE.asColoredList()).asGuiItem(event -> new ConfirmationMenu(warp).open(player, WarpAction.REMOVE))); //openAcceptMenu(player, warp, WarpAction.REMOVE)));
-        gui.setItem(41, ItemBuilder.from(Material.WHITE_BANNER).name(Component.text(Lang.WARP_RELOCATION.asColoredString())).lore(Lang.WARP_RELOCATION_LORE.asColoredList()).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, MenuType.SET_UP_MENU)));//PlayerWarpsPlugin.getWarpHandler().relocateWarp(player, warp)));
+        gui.setItem(41, ItemBuilder.from(Material.WHITE_BANNER).name(Component.text(Lang.WARP_RELOCATION.asColoredString())).lore(Lang.WARP_RELOCATION_LORE.asColoredList()).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, MenuType.MANAGE_MENU)));//PlayerWarpsPlugin.getWarpHandler().relocateWarp(player, warp)));
         gui.setItem(42, ItemBuilder.from(Material.PLAYER_HEAD).name(Component.text(Lang.CHANGE_OWNER.asColoredString())).lore(Lang.CHANGE_OWNER_LORE.asColoredList()).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.CHANGE_OWNERSHIP, new Object[]{warp.getWarpID(), WarpAction.CHANGE_OWNERSHIP, true})));
 
         setDefaultItems(player, gui);

@@ -43,7 +43,7 @@ public class ChangeTypeMenu implements Menu {
             categories
                     .forEach(category -> gui.addItem(ItemBuilder.from(category.getItem()).lore(Collections.emptyList()).name(Component.text(StringUtils.capitalize(category.getType()))).asGuiItem(event -> {
                         //PlayerWarpsPlugin.getWarpHandler().setType(player, warp, category.getType());
-                        new SetTypeAction().preExecute(player, warp, category, MenuType.SET_UP_MENU);
+                        new SetTypeAction().preExecute(player, warp, category, MenuType.MANAGE_MENU);
                     })));
         } else {
             gui.setItem(13, ItemBuilder.from(Material.BARRIER).name(Component.text(Lang.CATEGORIES_ARE_DISABLED.asColoredString())).asGuiItem());

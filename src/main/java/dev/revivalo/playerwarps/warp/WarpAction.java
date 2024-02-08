@@ -34,7 +34,7 @@ public interface WarpAction<T> {
 
         if (menuToOpen != null) {
             switch (menuToOpen) {
-                case SET_UP_MENU:
+                case MANAGE_MENU:
                     new ManageMenu(warp).open(player);
                     break;
                 case DEFAULT_LIST_MENU:

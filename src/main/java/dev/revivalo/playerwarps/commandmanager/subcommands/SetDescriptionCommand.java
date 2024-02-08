@@ -44,6 +44,6 @@ public class SetDescriptionCommand implements SubCommand {
 
         final Player player = (Player) sender;
 
-        new SetDescriptionAction().preExecute(player, null, args[1], MenuType.SET_UP_MENU);
+        new SetDescriptionAction().preExecute(player, null, args[1], MenuType.MANAGE_MENU);
     }
 }

@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.guimanager.menu;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 
 public enum MenuType {
-    SET_UP_MENU(Lang.EDIT_WARP_MENU_TITLE.asColoredString()),
+    MANAGE_MENU(Lang.EDIT_WARP_MENU_TITLE.asColoredString()),
     CONFIRMATION_MENU(Lang.ACCEPT_MENU_TITLE.asColoredString()),
     CHANGE_TYPE_MENU(Lang.CHANGE_WARP_CATEGORY_TITLE.asColoredString()),
     SET_STATUS_MENU(Lang.SET_WARP_STATUS_TITLE.asColoredString()),
