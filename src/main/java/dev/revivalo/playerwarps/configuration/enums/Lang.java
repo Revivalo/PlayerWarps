@@ -1,21 +1,16 @@
 package dev.revivalo.playerwarps.configuration.enums;
 
-import com.google.common.base.Splitter;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.YamlFile;
 import dev.revivalo.playerwarps.utils.TextUtils;
-import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public enum Lang {
     PREFIX("prefix"),
@@ -97,12 +92,11 @@ public enum Lang {
     THREE_STARS("3star"),
     FOUR_STARS("4star"),
     FIVE_STARS("5star"),
-    WARP_ENABLED("warp-enabled"),
-    WARP_DISABLED("warp-disabled"),
     WARP_IS_DISABLED("warp-is-disabled"),
     ENTERED_INVALID_TYPE("entered-invalid-type-of-warp"),
     WARP_TYPE_CHANGED("warp-type-changed"),
     PRIVACY_CHANGED("privacy-changed"),
+    UNKNOWN_COMMAND("unknown-command"),
     BAD_COMMAND_SYNTAX("bad-command-syntax"),
     ADD_FAVORITE("favorite-warp-added"),
     REMOVE_FAVORITE("remove-favorite-warp"),
@@ -147,8 +141,10 @@ public enum Lang {
     CHANGE_OWNER_LORE("change-owner-lore"),
     RENAME_WARP_LORE("rename-warp-lore");
 
+    private static final YamlFile langYamlFile = new YamlFile("lang.yml",
+            PlayerWarpsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
     private static final Map<String, String> messages = new HashMap<>();
-    private static final Map<String, String> listsStoredAsString = new HashMap<>();
+    private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
     private final String text;
 
     Lang(String text) {
@@ -156,44 +152,30 @@ public enum Lang {
     }
 
     public static void reload() {
-        final YamlConfiguration configuration = new YamlFile("lang.yml",
-                PlayerWarpsPlugin.get().getDataFolder(),
-                YamlFile.UpdateMethod.EVERYTIME)
-                .getConfiguration();
+        langYamlFile.reload();
+        final YamlConfiguration configuration = langYamlFile.getConfiguration();
 
-        final ConfigurationSection languageSection = configuration.getConfigurationSection("lang");
+        ConfigurationSection langSection = configuration.getConfigurationSection("lang");
 
-        Objects.requireNonNull(languageSection)
+        langSection
                 .getKeys(false)
                 .forEach(key -> {
-                    if (key.endsWith("lore") || key.endsWith("notification") || key.endsWith("help")) {
-                        listsStoredAsString.put(key, TextUtils.colorize(String.join("⎶", languageSection.getStringList(key))));
-                        return;
-                    }
-                    messages.put(key, TextUtils.colorize(StringUtils.replace(languageSection.getString(key), "%prefix%", Lang.PREFIX.asColoredString())));
+                    if (langSection.isList(key)) {
+                        listsStoredAsStrings.put(key, String.join("ᴪ", langSection.getStringList(key)));
+                    } else
+                        messages.put(key, StringUtils.replace(langSection.getString(key), "%prefix%", Lang.PREFIX.asColoredString(), 1));
                 });
     }
-    public List<Component> asColoredList(){
-        return Splitter.on("⎶").splitToList(listsStoredAsString.get(this.text)).stream()
-                .map(Component::text)
-                .collect(Collectors.toList());
+
+    public List<String> asReplacedList(Player player, final Map<String, String> definitions) {
+        return TextUtils.getColorizedList(player, TextUtils.replaceListAsString(listsStoredAsStrings.get(text), definitions));
     }
 
-    public @NotNull List<@Nullable Component> asReplacedList(final Map<String, String> definitions) {
-        final String loreAsString = listsStoredAsString.get(this.text);
-        final String[] keys = definitions.keySet().toArray(new String[]{});
-        final String[] values = definitions.values().toArray(new String[]{});
-
-        return Splitter.on("⎶").splitToList(StringUtils.replaceEach(loreAsString, keys, values)).stream()
-                .map(Component::text)
-                .collect(Collectors.toList());
+    public String asColoredString() {return asColoredString(null);}
+    public String asColoredString(Player player) {
+        return TextUtils.getColorizedString(player, messages.get(text));
     }
-
-    public String asColoredString() {
-        return messages.get(text);
-    }
-
-    public String asReplacedString(Map<String, String> definitions){
-        return TextUtils.replaceString(messages.get(text), definitions);
+    public String asReplacedString(Player player, Map<String, String> definitions) {
+        return TextUtils.getColorizedString(player, TextUtils.replaceString(messages.get(text), definitions));
     }
 }

@@ -20,7 +20,7 @@ public class SetStatusMenu implements Menu {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(3)
-                .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(new HashMap<String, String>() {{
+                .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
                 .create();

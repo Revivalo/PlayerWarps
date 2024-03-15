@@ -5,7 +5,9 @@ import dev.revivalo.playerwarps.categories.Category;
 import dev.revivalo.playerwarps.categories.CategoryManager;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.user.UserManager;
+import dev.revivalo.playerwarps.user.DataSelectorType;
+import dev.revivalo.playerwarps.user.User;
+import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.utils.DateUtils;
 import dev.revivalo.playerwarps.utils.NumberUtils;
 import dev.revivalo.playerwarps.utils.SortingUtils;
@@ -30,13 +32,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WarpsMenu implements Menu {
-    private final int page;
+    private int page = 1;
     private final MenuType menuType;
     private final PaginatedGui paginatedGui;
 
-    public WarpsMenu(MenuType menuType, int page) {
+    public WarpsMenu(MenuType menuType) {
         this.menuType = menuType;
-        this.page = page;
         this.paginatedGui = Gui.paginated()
                 .pageSize(45)
                 .rows(6)
@@ -56,6 +57,10 @@ public class WarpsMenu implements Menu {
     }
 
     public void open(Player player, String categoryName, SortingUtils.SortType sortType) {
+        final User user = UserHandler.getUser(player);
+        user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
+        //user.setActualMenu(this);
+
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
         if (paginatedGui.previous())
@@ -78,11 +83,11 @@ public class WarpsMenu implements Menu {
                 .name(Component.text(Lang.SORT_WARPS.asColoredString()))
                 .lore(Stream.of(
                                 " ",
-                                TextUtils.colorize(sortType == SortingUtils.SortType.LATEST ? "&a" : "&7") + "► " + Lang.LATEST.asColoredString(),
-                                TextUtils.colorize(sortType == SortingUtils.SortType.VISITS ? "&a" : "&7") + "► " + Lang.VISITS.asColoredString(),
-                                TextUtils.colorize(sortType == SortingUtils.SortType.RATING ? "&a" : "&7") + "► " + Lang.RATING.asColoredString(),
+                                TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.LATEST ? "&a" : "&7") + "► " + Lang.LATEST.asColoredString(),
+                                TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.VISITS ? "&a" : "&7") + "► " + Lang.VISITS.asColoredString(),
+                                TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.RATING ? "&a" : "&7") + "► " + Lang.RATING.asColoredString(),
                                 " ",
-                                Lang.CLICK_TO_SORT_BY.asReplacedString(new HashMap<String, String>() {{
+                                Lang.CLICK_TO_SORT_BY.asReplacedString(player, new HashMap<String, String>() {{
                                     put("%selector%", nextSortType.getName());
                                 }})
                         )
@@ -127,8 +132,8 @@ public class WarpsMenu implements Menu {
                         .build()));
             } else {
                 guiItem.set(new GuiItem(ItemBuilder.from(warp.getMenuItem())
-                        .name(Component.text(TextUtils.colorize(Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName()))))
-                        .lore(warpLore.asReplacedList(new HashMap<String, String>() {{
+                        .name(Component.text(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName()))))
+                        .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
                                                           put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));
                                                           put("%world%", warp.getLocation().getWorld().getName());
                                                           put("%voters%", String.valueOf(warp.getReviewers().size()));
@@ -148,7 +153,7 @@ public class WarpsMenu implements Menu {
                         )).build()));
 
                 guiItem.get().setAction(event -> {
-                    if (PlayerWarpsPlugin.getWarpHandler().isWarps()) {
+                    if (PlayerWarpsPlugin.getWarpHandler().areWarps()) {
                         switch (event.getClick()) {
                             case LEFT:
                                 player.closeInventory();
@@ -156,7 +161,7 @@ public class WarpsMenu implements Menu {
                                 break;
                             case RIGHT:
                             case SHIFT_RIGHT:
-                                UserManager.createUser(player, new Object[]{paginatedGui.getCurrentPageNum()});
+                                //UserHandler.createUser(player, new Object[]{paginatedGui.getCurrentPageNum()});
                                 if (getMenuType() == MenuType.OWNED_LIST_MENU) {
                                     if (!player.hasPermission("playerwarps.settings")) {
                                         player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
@@ -168,8 +173,7 @@ public class WarpsMenu implements Menu {
                                 }
                                 break;
                             case SHIFT_LEFT:
-                                new FavoriteWarpAction().preExecute(player, warp, null, MenuType.DEFAULT_LIST_MENU);
-
+                                new FavoriteWarpAction().preExecute(player, warp, null, MenuType.DEFAULT_LIST_MENU, page);
                                 break;
                         }
                     }
@@ -182,5 +186,10 @@ public class WarpsMenu implements Menu {
         setDefaultItems(player, paginatedGui);
         //createGuiItems(player, paginatedGui, menuType);
         paginatedGui.open(player, page);
+    }
+
+    public WarpsMenu setPage(int page) {
+        this.page = page;
+        return this;
     }
 }

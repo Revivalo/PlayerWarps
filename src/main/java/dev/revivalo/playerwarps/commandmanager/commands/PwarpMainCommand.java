@@ -26,6 +26,7 @@ public class PwarpMainCommand extends MainCommand {
         subCommands.add(new FavoriteCommand());
         subCommands.add(new ManageCommand());
         subCommands.add(new RemoveCommand());
+        subCommands.add(new TeleportCommand());
     }
 
     @Override
@@ -36,11 +37,14 @@ public class PwarpMainCommand extends MainCommand {
         }
 
         final Player player = (Player) sender;
+
         if (PermissionUtils.hasPermission(player, PermissionUtils.Permission.USE)) {
             if (Config.ENABLE_CATEGORIES.asBoolean()){
                 new CategoriesMenu().open(player);//PlayerWarpsPlugin.getGuiManager().openCategories(player);
             } else {
-                new WarpsMenu(MenuType.DEFAULT_LIST_MENU, 1).open(player, "all", SortingUtils.SortType.LATEST); //PlayerWarpsPlugin.getGuiManager().openWarpsMenu(player, GUIManager.WarpMenuType.DEFAULT, "all", 1, SortingUtils.SortType.LATEST);
+                new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                        .setPage(1)
+                        .open(player, "all", SortingUtils.SortType.LATEST); //PlayerWarpsPlugin.getGuiManager().openWarpsMenu(player, GUIManager.WarpMenuType.DEFAULT, "all", 1, SortingUtils.SortType.LATEST);
             }
         } else {
             player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());

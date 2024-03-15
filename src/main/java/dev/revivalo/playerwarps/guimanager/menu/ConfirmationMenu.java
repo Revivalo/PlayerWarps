@@ -22,7 +22,7 @@ public class ConfirmationMenu implements Menu {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(3)
-                .title(Component.text(Lang.ACCEPT_MENU_TITLE.asReplacedString(new HashMap<String, String>() {{
+                .title(Component.text(Lang.ACCEPT_MENU_TITLE.asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
                 .create();
@@ -45,7 +45,7 @@ public class ConfirmationMenu implements Menu {
                     PlayerWarpsPlugin.getWarpHandler().preWarp(player, warp);
                     break;
                 case REMOVE:
-                    new RemoveWarpAction().preExecute(player, warp, null, MenuType.OWNED_LIST_MENU);
+                    new RemoveWarpAction().preExecute(player, warp, null, MenuType.OWNED_LIST_MENU, 1);
                     break;
             }
             gui.close(player);

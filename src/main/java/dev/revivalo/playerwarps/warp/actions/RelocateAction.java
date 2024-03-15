@@ -13,7 +13,7 @@ public class RelocateAction implements WarpAction<Void> {
     @Override
     public void execute(Player player, Warp warp, Void data) {
         warp.setLocation(player.getLocation());
-        player.sendMessage(Lang.WARP_RELOCATED.asReplacedString(new HashMap<String, String>() {{
+        player.sendMessage(Lang.WARP_RELOCATED.asReplacedString(player, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
         }}));
     }

@@ -25,7 +25,7 @@ public class ChangeTypeMenu implements Menu {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(3)
-                .title(Component.text(Lang.CHANGE_WARP_CATEGORY_TITLE.asReplacedString(new HashMap<String, String>() {{
+                .title(Component.text(Lang.CHANGE_WARP_CATEGORY_TITLE.asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
                 .create();
@@ -43,7 +43,7 @@ public class ChangeTypeMenu implements Menu {
             categories
                     .forEach(category -> gui.addItem(ItemBuilder.from(category.getItem()).lore(Collections.emptyList()).name(Component.text(StringUtils.capitalize(category.getType()))).asGuiItem(event -> {
                         //PlayerWarpsPlugin.getWarpHandler().setType(player, warp, category.getType());
-                        new SetTypeAction().preExecute(player, warp, category, MenuType.MANAGE_MENU);
+                        new SetTypeAction().preExecute(player, warp, category, MenuType.MANAGE_MENU, 1);
                     })));
         } else {
             gui.setItem(13, ItemBuilder.from(Material.BARRIER).name(Component.text(Lang.CATEGORIES_ARE_DISABLED.asColoredString())).asGuiItem());

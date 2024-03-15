@@ -43,6 +43,6 @@ public class CreateCommand implements SubCommand {
 
         final Player player = (Player) sender;
 
-        new CreateWarpAction().preExecute(player, null, args[0], null);
+        new CreateWarpAction().preExecute(player, null, args[0], null, 0);
     }
 }

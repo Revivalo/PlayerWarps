@@ -47,6 +47,6 @@ public class RemoveCommand implements SubCommand {
             sender.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
             return;
         }
-        new RemoveWarpAction().preExecute(player, warp.get(), null, null);
+        new RemoveWarpAction().preExecute(player, warp.get(), null, null, 0);
     }
 }

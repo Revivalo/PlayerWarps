@@ -3,47 +3,39 @@ package dev.revivalo.playerwarps.commandmanager.subcommands;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ManageCommand implements SubCommand {
+public class TeleportCommand implements SubCommand {
     @Override
     public String getName() {
-        return "manage";
+        return "teleport";
     }
 
     @Override
     public String getDescription() {
-        return "Opens manage menu for stated warp";
+        return "Teleports to the warp";
     }
 
     @Override
     public String getSyntax() {
-        return "/pwarp manage [warpName]";
+        return "/reward teleport [warpName]";
     }
 
     @Override
     public PermissionUtils.Permission getPermission() {
-        return PermissionUtils.Permission.MANAGE;
+        return PermissionUtils.Permission.USE;
     }
 
     @Override
     public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
-        if (!(sender instanceof Player)) {
-            return Collections.emptyList();
-        }
-
-        final Player player = (Player) sender;
-
-        return PlayerWarpsPlugin.getWarpHandler().getPlayerWarps(player).stream().map(Warp::getName).collect(Collectors.toList());
+        return PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(Warp::isAccessible).map(Warp::getName).collect(Collectors.toList());
     }
 
     @Override
@@ -55,21 +47,13 @@ public class ManageCommand implements SubCommand {
         final Player player = (Player) sender;
 
         if (args.length > 0) {
-            Optional<Warp> warpOptional = PlayerWarpsPlugin.getWarpHandler().getWarpFromName(args[1]);
+            Optional<Warp> warpOptional = PlayerWarpsPlugin.getWarpHandler().getWarpFromName(args[0]);
             if (!warpOptional.isPresent()) {
                 player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
                 return;
             }
 
-            Warp warp = warpOptional.get();
-            if (!warp.canManage(player)) {
-                player.sendMessage(Lang.NOT_OWNING.asColoredString());
-                return;
-            }
-
-            new ManageMenu(warp)
-                    .open(player);
-
+            PlayerWarpsPlugin.getWarpHandler().preWarp(player, warpOptional.get());
         } else {
             player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
         }

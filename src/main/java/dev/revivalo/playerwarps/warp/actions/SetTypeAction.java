@@ -18,7 +18,7 @@ public class SetTypeAction implements WarpAction<Category> {
     @Override
     public void execute(Player player, Warp warp, @Nullable Category category) {
         if (!Optional.ofNullable(category).isPresent()) {
-            player.sendMessage(Lang.ENTERED_INVALID_TYPE.asReplacedString(new HashMap<String, String>() {{
+            player.sendMessage(Lang.ENTERED_INVALID_TYPE.asReplacedString(player, new HashMap<String, String>() {{
                 put("%types%", CategoryManager.getCategories().stream().map(Category::getType).collect(Collectors.joining(", ")));
             }}));
             return;

@@ -19,7 +19,7 @@ public class SetDescriptionAction implements WarpAction<String> {
         }
 
         warp.setDescription(text);
-        player.sendMessage(Lang.DESCRIPTION_CHANGED.asReplacedString(new HashMap<String, String>() {{
+        player.sendMessage(Lang.DESCRIPTION_CHANGED.asReplacedString(player, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
         }}));
     }

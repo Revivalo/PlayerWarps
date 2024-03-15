@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 public interface WarpAction<T> {
-    default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuToOpen) {
+    default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuToOpen, int page) {
         if (!PermissionUtils.hasPermission(player, getPermission())) {
             player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
             return;
@@ -40,7 +40,9 @@ public interface WarpAction<T> {
                 case DEFAULT_LIST_MENU:
                 case FAVORITE_LIST_MENU:
                 case OWNED_LIST_MENU:
-                    new WarpsMenu(menuToOpen, 1).open(player, null, SortingUtils.SortType.LATEST);
+                    new WarpsMenu(menuToOpen)
+                            .setPage(page)
+                            .open(player, null, SortingUtils.SortType.LATEST);
                     break;
             }
 //            if (warp == null) {

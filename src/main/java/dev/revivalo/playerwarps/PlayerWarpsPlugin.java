@@ -8,6 +8,7 @@ import dev.revivalo.playerwarps.datamanager.DataManager;
 import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.listeners.ChatSendListener;
 import dev.revivalo.playerwarps.listeners.ItemsAdderLoadDataListener;
+import dev.revivalo.playerwarps.listeners.PlayerJoinListener;
 import dev.revivalo.playerwarps.updatechecker.UpdateChecker;
 import dev.revivalo.playerwarps.updatechecker.UpdateNotificator;
 import dev.revivalo.playerwarps.utils.VersionUtils;
@@ -105,7 +106,8 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         registerEvents(
                 new UpdateNotificator(),
                 new ChatSendListener(),
-                new ItemsAdderLoadDataListener()
+                new ItemsAdderLoadDataListener(),
+                new PlayerJoinListener()
         );
     }
 

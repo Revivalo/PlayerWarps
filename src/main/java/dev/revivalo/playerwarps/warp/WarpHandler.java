@@ -1,18 +1,19 @@
 package dev.revivalo.playerwarps.warp;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
+import de.rapha149.signgui.SignGUI;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.categories.CategoryManager;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
-import dev.revivalo.playerwarps.user.UserManager;
+import dev.revivalo.playerwarps.user.DataSelectorType;
+import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.user.WarpAction;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.utils.PlayerUtils;
 import dev.revivalo.playerwarps.utils.TextUtils;
-import io.github.rapha149.signgui.SignGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -170,7 +171,7 @@ public class WarpHandler {
         }
 
         warp.setStatus(status);
-        player.sendMessage(Lang.WARPS_STATUS_CHANGED.asReplacedString(new HashMap<String, String>() {{
+        player.sendMessage(Lang.WARPS_STATUS_CHANGED.asReplacedString(player, new HashMap<String, String>() {{
             put("%status%", status.name());
         }}));
     }
@@ -237,7 +238,7 @@ public class WarpHandler {
                         return;
                     }
                     String item = warpSection.getString("item");
-                    String description = TextUtils.colorize(warpSection.getString("lore"));
+                    String description = TextUtils.getColorizedString(null, warpSection.getString("lore"));
                     int ratings = warpSection.getInt("ratings");
                     List<String> reviewers = warpSection.getStringList("reviewers");
                     String status = warpSection.getBoolean("disabled") ? "CLOSED" : "OPENED";
@@ -316,7 +317,7 @@ public class WarpHandler {
 
     private int getOwnedWarps(UUID id) {
         int owned = 0;
-        if (isWarps()) {
+        if (areWarps()) {
             for (Warp warp : warps) {
                 if (Objects.equals(id, warp.getOwner())) {
                     ++owned;
@@ -326,44 +327,46 @@ public class WarpHandler {
         return owned;
     }
 
-    public void markPlayerForChatInput(final Player player, Warp warp, WarpAction warpAction, Object[] data) {
+    public void markPlayerForChatInput(final Player player, Warp warp, WarpAction warpAction) {
         player.closeInventory();
-        UserManager.createUser(player, data);
+        UserHandler.getUser(player)
+                .addData(DataSelectorType.SELECTED_WARP, warp)
+                .addData(DataSelectorType.CURRENT_WARP_ACTION, warpAction);
 
         String messageToSent;
         switch (warpAction) {
             case SET_GUI_ITEM:
-                messageToSent = Lang.ITEM_WRITE_MSG.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.ITEM_WRITE_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
             case SET_ADMISSION:
-                messageToSent = Lang.PRICE_WRITE_MESSAGE.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.PRICE_WRITE_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
             case CHANGE_DISPLAY_NAME:
-                messageToSent = Lang.WRITE_NEW_DISPLAY_NAME.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.WRITE_NEW_DISPLAY_NAME.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
             case RENAME:
-                messageToSent = Lang.RENAME_MSG.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.RENAME_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
             case CHANGE_OWNERSHIP:
-                messageToSent = Lang.OWNER_CHANGE_MSG.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.OWNER_CHANGE_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
             case SET_DESCRIPTION:
-                messageToSent = Lang.SET_DESCRIPTION_MESSAGE.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.SET_DESCRIPTION_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
             case WRITE_PASSWORD:
-                messageToSent = Lang.PASSWORD_CHANGE_MSG.asReplacedString(new HashMap<String, String>() {{
+                messageToSent = Lang.PASSWORD_CHANGE_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
@@ -395,7 +398,7 @@ public class WarpHandler {
         return warps.stream().anyMatch(w -> w.getName().equalsIgnoreCase(warpName));
     }
 
-    public boolean isWarps() {
+    public boolean areWarps() {
         return !warps.isEmpty();
     }
 

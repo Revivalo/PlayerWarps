@@ -29,10 +29,10 @@ public class CategoryManager {
                             new Category(
                                 categorySection.getName(),
                                 categorySection.getBoolean("default"),
-                                    TextUtils.colorize(categorySection.getString("name")),
+                                    TextUtils.getColorizedString(null, categorySection.getString("name")),
                                 new ItemStack(Material.valueOf(categorySection.getString("item").toUpperCase(Locale.ENGLISH))),
                                 categorySection.getInt("position"),
-                                TextUtils.colorize(categorySection.getStringList("lore"))
+                                TextUtils.getColorizedList(null, categorySection.getStringList("lore"))
                         )
                 ));
 

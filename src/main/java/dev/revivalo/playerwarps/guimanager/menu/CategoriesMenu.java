@@ -55,7 +55,9 @@ public class CategoriesMenu implements Menu {
                                 .lore(category.getLore().stream()
                                         .map(Component::text)
                                         .collect(Collectors.toList()))
-                                .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU, 1).open(player, category.toString(), SortingUtils.SortType.LATEST)))); //openWarpsMenu(player, WarpMenuType.DEFAULT, category.toString(), 1, SortingUtils.SortType.LATEST))));
+                                .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                                        .setPage(1)
+                                        .open(player, category.toString(), SortingUtils.SortType.LATEST)))); //openWarpsMenu(player, WarpMenuType.DEFAULT, category.toString(), 1, SortingUtils.SortType.LATEST))));
 
         setDefaultItems(player, gui); //createGuiItems(player, gui, WarpMenuType.DEFAULT);
 

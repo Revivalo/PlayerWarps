@@ -1,5 +1,7 @@
 package dev.revivalo.playerwarps.commandmanager;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
+import dev.revivalo.playerwarps.configuration.enums.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -32,21 +34,25 @@ public abstract class MainCommand implements TabExecutor {
 
         SubCommand subCommand = subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(getDefaultSyntax());
 
-        if (subCommand == null)
-            return false;
+        if (subCommand == null) {
+            sender.sendMessage(Lang.UNKNOWN_COMMAND.asColoredString());
+            return true;
+        }
 
-        if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission().get()))
+        if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission().get())) {
             subCommand.perform(sender, Arrays.copyOfRange(args, 1, args.length));
-        else
+        } else {
             sender.sendMessage(noPermMessage);
+        }
 
         return true;
     }
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
-        if (args.length == 0)
+        if (args.length == 0) {
             return null;
+        }
 
         if (args.length == 1) {
             List<String> subCommandsTC = subCommands.stream().filter(sc -> sc.getPermission() == null || sender.hasPermission(sc.getPermission().get())).map(SubCommand::getName).collect(Collectors.toList());
@@ -55,8 +61,9 @@ public abstract class MainCommand implements TabExecutor {
 
         SubCommand subCommand = subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(null);
 
-        if (subCommand == null)
+        if (subCommand == null) {
             return null;
+        }
 
         List<String> subCommandTB = subCommand.getTabCompletion(sender, args.length - 2, args);
 
@@ -64,8 +71,9 @@ public abstract class MainCommand implements TabExecutor {
     }
 
     private static List<String> getMatchingStrings(List<String> tabCompletions, String arg, ArgumentMatcher argumentMatcher) {
-        if (tabCompletions == null || arg == null)
+        if (tabCompletions == null || arg == null) {
             return null;
+        }
 
         List<String> result = argumentMatcher.filter(tabCompletions, arg);
 
@@ -76,6 +84,11 @@ public abstract class MainCommand implements TabExecutor {
 
     public void registerMainCommand(JavaPlugin main, String cmdName) {
         PluginCommand cmd = main.getCommand(cmdName);
+
+        if (cmd == null) {
+            PlayerWarpsPlugin.get().getLogger().info("Command " + cmdName + " isn't registered in plugin.yml!");
+            return;
+        }
 
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
@@ -90,7 +103,8 @@ public abstract class MainCommand implements TabExecutor {
         return subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase("default")).findAny().orElse(null);
     }
 
-    public Set<SubCommand> getSubCommands () {
+    @SuppressWarnings("unused")
+    public Set<SubCommand> getSubCommands() {
         return new HashSet<>(subCommands);
     }
 }

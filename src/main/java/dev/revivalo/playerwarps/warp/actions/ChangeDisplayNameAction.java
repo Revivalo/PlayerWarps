@@ -18,8 +18,8 @@ public class ChangeDisplayNameAction implements WarpAction<String> {
             player.sendMessage(Lang.TEXT_SIZE_ERROR.asColoredString());
             return;
         }
-        warp.setDisplayName(TextUtils.colorize(text));
-        player.sendMessage(Lang.DISPLAY_NAME_CHANGED.asReplacedString(new HashMap<String, String>() {{
+        warp.setDisplayName(TextUtils.getColorizedString(player, text));
+        player.sendMessage(Lang.DISPLAY_NAME_CHANGED.asReplacedString(player, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
             put("%displayName%", warp.getDisplayName());
         }}));
