@@ -48,6 +48,16 @@ public enum Config {
     STAR_REVIEW_ITEM("star-review-item"),
     ENABLE_CATEGORIES("enable-categories"),
     CURRENCY_SYMBOL("currency-symbol"),
+    SET_PRICE_POSITION("set-price-position"),
+    SET_CATEGORY_POSITION("set-category-position"),
+    CHANGE_DISPLAY_NAME_POSITION("change-display-name-position"),
+    CHANGE_PREVIEW_ITEM_POSITION("change-preview-item-position"),
+    CHANGE_DESCRIPTION_POSITION("change-description-position"),
+    CHANGE_ACCESSIBILITY_POSITION("change-accessibility-position"),
+    REMOVE_WARP_POSITION("remove-warp-position"),
+    RENAME_WARP_POSITION("rename-warp-position"),
+    RELOCATE_WARP_POSITION("relocate-warp-position"),
+    CHANGE_OWNER_POSITION("change-owner-position"),
     BACK_ITEM("back-item");
 
     private static final Map<String, String> messages = new HashMap<>();

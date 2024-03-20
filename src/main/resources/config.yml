@@ -69,3 +69,13 @@ config:
   page-item: ARROW
   star-review-item: SUNFLOWER
   back-item: OAK_BUTTON
+  set-price-position: 11
+  set-category-position: 12
+  change-display-name-position: 13
+  change-preview-item-position: 14
+  change-description-position: 15
+  change-accessibility-position: 22
+  remove-warp-position: 38
+  rename-warp-position: 39
+  relocate-warp-position: 41
+  change-owner-position: 42
