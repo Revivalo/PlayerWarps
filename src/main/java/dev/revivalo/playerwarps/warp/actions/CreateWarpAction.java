@@ -31,7 +31,7 @@ public class CreateWarpAction implements WarpAction<String> {
 
         final String worldName = Objects.requireNonNull(player.getLocation().getWorld()).getName();
         if (PlayerWarpsPlugin.getWarpHandler().getBannedWorlds().contains(worldName)
-                && PermissionUtils.hasPermission(player, PermissionUtils.Permission.ADMIN_PERMISSION)) {
+                && !PermissionUtils.hasPermission(player, PermissionUtils.Permission.ADMIN_PERMISSION)) {
             player.sendMessage(Lang.TRIED_TO_CREATE_PWARP_IN_DISABLED_WORLD.asColoredString().replace("%world%", worldName));
             return false;
         }
