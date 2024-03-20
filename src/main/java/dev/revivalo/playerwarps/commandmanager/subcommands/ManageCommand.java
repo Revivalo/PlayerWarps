@@ -55,7 +55,7 @@ public class ManageCommand implements SubCommand {
         final Player player = (Player) sender;
 
         if (args.length > 0) {
-            Optional<Warp> warpOptional = PlayerWarpsPlugin.getWarpHandler().getWarpFromName(args[1]);
+            Optional<Warp> warpOptional = PlayerWarpsPlugin.getWarpHandler().getWarpFromName(args[0]);
             if (!warpOptional.isPresent()) {
                 player.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
                 return;
