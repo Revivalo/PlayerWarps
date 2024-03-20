@@ -40,11 +40,11 @@ public class PwarpMainCommand extends MainCommand {
 
         if (PermissionUtils.hasPermission(player, PermissionUtils.Permission.USE)) {
             if (Config.ENABLE_CATEGORIES.asBoolean()){
-                new CategoriesMenu().open(player);//PlayerWarpsPlugin.getGuiManager().openCategories(player);
+                new CategoriesMenu().open(player);
             } else {
                 new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                         .setPage(1)
-                        .open(player, "all", SortingUtils.SortType.LATEST); //PlayerWarpsPlugin.getGuiManager().openWarpsMenu(player, GUIManager.WarpMenuType.DEFAULT, "all", 1, SortingUtils.SortType.LATEST);
+                        .open(player, "all", SortingUtils.SortType.LATEST);
             }
         } else {
             player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
