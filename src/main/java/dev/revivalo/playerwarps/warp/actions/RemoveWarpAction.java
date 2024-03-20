@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 
 public class RemoveWarpAction implements WarpAction<Void> {
     @Override
-    public void execute(Player player, Warp warp, Void data) {
+    public boolean execute(Player player, Warp warp, Void data) {
         PlayerWarpsPlugin.getWarpHandler().removeWarp(warp);
-        if (Hooks.getVaultHook().isOn()) {
+        if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
             PlayerUtils.getOfflinePlayer(warp.getOwner()).thenAccept(
                     offlinePlayer -> {
                         Hooks.getVaultHook().getApi().depositPlayer(offlinePlayer, Config.DELETE_WARP_REFUND.asInt());
@@ -23,6 +23,8 @@ public class RemoveWarpAction implements WarpAction<Void> {
                     }
             );
         } else player.sendMessage(Lang.WARP_REMOVED.asColoredString().replace("%warp%", warp.getName()));
+
+        return true;
     }
 
     @Override

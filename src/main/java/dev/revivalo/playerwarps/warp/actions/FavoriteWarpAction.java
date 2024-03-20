@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FavoriteWarpAction implements WarpAction<Void> {
     @Override
-    public void execute(Player player, Warp warp, Void data) {
+    public boolean execute(Player player, Warp warp, Void data) {
         final PlayerConfig playerData = PlayerConfig.getConfig(player);
         final List<String> favorites = playerData.getStringList("favorites");
         if (!favorites.contains(warp.toString())) {
@@ -24,6 +24,8 @@ public class FavoriteWarpAction implements WarpAction<Void> {
             player.sendMessage(Lang.REMOVE_FAVORITE.asColoredString().replace("%warp%", warp.getName()));
         }
         playerData.save();
+
+        return true;
     }
 
     @Override

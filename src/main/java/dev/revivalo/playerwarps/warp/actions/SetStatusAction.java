@@ -9,8 +9,9 @@ import org.bukkit.entity.Player;
 
 public class SetStatusAction implements WarpAction<WarpState> {
     @Override
-    public void execute(Player player, Warp warp, WarpState warpState) {
+    public boolean execute(Player player, Warp warp, WarpState warpState) {
 
+        return true;
     }
 
     @Override

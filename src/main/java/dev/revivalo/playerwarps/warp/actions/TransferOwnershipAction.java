@@ -12,28 +12,34 @@ import java.util.Objects;
 
 public class TransferOwnershipAction implements WarpAction<Player> {
     @Override
-    public void execute(Player player, Warp warp, Player newOwner) {
+    public boolean execute(Player player, Warp warp, Player newOwner) {
         if (newOwner != null && (newOwner.isOnline() || newOwner.hasPlayedBefore())) {
             if (Objects.equals(newOwner, player)) {
                 player.sendMessage(Lang.ALREADY_OWNING.asColoredString());
-                return;
+                return false;
             }
 
             if (PlayerWarpsPlugin.getWarpHandler().canHaveWarp(newOwner)) {
                 player.sendMessage(Lang.LIMIT_REACHED_OTHER.asColoredString().replace("%player%", newOwner.getName()));
-                return;
+                return false;
             }
 
             warp.setOwner(newOwner.getUniqueId());
             player.sendMessage(Lang.TRANSFER_SUCCESSFUL.asColoredString()
                     .replace("%player%", newOwner.getName())
                     .replace("%warp%", warp.getName()));
-            if (newOwner.isOnline())
+            if (newOwner.isOnline()) {
                 newOwner.sendMessage(Lang.TRANSFER_INFO.asColoredString()
                         .replace("%player%", player.getName())
                         .replace("%warp%", warp.getName()));
+            }
 
-        } else player.sendMessage(Lang.TRANSFER_ERROR.asColoredString());
+        } else {
+            player.sendMessage(Lang.TRANSFER_ERROR.asColoredString());
+            return false;
+        }
+
+        return true;
     }
 
     @Override

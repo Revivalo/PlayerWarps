@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class CreateWarpAction implements WarpAction<String> {
     @Override
-    public void execute(Player player, Warp warp, String name) {
+    public boolean execute(Player player, Warp warp, String name) {
         if (!PlayerWarpsPlugin.getWarpHandler().canHaveWarp(player)) {
             player.sendMessage(Lang.LIMIT_REACHED.asColoredString()
                     .replace(
@@ -26,30 +26,30 @@ public class CreateWarpAction implements WarpAction<String> {
                             String.valueOf(PlayerWarpsPlugin.getWarpHandler().getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInt()))
                     )
             );
-            return;
+            return false;
         }
 
         final String worldName = Objects.requireNonNull(player.getLocation().getWorld()).getName();
         if (PlayerWarpsPlugin.getWarpHandler().getBannedWorlds().contains(worldName)
                 && PermissionUtils.hasPermission(player, PermissionUtils.Permission.ADMIN_PERMISSION)) {
             player.sendMessage(Lang.TRIED_TO_CREATE_PWARP_IN_DISABLED_WORLD.asColoredString().replace("%world%", worldName));
-            return;
+            return false;
         }
 
         if (PlayerWarpsPlugin.getWarpHandler().existsWarp(name)) {
             player.sendMessage(Lang.WARP_ALREADY_CREATED.asColoredString());
-            return;
+            return false;
         }
 
         int limit = Config.WARP_NAME_MAX_LENGTH.asInt();
         if (name.length() > limit) {
             player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTER_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
-            return;
+            return false;
         }
 
         if (/*warpName.contains(".") ||*/ name.contains(" ")) {
             player.sendMessage(Lang.NAME_CANT_CONTAINS_SPACE.asColoredString());
-            return;
+            return false;
         }
 
 //        if (PlayerWarpsPlugin.getECONOMY() != null) {
@@ -84,11 +84,14 @@ public class CreateWarpAction implements WarpAction<String> {
                 }}
 
         ));
-        if (Hooks.getVaultHook().isOn())
+
+        if (Hooks.isHookEnabled(Hooks.getVaultHook()))
             player.sendMessage(Lang.WARP_CREATED_WITH_PRICE.asColoredString()
                     .replace("%name%", name)
                     .replace("%price%", String.valueOf(getFee())));
         else player.sendMessage(Lang.WARP_CREATED.asColoredString().replace("%name%", name));
+
+        return true;
     }
 
     @Override

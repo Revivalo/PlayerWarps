@@ -12,17 +12,19 @@ import java.util.HashMap;
 
 public class ChangeDisplayNameAction implements WarpAction<String> {
     @Override
-    public void execute(Player player, Warp warp, String text) {
+    public boolean execute(Player player, Warp warp, String text) {
         int textLength = text.length();
         if (textLength < 3 || textLength > 32) {
             player.sendMessage(Lang.TEXT_SIZE_ERROR.asColoredString());
-            return;
+            return false;
         }
         warp.setDisplayName(TextUtils.getColorizedString(player, text));
         player.sendMessage(Lang.DISPLAY_NAME_CHANGED.asReplacedString(player, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
             put("%displayName%", warp.getDisplayName());
         }}));
+
+        return true;
     }
 
     @Override

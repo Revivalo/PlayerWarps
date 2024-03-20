@@ -9,21 +9,21 @@ import org.bukkit.entity.Player;
 
 public class SetAdmissionAction implements WarpAction<String> {
     @Override
-    public void execute(Player player, Warp warp, String text) {
+    public boolean execute(Player player, Warp warp, String text) {
         if (!isInt(text)) {
             player.sendMessage(Lang.NOT_A_NUMBER.asColoredString().replace("%input%", text));
-            return;
+            return false;
         }
 
         int price = Integer.parseInt(text);
         if (price < 0) {
             player.sendMessage(Lang.INVALID_ENTERED_PRICE.asColoredString());
-            return;
+            return false;
         }
 
         if (price > Config.MAX_WARP_ADMISSION.asInt()) {
             player.sendMessage(Lang.ENTERED_HIGHER_PRICE_THAN_ALLOWED.asColoredString().replace("%max%", Config.MAX_WARP_ADMISSION.asString()));
-            return;
+            return false;
         }
 
         warp.setAdmission(price);
@@ -32,6 +32,8 @@ public class SetAdmissionAction implements WarpAction<String> {
                 .replace("%price%", price == 0
                         ? Lang.FREE_OF_CHARGE.asColoredString()
                         : String.valueOf(price)));
+
+        return true;
     }
 
     @Override

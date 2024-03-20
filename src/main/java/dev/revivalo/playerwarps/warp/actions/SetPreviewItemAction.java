@@ -17,18 +17,22 @@ import java.util.stream.Collectors;
 public class SetPreviewItemAction implements WarpAction<String> {
     private static final Set<Material> bannedItems;
     @Override
-    public void execute(Player player, Warp warp, String item) {
+    public boolean execute(Player player, Warp warp, String item) {
         try {
             ItemStack displayItem = new ItemStack(Material.valueOf(item.toUpperCase()));
             if (bannedItems.contains(displayItem.getType())) {
                 player.sendMessage(Lang.TRIED_TO_SET_BANNED_ITEM.asColoredString());
+                return false;
             } else {
                 warp.setMenuItem(displayItem);
                 player.sendMessage(Lang.ITEM_CHANGED.asColoredString().replace("%item%", item));
             }
         } catch (IllegalArgumentException exception) {
             player.sendMessage(Lang.INVALID_ITEM.asColoredString());
+            return false;
         }
+
+        return true;
     }
 
     @Override

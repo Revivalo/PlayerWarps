@@ -17,20 +17,23 @@ public interface WarpAction<T> {
             return;
         }
 
-        if (warp != null)
+        if (warp != null) {
             if (!warp.canManage(player)) {
                 player.sendMessage(Lang.NOT_OWNING.asColoredString());
                 return;
             }
-
-        if (Hooks.getVaultHook().isOn()) {
-            if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
-                player.sendMessage(Lang.INSUFFICIENT_BALANCE.asColoredString().replace("%price%", String.valueOf(getFee())));
-                return;
-            }
         }
 
-        execute(player, warp, data);
+        boolean proceeded = execute(player, warp, data);
+
+        if (proceeded) {
+            if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
+                if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
+                    player.sendMessage(Lang.INSUFFICIENT_BALANCE.asColoredString().replace("%price%", String.valueOf(getFee())));
+                    return;
+                }
+            }
+        }
 
         if (menuToOpen != null) {
             switch (menuToOpen) {
@@ -57,7 +60,7 @@ public interface WarpAction<T> {
     Pořešit otevírání menu
      */
 
-    void execute(Player player, Warp warp, T data);
+    boolean execute(Player player, Warp warp, T data);
 
     PermissionUtils.Permission getPermission();
 
