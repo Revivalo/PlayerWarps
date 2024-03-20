@@ -3,6 +3,7 @@ package dev.revivalo.playerwarps.guimanager.menu;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.user.WarpAction;
 import dev.revivalo.playerwarps.utils.DateUtils;
 import dev.revivalo.playerwarps.utils.NumberUtils;
@@ -61,7 +62,7 @@ public class ManageMenu implements Menu {
                                                         }}
                 )).asGuiItem());
 
-        gui.setItem(Config.SET_PRICE_POSITION.asInt(), ItemBuilder.from(Material.SUNFLOWER).name(Component.text(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName()))).setLore(Lang.SET_PRICE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_ADMISSION)));
+        if (Hooks.isHookEnabled(Hooks.getVaultHook())) gui.setItem(Config.SET_PRICE_POSITION.asInt(), ItemBuilder.from(Material.SUNFLOWER).name(Component.text(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName()))).setLore(Lang.SET_PRICE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_ADMISSION)));
         gui.setItem(Config.SET_CATEGORY_POSITION.asInt(), ItemBuilder.from(warp.getCategory() == null ? new ItemStack(Material.WHITE_BANNER) : warp.getCategory().getItem()).name(Component.text(Lang.CHANGE_TYPE.asColoredString())).setLore(Lang.CHANGE_TYPE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ChangeTypeMenu(warp).open(player))); //openChangeTypeMenu(player, warp)));
         /*gui.setItem(13, ItemBuilder.from(Material.IRON_DOOR).glow(warp.isPrivateState()).name(Component.text(Lang.PRIVACY.asColoredString())).lore(warp.isPrivateState() ? Lang.PRIVATE_ENABLE_LORE.asColoredList() : Lang.PRIVATE_DISABLE_LORE.asColoredList()).asGuiItem(event -> {
             PlayerWarpsPlugin.getWarpHandler().makePrivate(player, warp,false);
