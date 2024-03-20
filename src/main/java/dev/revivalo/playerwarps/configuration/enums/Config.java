@@ -43,6 +43,7 @@ public enum Config {
     FAVORITE_WARPS_ITEM("favorite-warps-item"),
     CATEGORIES_BACKGROUND_ITEM("categories-background-item"),
     WARP_LIST_ITEM("warp-list-item"),
+    SORT_WARPS_ITEM("sort-warp-item"),
     MY_WARPS_ITEM("my-warps-item"),
     PAGE_ITEM("page-item"),
     STAR_REVIEW_ITEM("star-review-item"),

@@ -8,10 +8,7 @@ import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
 import dev.revivalo.playerwarps.user.UserHandler;
-import dev.revivalo.playerwarps.utils.DateUtils;
-import dev.revivalo.playerwarps.utils.NumberUtils;
-import dev.revivalo.playerwarps.utils.SortingUtils;
-import dev.revivalo.playerwarps.utils.TextUtils;
+import dev.revivalo.playerwarps.utils.*;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.actions.FavoriteWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
@@ -79,7 +76,7 @@ public class WarpsMenu implements Menu {
                 : sortType == SortingUtils.SortType.VISITS
                 ? SortingUtils.SortType.RATING : SortingUtils.SortType.LATEST;
 
-        if (getMenuType() != MenuType.OWNED_LIST_MENU) paginatedGui.setItem(46, ItemBuilder.from(Material.REPEATER)
+        if (getMenuType() != MenuType.OWNED_LIST_MENU) paginatedGui.setItem(46, ItemBuilder.from(ItemUtils.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
                 .name(Component.text(Lang.SORT_WARPS.asColoredString()))
                 .lore(Stream.of(
                                 " ",
