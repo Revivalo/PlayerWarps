@@ -32,6 +32,7 @@ lang:
   warp-created: "%prefix% &7You have created a warp &e%name%"
   # This message will be sent with Vault installed
   warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $)"
+  tried-to-create-warp-in-disabled-world: "%prefix% Warp cannot be created in the world (%world%)"
   insufficient-balance: "%prefix% &cNot enough balance to create a warp! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNot enough balance to teleport to the %warp% warp"
   warp-removed: "%prefix% &7You have removed this warp"
