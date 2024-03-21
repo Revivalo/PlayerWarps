@@ -11,6 +11,10 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 public interface WarpAction<T> {
+    default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuType) {
+        preExecute(player, warp, data, menuType, 1);
+    }
+
     default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuToOpen, int page) {
         if (!PermissionUtils.hasPermission(player, getPermission())) {
             player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
