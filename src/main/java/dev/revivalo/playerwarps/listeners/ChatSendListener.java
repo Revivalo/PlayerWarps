@@ -24,13 +24,14 @@ public class ChatSendListener implements Listener {
     public void onChat(final AsyncPlayerChatEvent event){
         final Player editor = event.getPlayer();
         final UUID id = editor.getUniqueId();
-//        final Object[] temp = UserHandler.getUsersTemp(id);
         final User user = UserHandler.getUser(id);
 
-        if (user.getData(DataSelectorType.CURRENT_WARP_ACTION) == null){
+        WarpAction currentAction = (WarpAction) user.getData(DataSelectorType.CURRENT_WARP_ACTION);
+        if (currentAction == null){
             return;
         }
 
+        user.addData(DataSelectorType.CURRENT_WARP_ACTION, null);
         event.setCancelled(true);
 
         final Optional<Warp> warpOptional = Optional.ofNullable((Warp) user.getData(DataSelectorType.SELECTED_WARP)); //PlayerWarpsPlugin.getWarpHandler().getWarpByID((UUID) temp[0]);
@@ -40,34 +41,26 @@ public class ChatSendListener implements Listener {
 
         final Warp warp = warpOptional.get();
         final String message = event.getMessage();
-        final WarpAction warpAction = (WarpAction) user.getData(DataSelectorType.CURRENT_WARP_ACTION);
-        //final boolean shouldReOpenMenu = (boolean) temp[2];
 
         PlayerWarpsPlugin.get().runSync(() -> {
-            switch (warpAction){
+            switch (currentAction){
                 case CHANGE_DISPLAY_NAME:
-                    new ChangeDisplayNameAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU, 1);
-                    //PlayerWarpsPlugin.getWarpHandler().changeDisplayName(editor, warp, message);
+                    new ChangeDisplayNameAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU);
                     break;
                 case CHANGE_OWNERSHIP:
-                    new TransferOwnershipAction().preExecute(editor, warp, Bukkit.getPlayer(message), MenuType.MANAGE_MENU, 1);
-                    //PlayerWarpsPlugin.getWarpHandler().transferOwnership(editor, Bukkit.getPlayer(message), warp, shouldReOpenMenu);
+                    new TransferOwnershipAction().preExecute(editor, warp, Bukkit.getPlayer(message), MenuType.MANAGE_MENU);
                     break;
                 case RENAME:
-                    new RenameAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU, 1);
-                    //PlayerWarpsPlugin.getWarpHandler().rename(editor, warp, message, shouldReOpenMenu);
+                    new RenameAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU);
                     break;
                 case SET_ADMISSION:
-                    new SetAdmissionAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU, 1);
-                    //PlayerWarpsPlugin.getWarpHandler().setAdmission(editor, warp, message, shouldReOpenMenu);
+                    new SetAdmissionAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU);
                     break;
                 case SET_GUI_ITEM:
-                    new SetPreviewItemAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU, 1);
-                    //PlayerWarpsPlugin.getWarpHandler().setItem(editor, warp, message, shouldReOpenMenu);
+                    new SetPreviewItemAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU);
                     break;
                 case SET_DESCRIPTION:
-                    new SetDescriptionAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU, 1);
-                    //PlayerWarpsPlugin.getWarpHandler().setDescription(editor, warp, message, shouldReOpenMenu);
+                    new SetDescriptionAction().preExecute(editor, warp, message, MenuType.MANAGE_MENU);
                     break;
             }
         });
