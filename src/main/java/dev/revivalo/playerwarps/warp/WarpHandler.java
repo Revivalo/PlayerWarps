@@ -43,7 +43,7 @@ public class WarpHandler {
     }
 
     public void preWarp(Player player, Warp warp) {
-        if (warp.isPasswordProtected()) {
+        if (warp.isPasswordProtected() || !warp.canManage(player)) {
             SignGUI gui = SignGUI.builder()
                     .setType(Material.OAK_SIGN)
                     .setColor(DyeColor.BLACK)
@@ -68,25 +68,12 @@ public class WarpHandler {
                     .build();
 
             gui.open(player);
-//            new AnvilGUI.Builder()
-//                    .onClick((slot, stateSnapshot) -> {
-//                        if (slot != AnvilGUI.Slot.OUTPUT)
-//                            return Collections.emptyList();
-//                        if (stateSnapshot.getText().length() < 4) {
-//                            return Collections.singletonList(AnvilGUI.ResponseAction.close());
-//                        }
-//
-//                        warp(player, warp, stateSnapshot.getText());
-//                        return Collections.singletonList(AnvilGUI.ResponseAction.close());
-//                    })
-//                    .interactableSlots(AnvilGUI.Slot.OUTPUT)
-//                    .text(Lang.ENTER_PASSWORD.asColoredString())
-//                    .itemLeft(new ItemStack(Material.IRON_SWORD))
-//                    .itemRight(new ItemStack(Material.IRON_SWORD))
-//                    .plugin(PlayerWarpsPlugin.get())
-//                    .open(player);
 
         } else warp(player, warp, null);
+    }
+
+    public void warp(Player player, Warp warp) {
+        warp(player, warp, null);
     }
 
     public void warp(Player player, Warp warp, String password) {
