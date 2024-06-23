@@ -33,6 +33,6 @@ public class SetDescriptionAction implements WarpAction<String> {
 
     @Override
     public int getFee() {
-        return Config.SET_DESCRIPTION_FEE.asInt();
+        return Config.SET_DESCRIPTION_FEE.asInteger();
     }
 }

@@ -27,6 +27,6 @@ public class RelocateAction implements WarpAction<Void> {
 
     @Override
     public int getFee() {
-        return Config.RELOCATE_WARP_FEE.asInt();
+        return Config.RELOCATE_WARP_FEE.asInteger();
     }
 }

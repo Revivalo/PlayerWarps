@@ -23,7 +23,7 @@ public class CreateWarpAction implements WarpAction<String> {
             player.sendMessage(Lang.LIMIT_REACHED.asColoredString()
                     .replace(
                             "%limit%",
-                            String.valueOf(PlayerWarpsPlugin.getWarpHandler().getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInt()))
+                            String.valueOf(PlayerWarpsPlugin.getWarpHandler().getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInteger()))
                     )
             );
             return false;
@@ -41,7 +41,7 @@ public class CreateWarpAction implements WarpAction<String> {
             return false;
         }
 
-        int limit = Config.WARP_NAME_MAX_LENGTH.asInt();
+        int limit = Config.WARP_NAME_MAX_LENGTH.asInteger();
         if (name.length() > limit) {
             player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTER_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
             return false;
@@ -101,6 +101,6 @@ public class CreateWarpAction implements WarpAction<String> {
 
     @Override
     public int getFee() {
-        return Config.WARP_PRICE.asInt();
+        return Config.WARP_PRICE.asInteger();
     }
 }

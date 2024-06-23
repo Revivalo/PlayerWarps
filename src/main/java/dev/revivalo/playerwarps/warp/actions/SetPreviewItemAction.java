@@ -42,7 +42,7 @@ public class SetPreviewItemAction implements WarpAction<String> {
 
     @Override
     public int getFee() {
-        return Config.SET_PREVIEW_ITEM_FEE.asInt();
+        return Config.SET_PREVIEW_ITEM_FEE.asInteger();
     }
 
     static {

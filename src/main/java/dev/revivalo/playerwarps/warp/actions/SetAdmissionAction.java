@@ -21,7 +21,7 @@ public class SetAdmissionAction implements WarpAction<String> {
             return false;
         }
 
-        if (price > Config.MAX_WARP_ADMISSION.asInt()) {
+        if (price > Config.MAX_WARP_ADMISSION.asInteger()) {
             player.sendMessage(Lang.ENTERED_HIGHER_PRICE_THAN_ALLOWED.asColoredString().replace("%max%", Config.MAX_WARP_ADMISSION.asString()));
             return false;
         }
@@ -43,7 +43,7 @@ public class SetAdmissionAction implements WarpAction<String> {
 
     @Override
     public int getFee() {
-        return Config.SET_ADMISSION_FEE.asInt();
+        return Config.SET_ADMISSION_FEE.asInteger();
     }
 
     private boolean isInt(String str) {

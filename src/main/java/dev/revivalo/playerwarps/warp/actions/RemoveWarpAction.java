@@ -18,7 +18,7 @@ public class RemoveWarpAction implements WarpAction<Void> {
         if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
             PlayerUtils.getOfflinePlayer(warp.getOwner()).thenAccept(
                     offlinePlayer -> {
-                        Hooks.getVaultHook().getApi().depositPlayer(offlinePlayer, Config.DELETE_WARP_REFUND.asInt());
+                        Hooks.getVaultHook().getApi().depositPlayer(offlinePlayer, Config.DELETE_WARP_REFUND.asInteger());
                         player.sendMessage(Lang.WARP_REMOVED_WITH_REFUND.asColoredString().replace("%warp%", warp.getName()).replace("%refund%", Config.DELETE_WARP_REFUND.asString()));
                     }
             );

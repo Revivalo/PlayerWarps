@@ -21,6 +21,6 @@ public class SetStatusAction implements WarpAction<WarpState> {
 
     @Override
     public int getFee() {
-        return Config.SET_STATUS_FEE.asInt();
+        return Config.SET_STATUS_FEE.asInteger();
     }
 }

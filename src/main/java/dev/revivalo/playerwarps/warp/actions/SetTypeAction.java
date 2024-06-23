@@ -40,6 +40,6 @@ public class SetTypeAction implements WarpAction<Category> {
 
     @Override
     public int getFee() {
-        return Config.SET_TYPE_FEE.asInt();
+        return Config.SET_TYPE_FEE.asInteger();
     }
 }

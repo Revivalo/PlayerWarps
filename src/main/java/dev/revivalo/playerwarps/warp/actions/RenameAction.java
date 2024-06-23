@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class RenameAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String newName) {
-        int limit = Config.WARP_NAME_MAX_LENGTH.asInt();
+        int limit = Config.WARP_NAME_MAX_LENGTH.asInteger();
         if (newName.length() > limit) {
             player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTER_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
             return false;
@@ -34,6 +34,6 @@ public class RenameAction implements WarpAction<String> {
 
     @Override
     public int getFee() {
-        return Config.RENAME_WARP_FEE.asInt();
+        return Config.RENAME_WARP_FEE.asInteger();
     }
 }

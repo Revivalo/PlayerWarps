@@ -49,6 +49,6 @@ public class TransferOwnershipAction implements WarpAction<Player> {
 
     @Override
     public int getFee() {
-        return Config.TRANSFER_OWNERSHIP_FEE.asInt();
+        return Config.TRANSFER_OWNERSHIP_FEE.asInteger();
     }
 }

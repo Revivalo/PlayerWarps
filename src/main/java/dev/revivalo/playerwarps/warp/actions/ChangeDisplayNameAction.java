@@ -34,6 +34,6 @@ public class ChangeDisplayNameAction implements WarpAction<String> {
 
     @Override
     public int getFee() {
-        return Config.SET_DISPLAY_NAME_FEE.asInt();
+        return Config.SET_DISPLAY_NAME_FEE.asInteger();
     }
 }

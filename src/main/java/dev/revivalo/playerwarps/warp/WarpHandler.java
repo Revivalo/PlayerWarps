@@ -180,7 +180,7 @@ public class WarpHandler {
                             player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
                             cancel();
                         } else {
-                            if (cycle == Config.TELEPORTATION_DELAY.asInt() * 2) {
+                            if (cycle == Config.TELEPORTATION_DELAY.asInteger() * 2) {
                                 cancel();
                                 player.teleport(loc);
                             }
@@ -297,7 +297,7 @@ public class WarpHandler {
     public boolean canHaveWarp(final Player player) {
         UUID id = player.getUniqueId();
         if (!player.hasPermission("playerwarps.limit.unlimited")) {
-            return getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInt()) != getOwnedWarps(id);
+            return getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInteger()) != getOwnedWarps(id);
         }
         return true;
     }
