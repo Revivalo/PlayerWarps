@@ -1,17 +1,12 @@
 package dev.revivalo.playerwarps.configuration.enums;
 
-import com.google.common.base.Splitter;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.YamlFile;
 import dev.revivalo.playerwarps.utils.TextUtils;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public enum Config {
     WARP_NAME_FORMAT("warp-name-format"),
@@ -61,9 +56,16 @@ public enum Config {
     CHANGE_OWNER_POSITION("change-owner-position"),
     BACK_ITEM("back-item");
 
-    private static final Map<String, String> messages = new HashMap<>();
-    private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
-    private static final Map<String, ItemStack> items = new HashMap<>();
+    private static final YamlFile configYamlFile = new YamlFile(
+            "config.yml",
+            PlayerWarpsPlugin.get().getDataFolder(),
+            YamlFile.UpdateMethod.EVERYTIME);
+    private static final Map<String, String> strings = new HashMap<>();
+    private static final Map<String, List<String>> lists = new HashMap<>();
+
+    static {
+        reload();
+    }
 
     private final String text;
 
@@ -72,32 +74,54 @@ public enum Config {
     }
 
     public static void reload() {
-        final YamlConfiguration configuration = new YamlFile("config.yml",
-                PlayerWarpsPlugin.get().getDataFolder(),
-                YamlFile.UpdateMethod.EVERYTIME)
-                .getConfiguration();
+        configYamlFile.reload();
+        final ConfigurationSection configuration = configYamlFile.getConfiguration().getConfigurationSection("config");
 
-        final ConfigurationSection configurationSection = configuration.getConfigurationSection("config");
-        Objects.requireNonNull(configurationSection)
-                .getKeys(true)
+        configuration
+                .getKeys(false)
                 .forEach(key -> {
-                    if (key.endsWith("items") || key.endsWith("worlds") || key.endsWith("notifications") || key.endsWith("help")) {
-                        listsStoredAsStrings.put(key, String.join("⎶", configurationSection.getStringList(key)));
-                    } else messages.put(key, configurationSection.getString(key));
+                    if (configuration.isList(key)) {
+                        lists.put(key, configuration.getStringList(key));
+                    } else
+                        strings.put(key, configuration.getString(key));
                 });
+
         Lang.reload();
     }
 
-    public List<String> asReplacedList(final Map<String, String> definitions) {
-        return Splitter.on("⎶").splitToList(TextUtils.replaceString(listsStoredAsStrings.get(this.text), definitions));
+    public YamlFile getConfiguration() {
+        return null;
     }
 
+    public int asInteger() {
+        return Integer.parseInt(strings.get(text));}
+
     public String asString() {
-        return messages.get(text);
+        return strings.get(text);
     }
+
     public String asReplacedString(Map<String, String> definitions) {
-        return TextUtils.replaceString(asString(), definitions);
+        return TextUtils.replaceString(strings.get(text), definitions);
     }
+
+    public Material asMaterial(){
+        try {
+            return Material.valueOf(asUppercase());
+        } catch (IllegalArgumentException e) {
+            return Material.STONE;
+        }
+    }
+
+    public Map<String, String> asStringMap() {
+        Map<String, String> map = new HashMap<>();
+        ConfigurationSection section = configYamlFile.getConfiguration().getConfigurationSection(asString());
+        if (section == null) return map;
+        for (String key : section.getKeys(false)) {
+            map.put(key, section.getString(key));
+        }
+        return map;
+    }
+
     public String asUppercase() {
         return this.asString().toUpperCase();
     }
@@ -106,11 +130,11 @@ public enum Config {
         return Boolean.parseBoolean(asString());
     }
 
-    public long asLong() {
-        return Long.parseLong(asString());
+    public List<String> asReplacedList(Map<String, String> definitions) {
+        return lists.get(text);
     }
 
-    public int asInt() {
-        return Integer.parseInt(asString());
+    public long asLong() {
+        return Long.parseLong(strings.get(text));
     }
 }
