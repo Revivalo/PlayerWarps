@@ -9,6 +9,5 @@ public class ItemsAdderLoadDataListener implements Listener {
     @EventHandler
     public void onItemsAdderLoad(final ItemsAdderLoadDataEvent event){
         PlayerWarpsPlugin.getWarpHandler().loadWarps();
-        //PlayerWarpsPlugin.getGuiManager()();
     }
 }
