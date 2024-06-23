@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CategoriesMenu implements Menu {
     private final Gui gui;
@@ -34,9 +33,9 @@ public class CategoriesMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        final Optional<ItemStack> fillItem = Optional.of(ItemUtils.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asString()));
+        final Optional<ItemStack> fillItem = Optional.ofNullable(ItemUtils.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asString()));
         fillItem.ifPresent((itemStack -> {
-            final GuiItem backgroundItem = ItemBuilder.from(itemStack).name(Component.text(" ")).asGuiItem();
+            final GuiItem backgroundItem = ItemBuilder.from(itemStack).setName(" ").asGuiItem();
             for (int i = 0; i < 54; i++) {
                 gui.setItem(i, backgroundItem);
             }
@@ -48,13 +47,11 @@ public class CategoriesMenu implements Menu {
                         ItemBuilder.from(
                                         category.getItem()
                                 )
-                                .name(Component.text(
+                                .setName(
                                         category.getName()
                                                 .replace("%number%", String.valueOf(PlayerWarpsPlugin.getWarpHandler().getCountOfWarps(category.getType())))
-                                ))
-                                .lore(category.getLore().stream()
-                                        .map(Component::text)
-                                        .collect(Collectors.toList()))
+                                )
+                                .setLore(category.getLore())
                                 .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage(1)
                                         .open(player, category.toString(), SortingUtils.SortType.LATEST)))); //openWarpsMenu(player, WarpMenuType.DEFAULT, category.toString(), 1, SortingUtils.SortType.LATEST))));

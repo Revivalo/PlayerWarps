@@ -48,7 +48,7 @@ public class ReviewMenu implements Menu {
                 ItemBuilder.from(
                                 ItemUtils.getItem(Config.BACK_ITEM.asString())
                         )
-                        .name(Component.text(Lang.BACK_NAME.asColoredString()))
+                        .setName(Lang.BACK_NAME.asColoredString())
                         .asGuiItem(
                                 event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage((int) user.getData(DataSelectorType.ACTUAL_PAGE))

@@ -6,7 +6,6 @@ import dev.revivalo.playerwarps.utils.ItemUtils;
 import dev.revivalo.playerwarps.utils.SortingUtils;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 public interface Menu {
@@ -17,7 +16,7 @@ public interface Menu {
                 ItemBuilder
                         .from(ItemUtils.getItem(Config.WARP_LIST_ITEM.asString()))
                         .glow(getMenuType() == MenuType.DEFAULT_LIST_MENU || getMenuType() == MenuType.CATEGORIES)
-                        .name(Component.text(Lang.WARPS_ITEM_NAME.asColoredString()))
+                        .setName(Lang.WARPS_ITEM_NAME.asColoredString())
                         .asGuiItem(event -> {
                             if (Config.ENABLE_CATEGORIES.asBoolean()) {
                                 new CategoriesMenu().open(player);
@@ -31,7 +30,7 @@ public interface Menu {
                 ItemBuilder
                         .from(ItemUtils.getItem(Config.MY_WARPS_ITEM.asString()))
                         .glow(getMenuType() == MenuType.OWNED_LIST_MENU)
-                        .name(Component.text(Lang.MY_WARPS_ITEM_NAME.asColoredString()))
+                        .setName(Lang.MY_WARPS_ITEM_NAME.asColoredString())
                         .asGuiItem(event ->
                                 new WarpsMenu(MenuType.OWNED_LIST_MENU)
                                         .setPage(1)
@@ -43,7 +42,7 @@ public interface Menu {
                 ItemBuilder
                         .from(ItemUtils.getItem(Config.FAVORITE_WARPS_ITEM.asString()))
                         .glow(getMenuType() == MenuType.FAVORITE_LIST_MENU)
-                        .name(Component.text(Lang.FAVORITE_WARPS_ITEM_NAME.asColoredString()))
+                        .setName(Lang.FAVORITE_WARPS_ITEM_NAME.asColoredString())
                         .asGuiItem(event ->
                                 new WarpsMenu(MenuType.FAVORITE_LIST_MENU)
                                         .setPage(1)

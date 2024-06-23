@@ -39,7 +39,7 @@ public class ConfirmationMenu implements Menu {
     }
 
     public void open(Player player, WarpAction action) {
-        gui.setItem(11, ItemBuilder.from(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial()).name(Component.text(Lang.ACCEPT.asColoredString())).asGuiItem(event -> {
+        gui.setItem(11, ItemBuilder.from(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial()).setName(Lang.ACCEPT.asColoredString()).asGuiItem(event -> {
             switch (action) {
                 case TELEPORT:
                     PlayerWarpsPlugin.getWarpHandler().preWarp(player, warp);
@@ -50,7 +50,7 @@ public class ConfirmationMenu implements Menu {
             }
             gui.close(player);
         }));
-        gui.setItem(15, ItemBuilder.from(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()).name(Component.text(Lang.DENY.asColoredString())).asGuiItem(event -> {
+        gui.setItem(15, ItemBuilder.from(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()).setName(Lang.DENY.asColoredString()).asGuiItem(event -> {
             if (action == WarpAction.REMOVE) {
                 new ManageMenu(warp).open(player);
             }

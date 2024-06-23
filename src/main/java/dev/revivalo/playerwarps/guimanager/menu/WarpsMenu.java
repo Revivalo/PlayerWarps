@@ -61,13 +61,13 @@ public class WarpsMenu implements Menu {
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
         if (paginatedGui.previous())
-            paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).name(Component.text(Lang.PREVIOUS_PAGE.asColoredString())).asGuiItem(event -> {
+            paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).setName(Lang.PREVIOUS_PAGE.asColoredString()).asGuiItem(event -> {
                 paginatedGui.previous();
                 paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
             }));
 
         if (paginatedGui.next())
-            paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).name(Component.text(Lang.NEXT_PAGE.asColoredString())).asGuiItem(event -> {
+            paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).setName(Lang.NEXT_PAGE.asColoredString()).asGuiItem(event -> {
                 paginatedGui.next();
                 paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
             }));
@@ -77,8 +77,8 @@ public class WarpsMenu implements Menu {
                 ? SortingUtils.SortType.RATING : SortingUtils.SortType.LATEST;
 
         if (getMenuType() != MenuType.OWNED_LIST_MENU) paginatedGui.setItem(46, ItemBuilder.from(ItemUtils.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
-                .name(Component.text(Lang.SORT_WARPS.asColoredString()))
-                .lore(Stream.of(
+                .setName(Lang.SORT_WARPS.asColoredString())
+                .setLore(
                                 " ",
                                 TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.LATEST ? "&a" : "&7") + "► " + Lang.LATEST.asColoredString(),
                                 TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.VISITS ? "&a" : "&7") + "► " + Lang.VISITS.asColoredString(),
@@ -88,8 +88,7 @@ public class WarpsMenu implements Menu {
                                     put("%selector%", nextSortType.getName());
                                 }})
                         )
-                        .map(Component::text)
-                        .collect(Collectors.toList()))
+
                 .asGuiItem(event -> {
                     paginatedGui.clearPageItems();
                     open(player, categoryName, nextSortType);
@@ -129,7 +128,7 @@ public class WarpsMenu implements Menu {
                         .build()));
             } else {
                 guiItem.set(new GuiItem(ItemBuilder.from(warp.getMenuItem())
-                        .name(Component.text(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName()))))
+                        .setName(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
                         .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
                                                           put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));
                                                           put("%world%", warp.getLocation().getWorld().getName());
