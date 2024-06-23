@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>PlayerWarps</artifactId>
-    <version>3.0.0-BETA6</version>
+    <version>3.0.0-BETA7</version>
     <packaging>jar</packaging>
 
     <name>PlayerWarps</name>
@@ -32,7 +32,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -46,12 +46,8 @@
                                     <shadedPattern>dev.revivalo.playerwarps.shaded.configupdater</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>io.github.rapha149.signgui</pattern>
+                                    <pattern>de.rapha149.signgui</pattern>
                                     <shadedPattern>dev.revivalo.playerwarps.shaded.signgui</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.kyori</pattern>
-                                    <shadedPattern>dev.revivalo.playerwarps.shaded.kyori</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>dev.triumphteam.gui</pattern>
@@ -76,6 +72,11 @@
                                 <relocation>
                                     <pattern>io.github.g00fy2.versioncompare</pattern>
                                     <shadedPattern>dev.revivalo.playerwarps.shaded.versioncompare</shadedPattern>
+                                </relocation>
+                                <!-- Relocate adventure which is included within thriumph gui -->
+                                <relocation>
+                                    <pattern>net.kyori</pattern>
+                                    <shadedPattern>dev.revivalo.playerwarps.shaded.kyori</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>
@@ -167,7 +168,7 @@
         <dependency>
             <groupId>com.tchristofferson</groupId>
             <artifactId>ConfigUpdater</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>2.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -177,21 +178,21 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dev.triumphteam</groupId>
+            <groupId>com.github.Revivalo</groupId>
             <artifactId>triumph-gui</artifactId>
-            <version>3.1.7</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.rapha149.signgui</groupId>
-            <artifactId>signgui</artifactId>
-            <version>2.3.2</version>
+            <version>3.2.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.github.g00fy2</groupId>
             <artifactId>versioncompare</artifactId>
             <version>1.5.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.rapha149.signgui</groupId>
+            <artifactId>signgui</artifactId>
+            <version>2.3.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -209,7 +210,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>9.8.1</version>
+            <version>9.10.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -224,13 +225,6 @@
             <version>1.150.4</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/oraxen-1.150.4.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.earth2me</groupId>
-            <artifactId>Essentials</artifactId>
-            <version>2.19.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/EssentialsX-2.19.7.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
