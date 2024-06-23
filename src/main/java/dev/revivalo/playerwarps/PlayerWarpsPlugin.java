@@ -7,7 +7,6 @@ import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.datamanager.DataManager;
 import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.listeners.ChatSendListener;
-import dev.revivalo.playerwarps.listeners.ItemsAdderLoadDataListener;
 import dev.revivalo.playerwarps.listeners.PlayerJoinListener;
 import dev.revivalo.playerwarps.updatechecker.UpdateChecker;
 import dev.revivalo.playerwarps.updatechecker.UpdateNotificator;
@@ -46,7 +45,6 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         setPlugin(this);
-
         Config.reload();
 
         new Metrics(this, 12061);
@@ -58,16 +56,22 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
                 setLatestVersion(pluginVersion);
 
                 final String actualVersion = getDescription().getVersion();
-                final boolean isNewerVersion = new Version(pluginVersion).isHigherThan(actualVersion);
+                Version version = new Version(pluginVersion);
+                final boolean isNewerVersion = version.isHigherThan(actualVersion);
+                final boolean isDevelopmentBuild = version.isLowerThan(actualVersion);
 
-                getLogger().info(isNewerVersion
-                        ? String.format("There is a new v%s update available (You are running v%s).\n" +
+                if (isDevelopmentBuild) {
+                    getLogger().info(String.format("You are running a development build (%s).", actualVersion));
+                } else {
+
+                    if (isNewerVersion) {
+                        getLogger().info(String.format("There is a new v%s update available (You are running v%s).\n" +
                                 "Outdated versions are no longer supported, get the latest one here: " +
-                                "https://bit.ly/revivalo-playerwarps",
-                        pluginVersion, actualVersion)
-                        : String.format("You are running the latest release (%s)", pluginVersion));
-
-
+                                "https://bit.ly/revivalo-playerwarps", pluginVersion, actualVersion));
+                    } else {
+                        getLogger().info(String.format("You are running the latest release (%s).", pluginVersion));
+                    }
+                }
                 VersionUtils.setLatestVersion(!isNewerVersion);
             });
         }
@@ -106,7 +110,6 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         registerEvents(
                 new UpdateNotificator(),
                 new ChatSendListener(),
-                new ItemsAdderLoadDataListener(),
                 new PlayerJoinListener()
         );
     }
