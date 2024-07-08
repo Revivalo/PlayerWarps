@@ -17,11 +17,11 @@ import java.util.Locale;
 public final class ItemUtils {
     private static final String CUSTOM_MODEL_PREFIX = "CUSTOMMODEL";
 
-    public static final ItemStack ONE_STAR = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString()).getType()).amount(1).setName(Lang.ONE_STAR.asColoredString()).build();
-    public static final ItemStack TWO_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString()).getType()).amount(2).setName(Lang.TWO_STARS.asColoredString()).build();
-    public static final ItemStack THREE_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString()).getType()).amount(3).setName(Lang.THREE_STARS.asColoredString()).build();
-    public static final ItemStack FOUR_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString()).getType()).amount(4).setName(Lang.FOUR_STARS.asColoredString()).build();
-    public static final ItemStack FIVE_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString()).getType()).amount(5).setLore(Lang.FIVE_STARS.asColoredString()).build();
+    public static final ItemStack ONE_STAR = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(1).setName(Lang.ONE_STAR.asColoredString()).build();
+    public static final ItemStack TWO_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(2).setName(Lang.TWO_STARS.asColoredString()).build();
+    public static final ItemStack THREE_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(3).setName(Lang.THREE_STARS.asColoredString()).build();
+    public static final ItemStack FOUR_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(4).setName(Lang.FOUR_STARS.asColoredString()).build();
+    public static final ItemStack FIVE_STARS = ItemBuilder.from(ItemUtils.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(5).setName(Lang.FIVE_STARS.asColoredString()).build();
 
     public static ItemStack getItem(String name) {
         if (name == null) {

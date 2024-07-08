@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class WarpsMenu implements Menu {
     private int page = 1;
@@ -127,7 +126,7 @@ public class WarpsMenu implements Menu {
                         .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
                         .build()));
             } else {
-                guiItem.set(new GuiItem(ItemBuilder.from(warp.getMenuItem())
+                guiItem.set(new GuiItem(warp.getMenuItem()
                         .setName(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
                         .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
                                                           put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));
@@ -170,6 +169,7 @@ public class WarpsMenu implements Menu {
                                 break;
                             case SHIFT_LEFT:
                                 new FavoriteWarpAction().preExecute(player, warp, null, MenuType.DEFAULT_LIST_MENU, page);
+                                //new WarpsMenu(MenuType.FAVORITE_LIST_MENU).open(player);
                                 break;
                         }
                     }

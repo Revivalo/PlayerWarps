@@ -79,8 +79,7 @@ public class CreateWarpAction implements WarpAction<String> {
                     put("reviewers", Collections.emptyList());
                     put("todayVisits", 0);
                     put("date-created", System.currentTimeMillis());
-                    put("item", ItemUtils.getItem(Config.DEFAULT_WARP_ITEM.asString()).getType().name());
-                    put("status", "OPENED");
+                    put("item", Config.DEFAULT_WARP_ITEM.asUppercase());
                     put("status", Config.DEFAULT_WARP_STATUS.asUppercase());
                 }}
 

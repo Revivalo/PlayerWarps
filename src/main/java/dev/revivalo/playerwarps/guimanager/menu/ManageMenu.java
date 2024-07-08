@@ -41,7 +41,7 @@ public class ManageMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        gui.setItem(4, ItemBuilder.from(warp.getMenuItem())
+        gui.setItem(4, warp.getMenuItem()
                 .setName(Lang.OWN_WARP_ITEM_NAME.asColoredString().replace("%warp%", warp.getName()))
                 .setLore(Lang.OWN_WARP_LORE.asReplacedList(player, new HashMap<String, String>() {{
                                                             put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));

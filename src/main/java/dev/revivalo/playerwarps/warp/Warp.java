@@ -2,13 +2,13 @@ package dev.revivalo.playerwarps.warp;
 
 import dev.revivalo.playerwarps.categories.Category;
 import dev.revivalo.playerwarps.categories.CategoryManager;
+import dev.revivalo.playerwarps.utils.ItemUtils;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.utils.TextUtils;
+import dev.triumphteam.gui.builder.item.ItemBuilder;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -31,11 +31,12 @@ public class Warp implements ConfigurationSerializable {
     private WarpState status;
     private long dateCreated;
     private long lastActivity;
-    private ItemStack menuItem;
+    private ItemBuilder menuItem;
+    private String menuItemName;
     private String stars;
 
     public Warp(Map<String, Object> map) {
-        for (String key : map.keySet()){
+        for (String key : map.keySet()) {
             final Object value = map.get(key);
             switch (key){
                 case "uuid": warpID = UUID.fromString((String) value);
@@ -45,7 +46,7 @@ public class Warp implements ConfigurationSerializable {
                 case "loc": setLocation((Location) value); break;
                 case "lore": setDescription((String) value); break;
                 case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
-                case "item": setMenuItem(new ItemStack(Material.valueOf((String) value))); break;
+                case "item": setMenuItem(ItemBuilder.from(ItemUtils.getItem(((String) value)))); break;
                 case "ratings": setRating((int) value); break;
                 case "reviewers": setReviewers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(HashSet::new))); break;
                 case "visits": setVisits((int) value); break;
@@ -70,7 +71,7 @@ public class Warp implements ConfigurationSerializable {
             put("owner-id", getOwner().toString());
             put("loc", getLocation());
             put("lore", getDescription());
-            put("item", getMenuItem().getType().name());
+            put("item", getMenuItem().build().getType().name());
             put("ratings", getRating());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("category", getCategory().getType());
@@ -231,11 +232,11 @@ public class Warp implements ConfigurationSerializable {
         this.lastActivity = lastActivity;
     }
 
-    public ItemStack getMenuItem() {
+    public ItemBuilder getMenuItem() {
         return menuItem;
     }
 
-    public void setMenuItem(ItemStack menuItem) {
+    public void setMenuItem(ItemBuilder menuItem) {
         this.menuItem = menuItem;
     }
 
