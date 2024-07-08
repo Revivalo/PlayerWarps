@@ -72,6 +72,17 @@ config:
   page-item: ARROW
   star-review-item: SUNFLOWER
   back-item: OAK_BUTTON
+  # Settings menu items
+  set-price-item: SUNFLOWER
+  set-category-item: WHITE_BANNER
+  change-display-name-item: WRITABLE_BOOK
+  change-preview-item: ITEM_FRAME
+  change-description-item: NAME_TAG
+  change-accessibility-item: IRON_DOOR
+  rename-warp-item: OAK_SIGN
+  remove-warp-item: BARRIER
+  relocate-warp-item: WHITE_BANNER
+  change-owner-item: PLAYER_HEAD
   set-price-position: 11
   set-category-position: 12
   change-display-name-position: 13
