@@ -44,6 +44,8 @@ config:
   max-warp-admission: 100000
   # Make sure you are using valid IDs
   default-warp-item: ENDER_PEARL
+  # Can be: OPENED, CLOSED
+  default-warp-status: OPENED
   banned-items:
     - DEBUG_STICK
     - BARRIER

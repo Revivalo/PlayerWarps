@@ -27,6 +27,7 @@ public enum Config {
     RENAME_WARP_FEE("rename-warp-fee"),
     TRANSFER_OWNERSHIP_FEE("transfer-ownership-fee"),
     SET_STATUS_FEE("set-status-fee"),
+    DEFAULT_WARP_STATUS("default-warp-status"),
     SET_TYPE_FEE("set-type-fee"),
     SET_PREVIEW_ITEM_FEE("set-preview-item-fee"),
     SET_DESCRIPTION_FEE("set-description-fee"),
