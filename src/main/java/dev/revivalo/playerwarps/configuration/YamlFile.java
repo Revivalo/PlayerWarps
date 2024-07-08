@@ -2,20 +2,23 @@ package dev.revivalo.playerwarps.configuration;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.yaml.snakeyaml.parser.ParserException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.logging.Level;
 
 public class YamlFile {
 
 	private final File file;
 	private final UpdateMethod updateMethod;
 	private final String filePath;
-	private YamlConfiguration configuration;
+	private final YamlConfiguration configuration;
 
 	public YamlFile(final String filePath, final File folder, final UpdateMethod updateMethod) {
 		file = new File(folder, filePath);
@@ -32,10 +35,17 @@ public class YamlFile {
 				break;
 		}
 
+		Validate.notNull(file, "File cannot be null");
+
+		configuration = new YamlConfiguration();
+
 		try {
-			configuration = YamlConfiguration.loadConfiguration(file);
-		} catch (ParserException exception) {
-			//Bukkit.getLogger().info(String.format("Format exception in %s file.", file.getName()));
+			configuration.load(file);
+		} catch (FileNotFoundException ex) {
+		} catch (IOException ex) {
+			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
+		} catch (InvalidConfigurationException ex) {
+			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
 			return;
 		}
 
