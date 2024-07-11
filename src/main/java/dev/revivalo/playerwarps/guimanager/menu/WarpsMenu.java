@@ -55,7 +55,7 @@ public class WarpsMenu implements Menu {
     public void open(Player player, String categoryName, SortingUtils.SortType sortType) {
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
-        //user.setActualMenu(this);
+        user.addData(DataSelectorType.ACTUAL_MENU, getMenuType());
 
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
@@ -156,19 +156,19 @@ public class WarpsMenu implements Menu {
                                 break;
                             case RIGHT:
                             case SHIFT_RIGHT:
-                                //UserHandler.createUser(player, new Object[]{paginatedGui.getCurrentPageNum()});
                                 if (getMenuType() == MenuType.OWNED_LIST_MENU) {
                                     if (!player.hasPermission("playerwarps.settings")) {
                                         player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
                                         return;
                                     }
-                                    new ManageMenu(warp).open(player); //openSetUpMenu(player, warp);
+                                    new ManageMenu(warp).open(player);
                                 } else {
-                                    new ReviewMenu(warp).open(player); //openReviewMenu(player, warp);
+                                    new ReviewMenu(warp).open(player);
                                 }
                                 break;
                             case SHIFT_LEFT:
-                                new FavoriteWarpAction().preExecute(player, warp, null, MenuType.DEFAULT_LIST_MENU, page);
+                                MenuType actualMenu = (MenuType) user.getData(DataSelectorType.ACTUAL_MENU);
+                                new FavoriteWarpAction().preExecute(player, warp, null, actualMenu, page);
                                 //new WarpsMenu(MenuType.FAVORITE_LIST_MENU).open(player);
                                 break;
                         }
