@@ -9,6 +9,8 @@ import dev.triumphteam.gui.builder.item.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -64,14 +66,23 @@ public class Warp implements ConfigurationSerializable {
     @NotNull
     @Override
     public Map<String, Object> serialize() {
-        return new HashMap<String, Object>(){{
+        ItemStack item = getMenuItem().build();
+        String itemName = item.getType().name();
+        if (item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta.hasCustomModelData()) {
+                itemName = "CustomModel[" + itemName + "]{" + meta.getCustomModelData() + "}";
+            }
+        }
+        String finalItemName = itemName;
+        return new HashMap<String, Object>() {{
             put("uuid", getWarpID().toString());
             put("name", getName());
             put("displayName", getDisplayName());
             put("owner-id", getOwner().toString());
             put("loc", getLocation());
             put("lore", getDescription());
-            put("item", getMenuItem().build().getType().name());
+            put("item", finalItemName);
             put("ratings", getRating());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("category", getCategory().getType());

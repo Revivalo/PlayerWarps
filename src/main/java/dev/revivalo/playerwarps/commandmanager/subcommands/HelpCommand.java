@@ -21,7 +21,7 @@ public class HelpCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/reward help";
+        return "/pwarp help";
     }
 
     @Override

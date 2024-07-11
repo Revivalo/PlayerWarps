@@ -2,27 +2,31 @@ package dev.revivalo.playerwarps.commandmanager.subcommands;
 
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
+import dev.revivalo.playerwarps.user.DataSelectorType;
+import dev.revivalo.playerwarps.user.User;
+import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
-import dev.revivalo.playerwarps.warp.actions.CreateWarpAction;
+import dev.revivalo.playerwarps.warp.Warp;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class CreateCommand implements SubCommand {
+public class CancelCommand implements SubCommand {
     @Override
     public String getName() {
-        return "create";
+        return "cancel";
     }
 
     @Override
     public String getDescription() {
-        return "Creates new pwarp";
+        return "Exits the input mode";
     }
 
     @Override
     public String getSyntax() {
-        return "/pwarp create [warpName]";
+        return "/pwarp cancel";
     }
 
     @Override
@@ -42,12 +46,14 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
-        final Player player = (Player) sender;
+        final User user = UserHandler.getUser((Player) sender);
 
-        try {
-            new CreateWarpAction().preExecute(player, null, args[0], null, 0);
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
-        }
+        user.addData(DataSelectorType.CURRENT_WARP_ACTION, null);
+        user.getData(DataSelectorType.ACTUAL_PAGE);
+
+        new ManageMenu((Warp) user.getData(DataSelectorType.SELECTED_WARP))
+                .open(user.getPlayer());
+
+        user.getPlayer().sendMessage(Lang.INPUT_CANCELLED.asColoredString());
     }
 }

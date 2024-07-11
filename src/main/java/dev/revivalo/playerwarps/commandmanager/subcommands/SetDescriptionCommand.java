@@ -22,7 +22,7 @@ public class SetDescriptionCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/reward description [text]";
+        return "/pwarp description [text]";
     }
 
     @Override

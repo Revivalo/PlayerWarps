@@ -25,7 +25,7 @@ public class RemoveCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/reward remove [warpName]";
+        return "/pwarp remove [warpName]";
     }
 
     @Override

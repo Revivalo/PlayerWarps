@@ -4,10 +4,13 @@ import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.hooks.Hooks;
-import dev.revivalo.playerwarps.utils.ItemUtils;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -85,11 +88,19 @@ public class CreateWarpAction implements WarpAction<String> {
 
         ));
 
+        String message = "";
         if (Hooks.isHookEnabled(Hooks.getVaultHook()))
-            player.sendMessage(Lang.WARP_CREATED_WITH_PRICE.asColoredString()
+            message = Lang.WARP_CREATED_WITH_PRICE.asColoredString()
                     .replace("%name%", name)
-                    .replace("%price%", String.valueOf(getFee())));
-        else player.sendMessage(Lang.WARP_CREATED.asColoredString().replace("%name%", name));
+                    .replace("%price%", String.valueOf(getFee()));
+        else message = Lang.WARP_CREATED.asColoredString().replace("%name%", name);
+
+        BaseComponent[] msg = TextComponent.fromLegacyText(message);
+        for (BaseComponent bc : msg) {
+            bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CONFIGURE.asColoredString())));
+            bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pw manage " + name));
+        }
+        player.spigot().sendMessage(msg);
 
         return true;
     }

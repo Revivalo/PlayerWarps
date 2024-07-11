@@ -14,6 +14,10 @@ import dev.revivalo.playerwarps.user.WarpAction;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.utils.PlayerUtils;
 import dev.revivalo.playerwarps.utils.TextUtils;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -224,7 +228,7 @@ public class WarpHandler {
                         PlayerWarpsPlugin.get().getLogger().info("Warp " + warp + " was not loaded because it is located in a world that does not exist.");
                         return;
                     }
-                    String item = warpSection.getString("item");
+                    String item = warpSection.getString("item").toUpperCase(Locale.ENGLISH);
                     String description = TextUtils.getColorizedString(null, warpSection.getString("lore"));
                     int ratings = warpSection.getInt("ratings");
                     List<String> reviewers = warpSection.getStringList("reviewers");
@@ -266,7 +270,8 @@ public class WarpHandler {
                 warpDataSection.ifPresent(warpSection ->
                         warpSection
                                 .getKeys(false)
-                                .forEach(warpID -> addWarp(warpSection.getSerializable(warpID, Warp.class))));
+                                .forEach(warpID -> addWarp(warpSection.getSerializable(warpID, Warp.class)))
+                );
             }
         });
     }
@@ -364,6 +369,13 @@ public class WarpHandler {
         player.sendMessage(TextUtils.replaceString(messageToSent, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
         }}));
+
+        BaseComponent[] msg = TextComponent.fromLegacyText(Lang.CANCEL_INPUT.asColoredString());
+        for (BaseComponent bc : msg) {
+            bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CANCEL_INPUT.asColoredString())));
+            bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pw cancel"));
+        }
+        player.spigot().sendMessage(msg);
     }
 
     public int getCountOfWarps(String type) {

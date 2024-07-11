@@ -25,7 +25,7 @@ public class TeleportCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/reward teleport [warpName]";
+        return "/pwarp teleport [warpName]";
     }
 
     @Override

@@ -29,9 +29,9 @@ lang:
 
   non-existing-warp: "%prefix% &cThis warp does not exist!"
   warp-already-created: "%prefix% &cA warp with this name already exists!"
-  warp-created: "%prefix% &7You have created a warp &e%name%"
+  warp-created: "%prefix% &7You have created a warp &e%name%, click &lHERE&7 to configure it."
   # This message will be sent with Vault installed
-  warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $)"
+  warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $), click &lHERE&7 to configure it."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp cannot be created in the world (%world%)"
   insufficient-balance: "%prefix% &cNot enough balance to create a warp! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNot enough balance to teleport to the %warp% warp"
@@ -39,6 +39,8 @@ lang:
   # This message will be sent with Vault installed
   warp-removed-with-refund: "%prefix% &7You have removed this warp &a(+ %refund% $)"
   try-to-remove-not-owning-warp: "%prefix% &cYou cannot remove others' warps"
+  click-to-configure: "&7Click to configure the warp"
+  click-to-cancel-input: "&7Click to exit input mode"
   teleportation: "%prefix% &7Teleportation in &e%time% seconds!"
   teleportation-cancelled: "%prefix% &cTeleportation canceled!"
   teleport-to-warp: "%prefix% &7Teleportation to the warp of player %player%"
@@ -57,7 +59,8 @@ lang:
   title-write-msg: "%prefix% &7Now write your text below your %warp% warp in warp list:"
   item-write-msg: "%prefix% &7Now write the item name that will represent the %warp% warp:"
   write-new-display-name: "%prefix% &7Now write the new display name of this warp:"
-  text-write-canceled: "%prefix% &7You left the edit mode of your lore"
+  cancel-input: "&c               [Click to cancel]"
+  input-cancelled: "%prefix% &7You left the input mode."
   text-size-error: "%prefix% &7Text must be between 5 and 32 chars"
   description-changed: "%prefix% &7You have changed your warp %warp% description"
   not-owning: "%prefix% &7This is not your warp"
@@ -187,6 +190,7 @@ lang:
   #
   change-display-name: "&aChange display name"
   change-display-name-lore:
+    - "&8&lNOTE:&8 You can use color codes (&)"
     - " "
     - "&e► Click to change display name"
   remove-warp: "&cRemove warp"

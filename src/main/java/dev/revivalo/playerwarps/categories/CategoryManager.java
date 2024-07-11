@@ -44,7 +44,7 @@ public class CategoryManager {
         }
     }
 
-    public static Category getCategoryFromName(String categoryName){
+    public static Category getCategoryFromName(String categoryName) {
         return categoriesMap.get(categoryName != null ? categoryName : "all");
     }
 

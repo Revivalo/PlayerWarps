@@ -5,12 +5,14 @@ import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.triumphteam.gui.builder.item.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +26,12 @@ public class SetPreviewItemAction implements WarpAction<String> {
                 player.sendMessage(Lang.TRIED_TO_SET_BANNED_ITEM.asColoredString());
                 return false;
             } else {
-                warp.setMenuItem(displayItem);
+                if (!player.hasPermission("playerwarps.icon." + item.toLowerCase(Locale.ENGLISH))) {
+                    player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
+                    return false;
+                }
+
+                warp.setMenuItem(ItemBuilder.from(displayItem));
                 player.sendMessage(Lang.ITEM_CHANGED.asColoredString().replace("%item%", item));
             }
         } catch (IllegalArgumentException exception) {

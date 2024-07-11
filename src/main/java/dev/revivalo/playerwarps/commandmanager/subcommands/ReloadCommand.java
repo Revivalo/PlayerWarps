@@ -20,7 +20,7 @@ public class ReloadCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/reward reload";
+        return "/pwarp reload";
     }
 
     @Override
