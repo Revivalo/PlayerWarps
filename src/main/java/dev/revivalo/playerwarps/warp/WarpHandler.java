@@ -47,7 +47,7 @@ public class WarpHandler {
     }
 
     public void preWarp(Player player, Warp warp) {
-        if (warp.isPasswordProtected() || !warp.canManage(player)) {
+        if (warp.isPasswordProtected() && !warp.canManage(player)) {
             SignGUI gui = SignGUI.builder()
                     .setType(Material.OAK_SIGN)
                     .setColor(DyeColor.BLACK)
