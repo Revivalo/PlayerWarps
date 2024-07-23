@@ -49,11 +49,8 @@ public class YamlFile {
 			return;
 		}
 
-		try {
-			configuration.save(file);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		save();
+
 		configuration.options().copyDefaults(true);
 
 		if (update) {
@@ -68,6 +65,14 @@ public class YamlFile {
 
 	public YamlConfiguration getConfiguration() {
 		return configuration;
+	}
+
+	public void save() {
+		try {
+			configuration.save(file);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void reload() {
