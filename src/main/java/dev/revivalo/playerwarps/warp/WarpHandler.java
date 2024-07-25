@@ -1,32 +1,28 @@
 package dev.revivalo.playerwarps.warp;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
-import de.rapha149.signgui.SignGUI;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.categories.CategoryManager;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.user.WarpAction;
+import dev.revivalo.playerwarps.utils.ItemUtils;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
-import dev.revivalo.playerwarps.utils.PlayerUtils;
 import dev.revivalo.playerwarps.utils.TextUtils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +32,6 @@ import java.util.stream.Collectors;
 public class WarpHandler {
 
     private final Set<Warp> warps;
-    private final HashMap<Player, Integer> tp = new HashMap<>();
     private final List<String> bannedWorlds;
 
     public WarpHandler() {
@@ -46,159 +41,9 @@ public class WarpHandler {
         bannedWorlds.addAll(Config.BANNED_WORLDS.asReplacedList(Collections.emptyMap()));
     }
 
-    public void preWarp(Player player, Warp warp) {
-        if (warp.isPasswordProtected() && !warp.canManage(player)) {
-            SignGUI gui = SignGUI.builder()
-                    .setType(Material.OAK_SIGN)
-                    .setColor(DyeColor.BLACK)
-                    .setLine(1, Lang.ENTER_PASSWORD.asColoredString())
-                    .setHandler((p, result) -> {
-                        String input = result.getLineWithoutColor(0);
-
-                        if (input.isEmpty()) {
-                            return Collections.emptyList();
-                        }
-
-                        if (input.length() < 3 || input.length() > 15) {
-                            return Collections.emptyList();
-                        }
-
-
-                        PlayerWarpsPlugin.get().runDelayed(() -> warp(player, warp, input), 2);
-
-                        return Collections.emptyList();
-                    })
-
-                    .build();
-
-            gui.open(player);
-
-        } else warp(player, warp, null);
-    }
-
-    public void warp(Player player, Warp warp) {
-        warp(player, warp, null);
-    }
-
-    public void warp(Player player, Warp warp, String password) {
-        if (warp == null)
-            return;
-
-        final String warpName = warp.getName();
-        boolean isOwner = warp.canManage(player);
-        boolean hasBypass = PermissionUtils.hasPermission(player, PermissionUtils.Permission.BYPASS_TELEPORT_DELAY);
-
-        if (!warp.isAccessible() && !isOwner) {
-            player.sendMessage(Lang.WARP_IS_DISABLED.asColoredString().replace("%warp%", warpName));
-            return;
-        }
-
-        if (warp.isPasswordProtected()) {
-            if (!warp.validatePassword(password)) {
-                player.sendMessage(Lang.ENTERED_WRONG_PASSWORD.asColoredString());
-                return;
-            }
-        }
-
-        if (warp.getAdmission() != 0) {
-            Optional.ofNullable(Hooks.getVaultHook().getApi()).ifPresent(economy -> {
-                if (!economy.withdrawPlayer(player, warp.getAdmission()).transactionSuccess()) {
-                    player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString().replace("%warp%", warpName));
-                    return;
-                }
-
-                PlayerUtils.getOfflinePlayer(warp.getOwner()).thenAccept(
-                        offlinePlayer -> economy.depositPlayer(offlinePlayer, warp.getAdmission())
-                );
-
-                //economy.depositPlayer(Bukkit.getOfflinePlayer(warp.getOwner()), warp.getAdmission());
-            });
-        }
-//        if (Hooks.getVaultHook().isOn()) {
-//            if (warp.getAdmission() != 0) {
-//                if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, warp.getAdmission()).transactionSuccess()) {
-//                    player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asReplacedString(new HashMap<String, String>() {{
-//                        put("%warp%", warpName);
-//                    }}));
-//                    return;
-//                }
-//
-//                PlayerWarpsPlugin.getECONOMY().depositPlayer(Bukkit.getOfflinePlayer(warp.getOwner()), warp.getAdmission());
-//            }
-//        }
-
-        teleportPlayer(player, warp.getLocation(), hasBypass);
-
-        final UUID ownerID = warp.getOwner();
-
-        if (warp.getAdmission() != 0 && !isOwner) {
-            player.sendMessage(Lang.TELEPORT_TO_WARP_WITH_ADMISSION.asColoredString()
-                    .replace("%price%", String.valueOf(warp.getAdmission()))
-                    .replace("%warp%", warpName)
-                    .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
-        } else
-            player.sendMessage(Lang.TELEPORT_TO_WARP.asColoredString()
-                    .replace("%warp%", warpName)
-                    .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
-        if (!isOwner) {
-            warp.setVisits(warp.getVisits() + 1);
-            warp.setTodayVisits(warp.getTodayVisits() + 1);
-        }
-    }
-
-    public void warp(Player player, String warpName) {
-        warp(player, getWarpFromName(warpName).orElse(null), null);
-    }
-
-    public void warp(Player player, UUID warpID) {
-        warp(player, getWarpByID(warpID).orElse(null), null);
-    }
-
-
-    public void changeStatus(Player player, Warp warp, WarpState status) {
-        if (!warp.canManage(player)) {
-            player.sendMessage(Lang.NOT_OWNING.asColoredString());
-            return;
-        }
-
-        warp.setStatus(status);
-        player.sendMessage(Lang.WARPS_STATUS_CHANGED.asReplacedString(player, new HashMap<String, String>() {{
-            put("%status%", status.name());
-        }}));
-    }
-
-    public void teleportPlayer(Player player, Location loc, boolean cooldown) {
-        if (!cooldown) {
-            tp.put(player, player.getLocation().getBlockX() + player.getLocation().getBlockZ());
-            player.sendMessage(Lang.TELEPORTATION.asColoredString().replace("%time%", Config.TELEPORTATION_DELAY.asString()));
-
-            new BukkitRunnable() {
-
-                int cycle = 0;
-
-                @Override
-                public void run() {
-                    if (!player.isOnline()) cancel();
-                    else {
-                        if (tp.get(player) != (player.getLocation().getBlockX() + player.getLocation().getBlockZ())) {
-                            player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
-                            cancel();
-                        } else {
-                            if (cycle == Config.TELEPORTATION_DELAY.asInteger() * 2) {
-                                cancel();
-                                player.teleport(loc);
-                            }
-                        }
-                        ++cycle;
-                    }
-                }
-            }.runTaskTimer(PlayerWarpsPlugin.get(), 0, 10);
-        } else player.teleport(loc);
-    }
-
     public void reloadWarps(CommandSender sender) {
         if (!PermissionUtils.hasPermission(sender, PermissionUtils.Permission.RELOAD_PLUGIN)) {
-            sender.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
+            sender.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtils.Permission.RELOAD_PLUGIN.get()));
         } else {
             PlayerWarpsPlugin.get().reloadConfig();
             File configFile = new File(PlayerWarpsPlugin.get().getDataFolder(), "config.yml");
@@ -216,8 +61,8 @@ public class WarpHandler {
     }
 
     public void loadWarps() {
-        boolean legacyConfig = !Optional.ofNullable(PlayerWarpsPlugin.getDataManager().getData().getString("version")).isPresent();
-        Optional<ConfigurationSection> warpDataSection = Optional.ofNullable(PlayerWarpsPlugin.getDataManager().getData().getConfigurationSection("warps"));
+        boolean legacyConfig = !Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getString("version")).isPresent();
+        Optional<ConfigurationSection> warpDataSection = Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getConfigurationSection("warps"));
         warpDataSection.ifPresent(warpsSection -> {
             if (legacyConfig) {
                 warpsSection.getKeys(false).forEach(warp -> {
@@ -228,8 +73,8 @@ public class WarpHandler {
                         PlayerWarpsPlugin.get().getLogger().info("Warp " + warp + " was not loaded because it is located in a world that does not exist.");
                         return;
                     }
-                    String item = warpSection.getString("item").toUpperCase(Locale.ENGLISH);
-                    String description = TextUtils.getColorizedString(null, warpSection.getString("lore"));
+                    ItemStack item = warpSection.getItemStack("item", ItemUtils.getItem(warpSection.getString("item")));
+                    String description = warpSection.getString("lore");
                     int ratings = warpSection.getInt("ratings");
                     List<String> reviewers = warpSection.getStringList("reviewers");
                     String status = warpSection.getBoolean("disabled") ? "CLOSED" : "OPENED";
@@ -239,13 +84,13 @@ public class WarpHandler {
                     long lastActivity = warpSection.getLong("warp-action");
                     String category = warpSection.getString("type");
 
-                    PlayerWarpsPlugin.get().getLogger().info("Adding new warp " + warp);
+                    PlayerWarpsPlugin.get().getLogger().info("Adding new warp " + warp + " with " + category);
 
                     addWarp(new Warp(
                             new HashMap<String, Object>() {{
                                 put("uuid", UUID.randomUUID().toString());
                                 put("name", warp);
-                                put("displayName", warp);
+                                put("display-name", warp);
                                 put("owner-id", owner);
                                 put("loc", location);
                                 put("lore", description);
@@ -264,8 +109,8 @@ public class WarpHandler {
                 });
 
                 //PlayerWarpsPlugin.getDataManager().getData().set("warps", null);
-                PlayerWarpsPlugin.getDataManager().getData().set("version", "2.0");
-                PlayerWarpsPlugin.getDataManager().saveData();
+                PlayerWarpsPlugin.getData().getConfiguration().set("version", "2.0");
+                PlayerWarpsPlugin.getData().getYamlFile().save();
             } else {
                 warpDataSection.ifPresent(warpSection ->
                         warpSection
@@ -277,11 +122,11 @@ public class WarpHandler {
     }
 
     public void saveWarps() {
-        final ConfigurationSection warpsSection = PlayerWarpsPlugin.getDataManager().getData().createSection("warps");
+        final ConfigurationSection warpsSection = PlayerWarpsPlugin.getData().getConfiguration().createSection("warps");
 
         warps.forEach(warp -> warpsSection.set(warp.getWarpID().toString(), warp));
 
-        PlayerWarpsPlugin.getDataManager().saveData();
+        PlayerWarpsPlugin.getData().getYamlFile().save();
         if (Config.AUTO_SAVE_ANNOUNCE.asBoolean()) {
             Bukkit.getLogger().info("Saving " + warps.size() + " warps");
         }

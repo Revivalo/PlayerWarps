@@ -5,12 +5,10 @@ import dev.revivalo.playerwarps.categories.CategoryManager;
 import dev.revivalo.playerwarps.utils.ItemUtils;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.utils.TextUtils;
-import dev.triumphteam.gui.builder.item.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -33,8 +31,7 @@ public class Warp implements ConfigurationSerializable {
     private WarpState status;
     private long dateCreated;
     private long lastActivity;
-    private ItemBuilder menuItem;
-    private String menuItemName;
+    private ItemStack menuItem;
     private String stars;
 
     public Warp(Map<String, Object> map) {
@@ -43,12 +40,19 @@ public class Warp implements ConfigurationSerializable {
             switch (key){
                 case "uuid": warpID = UUID.fromString((String) value);
                 case "name": setName((String) value); break;
-                case "displayName": setDisplayName((String) value); break;
+                case "display-name": setDisplayName((String) value); break;
                 case "owner-id": setOwner(UUID.fromString((String) value)); break;
                 case "loc": setLocation((Location) value); break;
                 case "lore": setDescription((String) value); break;
+                case "type":
                 case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
-                case "item": setMenuItem(ItemBuilder.from(ItemUtils.getItem(((String) value)))); break;
+                case "item":
+                    if (value instanceof String) {
+                        setMenuItem(ItemUtils.getItem((String) value));
+                    } else {
+                        setMenuItem((ItemStack) value);
+                    }
+                    break;
                 case "ratings": setRating((int) value); break;
                 case "reviewers": setReviewers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(HashSet::new))); break;
                 case "visits": setVisits((int) value); break;
@@ -60,29 +64,20 @@ public class Warp implements ConfigurationSerializable {
             }
         }
 
-        stars = TextUtils.createRatingFormat(this);
+        if (reviewers != null) stars = TextUtils.createRatingFormat(this);
     }
 
     @NotNull
     @Override
     public Map<String, Object> serialize() {
-        ItemStack item = getMenuItem().build();
-        String itemName = item.getType().name();
-        if (item.hasItemMeta()) {
-            ItemMeta meta = item.getItemMeta();
-            if (meta.hasCustomModelData()) {
-                itemName = "CustomModel[" + itemName + "]{" + meta.getCustomModelData() + "}";
-            }
-        }
-        String finalItemName = itemName;
         return new HashMap<String, Object>() {{
             put("uuid", getWarpID().toString());
             put("name", getName());
-            put("displayName", getDisplayName());
+            put("display-name", getDisplayName());
             put("owner-id", getOwner().toString());
             put("loc", getLocation());
             put("lore", getDescription());
-            put("item", finalItemName);
+            put("item", getMenuItem());
             put("ratings", getRating());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("category", getCategory().getType());
@@ -243,11 +238,11 @@ public class Warp implements ConfigurationSerializable {
         this.lastActivity = lastActivity;
     }
 
-    public ItemBuilder getMenuItem() {
+    public ItemStack getMenuItem() {
         return menuItem;
     }
 
-    public void setMenuItem(ItemBuilder menuItem) {
+    public void setMenuItem(ItemStack menuItem) {
         this.menuItem = menuItem;
     }
 

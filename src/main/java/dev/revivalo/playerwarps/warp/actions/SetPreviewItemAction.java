@@ -26,12 +26,13 @@ public class SetPreviewItemAction implements WarpAction<String> {
                 player.sendMessage(Lang.TRIED_TO_SET_BANNED_ITEM.asColoredString());
                 return false;
             } else {
-                if (!player.hasPermission("playerwarps.icon." + item.toLowerCase(Locale.ENGLISH))) {
-                    player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
+                String iconPermission = "playerwarps.icon." + item.toLowerCase(Locale.ENGLISH);
+                if (!player.hasPermission(iconPermission)) {
+                    player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", iconPermission));
                     return false;
                 }
 
-                warp.setMenuItem(ItemBuilder.from(displayItem));
+                warp.setMenuItem(displayItem);
                 player.sendMessage(Lang.ITEM_CHANGED.asColoredString().replace("%item%", item));
             }
         } catch (IllegalArgumentException exception) {
@@ -50,6 +51,16 @@ public class SetPreviewItemAction implements WarpAction<String> {
     @Override
     public int getFee() {
         return Config.SET_PREVIEW_ITEM_FEE.asInteger();
+    }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
     }
 
     static {

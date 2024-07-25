@@ -46,6 +46,16 @@ public class SetAdmissionAction implements WarpAction<String> {
         return Config.SET_ADMISSION_FEE.asInteger();
     }
 
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
+    }
+
     private boolean isInt(String str) {
         try {
             Integer.parseInt(str);

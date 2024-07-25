@@ -25,11 +25,12 @@ public class CategoryManager {
                 .getKeys(false)
                 .stream().map(categoriesSection::getConfigurationSection).filter(Objects::nonNull).forEach(categorySection ->
                         categories.put(
-                            categorySection.getName(),
+                            categorySection.getName().toUpperCase(Locale.ENGLISH),
                             new Category(
                                 categorySection.getName(),
                                 categorySection.getBoolean("default"),
                                     TextUtils.getColorizedString(null, categorySection.getString("name")),
+                                categorySection.getString("permission"),
                                 new ItemStack(Material.valueOf(categorySection.getString("item").toUpperCase(Locale.ENGLISH))),
                                 categorySection.getInt("position"),
                                 TextUtils.getColorizedList(null, categorySection.getStringList("lore"))
@@ -45,7 +46,7 @@ public class CategoryManager {
     }
 
     public static Category getCategoryFromName(String categoryName) {
-        return categoriesMap.get(categoryName != null ? categoryName : "all");
+        return categoriesMap.get((categoryName != null ? categoryName : "all").toUpperCase(Locale.ENGLISH));
     }
 
     public static Optional<Category> getDefaultCategory() {

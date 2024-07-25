@@ -36,4 +36,14 @@ public class RenameAction implements WarpAction<String> {
     public int getFee() {
         return Config.RENAME_WARP_FEE.asInteger();
     }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
+    }
 }

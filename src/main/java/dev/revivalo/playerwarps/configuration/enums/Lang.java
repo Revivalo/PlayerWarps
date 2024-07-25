@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,11 @@ public enum Lang {
     PREFIX("prefix"),
     PASSWORD_SETTING_CANCELLED("password-setting-cancelled"),
     PASSWORD_CHANGED("password-changed"),
+    PASSWORD_TOO_SHORT("password-too-short"),
+    INVALID_INPUT("invalid-input"),
     ENTER_PASSWORD("enter-password"),
     ENTERED_WRONG_PASSWORD("entered-wrong-password"),
+    ENTER_WARPS_NAME("enter-warps-name"),
     CATEGORIES_ARE_DISABLED("categories-are-disabled"),
     ENTERED_HIGHER_PRICE_THAN_ALLOWED("entered-higher-price-than-allowed"),
     ACCEPT_TELEPORT_WITH_ADMISSION("accept-teleport-with-admission"),
@@ -25,6 +29,8 @@ public enum Lang {
     HELP("help-message-lore"),
     OWN_WARP_ITEM_NAME("own-warp-item-name"),
     RELOAD("reload-message"),
+    WARP_CREATION_NOTIFICATION("warp-creation-notification"),
+    WARP_VISIT_NOTIFICATION("warp-visit-notification"),
     LIMIT_REACHED("limit-reached"),
     LIMIT_REACHED_OTHER("limit-reached-other"),
     NO_WARPS("no-warps"),
@@ -34,6 +40,8 @@ public enum Lang {
     VISITS("visits"),
     RATING("rating"),
     NON_EXISTING_WARP("non-existing-warp"),
+    INSUFFICIENT_PERMS_FOR_CATEGORY("insufficient-perms-for-category"),
+    INSUFFICIENT_PERMS_FOR_CATEGORY_LORE("insufficient-perms-for-category-lore"),
     WARP_ALREADY_CREATED("warp-already-created"),
     WARP_CREATED("warp-created"),
     CLICK_TO_CONFIGURE("click-to-configure"),
@@ -48,7 +56,7 @@ public enum Lang {
     TELEPORTATION_CANCELLED("teleportation-cancelled"),
     TELEPORT_TO_WARP("teleport-to-warp"),
     NAME_CANT_CONTAINS_SPACE("name-cant-contains-space"),
-    INSUFFICIENT_PERMS("insufficient-perms"),
+    INSUFFICIENT_PERMS("insufficient-permissions"),
     PASSWORD_LENGTH("password-length"),
     ITEM_CHANGED("item-changed"),
     TITLE_WRITE_MSG("title-write-msg"),
@@ -78,7 +86,7 @@ public enum Lang {
     WARPS_TITLE("warps-title"),
     EDIT_WARP_MENU_TITLE("edit-warp-menu-title"),
     FAVORITES_TITLE("favorites-title"),
-    ACCEPT_MENU_TITLE("accept-menu-title"),
+    CONFIRMATION_MENU_TITLE("confirmation-menu-title"),
     ACCEPT("accept"),
     DENY("deny"),
     OPENED_STATUS("opened-status"),
@@ -95,6 +103,8 @@ public enum Lang {
     THREE_STARS("3star"),
     FOUR_STARS("4star"),
     FIVE_STARS("5star"),
+    SEARCH_WARP("search-warp"),
+    SEARCH_WARP_LORE("search-warp-lore"),
     WARP_IS_DISABLED("warp-is-disabled"),
     ENTERED_INVALID_TYPE("entered-invalid-type-of-warp"),
     WARP_TYPE_CHANGED("warp-type-changed"),
@@ -170,6 +180,14 @@ public enum Lang {
                 });
     }
 
+    public List<String> asReplacedList() {
+        return TextUtils.getColorizedList(null, TextUtils.replaceListAsString(listsStoredAsStrings.get(text), Collections.emptyMap()));
+    }
+
+    public List<String> asReplacedList(final Map<String, String> definitions) {
+        return TextUtils.getColorizedList(null, TextUtils.replaceListAsString(listsStoredAsStrings.get(text), definitions));
+    }
+
     public List<String> asReplacedList(Player player, final Map<String, String> definitions) {
         return TextUtils.getColorizedList(player, TextUtils.replaceListAsString(listsStoredAsStrings.get(text), definitions));
     }
@@ -177,6 +195,9 @@ public enum Lang {
     public String asColoredString() {return asColoredString(null);}
     public String asColoredString(Player player) {
         return TextUtils.getColorizedString(player, messages.get(text));
+    }
+    public String asReplacedString(Map<String, String> definitions) {
+        return TextUtils.getColorizedString(null, TextUtils.replaceString(messages.get(text), definitions));
     }
     public String asReplacedString(Player player, Map<String, String> definitions) {
         return TextUtils.getColorizedString(player, TextUtils.replaceString(messages.get(text), definitions));

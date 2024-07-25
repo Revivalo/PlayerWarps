@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class PwarpMainCommand extends MainCommand {
     public PwarpMainCommand() {
-        super(Lang.INSUFFICIENT_PERMS.asColoredString(), new StartingWithStringArgumentMatcher());
+        super(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtils.Permission.USE.get()), new StartingWithStringArgumentMatcher());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PwarpMainCommand extends MainCommand {
                         .open(player, "all", SortingUtils.SortType.LATEST);
             }
         } else {
-            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
+            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtils.Permission.USE.get()));
         }
     }
 }

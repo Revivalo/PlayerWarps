@@ -35,4 +35,14 @@ public class SetDescriptionAction implements WarpAction<String> {
     public int getFee() {
         return Config.SET_DESCRIPTION_FEE.asInteger();
     }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
+    }
 }

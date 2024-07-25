@@ -5,6 +5,7 @@ import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.warp.Warp;
+import dev.revivalo.playerwarps.warp.actions.PreTeleportToWarpAction;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -53,7 +54,8 @@ public class TeleportCommand implements SubCommand {
                 return;
             }
 
-            PlayerWarpsPlugin.getWarpHandler().preWarp(player, warpOptional.get());
+            new PreTeleportToWarpAction().preExecute(player, warpOptional.get(), null, null);
+            //PlayerWarpsPlugin.getWarpHandler().preWarp(player, warpOptional.get());
         } else {
             player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
         }

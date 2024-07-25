@@ -42,4 +42,14 @@ public class SetTypeAction implements WarpAction<Category> {
     public int getFee() {
         return Config.SET_TYPE_FEE.asInteger();
     }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
+    }
 }

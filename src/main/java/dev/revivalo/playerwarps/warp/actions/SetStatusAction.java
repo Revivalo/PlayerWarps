@@ -1,6 +1,7 @@
 package dev.revivalo.playerwarps.warp.actions;
 
 import dev.revivalo.playerwarps.configuration.enums.Config;
+import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
@@ -22,5 +23,15 @@ public class SetStatusAction implements WarpAction<WarpState> {
     @Override
     public int getFee() {
         return Config.SET_STATUS_FEE.asInteger();
+    }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
     }
 }

@@ -37,11 +37,11 @@ public class ReviewMenu implements Menu {
         final User user = UserHandler.getUser(player);
         //user.setActualMenu(this);
 
-        gui.setItem(11, ItemBuilder.from(ItemUtils.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().execute(player, warp, 1)));
-        gui.setItem(12, ItemBuilder.from(ItemUtils.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().execute(player, warp, 2)));
-        gui.setItem(13, ItemBuilder.from(ItemUtils.THREE_STARS).asGuiItem(event -> new ReviewWarpAction().execute(player, warp, 3)));
-        gui.setItem(14, ItemBuilder.from(ItemUtils.FOUR_STARS).asGuiItem(event -> new ReviewWarpAction().execute(player, warp, 4)));
-        gui.setItem(15, ItemBuilder.from(ItemUtils.FIVE_STARS).asGuiItem(event -> new ReviewWarpAction().execute(player, warp, 5)));
+        gui.setItem(11, ItemBuilder.from(ItemUtils.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 1, null)));
+        gui.setItem(12, ItemBuilder.from(ItemUtils.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 2, null)));
+        gui.setItem(13, ItemBuilder.from(ItemUtils.THREE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 3, null)));
+        gui.setItem(14, ItemBuilder.from(ItemUtils.FOUR_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 4, null)));
+        gui.setItem(15, ItemBuilder.from(ItemUtils.FIVE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 5, null)));
 
         gui.setItem(
                 31,

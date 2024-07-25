@@ -17,24 +17,28 @@ public interface WarpAction<T> {
 
     default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuToOpen, int page) {
         if (!PermissionUtils.hasPermission(player, getPermission())) {
-            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString());
+            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", getPermission().get()));
             return;
         }
 
         if (warp != null) {
-            if (!warp.canManage(player)) {
-                player.sendMessage(Lang.NOT_OWNING.asColoredString());
-                return;
+            if (!isPublicAction()) {
+                if (!warp.canManage(player)) {
+                    player.sendMessage(Lang.NOT_OWNING.asColoredString());
+                    return;
+                }
             }
         }
 
         boolean proceeded = execute(player, warp, data);
 
         if (proceeded) {
-            if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
-                if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
-                    player.sendMessage(Lang.INSUFFICIENT_BALANCE.asColoredString().replace("%price%", String.valueOf(getFee())));
-                    return;
+            if (getFee() != 0) {
+                if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
+                    if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
+                        player.sendMessage(Lang.INSUFFICIENT_BALANCE.asColoredString().replace("%price%", String.valueOf(getFee())));
+                        return;
+                    }
                 }
             }
         }
@@ -64,9 +68,15 @@ public interface WarpAction<T> {
     Pořešit otevírání menu
      */
 
+
+
     boolean execute(Player player, Warp warp, T data);
 
     PermissionUtils.Permission getPermission();
 
     int getFee();
+
+    Lang getInputText();
+
+    boolean isPublicAction();
 }

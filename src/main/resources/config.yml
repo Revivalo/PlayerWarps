@@ -60,10 +60,16 @@ config:
   # Set none to disable this option
   categories-background-item: LIGHT_GRAY_STAINED_GLASS_PANE
 
+  warp-visit-notification: true
+  warp-creation-notification: true
+
   # This option note player that warp teleportation is charged
   allow-teleport-accept-menu: true
   # Checking if the warp destination is safe (fire, lava, fall from a height or of the world)
   check-for-safe-teleport: true
+  confirm-item: LIME_STAINED_GLASS_PANE
+  deny-item: RED_STAINED_GLASS_PANE
+  insufficient-permissions-item: BARRIER
   warp-list-item: PAPER
   sort-warps-item: REPEATER
   my-warps-item: REPEATER

@@ -1,10 +1,9 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
 import de.rapha149.signgui.SignGUI;
-import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpState;
+import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,6 +12,7 @@ import java.util.Collections;
 
 public class InputMenu implements Menu {
     private final Warp warp;
+    private WarpAction<String> warpAction;
 
     public InputMenu(Warp warp) {
         this.warp = warp;
@@ -28,25 +28,11 @@ public class InputMenu implements Menu {
         SignGUI gui = SignGUI.builder()
                 .setType(Material.OAK_SIGN)
                 .setColor(DyeColor.BLACK)
-                .setLine(1, Lang.ENTER_PASSWORD.asColoredString())
+                .setLine(1, warpAction.getInputText().asColoredString())
                 .setHandler((p, result) -> {
                     String input = result.getLineWithoutColor(0);
 
-                    if (input.isEmpty()) {
-                        return Collections.emptyList();
-                    }
-
-                    if (input.length() < 3 || input.length() > 15) {
-                        return Collections.emptyList();
-                    }
-
-
-                    warp.setPassword(input);
-                    player.sendMessage(Lang.PASSWORD_CHANGED.asColoredString());
-
-                    warp.setStatus(WarpState.PASSWORD_PROTECTED);
-
-                    PlayerWarpsPlugin.get().runDelayed(() -> new ManageMenu(warp).open(player)/*openSetUpMenu(player, warp)*/, 3);
+                    warpAction.preExecute(player, warp, input, null);
 
                     return Collections.emptyList();
                 })
@@ -54,5 +40,10 @@ public class InputMenu implements Menu {
                 .build();
 
         gui.open(player);
+    }
+
+    public InputMenu setWarpAction(WarpAction<String> warpAction) {
+        this.warpAction = warpAction;
+        return this;
     }
 }

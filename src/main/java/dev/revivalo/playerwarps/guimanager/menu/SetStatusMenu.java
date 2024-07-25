@@ -3,6 +3,7 @@ package dev.revivalo.playerwarps.guimanager.menu;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpState;
+import dev.revivalo.playerwarps.warp.actions.SetPasswordAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
@@ -42,7 +43,9 @@ public class SetStatusMenu implements Menu {
             new ManageMenu(warp).open(player);
         }));
         gui.setItem(14, ItemBuilder.from(Material.IRON_DOOR).setName(Lang.PASSWORD_PROTECTED_STATUS.asColoredString()).asGuiItem(event -> {
-            new InputMenu(warp).open(player);
+            new InputMenu(warp)
+                    .setWarpAction(new SetPasswordAction())
+                    .open(player);
         }));
 
         gui.open(player);

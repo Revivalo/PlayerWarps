@@ -3,8 +3,8 @@ package dev.revivalo.playerwarps;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.playerwarps.categories.CategoryManager;
 import dev.revivalo.playerwarps.commandmanager.commands.PwarpMainCommand;
+import dev.revivalo.playerwarps.configuration.Data;
 import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.datamanager.DataManager;
 import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.listeners.ChatSendListener;
 import dev.revivalo.playerwarps.listeners.PlayerJoinListener;
@@ -31,15 +31,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 public final class PlayerWarpsPlugin extends JavaPlugin {
-    /*
-    NEXT UPDATE:
-     */
-
-    private static WarpHandler warpHandler;
-    private static DataManager dataManager;
-
     private static PlayerWarpsPlugin plugin;
-
+    private static WarpHandler warpHandler;
+    private static Data data;
     private static String latestVersion;
 
     @Override
@@ -89,9 +83,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
 
         reloadConfig();
         ConfigurationSerialization.registerClass(Warp.class);
-        setDataManager(new DataManager());
-        dataManager.setup();
-        dataManager.saveData();
+        setDataManager(new Data());
 
         setWarpHandler(new WarpHandler());
         warpHandler.loadWarps();
@@ -179,16 +171,16 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         return warpHandler;
     }
 
-    public static DataManager getDataManager() {
-        return dataManager;
+    public static Data getData() {
+        return data;
     }
 
     public static void setWarpHandler(WarpHandler warpHandler) {
         PlayerWarpsPlugin.warpHandler = warpHandler;
     }
 
-    public static void setDataManager(DataManager dataManager) {
-        PlayerWarpsPlugin.dataManager = dataManager;
+    public static void setDataManager(Data data) {
+        PlayerWarpsPlugin.data = data;
     }
 
     public static void setPlugin(PlayerWarpsPlugin plugin) {

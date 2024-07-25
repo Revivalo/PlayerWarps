@@ -1,11 +1,9 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
-import com.cryptomorin.xseries.XMaterial;
-import dev.revivalo.playerwarps.PlayerWarpsPlugin;
+import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.user.WarpAction;
+import dev.revivalo.playerwarps.utils.ItemUtils;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.actions.RemoveWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
@@ -17,12 +15,15 @@ public class ConfirmationMenu implements Menu {
     private final Warp warp;
     private final Gui gui;
 
+    private final ItemBuilder acceptItem =  ItemBuilder.from(ItemUtils.getItem(Config.CONFIRM_ITEM.asUppercase())).setName(Lang.ACCEPT.asColoredString());
+    private final ItemBuilder denyItem =  ItemBuilder.from(ItemUtils.getItem(Config.DENY_ITEM.asUppercase())).setName(Lang.DENY.asColoredString());
+
     public ConfirmationMenu(Warp warp) {
         this.warp = warp;
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(3)
-                .title(Component.text(Lang.ACCEPT_MENU_TITLE.asReplacedString(null, new HashMap<String, String>() {{
+                .title(Component.text(Lang.CONFIRMATION_MENU_TITLE.asReplacedString(new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
                 .create();
@@ -35,26 +36,29 @@ public class ConfirmationMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        open(player, WarpAction.SET_ADMISSION);
+        open(player, null);
     }
 
-    public void open(Player player, WarpAction action) {
-        gui.setItem(11, ItemBuilder.from(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial()).setName(Lang.ACCEPT.asColoredString()).asGuiItem(event -> {
-            switch (action) {
-                case TELEPORT:
-                    PlayerWarpsPlugin.getWarpHandler().preWarp(player, warp);
-                    break;
-                case REMOVE:
-                    new RemoveWarpAction().preExecute(player, warp, null, MenuType.OWNED_LIST_MENU, 1);
-                    break;
-            }
+    public void open(Player player, dev.revivalo.playerwarps.warp.WarpAction<?> action) {
+        gui.setItem(11, acceptItem.asGuiItem(event -> {
+            action.preExecute(player, warp, null, null);
+//            switch (action) {
+//                case TELEPORT:
+//                    new PreTeleportToWarpAction().preExecute(player, warp, null, null);//PlayerWarpsPlugin.getWarpHandler().preWarp(player, warp);
+//                    break;
+//                case REMOVE:
+//                    new RemoveWarpAction().preExecute(player, warp, null, MenuType.OWNED_LIST_MENU, 1);
+//                    break;
+//            }
             gui.close(player);
         }));
-        gui.setItem(15, ItemBuilder.from(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()).setName(Lang.DENY.asColoredString()).asGuiItem(event -> {
-            if (action == WarpAction.REMOVE) {
-                new ManageMenu(warp).open(player);
-            }
+        gui.setItem(15, denyItem.asGuiItem(event -> {
+//            if (action == WarpAction.REMOVE) {
+//                new ManageMenu(warp).open(player);
+//            }
+            gui.close(player);
         }));
+
         gui.open(player);
     }
 }

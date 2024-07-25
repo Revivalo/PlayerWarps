@@ -13,10 +13,14 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 public class CategoriesMenu implements Menu {
     private final Gui gui;
+
+    private final ItemBuilder insufficientPermissionsItem =  ItemBuilder.from(ItemUtils.getItem(Config.INSUFFICIENT_PERMISSIONS_ITEM.asUppercase()))
+            .setName(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY.asColoredString());
 
     public CategoriesMenu() {
         this.gui = Gui.gui()
@@ -44,7 +48,8 @@ public class CategoriesMenu implements Menu {
         CategoryManager.getCategories()
                 .forEach(category -> gui.setItem(
                         category.getPosition(),
-                        ItemBuilder.from(
+                        category.hasPermission(player)
+                            ? ItemBuilder.from(
                                         category.getItem()
                                 )
                                 .setName(
@@ -54,9 +59,14 @@ public class CategoriesMenu implements Menu {
                                 .setLore(category.getLore())
                                 .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage(1)
-                                        .open(player, category.toString(), SortingUtils.SortType.LATEST)))); //openWarpsMenu(player, WarpMenuType.DEFAULT, category.toString(), 1, SortingUtils.SortType.LATEST))));
+                                        .open(player, category.toString(), SortingUtils.SortType.LATEST))
+                                : insufficientPermissionsItem
+                                    .setLore(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", category.getPermission());}}))
+                                    .asGuiItem()
+                        )
+                );
 
-        setDefaultItems(player, gui); //createGuiItems(player, gui, WarpMenuType.DEFAULT);
+        setDefaultItems(player, gui);
 
         gui.open(player);
     }

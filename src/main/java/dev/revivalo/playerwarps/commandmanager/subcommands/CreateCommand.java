@@ -2,11 +2,14 @@ package dev.revivalo.playerwarps.commandmanager.subcommands;
 
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ConfirmationMenu;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
+import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.actions.CreateWarpAction;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CreateCommand implements SubCommand {
@@ -45,7 +48,7 @@ public class CreateCommand implements SubCommand {
         final Player player = (Player) sender;
 
         try {
-            new CreateWarpAction().preExecute(player, null, args[0], null, 0);
+            new ConfirmationMenu(new Warp(new HashMap<String, Object>(){{put("name", args[0]);}})).open(player, new CreateWarpAction(args[0]));
         } catch (ArrayIndexOutOfBoundsException ex) {
             player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
         }

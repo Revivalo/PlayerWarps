@@ -5,6 +5,7 @@ import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
+import dev.revivalo.playerwarps.utils.PlayerUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -19,9 +20,15 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-public class CreateWarpAction implements WarpAction<String> {
+public class CreateWarpAction implements WarpAction<Void> {
+
+    private final String name;
+    public CreateWarpAction(String name) {
+        this.name = name;
+    }
+
     @Override
-    public boolean execute(Player player, Warp warp, String name) {
+    public boolean execute(Player player, Warp warp, Void ignored) {
         if (!PlayerWarpsPlugin.getWarpHandler().canHaveWarp(player)) {
             player.sendMessage(Lang.LIMIT_REACHED.asColoredString()
                     .replace(
@@ -77,12 +84,12 @@ public class CreateWarpAction implements WarpAction<String> {
                     put("ratings", 0);
                     put("visits", 0);
                     put("category", "all");
-                    put("description", null);
+                    put("lore", null);
                     put("admission", 0);
                     put("reviewers", Collections.emptyList());
                     put("todayVisits", 0);
                     put("date-created", System.currentTimeMillis());
-                    put("item", Config.DEFAULT_WARP_ITEM.asUppercase());
+                    put("item", null/*ItemUtils.getItem(Config.DEFAULT_WARP_ITEM.asUppercase(), player)*/);
                     put("status", Config.DEFAULT_WARP_STATUS.asUppercase());
                 }}
 
@@ -100,7 +107,13 @@ public class CreateWarpAction implements WarpAction<String> {
             bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CONFIGURE.asColoredString())));
             bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pw manage " + name));
         }
+
         player.spigot().sendMessage(msg);
+
+        if (Config.WARP_CREATION_NOTIFICATION.asBoolean()) PlayerUtils.announce(Lang.WARP_CREATION_NOTIFICATION.asColoredString()
+                .replace("%warp%", name)
+                .replace("%player%", player.getName())
+        );
 
         return true;
     }
@@ -113,5 +126,15 @@ public class CreateWarpAction implements WarpAction<String> {
     @Override
     public int getFee() {
         return Config.WARP_PRICE.asInteger();
+    }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return false;
     }
 }

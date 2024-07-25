@@ -1,6 +1,7 @@
 lang:
   prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
   unknown-command: "%prefix% &cUnknown command, use /pwarp help"
+  insufficient-permissions: "%prefix% &7You need %permission% for this action!"
   bad-command-syntax: "%prefix% &cCorrect syntax of the command: &4%syntax%"
   help-message-lore:
     - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
@@ -15,6 +16,14 @@ lang:
   limit-reached: "%prefix% &7You have reached your limit of created warps &7(%limit%)"
   limit-reached-other: "%prefix% &7Player %player% can't own more warps!"
 
+  warp-visit-notification: "%prefix% &f%player%&7 has visited warp &f%warp%"
+  warp-creation-notification: "%prefix% &f%player%&7 created a warp &f%warp%"
+
+  insufficient-perms-for-category: "&4Locked category"
+  insufficient-perms-for-category-lore:
+    - "&cYou need %permission% to be"
+    - "&cable to view this category"
+
   no-warps: "&cNo warp created"
   warp-in-deleted-world: "&cWarp is in deleted/inactive world"
   no-warp-at-position: "&cNo warp"
@@ -27,9 +36,11 @@ lang:
   closed-status: "&cCLOSED"
   password-protected-status: "&ePASSWORD PROTECTED"
 
+  invalid-input: "%prefix% &cInvalid input!"
+  password-too-short: "%prefix% &cThe password must be at least 3 characters long!"
   non-existing-warp: "%prefix% &cThis warp does not exist!"
   warp-already-created: "%prefix% &cA warp with this name already exists!"
-  warp-created: "%prefix% &7You have created a warp &e%name%, click &lHERE&7 to configure it."
+  warp-created: "%prefix% &7You have created a warp %name%, click &l&nHERE&7 to configure it."
   # This message will be sent with Vault installed
   warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $), click &lHERE&7 to configure it."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp cannot be created in the world (%world%)"
@@ -49,11 +60,11 @@ lang:
   teleport-between-worlds-error: "%prefix% &7Teleportation was canceled. You can only teleport to warps in your world!"
   name-cant-contain-space: "%prefix% &7Name cannot contain space"
   enter-password: "Enter Password"
+  enter-warps-name: "Enter Warps Name"
   password-setting-cancelled: "%prefix% &7Password setting was canceled."
   password-changed: "%prefix% &7Password has been changed!"
   password-length: "%prefix% &cPassword must contain at least 3 characters!"
   entered-wrong-password: "%prefix% &7Entered wrong password!"
-  insufficient-perms: "%prefix% &7Insufficient permission"
   categories-are-disabled: "&cCategories are disabled!"
   item-changed: "%prefix% &7Changed menu item to %item%"
   title-write-msg: "%prefix% &7Now write your text below your %warp% warp in warp list:"
@@ -102,7 +113,7 @@ lang:
   help-title: "Help"
   set-warp-status-title: "Set warp's status:"
   favorites-title: "Saved Warps &7%page%. page"
-  accept-menu-title: "Delete this warp? (%warp%)"
+  confirmation-menu-title: "Confirm the action? (%warp%)"
   accept: "&a&lAccept"
   deny: "&c&lDeny"
   sort-warps: "&aSort Warps"
@@ -120,13 +131,17 @@ lang:
   warp-disabled: "%prefix% &7You have &cfreezed&f your %warp%&f warp"
   warp-is-disabled: "%prefix% &7The owner temporarily disabled this warp &7(%warp%)"
   entered-invalid-type-of-warp: "%prefix% &7Entered a bad type. Available types: &9%types%"
-  warp-type-changed: "%prefix% &7You have changed the type of &7%warp%&f warp to &7%type%"
+  warp-type-changed: "%prefix% &7You have changed the type of &7%warp% warp to &7%type%"
   privacy-changed: "%prefix% &7You have changed the privacy of %warp% warp"
   display-name-changed: "%prefix% &7Display name of warp %warp% has been changed to %displayName%"
   favorite-warp-added: "%prefix% &7Warp %warp% was added to your favorite list"
   remove-favorite-warp: "%prefix% &7You have removed %warp% warp from your favorite list"
   warp-not-contains-favlist: "%prefix% &7Warp %warp% does not contain your favorite list"
   warp-already-contains-favlist: "%prefix% &7Warp %warp% is already added to your favorite list"
+  search-warp: "&aSearch Warp"
+  search-warp-lore:
+    - "&7Click to search warp"
+    - "&7by name"
   # Lore inside /pwarp GUI
   # Possible placeholders:
   #   %owner-name% - the name of the player that own this pwarp
