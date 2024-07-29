@@ -1,6 +1,7 @@
 categories:
   event:
     name: "&aEvents &2(%number%)"
+    permission: playerwarps.category.events
     position: 20 # item's position inside category menu
     item: DIAMOND
     lore:
@@ -9,6 +10,7 @@ categories:
       - "&e► Click to open"
   building:
     name: "&aBuildings &2(%number%)"
+    permission: playerwarps.category.buildings
     position: 21
     item: BRICKS
     lore:
@@ -17,6 +19,7 @@ categories:
       - "&e► Click to open"
   shop:
     name: "&aShops &2(%number%)"
+    permission: playerwarps.category.shops
     position: 22
     item: CHEST
     lore:
@@ -26,6 +29,7 @@ categories:
       - "&e► Click to open"
   farm:
     name: "&aFarms &2(%number%)"
+    permission: playerwarps.category.farms
     position: 23
     item: WHEAT
     lore:
@@ -34,6 +38,7 @@ categories:
       - " "
       - "&e► Click to open"
   other:
+    permission: playerwarps.category.other
     name: "&aOther &2(%number%)"
     position: 24
     item: PAPER
