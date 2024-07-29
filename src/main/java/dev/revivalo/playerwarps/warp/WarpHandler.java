@@ -56,6 +56,7 @@ public class WarpHandler {
 
             CategoryManager.loadCategories();
             Lang.reload();
+            Config.reload();
             sender.sendMessage(Lang.RELOAD.asColoredString());
         }
     }

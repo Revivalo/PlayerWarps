@@ -61,6 +61,7 @@ public enum Config {
     CHANGE_OWNER_ITEM("change-owner-item"),
     ENABLE_CATEGORIES("enable-categories"),
     ENABLE_WARP_SEARCH("enable-warp-search"),
+    ENABLE_WARP_RATING("enable-warp-rating"),
     CURRENCY_SYMBOL("currency-symbol"),
     SET_PRICE_POSITION("set-price-position"),
     SET_CATEGORY_POSITION("set-category-position"),
