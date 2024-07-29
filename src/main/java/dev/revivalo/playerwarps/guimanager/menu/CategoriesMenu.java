@@ -11,15 +11,14 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 public class CategoriesMenu implements Menu {
     private final Gui gui;
 
-    private final ItemBuilder insufficientPermissionsItem =  ItemBuilder.from(ItemUtils.getItem(Config.INSUFFICIENT_PERMISSIONS_ITEM.asUppercase()))
+    private final GuiItem BACKGROUND_FILLER = Config.CATEGORIES_BACKGROUND_ITEM.asString().equalsIgnoreCase("none") ? null : ItemBuilder.from(ItemUtils.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asUppercase())).setName(" ").asGuiItem();
+    private final ItemBuilder INSUFFICIENT_PERMISSION_ITEM =  ItemBuilder.from(ItemUtils.getItem(Config.INSUFFICIENT_PERMISSIONS_ITEM.asUppercase()))
             .setName(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY.asColoredString());
 
     public CategoriesMenu() {
@@ -37,13 +36,12 @@ public class CategoriesMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        final Optional<ItemStack> fillItem = Optional.ofNullable(ItemUtils.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asString()));
-        fillItem.ifPresent((itemStack -> {
-            final GuiItem backgroundItem = ItemBuilder.from(itemStack).setName(" ").asGuiItem();
+
+        if (BACKGROUND_FILLER != null) {
             for (int i = 0; i < 54; i++) {
-                gui.setItem(i, backgroundItem);
+                gui.setItem(i, BACKGROUND_FILLER);
             }
-        }));
+        }
 
         CategoryManager.getCategories()
                 .forEach(category -> gui.setItem(
@@ -60,7 +58,7 @@ public class CategoriesMenu implements Menu {
                                 .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage(1)
                                         .open(player, category.toString(), SortingUtils.SortType.LATEST))
-                                : insufficientPermissionsItem
+                                : INSUFFICIENT_PERMISSION_ITEM
                                     .setLore(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", category.getPermission());}}))
                                     .asGuiItem()
                         )
