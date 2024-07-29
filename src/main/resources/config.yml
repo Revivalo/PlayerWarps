@@ -58,6 +58,8 @@ config:
     - disabledworld3
   enable-categories: true
   enable-warp-search: true
+  enable-warp-rating: true
+
   # Set none to disable this option
   categories-background-item: LIGHT_GRAY_STAINED_GLASS_PANE
 
