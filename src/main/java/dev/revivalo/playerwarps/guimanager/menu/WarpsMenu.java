@@ -81,16 +81,18 @@ public class WarpsMenu implements Menu {
                 : sortType == SortingUtils.SortType.VISITS
                 ? SortingUtils.SortType.RATING : SortingUtils.SortType.LATEST;
 
-        paginatedGui.setItem(52, ItemBuilder.from(Material.OAK_SIGN)
-                .setName(Lang.SEARCH_WARP.asColoredString())
-                .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
-                .asGuiItem(
-                        event -> {
-                            new InputMenu(null)
-                                    .setWarpAction(new SearchWarpAction())
-                                    .open(player);
-                        }
-                ));
+        if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
+            paginatedGui.setItem(52, ItemBuilder.from(ItemUtils.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
+                    .setName(Lang.SEARCH_WARP.asColoredString())
+                    .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
+                    .asGuiItem(
+                            event -> {
+                                new InputMenu(null)
+                                        .setWarpAction(new SearchWarpAction())
+                                        .open(player);
+                            }
+                    ));
+        }
 
         if (getMenuType() != MenuType.OWNED_LIST_MENU)
             paginatedGui.setItem(46, ItemBuilder.from(ItemUtils.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
@@ -109,7 +111,7 @@ public class WarpsMenu implements Menu {
                     .asGuiItem(event -> {
                         paginatedGui.clearPageItems();
                         open(player, categoryName, nextSortType, foundWarps);
-                    })); //openWarpsMenu(player, menuType, category, page, nextSortType)));
+                    }));
 
         final List<Warp> warps = new ArrayList<>();
         switch (getMenuType()) {
@@ -175,7 +177,6 @@ public class WarpsMenu implements Menu {
                             case LEFT:
                                 player.closeInventory();
                                 new PreTeleportToWarpAction().preExecute(player, warp, null, null);
-                                //PlayerWarpsPlugin.getWarpHandler().preWarp(player, warp);
                                 break;
                             case RIGHT:
                             case SHIFT_RIGHT:
@@ -186,7 +187,9 @@ public class WarpsMenu implements Menu {
                                     }
                                     new ManageMenu(warp).open(player);
                                 } else {
-                                    new ReviewMenu(warp).open(player);
+                                    if (Config.ENABLE_WARP_RATING.asBoolean()) {
+                                        new ReviewMenu(warp).open(player);
+                                    }
                                 }
                                 break;
                             case SHIFT_LEFT:

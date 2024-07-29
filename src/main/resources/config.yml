@@ -57,6 +57,7 @@ config:
     - disabledworld2
     - disabledworld3
   enable-categories: true
+  enable-warp-search: true
   # Set none to disable this option
   categories-background-item: LIGHT_GRAY_STAINED_GLASS_PANE
 
@@ -72,6 +73,7 @@ config:
   insufficient-permissions-item: BARRIER
   warp-list-item: PAPER
   sort-warps-item: REPEATER
+  search-warp-item: OAK_SIGN
   my-warps-item: REPEATER
   help-item: OAK_SIGN
   favorite-warps-item: NAME_TAG
