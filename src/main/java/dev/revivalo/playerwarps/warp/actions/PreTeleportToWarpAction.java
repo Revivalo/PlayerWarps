@@ -4,9 +4,12 @@ import de.rapha149.signgui.SignGUI;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.categories.Category;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
+import dev.revivalo.playerwarps.utils.PlayerUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,6 +23,18 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
         if (!category.hasPermission(player)) {
             player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", category.getPermission()));
             return false;
+        }
+
+        if (!warp.canManage(player)) {
+            if (warp.getAdmission() != 0) {
+                if (Hooks.getVaultHook().getApi() != null) {
+                    Economy economy = Hooks.getVaultHook().getApi();
+                    if (!economy.has(player, warp.getAdmission())) {
+                        player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString().replace("%warp%", warp.getName()));
+                        return false;
+                    }
+                }
+            }
         }
 
         if (warp.isPasswordProtected() && !warp.canManage(player)) {
@@ -45,7 +60,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                             }
                         }
 
-                        PlayerWarpsPlugin.get().runDelayed(() -> new TeleportToWarpAction().preExecute(player, warp, input, null)/*warp(player, warp, input)*/, 2);
+                        PlayerWarpsPlugin.get().runDelayed(() -> new TeleportToWarpAction().preExecute(player, warp, input, null), 2);
 
                         return Collections.emptyList();
                     })
@@ -54,7 +69,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
 
             gui.open(player);
 
-        } else new TeleportToWarpAction().preExecute(player, warp, null, null);//warp(player, warp, null);
+        } else new TeleportToWarpAction().preExecute(player, warp, null, null);
         return false;
     }
 

@@ -30,18 +30,16 @@ public interface WarpAction<T> {
             }
         }
 
-        boolean proceeded = execute(player, warp, data);
-
-        if (proceeded) {
-            if (getFee() != 0) {
-                if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
-                    if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
-                        player.sendMessage(Lang.INSUFFICIENT_BALANCE.asColoredString().replace("%price%", String.valueOf(getFee())));
-                        return;
-                    }
+        if (getFee() != 0) {
+            if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
+                if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
+                    player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", String.valueOf(getFee())));
+                    return;
                 }
             }
         }
+
+        boolean proceeded = execute(player, warp, data);
 
         if (menuToOpen != null) {
             switch (menuToOpen) {
@@ -67,7 +65,6 @@ public interface WarpAction<T> {
     /*
     Pořešit otevírání menu
      */
-
 
 
     boolean execute(Player player, Warp warp, T data);

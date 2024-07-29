@@ -42,9 +42,9 @@ lang:
   warp-already-created: "%prefix% &cA warp with this name already exists!"
   warp-created: "%prefix% &7You have created a warp %name%, click &l&nHERE&7 to configure it."
   # This message will be sent with Vault installed
-  warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $), click &lHERE&7 to configure it."
+  warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $)&7, click &l&nHERE&7 to configure it."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp cannot be created in the world (%world%)"
-  insufficient-balance: "%prefix% &cNot enough balance to create a warp! (%price% $)"
+  insufficient-balance-for-action: "%prefix% &cNot enough balance to do this! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNot enough balance to teleport to the %warp% warp"
   warp-removed: "%prefix% &7You have removed this warp"
   # This message will be sent with Vault installed
@@ -54,7 +54,7 @@ lang:
   click-to-cancel-input: "&7Click to exit input mode"
   teleportation: "%prefix% &7Teleportation in &e%time% seconds!"
   teleportation-cancelled: "%prefix% &cTeleportation canceled!"
-  teleport-to-warp: "%prefix% &7Teleportation to the warp of player %player%"
+  teleport-to-warp: "%prefix% &7Teleported to warp %warp% by %player%"
   teleport-to-warp-with-admission: "%prefix% &7Teleportation to the warp of player %player% &c(-%price% $)"
   accept-teleport-with-admission: "Teleport? &c(-%price% $)"
   teleport-between-worlds-error: "%prefix% &7Teleportation was canceled. You can only teleport to warps in your world!"

@@ -21,6 +21,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -146,6 +147,10 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
 
     public void runDelayed(Runnable runnable, long delay) {
         getScheduler().runTaskLater(this, runnable, delay);
+    }
+
+    public BukkitTask runRepeating(Runnable runnable, long delay, long period) {
+        return getScheduler().runTaskTimer(this, runnable, delay, period);
     }
 
     public <T> CompletableFuture<T> completableFuture(Callable<T> callable) {

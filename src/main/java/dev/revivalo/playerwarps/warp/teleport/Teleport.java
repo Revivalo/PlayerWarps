@@ -1,17 +1,18 @@
-package dev.revivalo.playerwarps.warp.actions;
+package dev.revivalo.playerwarps.warp.teleport;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
-import dev.revivalo.playerwarps.warp.actions.task.TeleportTask;
+import dev.revivalo.playerwarps.warp.teleport.task.TeleportTask;
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
 
 public class Teleport {
     private final Player player;
     private final Location targetLocation;
-    private final boolean withCooldown;
+    private final boolean runTimer;
+    private final int delay;
 
     private TeleportTask task;
 
@@ -19,11 +20,14 @@ public class Teleport {
         this.player = player;
         this.targetLocation = targetLocation;
 
-        this.withCooldown = !PermissionUtils.hasPermission(player, PermissionUtils.Permission.BYPASS_TELEPORT_DELAY);
+        boolean withCooldown = !PermissionUtils.hasPermission(player, PermissionUtils.Permission.BYPASS_TELEPORT_DELAY);
+        this.delay = Config.TELEPORTATION_DELAY.asInteger();
+
+        this.runTimer = withCooldown && this.delay != 0;
     }
 
     public void proceed() {
-        player.sendMessage(Lang.TELEPORTATION.asColoredString().replace("%time%", Config.TELEPORTATION_DELAY.asString()));
+        if (shouldRunTimer()) player.sendMessage(Lang.TELEPORTATION.asColoredString().replace("%time%", String.valueOf(delay)));
         this.task = new TeleportTask(this);
         this.task.runTaskTimer(PlayerWarpsPlugin.get(), 0, 10);
     }
@@ -40,8 +44,12 @@ public class Teleport {
         return task;
     }
 
-    public boolean isWithCooldown() {
-        return withCooldown;
+    public boolean shouldRunTimer() {
+        return runTimer;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     public enum Status {

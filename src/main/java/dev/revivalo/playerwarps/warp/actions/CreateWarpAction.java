@@ -23,6 +23,7 @@ import java.util.UUID;
 public class CreateWarpAction implements WarpAction<Void> {
 
     private final String name;
+
     public CreateWarpAction(String name) {
         this.name = name;
     }
@@ -62,14 +63,6 @@ public class CreateWarpAction implements WarpAction<Void> {
             return false;
         }
 
-//        if (PlayerWarpsPlugin.getECONOMY() != null) {
-//            int price = Config.WARP_PRICE.asInt();
-//            if (!PlayerWarpsPlugin.getECONOMY().withdrawPlayer(player, price).transactionSuccess()) {
-//                player.sendMessage(Lang.INSUFFICIENT_BALANCE.asColoredString());
-//                return;
-//            }
-//        }
-
         final UUID ownerID = player.getUniqueId();
         final UUID warpID = UUID.randomUUID();
         final Location loc = player.getLocation();
@@ -89,7 +82,7 @@ public class CreateWarpAction implements WarpAction<Void> {
                     put("reviewers", Collections.emptyList());
                     put("todayVisits", 0);
                     put("date-created", System.currentTimeMillis());
-                    put("item", null/*ItemUtils.getItem(Config.DEFAULT_WARP_ITEM.asUppercase(), player)*/);
+                    put("item", null);
                     put("status", Config.DEFAULT_WARP_STATUS.asUppercase());
                 }}
 
@@ -110,10 +103,12 @@ public class CreateWarpAction implements WarpAction<Void> {
 
         player.spigot().sendMessage(msg);
 
-        if (Config.WARP_CREATION_NOTIFICATION.asBoolean()) PlayerUtils.announce(Lang.WARP_CREATION_NOTIFICATION.asColoredString()
-                .replace("%warp%", name)
-                .replace("%player%", player.getName())
-        );
+        if (Config.WARP_CREATION_NOTIFICATION.asBoolean())
+            PlayerUtils.announce(Lang.WARP_CREATION_NOTIFICATION.asColoredString()
+                            .replace("%warp%", name)
+                            .replace("%player%", player.getName()),
+                    player
+            );
 
         return true;
     }
@@ -135,6 +130,6 @@ public class CreateWarpAction implements WarpAction<Void> {
 
     @Override
     public boolean isPublicAction() {
-        return false;
+        return true;
     }
 }

@@ -14,7 +14,6 @@ import dev.revivalo.playerwarps.warp.actions.RelocateAction;
 import dev.revivalo.playerwarps.warp.actions.RemoveWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
-import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -1,7 +1,6 @@
-package dev.revivalo.playerwarps.warp.actions.task;
+package dev.revivalo.playerwarps.warp.teleport.task;
 
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.warp.actions.Teleport;
+import dev.revivalo.playerwarps.warp.teleport.Teleport;
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,6 +9,7 @@ public class TeleportTask extends BukkitRunnable {
     private final Teleport teleport;
     private final Player player;
     private final Location location;
+
     private final int locationXZ;
 
     private Teleport.Status status = Teleport.Status.PROCESSING;
@@ -24,7 +24,7 @@ public class TeleportTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (teleport.isWithCooldown()) {
+        if (teleport.shouldRunTimer()) {
             if (!player.isOnline()) {
                 cancel();
                 status = Teleport.Status.ERROR;
@@ -37,7 +37,7 @@ public class TeleportTask extends BukkitRunnable {
                 return;
             }
 
-            if (cycle == Config.TELEPORTATION_DELAY.asInteger() * 2) {
+            if (cycle == teleport.getDelay() * 2) {
                 cancel();
                 player.teleport(location);
                 status = Teleport.Status.SUCCESS;

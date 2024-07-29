@@ -8,6 +8,7 @@ import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.utils.PlayerUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.revivalo.playerwarps.warp.teleport.Teleport;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -54,7 +55,8 @@ public class TeleportToWarpAction implements WarpAction<String> {
                         if (Config.WARP_VISIT_NOTIFICATION.asBoolean()) {
                             PlayerUtils.announce(Lang.WARP_VISIT_NOTIFICATION.asColoredString()
                                     .replace("%warp%", warpName)
-                                    .replace("%player%", player.getName())
+                                    .replace("%player%", player.getName()),
+                                    player
                             );
 
                             final UUID ownerID = warp.getOwner();
@@ -82,7 +84,7 @@ public class TeleportToWarpAction implements WarpAction<String> {
                     }
                 }
             }
-        }.runTaskTimer(PlayerWarpsPlugin.get(), 4, 4);
+        }.runTaskTimer(PlayerWarpsPlugin.get(), 2, 2);
 
 
         return true;

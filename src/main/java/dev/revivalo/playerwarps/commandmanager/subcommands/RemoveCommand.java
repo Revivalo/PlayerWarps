@@ -3,6 +3,7 @@ package dev.revivalo.playerwarps.commandmanager.subcommands;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ConfirmationMenu;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.actions.RemoveWarpAction;
@@ -47,6 +48,7 @@ public class RemoveCommand implements SubCommand {
             sender.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
             return;
         }
-        new RemoveWarpAction().preExecute(player, warp.get(), null, null, 0);
+
+        new ConfirmationMenu(warp.get()).open(player, new RemoveWarpAction());
     }
 }

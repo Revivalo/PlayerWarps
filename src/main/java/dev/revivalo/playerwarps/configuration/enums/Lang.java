@@ -47,7 +47,7 @@ public enum Lang {
     CLICK_TO_CONFIGURE("click-to-configure"),
     CLICK_TO_CANCEL_INPUT("click-to-cancel-input"),
     WARP_CREATED_WITH_PRICE("warp-created-with-price"),
-    INSUFFICIENT_BALANCE("insufficient-balance"),
+    INSUFFICIENT_BALANCE_FOR_ACTION("insufficient-balance-for-action"),
     INSUFFICIENT_BALANCE_TO_TELEPORT("insufficient-balance-to-teleport"),
     WARP_REMOVED("warp-removed"),
     WARP_REMOVED_WITH_REFUND("warp-removed-with-refund"),

@@ -220,11 +220,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.th0rgal</groupId>
-            <artifactId>Oraxen</artifactId>
-            <version>1.150.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/oraxen-1.150.4.jar</systemPath>
+            <groupId>com.github.oraxen</groupId>
+            <artifactId>oraxen</artifactId>
+            <version>1.152.5</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.earth2me</groupId>
