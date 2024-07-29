@@ -59,7 +59,7 @@ public class SetAdmissionAction implements WarpAction<String> {
     private boolean isInt(String str) {
         try {
             Integer.parseInt(str);
-        } catch (Throwable e) {
+        } catch (NumberFormatException e) {
             return false;
         }
         return true;
