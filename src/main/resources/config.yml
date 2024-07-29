@@ -56,6 +56,7 @@ config:
     - disabledworld1
     - disabledworld2
     - disabledworld3
+
   enable-categories: true
   enable-warp-search: true
   enable-warp-rating: true
@@ -77,7 +78,6 @@ config:
   sort-warps-item: REPEATER
   search-warp-item: OAK_SIGN
   my-warps-item: REPEATER
-  help-item: OAK_SIGN
   favorite-warps-item: NAME_TAG
   page-item: ARROW
   star-review-item: SUNFLOWER
