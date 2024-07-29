@@ -55,7 +55,6 @@ public class TeleportCommand implements SubCommand {
             }
 
             new PreTeleportToWarpAction().preExecute(player, warpOptional.get(), null, null);
-            //PlayerWarpsPlugin.getWarpHandler().preWarp(player, warpOptional.get());
         } else {
             player.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
         }
