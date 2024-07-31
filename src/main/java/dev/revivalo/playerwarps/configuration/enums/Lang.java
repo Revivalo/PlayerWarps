@@ -27,6 +27,8 @@ public enum Lang {
     ACCEPT_TELEPORT_WITH_ADMISSION("accept-teleport-with-admission"),
     TELEPORT_TO_WARP_WITH_ADMISSION("teleport-to-warp-with-admission"),
     HELP("help-message-lore"),
+    HELP_DISPLAY_NAME("help-display-name"),
+    HELP_LORE("help-lore"),
     OWN_WARP_ITEM_NAME("own-warp-item-name"),
     RELOAD("reload-message"),
     WARP_CREATION_NOTIFICATION("warp-creation-notification"),

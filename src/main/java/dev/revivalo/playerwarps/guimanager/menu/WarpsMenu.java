@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class WarpsMenu implements Menu {
@@ -65,17 +64,17 @@ public class WarpsMenu implements Menu {
 
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
-        if (paginatedGui.previous())
-            paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).setName(Lang.PREVIOUS_PAGE.asColoredString()).asGuiItem(event -> {
-                paginatedGui.previous();
-                paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
-            }));
+        //if (paginatedGui.previous())
+        paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).setName(Lang.PREVIOUS_PAGE.asColoredString()).asGuiItem(event -> {
+            paginatedGui.previous();
+            paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
+        }));
 
-        if (paginatedGui.next())
-            paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).setName(Lang.NEXT_PAGE.asColoredString()).asGuiItem(event -> {
-                paginatedGui.next();
-                paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
-            }));
+        //if (paginatedGui.next())
+        paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).setName(Lang.NEXT_PAGE.asColoredString()).asGuiItem(event -> {
+            paginatedGui.next();
+            paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
+        }));
 
         SortingUtils.SortType nextSortType = sortType == SortingUtils.SortType.LATEST ? SortingUtils.SortType.VISITS
                 : sortType == SortingUtils.SortType.VISITS
@@ -142,71 +141,80 @@ public class WarpsMenu implements Menu {
 
         final Lang warpLore = getMenuType() == MenuType.OWNED_LIST_MENU ? Lang.OWN_WARP_LORE : Lang.WARP_LORE;
 
-        AtomicReference<GuiItem> guiItem = new AtomicReference<>();
-        warps.forEach(warp -> {
-            if (warp.getLocation() == null) {
-                guiItem.set(new GuiItem(ItemBuilder.from(Material.BARRIER)
-                        .setName(TextUtils.color(warp.getDisplayName()))
-                        .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
-                        .build()));
-            } else {
-                guiItem.set(ItemBuilder.from((warp.getMenuItem() == null ? ItemUtils.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
-                        .setName(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
-                        .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
-                                    put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));
-                                    put("%world%", warp.getLocation().getWorld().getName());
-                                    put("%voters%", String.valueOf(warp.getReviewers().size()));
-                                    put("%price%", warp.getAdmission() == 0
-                                            ? Lang.FREE_OF_CHARGE.asColoredString()
-                                            : TextUtils.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
-                                    put("%today%", String.valueOf(warp.getTodayVisits()));
-                                    put("%status%", warp.getStatus().getText());
-                                    put("%ratings%", String.valueOf(NumberUtils.round(warp.getConvertedRating(), 1)));
-                                    put("%stars%", TextUtils.createRatingFormat(warp));
-                                    put("%lore%", warp.getDescription() == null
-                                            ? Lang.NO_DESCRIPTION.asColoredString()
-                                            : warp.getDescription());
-                                    put("%visits%", String.valueOf(warp.getVisits()));
-                                    put("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName()));
-                                }}
-                        )).asGuiItem());
+        GuiItem guiItem;
+        if (warps.isEmpty()) {
+            guiItem = new GuiItem(
+                    ItemBuilder.from(ItemUtils.getItem(Config.HELP_ITEM.asUppercase()))
+                            .setName(Lang.HELP_DISPLAY_NAME.asColoredString())
+                            .setLore(Lang.HELP_LORE.asReplacedList())
+                            .build()
+            );
+            paginatedGui.setItem(22, guiItem);
+        } else {
+            for (Warp warp : warps) {
+                if (warp.getLocation() == null) {
+                    guiItem = new GuiItem(ItemBuilder.from(Material.BARRIER)
+                            .setName(TextUtils.color(warp.getDisplayName()))
+                            .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
+                            .build());
+                } else {
+                    guiItem = ItemBuilder.from((warp.getMenuItem() == null ? ItemUtils.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
+                            .setName(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
+                            .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
+                                        put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));
+                                        put("%world%", warp.getLocation().getWorld().getName());
+                                        put("%voters%", String.valueOf(warp.getReviewers().size()));
+                                        put("%price%", warp.getAdmission() == 0
+                                                ? Lang.FREE_OF_CHARGE.asColoredString()
+                                                : TextUtils.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
+                                        put("%today%", String.valueOf(warp.getTodayVisits()));
+                                        put("%status%", warp.getStatus().getText());
+                                        put("%ratings%", String.valueOf(NumberUtils.round(warp.getConvertedRating(), 1)));
+                                        put("%stars%", TextUtils.createRatingFormat(warp));
+                                        put("%lore%", warp.getDescription() == null
+                                                ? Lang.NO_DESCRIPTION.asColoredString()
+                                                : warp.getDescription());
+                                        put("%visits%", String.valueOf(warp.getVisits()));
+                                        put("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName()));
+                                    }}
+                            )).asGuiItem();
 
-                guiItem.get().setAction(event -> {
-                    if (PlayerWarpsPlugin.getWarpHandler().areWarps()) {
-                        switch (event.getClick()) {
-                            case LEFT:
-                                player.closeInventory();
-                                new PreTeleportToWarpAction().preExecute(player, warp, null, null);
-                                break;
-                            case RIGHT:
-                            case SHIFT_RIGHT:
-                                if (getMenuType() == MenuType.OWNED_LIST_MENU) {
-                                    if (!player.hasPermission("playerwarps.settings")) {
-                                        player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", "playerwarps.settings"));
-                                        return;
+                    guiItem.setAction(event -> {
+                        if (PlayerWarpsPlugin.getWarpHandler().areWarps()) {
+                            switch (event.getClick()) {
+                                case LEFT:
+                                    player.closeInventory();
+                                    new PreTeleportToWarpAction().preExecute(player, warp, null, null);
+                                    break;
+                                case RIGHT:
+                                case SHIFT_RIGHT:
+                                    if (getMenuType() == MenuType.OWNED_LIST_MENU) {
+                                        if (!player.hasPermission("playerwarps.settings")) {
+                                            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", "playerwarps.settings"));
+                                            return;
+                                        }
+                                        new ManageMenu(warp).open(player);
+                                    } else {
+                                        if (Config.ENABLE_WARP_RATING.asBoolean()) {
+                                            new ReviewMenu(warp).open(player);
+                                        }
                                     }
-                                    new ManageMenu(warp).open(player);
-                                } else {
-                                    if (Config.ENABLE_WARP_RATING.asBoolean()) {
-                                        new ReviewMenu(warp).open(player);
-                                    }
-                                }
-                                break;
-                            case SHIFT_LEFT:
-                                MenuType actualMenu = (MenuType) user.getData(DataSelectorType.ACTUAL_MENU);
-                                new FavoriteWarpAction().preExecute(player, warp, null, actualMenu, page);
-                                break;
+                                    break;
+                                case SHIFT_LEFT:
+                                    MenuType actualMenu = (MenuType) user.getData(DataSelectorType.ACTUAL_MENU);
+                                    new FavoriteWarpAction().preExecute(player, warp, null, actualMenu, page);
+                                    break;
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
+                paginatedGui.addItem(guiItem);
             }
-            paginatedGui.addItem(guiItem.get());
-        });
-        //}
+        }
 
         setDefaultItems(player, paginatedGui);
-        //createGuiItems(player, paginatedGui, menuType);
-        paginatedGui.open(player, page);
+        paginatedGui.open(player);
     }
 
     public WarpsMenu setPage(int page) {

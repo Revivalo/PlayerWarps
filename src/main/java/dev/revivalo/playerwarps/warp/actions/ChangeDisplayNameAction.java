@@ -3,7 +3,6 @@ package dev.revivalo.playerwarps.warp.actions;
 import dev.revivalo.playerwarps.configuration.enums.Config;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
-import dev.revivalo.playerwarps.utils.TextUtils;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.entity.Player;

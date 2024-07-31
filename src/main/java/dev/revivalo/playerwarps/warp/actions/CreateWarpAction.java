@@ -85,7 +85,6 @@ public class CreateWarpAction implements WarpAction<Void> {
                     put("item", null);
                     put("status", Config.DEFAULT_WARP_STATUS.asUppercase());
                 }}
-
         ));
 
         String message = "";

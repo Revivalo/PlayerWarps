@@ -185,6 +185,7 @@ lang:
   free-of-charge: "&fFree"
   warp-active: "&a✔ Active"
   warp-inactive: "&c❌ Inactive"
+  help-display-name: "&b&lHint"
   help-lore:
     - ' '
     - '&7 To create warp use'
@@ -192,14 +193,11 @@ lang:
     - ' '
     - '&2  ● &a/pwarp create ◁name▷'
     - ' '
-    - '&7  then you can remove'
+    - '&7  then you can setup'
     - '&7  your warp by:'
     - ' '
-    - '&4  ● &c/pwarp remove ◁name▷'
+    - '&6  ● &e/pwarp setup ◁name▷'
     - ' '
-    - '&7 Edit your warp by'
-    - ' '
-    - '&8  ● &f/pwarp settings ◁warp▷'
   #
   # Settings menu
   #

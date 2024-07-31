@@ -1,5 +1,6 @@
 package dev.revivalo.playerwarps.warp;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
@@ -8,6 +9,7 @@ import dev.revivalo.playerwarps.hooks.Hooks;
 import dev.revivalo.playerwarps.utils.PermissionUtils;
 import dev.revivalo.playerwarps.utils.SortingUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
 public interface WarpAction<T> {
@@ -32,14 +34,27 @@ public interface WarpAction<T> {
 
         if (getFee() != 0) {
             if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
-                if (!Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee()).transactionSuccess()) {
+                if (!Hooks.getVaultHook().getApi().has(player, getFee())) {
                     player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", String.valueOf(getFee())));
                     return;
                 }
             }
         }
 
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+            }
+        }.runTaskTimer(PlayerWarpsPlugin.get(), 2, 2);
+
         boolean proceeded = execute(player, warp, data);
+
+        if (proceeded) {
+            if (Hooks.isHookEnabled(Hooks.getVaultHook())) {
+                Hooks.getVaultHook().getApi().withdrawPlayer(player, getFee());
+            }
+        }
 
         if (menuToOpen != null) {
             switch (menuToOpen) {
@@ -54,11 +69,6 @@ public interface WarpAction<T> {
                             .open(player, null, SortingUtils.SortType.LATEST);
                     break;
             }
-//            if (warp == null) {
-//                new WarpsMenu(MenuType.OWNED_LIST_MENU, 1).open(player, null, SortingUtils.SortType.LATEST);//PlayerWarpsPlugin.getGuiManager().openWarpsMenu(player, GUIManager.WarpMenuType.OWNED, null, 1, SortingUtils.SortType.LATEST);
-//            } else {
-//                new ManageMenu(warp).open(player); //PlayerWarpsPlugin.getGuiManager().openSetUpMenu(player, warp);
-//            }
         }
     }
 
@@ -76,4 +86,5 @@ public interface WarpAction<T> {
     Lang getInputText();
 
     boolean isPublicAction();
+
 }

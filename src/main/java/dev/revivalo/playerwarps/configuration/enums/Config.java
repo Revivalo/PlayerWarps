@@ -47,6 +47,7 @@ public enum Config {
     SEARCH_WARP_ITEM("search-warp-item"),
     SORT_WARPS_ITEM("sort-warps-item"),
     MY_WARPS_ITEM("my-warps-item"),
+    HELP_ITEM("help-item"),
     PAGE_ITEM("page-item"),
     STAR_REVIEW_ITEM("star-review-item"),
     SET_PRICE_ITEM("set-price-item"),

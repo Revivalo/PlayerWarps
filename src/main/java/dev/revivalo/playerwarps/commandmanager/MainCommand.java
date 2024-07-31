@@ -74,7 +74,6 @@ public abstract class MainCommand implements TabExecutor {
                     .map(Warp::getName)
                     .collect(Collectors.toList());
 
-
             suggestions.addAll(accessibleWarps);
             return suggestions;
         }
