@@ -24,7 +24,7 @@ lang:
     - "&cYou need %permission% to be"
     - "&cable to view this category"
 
-  no-warps: "&cNo warp created"
+  no-warp-found: "&cNo warp found"
   warp-in-deleted-world: "&cWarp is in deleted/inactive world"
   no-warp-at-position: "&cNo warp"
 

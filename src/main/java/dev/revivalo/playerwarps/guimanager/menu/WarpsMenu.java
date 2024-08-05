@@ -146,13 +146,22 @@ public class WarpsMenu implements Menu {
 
         GuiItem guiItem;
         if (warps.isEmpty()) {
-            guiItem = new GuiItem(
-                    ItemBuilder.from(ItemUtils.getItem(Config.HELP_ITEM.asUppercase()))
-                            .setName(Lang.HELP_DISPLAY_NAME.asColoredString())
-                            .setLore(Lang.HELP_LORE.asReplacedList())
-                            .build()
-            );
-            paginatedGui.setItem(22, guiItem);
+            if (menuType == MenuType.OWNED_LIST_MENU && Config.ENABLE_HINTS.asBoolean()) {
+                guiItem = new GuiItem(
+                        ItemBuilder.from(ItemUtils.getItem(Config.HELP_ITEM.asUppercase()))
+                                .setName(Lang.HELP_DISPLAY_NAME.asColoredString())
+                                .setLore(Lang.HELP_LORE.asReplacedList())
+                                .build()
+                );
+                paginatedGui.setItem(22, guiItem);
+            } else {
+                guiItem = new GuiItem(
+                        ItemBuilder.from(ItemUtils.getItem(Config.NO_WARP_FOUND_ITEM.asUppercase()))
+                                .setName(Lang.NO_WARP_FOUND.asColoredString())
+                                .build()
+                );
+                paginatedGui.setItem(22, guiItem);
+            }
         } else {
             for (Warp warp : warps) {
                 if (warp.getLocation() == null) {

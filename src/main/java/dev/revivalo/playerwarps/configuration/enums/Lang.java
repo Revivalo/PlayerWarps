@@ -35,7 +35,7 @@ public enum Lang {
     WARP_VISIT_NOTIFICATION("warp-visit-notification"),
     LIMIT_REACHED("limit-reached"),
     LIMIT_REACHED_OTHER("limit-reached-other"),
-    NO_WARPS("no-warps"),
+    NO_WARP_FOUND("no-warp-found"),
     NO_WARP_AT_POSITION("no-warp-at-position"),
     ALREADY_OWNING("already-owning"),
     LATEST("latest"),
