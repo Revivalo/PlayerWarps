@@ -33,6 +33,9 @@ public class WarpsMenu implements Menu {
     private final MenuType menuType;
     private final PaginatedGui paginatedGui;
 
+    private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtils.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
+    private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtils.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
+
     public WarpsMenu(MenuType menuType) {
         this.menuType = menuType;
         this.paginatedGui = Gui.paginated()
@@ -65,13 +68,13 @@ public class WarpsMenu implements Menu {
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
         //if (paginatedGui.previous())
-        paginatedGui.setItem(45, ItemBuilder.from(Material.ARROW).setName(Lang.PREVIOUS_PAGE.asColoredString()).asGuiItem(event -> {
+        paginatedGui.setItem(45, PREVIOUS_PAGE.asGuiItem(event -> {
             paginatedGui.previous();
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
         //if (paginatedGui.next())
-        paginatedGui.setItem(53, ItemBuilder.from(Material.ARROW).setName(Lang.NEXT_PAGE.asColoredString()).asGuiItem(event -> {
+        paginatedGui.setItem(53, NEXT_PAGE.asGuiItem(event -> {
             paginatedGui.next();
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
