@@ -69,14 +69,13 @@ public class ManageMenu implements Menu {
         gui.setItem(Config.CHANGE_DESCRIPTION_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.CHANGE_DESCRIPTION_ITEM.asUppercase())).setName(Lang.CHANGE_DESCRIPTION.asColoredString()).setLore(Lang.CHANGE_DESCRIPTION_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_DESCRIPTION)));
         gui.setItem(Config.CHANGE_ACCESSIBILITY_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.CHANGE_ACCESSIBILITY_ITEM.asUppercase())).setName(Lang.PWARP_ACCESSIBILITY.asColoredString()).setLore(Lang.PWARP_ACCESSIBILITY_LORE.asReplacedList(player, new HashMap<String, String>() {{
             put("%status%", warp.getStatus().getText());
-        }})).asGuiItem(event -> new SetStatusMenu(warp).open(player))); //openSetStatusMenu(player, warp)));
+        }})).asGuiItem(event -> new SetStatusMenu(warp).open(player)));
         gui.setItem(Config.RENAME_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.RENAME_WARP_ITEM.asUppercase())).setName(Lang.RENAME_WARP.asColoredString()).setLore(Lang.RENAME_WARP_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.RENAME)));
-        gui.setItem(Config.REMOVE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.REMOVE_WARP_ITEM.asUppercase())).setName(Lang.REMOVE_WARP.asColoredString()).setLore(Lang.REMOVE_WARP_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ConfirmationMenu(warp).open(player, new RemoveWarpAction()))); //openAcceptMenu(player, warp, WarpAction.REMOVE)));
-        gui.setItem(Config.RELOCATE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.RELOCATE_WARP_ITEM.asUppercase())).setName(Lang.WARP_RELOCATION.asColoredString()).setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, MenuType.MANAGE_MENU, 1)));//PlayerWarpsPlugin.getWarpHandler().relocateWarp(player, warp)));
+        gui.setItem(Config.REMOVE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.REMOVE_WARP_ITEM.asUppercase())).setName(Lang.REMOVE_WARP.asColoredString()).setLore(Lang.REMOVE_WARP_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ConfirmationMenu(warp).open(player, new RemoveWarpAction())));
+        gui.setItem(Config.RELOCATE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.RELOCATE_WARP_ITEM.asUppercase())).setName(Lang.WARP_RELOCATION.asColoredString()).setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, MenuType.MANAGE_MENU, 1)));
         gui.setItem(Config.CHANGE_OWNER_POSITION.asInteger(), ItemBuilder.from(ItemUtils.getItem(Config.CHANGE_OWNER_ITEM.asUppercase())).setName(Lang.CHANGE_OWNER.asColoredString()).setLore(Lang.CHANGE_OWNER_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.CHANGE_OWNERSHIP)));
 
         setDefaultItems(player, gui);
-        //createGuiItems(player, gui, GUIManager.WarpMenuType.OWNED);
 
         gui.open(player);
     }

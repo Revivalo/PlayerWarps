@@ -128,6 +128,7 @@ public enum Lang {
     WARP_RELOCATION("warp-relocation"),
     WARP_RELOCATION_LORE("warp-relocation-lore"),
     TRIED_TO_CREATE_PWARP_IN_DISABLED_WORLD("tried-to-create-warp-in-disabled-world"),
+    TRIED_TO_RELOCATE_PWARP_TO_DISABLED_WORLD("tried-to-relocate-warp-to-disabled-world"),
     WARP_NAME_IS_ABOVE_LETTER_LIMIT("warp-name-is-above-letters-limit"),
     CATEGORY_TITLE("category-title"),
     CHANGE_WARP_CATEGORY_TITLE("change-warp-category-title"),
