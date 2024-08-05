@@ -80,7 +80,7 @@ public class Warp implements ConfigurationSerializable {
             put("item", getMenuItem());
             put("ratings", getRating());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
-            put("category", getCategory().getType());
+            put("category", getCategory() == null ? "all" : getCategory().getType());
             put("password", getPassword());
             put("visits", getVisits());
             put("status", getStatus().name());
