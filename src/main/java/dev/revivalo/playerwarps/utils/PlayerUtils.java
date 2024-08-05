@@ -15,9 +15,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class PlayerUtils {
-    private static final HashMap<Player, Integer> tp = new HashMap<>();
-
+public final class PlayerUtils {
     public static CompletableFuture<OfflinePlayer> getOfflinePlayer(final UUID uuid) {
         return PlayerWarpsPlugin.get().completableFuture(() -> Bukkit.getOfflinePlayer(uuid));
     }
