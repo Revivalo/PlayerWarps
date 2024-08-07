@@ -1,0 +1,53 @@
+package dev.revivalo.playerwarps.warp.action;
+
+import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
+import dev.revivalo.playerwarps.util.PermissionUtil;
+import dev.revivalo.playerwarps.warp.Warp;
+import dev.revivalo.playerwarps.warp.WarpAction;
+import org.bukkit.entity.Player;
+
+import java.util.List;
+
+public class FavoriteWarpAction implements WarpAction<Void> {
+    @Override
+    public boolean execute(Player player, Warp warp, Void data) {
+        final PlayerConfig playerData = PlayerConfig.getConfig(player);
+        final List<String> favorites = playerData.getStringList("favorites");
+        final String warpString = warp.toString();
+
+        if (favorites.contains(warpString)) {
+            favorites.remove(warpString);
+            player.sendMessage(Lang.REMOVE_FAVORITE.asColoredString().replace("%warp%", warp.getName()));
+        } else {
+            favorites.add(warpString);
+            player.sendMessage(Lang.ADD_FAVORITE.asColoredString().replace("%warp%", warp.getName()));
+        }
+
+        playerData.set("favorites", favorites);
+        playerData.save();
+
+        return true;
+    }
+
+
+    @Override
+    public PermissionUtil.Permission getPermission() {
+        return PermissionUtil.Permission.FAVORITE_WARP;
+    }
+
+    @Override
+    public int getFee() {
+        return 0;
+    }
+
+    @Override
+    public Lang getInputText() {
+        return null;
+    }
+
+    @Override
+    public boolean isPublicAction() {
+        return true;
+    }
+}

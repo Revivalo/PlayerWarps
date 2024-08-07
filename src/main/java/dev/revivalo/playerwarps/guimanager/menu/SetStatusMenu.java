@@ -1,9 +1,9 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpState;
-import dev.revivalo.playerwarps.warp.actions.SetPasswordAction;
+import dev.revivalo.playerwarps.warp.action.SetPasswordAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;

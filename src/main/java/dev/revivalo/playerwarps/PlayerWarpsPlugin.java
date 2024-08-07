@@ -1,16 +1,16 @@
 package dev.revivalo.playerwarps;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
-import dev.revivalo.playerwarps.categories.CategoryManager;
-import dev.revivalo.playerwarps.commandmanager.commands.PwarpMainCommand;
+import dev.revivalo.playerwarps.category.CategoryManager;
+import dev.revivalo.playerwarps.commandmanager.command.PwarpMainCommand;
 import dev.revivalo.playerwarps.configuration.Data;
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.hooks.Hooks;
-import dev.revivalo.playerwarps.listeners.ChatSendListener;
-import dev.revivalo.playerwarps.listeners.PlayerJoinListener;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.listener.ChatSendListener;
+import dev.revivalo.playerwarps.listener.PlayerJoinListener;
 import dev.revivalo.playerwarps.updatechecker.UpdateChecker;
 import dev.revivalo.playerwarps.updatechecker.UpdateNotificator;
-import dev.revivalo.playerwarps.utils.VersionUtils;
+import dev.revivalo.playerwarps.util.VersionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpHandler;
 import io.github.g00fy2.versioncompare.Version;
@@ -44,7 +44,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
 
         new Metrics(this, 12061);
 
-        Hooks.hook();
+        Hook.hook();
 
         if (Config.UPDATE_CHECKER.asBoolean()) {
             new UpdateChecker(this, 79089).getVersion(pluginVersion -> {
@@ -67,7 +67,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
                         getLogger().info(String.format("You are running the latest release (%s).", pluginVersion));
                     }
                 }
-                VersionUtils.setLatestVersion(!isNewerVersion);
+                VersionUtil.setLatestVersion(!isNewerVersion);
             });
         }
 

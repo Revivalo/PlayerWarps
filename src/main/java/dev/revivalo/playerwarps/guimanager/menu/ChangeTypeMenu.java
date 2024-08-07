@@ -1,10 +1,10 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
-import dev.revivalo.playerwarps.categories.Category;
-import dev.revivalo.playerwarps.categories.CategoryManager;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.category.Category;
+import dev.revivalo.playerwarps.category.CategoryManager;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.actions.SetTypeAction;
+import dev.revivalo.playerwarps.warp.action.SetTypeAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;

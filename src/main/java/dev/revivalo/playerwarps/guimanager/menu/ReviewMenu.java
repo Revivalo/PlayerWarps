@@ -1,14 +1,14 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
 import dev.revivalo.playerwarps.user.UserHandler;
-import dev.revivalo.playerwarps.utils.ItemUtils;
-import dev.revivalo.playerwarps.utils.SortingUtils;
+import dev.revivalo.playerwarps.util.ItemUtil;
+import dev.revivalo.playerwarps.util.SortingUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.actions.ReviewWarpAction;
+import dev.revivalo.playerwarps.warp.action.ReviewWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
@@ -37,22 +37,22 @@ public class ReviewMenu implements Menu {
         final User user = UserHandler.getUser(player);
         //user.setActualMenu(this);
 
-        gui.setItem(11, ItemBuilder.from(ItemUtils.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 1, null)));
-        gui.setItem(12, ItemBuilder.from(ItemUtils.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 2, null)));
-        gui.setItem(13, ItemBuilder.from(ItemUtils.THREE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 3, null)));
-        gui.setItem(14, ItemBuilder.from(ItemUtils.FOUR_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 4, null)));
-        gui.setItem(15, ItemBuilder.from(ItemUtils.FIVE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 5, null)));
+        gui.setItem(11, ItemBuilder.from(ItemUtil.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 1, null)));
+        gui.setItem(12, ItemBuilder.from(ItemUtil.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 2, null)));
+        gui.setItem(13, ItemBuilder.from(ItemUtil.THREE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 3, null)));
+        gui.setItem(14, ItemBuilder.from(ItemUtil.FOUR_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 4, null)));
+        gui.setItem(15, ItemBuilder.from(ItemUtil.FIVE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 5, null)));
 
         gui.setItem(
                 31,
                 ItemBuilder.from(
-                                ItemUtils.getItem(Config.BACK_ITEM.asString())
+                                ItemUtil.getItem(Config.BACK_ITEM.asString())
                         )
                         .setName(Lang.BACK_NAME.asColoredString())
                         .asGuiItem(
                                 event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage((int) user.getData(DataSelectorType.ACTUAL_PAGE))
-                                        .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), SortingUtils.SortType.LATEST)
+                                        .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), SortingUtil.SortType.LATEST)
                         )
         );
 //        gui.setItem(31, ItemBuilder.from(ItemUtils.getItem(Config.BACK_ITEM.asString())).name(Component.text(Lang.BACK_NAME.asColoredString())).asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)

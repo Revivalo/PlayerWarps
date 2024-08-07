@@ -1,8 +1,8 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.utils.ItemUtils;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
@@ -15,8 +15,8 @@ public class ConfirmationMenu implements Menu {
     private final Warp warp;
     private final Gui gui;
 
-    private final ItemBuilder acceptItem =  ItemBuilder.from(ItemUtils.getItem(Config.CONFIRM_ITEM.asUppercase())).setName(Lang.ACCEPT.asColoredString());
-    private final ItemBuilder denyItem =  ItemBuilder.from(ItemUtils.getItem(Config.DENY_ITEM.asUppercase())).setName(Lang.DENY.asColoredString());
+    private final ItemBuilder acceptItem =  ItemBuilder.from(ItemUtil.getItem(Config.CONFIRM_ITEM.asUppercase())).setName(Lang.ACCEPT.asColoredString());
+    private final ItemBuilder denyItem =  ItemBuilder.from(ItemUtil.getItem(Config.DENY_ITEM.asUppercase())).setName(Lang.DENY.asColoredString());
 
     public ConfirmationMenu(Warp warp) {
         this.warp = warp;

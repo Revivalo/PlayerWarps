@@ -1,7 +1,6 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
 import de.rapha149.signgui.SignGUI;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.DyeColor;

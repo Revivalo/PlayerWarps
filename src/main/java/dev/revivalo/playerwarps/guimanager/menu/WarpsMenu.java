@@ -1,18 +1,18 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.categories.Category;
-import dev.revivalo.playerwarps.categories.CategoryManager;
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.category.Category;
+import dev.revivalo.playerwarps.category.CategoryManager;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
 import dev.revivalo.playerwarps.user.UserHandler;
-import dev.revivalo.playerwarps.utils.*;
+import dev.revivalo.playerwarps.util.*;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.actions.FavoriteWarpAction;
-import dev.revivalo.playerwarps.warp.actions.PreTeleportToWarpAction;
-import dev.revivalo.playerwarps.warp.actions.SearchWarpAction;
+import dev.revivalo.playerwarps.warp.action.FavoriteWarpAction;
+import dev.revivalo.playerwarps.warp.action.PreTeleportToWarpAction;
+import dev.revivalo.playerwarps.warp.action.SearchWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -33,8 +33,8 @@ public class WarpsMenu implements Menu {
     private final MenuType menuType;
     private final PaginatedGui paginatedGui;
 
-    private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtils.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
-    private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtils.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
+    private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
+    private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
 
     public WarpsMenu(MenuType menuType) {
         this.menuType = menuType;
@@ -53,14 +53,14 @@ public class WarpsMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        open(player, "all", SortingUtils.SortType.LATEST, null);
+        open(player, "all", SortingUtil.SortType.LATEST, null);
     }
 
-    public void open(Player player, String categoryName, SortingUtils.SortType sortType) {
+    public void open(Player player, String categoryName, SortingUtil.SortType sortType) {
         open(player, categoryName, sortType, null);
     }
 
-    public void open(Player player, String categoryName, SortingUtils.SortType sortType, List<Warp> foundWarps) {
+    public void open(Player player, String categoryName, SortingUtil.SortType sortType, List<Warp> foundWarps) {
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
         user.addData(DataSelectorType.ACTUAL_MENU, getMenuType());
@@ -79,12 +79,12 @@ public class WarpsMenu implements Menu {
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
-        SortingUtils.SortType nextSortType = sortType == SortingUtils.SortType.LATEST ? SortingUtils.SortType.VISITS
-                : sortType == SortingUtils.SortType.VISITS
-                ? SortingUtils.SortType.RATING : SortingUtils.SortType.LATEST;
+        SortingUtil.SortType nextSortType = sortType == SortingUtil.SortType.LATEST ? SortingUtil.SortType.VISITS
+                : sortType == SortingUtil.SortType.VISITS
+                ? SortingUtil.SortType.RATING : SortingUtil.SortType.LATEST;
 
         if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
-            paginatedGui.setItem(52, ItemBuilder.from(ItemUtils.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
+            paginatedGui.setItem(52, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
                     .setName(Lang.SEARCH_WARP.asColoredString())
                     .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
                     .asGuiItem(
@@ -97,13 +97,13 @@ public class WarpsMenu implements Menu {
         }
 
         if (getMenuType() != MenuType.OWNED_LIST_MENU)
-            paginatedGui.setItem(46, ItemBuilder.from(ItemUtils.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
+            paginatedGui.setItem(46, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
                     .setName(Lang.SORT_WARPS.asColoredString())
                     .setLore(
                             " ",
-                            TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.LATEST ? "&a" : "&7") + "► " + Lang.LATEST.asColoredString(),
-                            TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.VISITS ? "&a" : "&7") + "► " + Lang.VISITS.asColoredString(),
-                            TextUtils.getColorizedString(player, sortType == SortingUtils.SortType.RATING ? "&a" : "&7") + "► " + Lang.RATING.asColoredString(),
+                            TextUtil.getColorizedString(player, sortType == SortingUtil.SortType.LATEST ? "&a" : "&7") + "► " + Lang.LATEST.asColoredString(),
+                            TextUtil.getColorizedString(player, sortType == SortingUtil.SortType.VISITS ? "&a" : "&7") + "► " + Lang.VISITS.asColoredString(),
+                            TextUtil.getColorizedString(player, sortType == SortingUtil.SortType.RATING ? "&a" : "&7") + "► " + Lang.RATING.asColoredString(),
                             " ",
                             Lang.CLICK_TO_SORT_BY.asReplacedString(player, new HashMap<String, String>() {{
                                 put("%selector%", nextSortType.getName());
@@ -148,7 +148,7 @@ public class WarpsMenu implements Menu {
         if (warps.isEmpty()) {
             if (menuType == MenuType.OWNED_LIST_MENU && Config.ENABLE_HINTS.asBoolean()) {
                 guiItem = new GuiItem(
-                        ItemBuilder.from(ItemUtils.getItem(Config.HELP_ITEM.asUppercase()))
+                        ItemBuilder.from(ItemUtil.getItem(Config.HELP_ITEM.asUppercase()))
                                 .setName(Lang.HELP_DISPLAY_NAME.asColoredString())
                                 .setLore(Lang.HELP_LORE.asReplacedList())
                                 .build()
@@ -156,7 +156,7 @@ public class WarpsMenu implements Menu {
                 paginatedGui.setItem(22, guiItem);
             } else {
                 guiItem = new GuiItem(
-                        ItemBuilder.from(ItemUtils.getItem(Config.NO_WARP_FOUND_ITEM.asUppercase()))
+                        ItemBuilder.from(ItemUtil.getItem(Config.NO_WARP_FOUND_ITEM.asUppercase()))
                                 .setName(Lang.NO_WARP_FOUND.asColoredString())
                                 .build()
                 );
@@ -166,23 +166,23 @@ public class WarpsMenu implements Menu {
             for (Warp warp : warps) {
                 if (warp.getLocation() == null) {
                     guiItem = new GuiItem(ItemBuilder.from(Material.BARRIER)
-                            .setName(TextUtils.color(warp.getDisplayName()))
+                            .setName(TextUtil.color(warp.getDisplayName()))
                             .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
                             .build());
                 } else {
-                    guiItem = ItemBuilder.from((warp.getMenuItem() == null ? ItemUtils.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
-                            .setName(TextUtils.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
+                    guiItem = ItemBuilder.from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
+                            .setName(TextUtil.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
                             .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
-                                        put("%creationDate%", DateUtils.getFormatter().format(warp.getDateCreated()));
+                                        put("%creationDate%", DateUtil.getFormatter().format(warp.getDateCreated()));
                                         put("%world%", warp.getLocation().getWorld().getName());
                                         put("%voters%", String.valueOf(warp.getReviewers().size()));
                                         put("%price%", warp.getAdmission() == 0
                                                 ? Lang.FREE_OF_CHARGE.asColoredString()
-                                                : TextUtils.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
+                                                : TextUtil.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
                                         put("%today%", String.valueOf(warp.getTodayVisits()));
                                         put("%status%", warp.getStatus().getText());
-                                        put("%ratings%", String.valueOf(NumberUtils.round(warp.getConvertedRating(), 1)));
-                                        put("%stars%", TextUtils.createRatingFormat(warp));
+                                        put("%ratings%", String.valueOf(NumberUtil.round(warp.getConvertedRating(), 1)));
+                                        put("%stars%", TextUtil.createRatingFormat(warp));
                                         put("%lore%", warp.getDescription() == null
                                                 ? Lang.NO_DESCRIPTION.asColoredString()
                                                 : warp.getDescription());

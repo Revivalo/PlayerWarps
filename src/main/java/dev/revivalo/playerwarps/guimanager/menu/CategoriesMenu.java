@@ -1,11 +1,11 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.categories.CategoryManager;
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.utils.ItemUtils;
-import dev.revivalo.playerwarps.utils.SortingUtils;
+import dev.revivalo.playerwarps.category.CategoryManager;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.util.ItemUtil;
+import dev.revivalo.playerwarps.util.SortingUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -17,8 +17,8 @@ import java.util.HashMap;
 public class CategoriesMenu implements Menu {
     private final Gui gui;
 
-    private final GuiItem BACKGROUND_FILLER = Config.CATEGORIES_BACKGROUND_ITEM.asString().equalsIgnoreCase("none") ? null : ItemBuilder.from(ItemUtils.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asUppercase())).setName(" ").asGuiItem();
-    private final ItemBuilder INSUFFICIENT_PERMISSION_ITEM =  ItemBuilder.from(ItemUtils.getItem(Config.INSUFFICIENT_PERMISSIONS_ITEM.asUppercase()))
+    private final GuiItem BACKGROUND_FILLER = Config.CATEGORIES_BACKGROUND_ITEM.asString().equalsIgnoreCase("none") ? null : ItemBuilder.from(ItemUtil.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asUppercase())).setName(" ").asGuiItem();
+    private final ItemBuilder INSUFFICIENT_PERMISSION_ITEM =  ItemBuilder.from(ItemUtil.getItem(Config.INSUFFICIENT_PERMISSIONS_ITEM.asUppercase()))
             .setName(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY.asColoredString());
 
     public CategoriesMenu() {
@@ -57,7 +57,7 @@ public class CategoriesMenu implements Menu {
                                 .setLore(category.getLore())
                                 .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage(1)
-                                        .open(player, category.toString(), SortingUtils.SortType.LATEST))
+                                        .open(player, category.toString(), SortingUtil.SortType.LATEST))
                                 : INSUFFICIENT_PERMISSION_ITEM
                                     .setLore(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", category.getPermission());}}))
                                     .asGuiItem()

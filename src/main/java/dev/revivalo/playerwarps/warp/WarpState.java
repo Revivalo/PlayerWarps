@@ -1,6 +1,6 @@
 package dev.revivalo.playerwarps.warp;
 
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 
 public enum WarpState {
     OPENED,

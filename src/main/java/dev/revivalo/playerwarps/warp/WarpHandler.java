@@ -2,16 +2,16 @@ package dev.revivalo.playerwarps.warp;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.categories.CategoryManager;
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.category.CategoryManager;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.user.WarpAction;
-import dev.revivalo.playerwarps.utils.ItemUtils;
-import dev.revivalo.playerwarps.utils.PermissionUtils;
-import dev.revivalo.playerwarps.utils.TextUtils;
+import dev.revivalo.playerwarps.util.ItemUtil;
+import dev.revivalo.playerwarps.util.PermissionUtil;
+import dev.revivalo.playerwarps.util.TextUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,8 +42,8 @@ public class WarpHandler {
     }
 
     public void reloadWarps(CommandSender sender) {
-        if (!PermissionUtils.hasPermission(sender, PermissionUtils.Permission.RELOAD_PLUGIN)) {
-            sender.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtils.Permission.RELOAD_PLUGIN.get()));
+        if (!PermissionUtil.hasPermission(sender, PermissionUtil.Permission.RELOAD_PLUGIN)) {
+            sender.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtil.Permission.RELOAD_PLUGIN.get()));
         } else {
             PlayerWarpsPlugin.get().reloadConfig();
             File configFile = new File(PlayerWarpsPlugin.get().getDataFolder(), "config.yml");
@@ -74,7 +74,7 @@ public class WarpHandler {
                         PlayerWarpsPlugin.get().getLogger().info("Warp " + warp + " was not loaded because it is located in a world that does not exist.");
                         return;
                     }
-                    ItemStack item = warpSection.getItemStack("item", ItemUtils.getItem(warpSection.getString("item")));
+                    ItemStack item = warpSection.getItemStack("item", ItemUtil.getItem(warpSection.getString("item")));
                     String description = warpSection.getString("lore");
                     int ratings = warpSection.getInt("ratings");
                     List<String> reviewers = warpSection.getStringList("reviewers");
@@ -212,7 +212,7 @@ public class WarpHandler {
                 messageToSent = "error";
         }
 
-        player.sendMessage(TextUtils.replaceString(messageToSent, new HashMap<String, String>() {{
+        player.sendMessage(TextUtil.replaceString(messageToSent, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
         }}));
 

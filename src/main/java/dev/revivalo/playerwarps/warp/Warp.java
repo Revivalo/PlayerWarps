@@ -1,10 +1,10 @@
 package dev.revivalo.playerwarps.warp;
 
-import dev.revivalo.playerwarps.categories.Category;
-import dev.revivalo.playerwarps.categories.CategoryManager;
-import dev.revivalo.playerwarps.utils.ItemUtils;
-import dev.revivalo.playerwarps.utils.PermissionUtils;
-import dev.revivalo.playerwarps.utils.TextUtils;
+import dev.revivalo.playerwarps.category.Category;
+import dev.revivalo.playerwarps.category.CategoryManager;
+import dev.revivalo.playerwarps.util.ItemUtil;
+import dev.revivalo.playerwarps.util.PermissionUtil;
+import dev.revivalo.playerwarps.util.TextUtil;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
@@ -48,7 +48,7 @@ public class Warp implements ConfigurationSerializable {
                 case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
                 case "item":
                     if (value instanceof String) {
-                        setMenuItem(ItemUtils.getItem((String) value));
+                        setMenuItem(ItemUtil.getItem((String) value));
                     } else {
                         setMenuItem((ItemStack) value);
                     }
@@ -64,7 +64,7 @@ public class Warp implements ConfigurationSerializable {
             }
         }
 
-        if (reviewers != null) stars = TextUtils.createRatingFormat(this);
+        if (reviewers != null) stars = TextUtil.createRatingFormat(this);
     }
 
     @NotNull
@@ -103,7 +103,7 @@ public class Warp implements ConfigurationSerializable {
     }
 
     public boolean canManage(Player player){
-        return PermissionUtils.hasPermission(player, PermissionUtils.Permission.MANAGE_OTHERS)
+        return PermissionUtil.hasPermission(player, PermissionUtil.Permission.MANAGE_OTHERS)
             || Objects.equals(player.getUniqueId(), getOwner());
     }
 

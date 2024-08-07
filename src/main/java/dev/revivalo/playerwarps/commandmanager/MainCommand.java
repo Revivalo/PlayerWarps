@@ -1,9 +1,9 @@
 package dev.revivalo.playerwarps.commandmanager;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.actions.PreTeleportToWarpAction;
+import dev.revivalo.playerwarps.warp.action.PreTeleportToWarpAction;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;

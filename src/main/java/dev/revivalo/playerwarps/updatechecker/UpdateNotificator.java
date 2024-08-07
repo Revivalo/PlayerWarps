@@ -1,8 +1,8 @@
 package dev.revivalo.playerwarps.updatechecker;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.utils.VersionUtils;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.util.VersionUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class UpdateNotificator implements Listener {
 
 		if (!player.isOp()) return;
 		if (!Config.UPDATE_CHECKER.asBoolean()) return;
-		if (VersionUtils.isLatestVersion()) return;
+		if (VersionUtil.isLatestVersion()) return;
 
 		TextComponent download = new TextComponent("§3§lDownload");
 		download.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/playerwarps-easy-warping-system-hex-colors-support-custom-categories-1-13-1-20-1.79089/"));

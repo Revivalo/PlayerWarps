@@ -1,6 +1,6 @@
 package dev.revivalo.playerwarps.commandmanager;
 
-import dev.revivalo.playerwarps.utils.PermissionUtils;
+import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface SubCommand {
 
     String getSyntax();
 
-    PermissionUtils.Permission getPermission();
+    PermissionUtil.Permission getPermission();
 
     List<String> getTabCompletion(CommandSender sender, int index, String[] args);
 

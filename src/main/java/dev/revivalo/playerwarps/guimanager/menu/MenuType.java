@@ -1,6 +1,6 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
-import dev.revivalo.playerwarps.configuration.enums.Lang;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 
 public enum MenuType {
     MANAGE_MENU(Lang.EDIT_WARP_MENU_TITLE),

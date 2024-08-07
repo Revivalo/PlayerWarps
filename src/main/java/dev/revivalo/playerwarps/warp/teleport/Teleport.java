@@ -1,9 +1,9 @@
 package dev.revivalo.playerwarps.warp.teleport;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.configuration.enums.Config;
-import dev.revivalo.playerwarps.configuration.enums.Lang;
-import dev.revivalo.playerwarps.utils.PermissionUtils;
+import dev.revivalo.playerwarps.configuration.file.Config;
+import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.teleport.task.TeleportTask;
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
@@ -20,7 +20,7 @@ public class Teleport {
         this.player = player;
         this.targetLocation = targetLocation;
 
-        boolean withCooldown = !PermissionUtils.hasPermission(player, PermissionUtils.Permission.BYPASS_TELEPORT_DELAY);
+        boolean withCooldown = !PermissionUtil.hasPermission(player, PermissionUtil.Permission.BYPASS_TELEPORT_DELAY);
         this.delay = Config.TELEPORTATION_DELAY.asInteger();
 
         this.runTimer = withCooldown && this.delay != 0;
