@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class PwarpMainCommand extends MainCommand {
     public PwarpMainCommand() {
-        super(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtil.Permission.USE.get()), new StartingWithStringArgumentMatcher());
+        super(Lang.INSUFFICIENT_PERMISSIONS, new StartingWithStringArgumentMatcher());
     }
 
     @Override
