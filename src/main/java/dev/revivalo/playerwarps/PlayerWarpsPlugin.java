@@ -1,6 +1,5 @@
 package dev.revivalo.playerwarps;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.commandmanager.command.PwarpMainCommand;
 import dev.revivalo.playerwarps.configuration.Data;
@@ -26,10 +25,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.logging.Level;
 
 public final class PlayerWarpsPlugin extends JavaPlugin {
     private static PlayerWarpsPlugin plugin;
@@ -40,6 +42,21 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         setPlugin(this);
+
+        File langFolder = new File(getDataFolder(), "lang");
+        if (!langFolder.exists()) {
+            langFolder.mkdirs();
+        }
+
+        copyResource("lang/English.yml");
+        copyResource("lang/Czech.yml");
+        copyResource("lang/Chinese.yml");
+        copyResource("lang/French.yml");
+        copyResource("lang/German.yml");
+        copyResource("lang/Polish.yml");
+        copyResource("lang/Russian.yml");
+        copyResource("lang/Turkish.yml");
+
         Config.reload();
 
         new Metrics(this, 12061);
@@ -69,15 +86,6 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
                 }
                 VersionUtil.setLatestVersion(!isNewerVersion);
             });
-        }
-
-        saveDefaultConfig();
-        File configFile = new File(getDataFolder(), "config.yml");
-
-        try {
-            ConfigUpdater.update(this, "config.yml", configFile, Collections.emptyList());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         CategoryManager.loadCategories();
@@ -117,6 +125,23 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
     public void registerEvents(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
+        }
+    }
+
+    private void copyResource(String resourcePath) {
+        File outFile = new File(getDataFolder(), resourcePath);
+        if (!outFile.exists()) {
+            try (InputStream in = getResource(resourcePath)) {
+                if (in == null) {
+                    getLogger().log(Level.SEVERE, "Resource " + resourcePath + " not found in the plugin JAR!");
+                    return;
+                }
+                outFile.getParentFile().mkdirs(); // Vytvoří cílovou složku, pokud neexistuje
+                Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                getLogger().log(Level.INFO, "Resource " + resourcePath + " successfully copied.");
+            } catch (IOException e) {
+                getLogger().log(Level.SEVERE, "Failed to copy resource " + resourcePath, e);
+            }
         }
     }
 
