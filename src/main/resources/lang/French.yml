@@ -1,10 +1,10 @@
 lang:
-  prefix: "&f&lJoueur&3&lWARPS&7 &8⏵"
+  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
   unknown-command: "%prefix% &cCommande inconnue, utilisez /pwarp help"
   insufficient-permissions: "%prefix% &7Vous avez besoin de %permission% pour cette action !"
   bad-command-syntax: "%prefix% &cSyntaxe correcte de la commande : &4%syntax%"
   help-message-lore:
-    - "&7-------------------< &f&lJoueur&3&lWARPS&7 >--------------------"
+    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7ouvre le menu principal avec tous les warps listés"
     - "&b/pwarp teleport <warp> &8- &7vous téléporte au warp spécifié"
     - "&b/pwarp create <warp> &8- &7crée un warp avec le nom indiqué"

@@ -1,10 +1,10 @@
 lang:
-  prefix: "&f&lOYUNCU&3&lWARPS&7 &8⏵"
+  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
   unknown-command: "%prefix% &cBilinmeyen komut, /pwarp help kullanın"
   insufficient-permissions: "%prefix% &7Bu işlem için %permission% iznine ihtiyacınız var!"
   bad-command-syntax: "%prefix% &cKomutun doğru sözdizimi: &4%syntax%"
   help-message-lore:
-    - "&7-------------------< &f&lOYUNCU&3&lWARPS&7 >--------------------"
+    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7tüm listedeki warpları içeren ana menüyü açar"
     - "&b/pwarp teleport <warp> &8- &7belirtilen warp'a ışınlanır"
     - "&b/pwarp create <warp> &8- &7belirtilen isimle bir warp oluşturur"

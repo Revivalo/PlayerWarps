@@ -1,10 +1,10 @@
 lang:
-  prefix: "&f&l玩家&3&l传送门&7 &8⏵"
+  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
   unknown-command: "%prefix% &c未知命令，请使用 /pwarp help"
   insufficient-permissions: "%prefix% &7您需要 %permission% 才能执行此操作！"
   bad-command-syntax: "%prefix% &c命令的正确语法是: &4%syntax%"
   help-message-lore:
-    - "&7-------------------< &f&l玩家&3&l传送门&7 >--------------------"
+    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7打开包含所有传送门的主菜单"
     - "&b/pwarp teleport <warp> &8- &7传送到指定的传送门"
     - "&b/pwarp create <warp> &8- &7创建一个名为的传送门"

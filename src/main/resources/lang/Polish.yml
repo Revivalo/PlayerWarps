@@ -1,10 +1,10 @@
 lang:
-  prefix: "&f&lGRAJ&3&lWARP&7 &8⏵"
+  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
   unknown-command: "%prefix% &cNieznane polecenie, użyj /pwarp help"
   insufficient-permissions: "%prefix% &7Potrzebujesz %permission% do wykonania tej akcji!"
   bad-command-syntax: "%prefix% &cPoprawna składnia polecenia: &4%syntax%"
   help-message-lore:
-    - "&7-------------------< &f&lGRAJ&3&lWARP&7 >--------------------"
+    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7otwiera główne menu z wszystkimi warpami"
     - "&b/pwarp teleport <warp> &8- &7teleportuje do określonego warpu"
     - "&b/pwarp create <warp> &8- &7tworzy warp o podanej nazwie"

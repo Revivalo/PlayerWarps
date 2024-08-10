@@ -139,8 +139,6 @@ lang:
   remove-favorite-warp: "%prefix% &7You have removed %warp% warp from your favorite list"
   warp-not-contains-favlist: "%prefix% &7Warp %warp% does not contain your favorite list"
   warp-already-contains-favlist: "%prefix% &7Warp %warp% is already added to your favorite list"
-
-
   search-warp: "&aSearch Warp"
   search-warp-lore:
     - "&7Click to search warp"
