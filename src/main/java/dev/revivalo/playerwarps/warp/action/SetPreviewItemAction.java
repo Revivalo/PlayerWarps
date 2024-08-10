@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -25,10 +24,12 @@ public class SetPreviewItemAction implements WarpAction<String> {
                 player.sendMessage(Lang.TRIED_TO_SET_BANNED_ITEM.asColoredString());
                 return false;
             } else {
-                String iconPermission = "playerwarps.icon." + item.toLowerCase(Locale.ENGLISH);
-                if (!player.hasPermission(iconPermission)) {
-                    player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", iconPermission));
-                    return false;
+                if (!player.hasPermission("playerwarps.icon.*")) {
+                    String iconPermission = "playerwarps.icon." + item.toLowerCase(Locale.ENGLISH);
+                    if (!player.hasPermission(iconPermission)) {
+                        player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", iconPermission));
+                        return false;
+                    }
                 }
 
                 warp.setMenuItem(displayItem);
