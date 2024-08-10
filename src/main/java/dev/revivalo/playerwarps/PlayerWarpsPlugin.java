@@ -89,8 +89,8 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         setWarpHandler(new WarpHandler());
         warpHandler.loadWarps();
 
-        if (Config.AUTO_SAVE_ENABLED.asBoolean()) {
-            long intervalInTicks = (Config.AUTO_SAVE_INTERVAL.asLong() * 60) * 20;
+        if (Config.AUTOSAVE_ENABLED.asBoolean()) {
+            long intervalInTicks = (Config.AUTOSAVE_INTERVAL.asLong() * 60) * 20;
             new BukkitRunnable() {
                 @Override
                 public void run() {

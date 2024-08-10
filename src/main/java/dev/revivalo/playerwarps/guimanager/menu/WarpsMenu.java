@@ -202,7 +202,7 @@ public class WarpsMenu implements Menu {
                                 case SHIFT_RIGHT:
                                     if (getMenuType() == MenuType.OWNED_LIST_MENU) {
                                         if (!player.hasPermission("playerwarps.settings")) {
-                                            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", "playerwarps.settings"));
+                                            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", "playerwarps.settings"));
                                             return;
                                         }
                                         new ManageMenu(warp).open(player);

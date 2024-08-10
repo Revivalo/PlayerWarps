@@ -35,7 +35,6 @@ public class ReviewMenu implements Menu {
     @Override
     public void open(Player player) {
         final User user = UserHandler.getUser(player);
-        //user.setActualMenu(this);
 
         gui.setItem(11, ItemBuilder.from(ItemUtil.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 1, null)));
         gui.setItem(12, ItemBuilder.from(ItemUtil.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 2, null)));
@@ -55,9 +54,6 @@ public class ReviewMenu implements Menu {
                                         .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), SortingUtil.SortType.LATEST)
                         )
         );
-//        gui.setItem(31, ItemBuilder.from(ItemUtils.getItem(Config.BACK_ITEM.asString())).name(Component.text(Lang.BACK_NAME.asColoredString())).asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
-//                .setPage((int) UserHandler.getUser(player).getData(DataSelectorType.ACTUAL_PAGE))
-//                .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), SortingUtils.SortType.LATEST)));
 
         gui.open(player);
     }

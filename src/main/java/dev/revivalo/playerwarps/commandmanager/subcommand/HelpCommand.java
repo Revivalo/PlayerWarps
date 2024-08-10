@@ -36,6 +36,6 @@ public class HelpCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        Lang.HELP.asReplacedList(null, Collections.emptyMap()).forEach(line -> sender.sendMessage(String.valueOf(line)));
+        Lang.HELP_MESSAGE_LORE.asReplacedList(null, Collections.emptyMap()).forEach(line -> sender.sendMessage(String.valueOf(line)));
     }
 }

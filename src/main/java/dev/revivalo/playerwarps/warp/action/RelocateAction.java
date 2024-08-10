@@ -17,7 +17,7 @@ public class RelocateAction implements WarpAction<Void> {
         final String worldName = Objects.requireNonNull(player.getLocation().getWorld()).getName();
         if (PlayerWarpsPlugin.getWarpHandler().getBannedWorlds().contains(worldName)
                 && !PermissionUtil.hasPermission(player, PermissionUtil.Permission.ADMIN_PERMISSION)) {
-            player.sendMessage(Lang.TRIED_TO_RELOCATE_PWARP_TO_DISABLED_WORLD.asColoredString().replace("%world%", worldName));
+            player.sendMessage(Lang.TRIED_TO_RELOCATE_WARP_TO_DISABLED_WORLD.asColoredString().replace("%world%", worldName));
             return false;
         }
 

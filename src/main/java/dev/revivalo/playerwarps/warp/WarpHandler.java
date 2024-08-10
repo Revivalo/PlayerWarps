@@ -38,12 +38,12 @@ public class WarpHandler {
         warps = new HashSet<>();
 
         bannedWorlds = new ArrayList<>();
-        bannedWorlds.addAll(Config.BANNED_WORLDS.asReplacedList(Collections.emptyMap()));
+        bannedWorlds.addAll(Config.BANNED_WORLDS.asList());
     }
 
     public void reloadWarps(CommandSender sender) {
         if (!PermissionUtil.hasPermission(sender, PermissionUtil.Permission.RELOAD_PLUGIN)) {
-            sender.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtil.Permission.RELOAD_PLUGIN.get()));
+            sender.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.RELOAD_PLUGIN.get()));
         } else {
             PlayerWarpsPlugin.get().reloadConfig();
             File configFile = new File(PlayerWarpsPlugin.get().getDataFolder(), "config.yml");
@@ -55,9 +55,8 @@ public class WarpHandler {
             }
 
             CategoryManager.loadCategories();
-            Lang.reload();
             Config.reload();
-            sender.sendMessage(Lang.RELOAD.asColoredString());
+            sender.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());
         }
     }
 
@@ -128,7 +127,7 @@ public class WarpHandler {
         warps.forEach(warp -> warpsSection.set(warp.getWarpID().toString(), warp));
 
         PlayerWarpsPlugin.getData().getYamlFile().save();
-        if (Config.AUTO_SAVE_ANNOUNCE.asBoolean()) {
+        if (Config.AUTOSAVE_ANNOUNCE.asBoolean()) {
             Bukkit.getLogger().info("Saving " + warps.size() + " warps");
         }
     }
@@ -179,7 +178,7 @@ public class WarpHandler {
                 }});
                 break;
             case SET_ADMISSION:
-                messageToSent = Lang.PRICE_WRITE_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
+                messageToSent = Lang.PRICE_WRITE_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
@@ -189,7 +188,7 @@ public class WarpHandler {
                 }});
                 break;
             case RENAME:
-                messageToSent = Lang.RENAME_MSG.asReplacedString(player, new HashMap<String, String>() {{
+                messageToSent = Lang.RENAME_WRITE_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;
@@ -199,7 +198,7 @@ public class WarpHandler {
                 }});
                 break;
             case SET_DESCRIPTION:
-                messageToSent = Lang.SET_DESCRIPTION_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
+                messageToSent = Lang.SET_DESCRIPTION_MSG.asReplacedString(player, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }});
                 break;

@@ -48,7 +48,7 @@ public class PwarpMainCommand extends MainCommand {
                         .open(player, "all", SortingUtil.SortType.LATEST);
             }
         } else {
-            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", PermissionUtil.Permission.USE.get()));
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.USE.get()));
         }
     }
 }

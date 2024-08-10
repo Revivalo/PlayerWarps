@@ -12,7 +12,7 @@ public class RenameAction implements WarpAction<String> {
     public boolean execute(Player player, Warp warp, String newName) {
         int limit = Config.WARP_NAME_MAX_LENGTH.asInteger();
         if (newName.length() > limit) {
-            player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTER_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
+            player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTERS_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
             return false;
         }
 
@@ -22,7 +22,7 @@ public class RenameAction implements WarpAction<String> {
         }
 
         warp.setName(newName);
-        player.sendMessage(Lang.WARP_RENAMED.asColoredString().replace("%oldName%", warp.getName()).replace("%newName%", newName));
+        player.sendMessage(Lang.WARP_NAME_CHANGED.asColoredString().replace("%oldName%", warp.getName()).replace("%newName%", newName));
 
         return true;
     }

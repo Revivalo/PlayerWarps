@@ -21,7 +21,7 @@ public class Teleport {
         this.targetLocation = targetLocation;
 
         boolean withCooldown = !PermissionUtil.hasPermission(player, PermissionUtil.Permission.BYPASS_TELEPORT_DELAY);
-        this.delay = Config.TELEPORTATION_DELAY.asInteger();
+        this.delay = Config.TELEPORT_DELAY.asInteger();
 
         this.runTimer = withCooldown && this.delay != 0;
     }

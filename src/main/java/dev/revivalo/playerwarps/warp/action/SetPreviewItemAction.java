@@ -67,6 +67,6 @@ public class SetPreviewItemAction implements WarpAction<String> {
         bannedItems.add(Material.NETHER_PORTAL);
         bannedItems.add(Material.END_PORTAL);
         bannedItems.add(Material.AIR);
-        bannedItems.addAll(Config.BANNED_ITEMS.asReplacedList(Collections.emptyMap()).stream().map(Material::valueOf).collect(Collectors.toList()));
+        bannedItems.addAll(Config.BANNED_ITEMS.asList().stream().map(Material::valueOf).collect(Collectors.toList()));
     }
 }

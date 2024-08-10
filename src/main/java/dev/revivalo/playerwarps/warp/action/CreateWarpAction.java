@@ -43,7 +43,7 @@ public class CreateWarpAction implements WarpAction<Void> {
         final String worldName = Objects.requireNonNull(player.getLocation().getWorld()).getName();
         if (PlayerWarpsPlugin.getWarpHandler().getBannedWorlds().contains(worldName)
                 && !PermissionUtil.hasPermission(player, PermissionUtil.Permission.ADMIN_PERMISSION)) {
-            player.sendMessage(Lang.TRIED_TO_CREATE_PWARP_IN_DISABLED_WORLD.asColoredString().replace("%world%", worldName));
+            player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_DISABLED_WORLD.asColoredString().replace("%world%", worldName));
             return false;
         }
 
@@ -54,7 +54,7 @@ public class CreateWarpAction implements WarpAction<Void> {
 
         int limit = Config.WARP_NAME_MAX_LENGTH.asInteger();
         if (name.length() > limit) {
-            player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTER_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
+            player.sendMessage(Lang.WARP_NAME_IS_ABOVE_LETTERS_LIMIT.asColoredString().replace("%limit%", String.valueOf(limit)));
             return false;
         }
 

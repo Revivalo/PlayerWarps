@@ -1,0 +1,252 @@
+lang:
+  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
+  unknown-command: "%prefix% &cNeznámý příkaz, použij /pwarp help"
+  insufficient-permissions: "%prefix% &7K této akci potřebujete oprávnění %permission%!"
+  bad-command-syntax: "%prefix% &cSprávná syntaxe příkazu: &4%syntax%"
+  help-message-lore:
+    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
+    - "&b/pwarp &8- &7otevře hlavní menu se všemi warpami"
+    - "&b/pwarp teleport <warp> &8- &7teleportuje vás na zadaný warp"
+    - "&b/pwarp create <warp> &8- &7vytvoří warp se zadaným názvem"
+    - "&b/pwarp remove <warp> &8- &7odstraní zadaný warp"
+    - "&b/pwarp favorite <warp> &8- &7přidá warp do seznamu oblíbených"
+    - "&b/pwarp reload &8- &7načte znovu soubory pluginu"
+    - "&7-----------------------------------------------------"
+  reload-message: "%prefix% &7Plugin byl úspěšně načten znovu!"
+  limit-reached: "%prefix% &7Dosáhli jste limitu pro vytvořené warpy &7(%limit%)"
+  limit-reached-other: "%prefix% &7Hráč %player% nemůže vlastnit více warpů!"
+
+  warp-visit-notification: "%prefix% &f%player%&7 navštívil warp &f%warp%"
+  warp-creation-notification: "%prefix% &f%player%&7 vytvořil warp &f%warp%"
+
+  insufficient-perms-for-category: "&4Uzamčená kategorie"
+  insufficient-perms-for-category-lore:
+    - "&cK zobrazení této kategorie"
+    - "&cpotřebujete oprávnění %permission%"
+
+  no-warp-found: "&cNebyl nalezen žádný warp"
+  warp-in-deleted-world: "&cWarp je v smazaném/neaktivním světě"
+  no-warp-at-position: "&cŽádný warp na této pozici"
+
+  latest: "Nejnovější"
+  visits: "Návštěvy"
+  rating: "Hodnocení"
+
+  opened-status: "&aOTEVŘENO"
+  closed-status: "&cUZAVŘENO"
+  password-protected-status: "&eCHRÁNĚNO HESLEM"
+
+  invalid-input: "%prefix% &cNeplatný vstup!"
+  password-too-short: "%prefix% &cHeslo musí mít alespoň 3 znaky!"
+  non-existing-warp: "%prefix% &cTento warp neexistuje!"
+  warp-already-created: "%prefix% &cWarp s tímto názvem již existuje!"
+  warp-created: "%prefix% &7Vytvořili jste warp %name%, klikněte &l&nZDE&7 pro jeho konfiguraci."
+  # This message will be sent with Vault installed
+  warp-created-with-price: "%prefix% &7Vytvořili jste warp &e%name% &c(-%price% $)&7, klikněte &l&nZDE&7 pro jeho konfiguraci."
+  tried-to-create-warp-in-disabled-world: "%prefix% &cWarp nelze vytvořit ve světě (%world%)"
+  tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp nelze přesunout do tohoto světa (%world%)"
+  insufficient-balance-for-action: "%prefix% &cNemáte dostatek prostředků pro tuto akci! (%price% $)"
+  insufficient-balance-to-teleport: "%prefix% &cNemáte dostatek prostředků pro teleportaci na warp %warp%"
+  warp-removed: "%prefix% &7Tento warp byl odstraněn"
+  # This message will be sent with Vault installed
+  warp-removed-with-refund: "%prefix% &7Tento warp byl odstraněn &a(+ %refund% $)"
+  try-to-remove-not-owning-warp: "%prefix% &cNemůžete odstranit warpy jiných hráčů"
+  click-to-configure: "&7Klikněte pro konfiguraci warpu"
+  click-to-cancel-input: "&7Klikněte pro ukončení režimu zadávání"
+  teleportation: "%prefix% &7Teleportace za &e%time% sekund!"
+  teleportation-cancelled: "%prefix% &cTeleportace byla zrušena!"
+  teleport-to-warp: "%prefix% &7Teleportováno na warp %warp% hráčem %player%"
+  teleport-to-warp-with-admission: "%prefix% &7Teleportace na warp hráče %player% &c(-%price% $)"
+  accept-teleport-with-admission: "Teleportovat? &c(-%price% $)"
+  teleport-between-worlds-error: "%prefix% &7Teleportace byla zrušena. Můžete se teleportovat pouze na warpy ve vašem světě!"
+  name-cant-contain-space: "%prefix% &7Název nesmí obsahovat mezery"
+  enter-password: "Zadejte heslo"
+  enter-warps-name: "Zadejte název warpu"
+  password-setting-cancelled: "%prefix% &7Nastavení hesla bylo zrušeno."
+  password-changed: "%prefix% &7Heslo bylo změněno!"
+  password-length: "%prefix% &cHeslo musí mít alespoň 3 znaky!"
+  entered-wrong-password: "%prefix% &7Zadali jste špatné heslo!"
+  categories-are-disabled: "&cKategorie jsou deaktivovány!"
+  item-changed: "%prefix% &7Menu položka byla změněna na %item%"
+  title-write-msg: "%prefix% &7Nyní napište svůj text pod warp %warp% v seznamu warpů:"
+  item-write-msg: "%prefix% &7Nyní napište název položky, která bude reprezentovat warp %warp%:"
+  write-new-display-name: "%prefix% &7Nyní napište nový zobrazovaný název pro warp:"
+  cancel-input: "&c               [Klikněte pro zrušení]"
+  input-cancelled: "%prefix% &7Opustili jste režim zadávání."
+  text-size-error: "%prefix% &7Text musí mít mezi 5 a 32 znaky"
+  description-changed: "%prefix% &7Popis warpu %warp% byl změněn"
+  not-owning: "%prefix% &7Toto není váš warp"
+  already-owning: "%prefix% &7Tento warp již vlastníte!"
+  invalid-item: "%prefix% &7Tato položka neexistuje"
+  already-reviewed: "%prefix% &7Tento warp jste již hodnotili!"
+  invalid-review: "%prefix% &7Musíte vybrat mezi 1 - 5 hvězdami"
+  self-review: "%prefix% &7Nemůžete hodnotit svůj vlastní warp!"
+  review-warp-title: "Ohodnoťte warp %warp%"
+  warp-reviewed: "%prefix% &7Ohodnotili jste warp (%warp%) %stars% hvězdami"
+  tried-to-set-banned-item: "%prefix% &7Tato položka není povolena"
+  not-a-number: "%prefix% &7Zadaná cena není číslo"
+  price-write-msg: "%prefix% &7Nyní napište cenu teleportace na warp %warp%:"
+  price-changed: "%prefix% &7Cena teleportace na váš warp %warp% byla změněna na %price%"
+  invalid-entered-price: "%prefix% &7Cena nemůže být záporná"
+  entered-higher-price-than-allowed: "%prefix% &7Cena nemůže být vyšší než %max% $"
+  ownership-transfer-successful: "%prefix% &7Úspěšně jste převedli tento warp na hráče %player%"
+  ownership-transfer-info: "%prefix% &7Hráč %player% převedl warp %warp% na vás"
+  ownership-transfer-error: "%prefix% &7Nedostupný hráč!"
+  owner-change-msg: "%prefix% &7Nyní napište jméno nového vlastníka warpu %warp%:"
+  password-change-msg: "%prefix% &7Nyní napište nové heslo pro warp %warp%:"
+  warp-name-changed: "%prefix% &7Warp %oldName% byl úspěšně přejmenován na %newName%"
+  warp-status-changed: "%prefix% &7Stav warpu byl změněn na: &e%status%"
+  warp-relocated: "%prefix% &7Warp %warp% byl přesunut!"
+  rename-write-msg: "%prefix% &7Nyní napište nový název pro warp %warp%:"
+  set-description-msg: "%prefix% &7Nyní napište nový popis pro warp %warp%:"
+  dangerous-position-msg: "%prefix% &7Lokace warpu není bezpečná, teleportace byla zrušena"
+  warp-name-is-above-letters-limit: "%prefix% &7Název warpu musí být kratší než %limit% znaků"
+  warps-item-name: "&e&lPřehled warpů"
+  my-warps-item-name: "&e&lSpravovat mé warpy"
+  own-warp-item-name: "&fWarp: &a%warp%"
+  help-item-name: "&e&lJak vytvořit warp"
+  favorite-warps-item-name: "&e&lUložené warpy"
+  my-warp-title: "Mé warpy &7%page%. stránka"
+  warps-title: "Warpy &7%page%. stránka"
+  change-warp-category-title: "Změnit kategorii warpu %warp%:"
+  edit-warp-menu-title: "Úprava warpu %warp%"
+  category-title: "Kategorie"
+  help-title: "Nápověda"
+  set-warp-status-title: "Nastavit stav warpu:"
+  favorites-title: "Uložené warpy &7%page%. stránka"
+  confirmation-menu-title: "Potvrdit akci? (%warp%)"
+  accept: "&a&lPřijmout"
+  deny: "&c&lOdmítnout"
+  sort-warps: "&aSeřadit warpy"
+  click-to-sort-by: "&b► Klikněte pro seřazení podle %selector%"
+  next-page: "&aDalší stránka"
+  previous-page: "&cPředchozí stránka"
+  no-description: "&3&oVlastník nenastavil popis"
+  back-name: "&c&lZpět"
+  one-stars: "&e&l1 hvězda"
+  two-stars: "&e&l2 hvězdy"
+  three-stars: "&e&l3 hvězdy"
+  four-stars: "&e&l4 hvězdy"
+  five-stars: "&e&l5 hvězd"
+  warp-enabled: "%prefix% &7Odblokovali jste &asvůj warp %warp%"
+  warp-disabled: "%prefix% &7Dočasně jste zablokovali&f svůj warp %warp%"
+  warp-is-disabled: "%prefix% &7Vlastník dočasně deaktivoval tento warp &7(%warp%)"
+  entered-invalid-type-of-warp: "%prefix% &7Zadaný špatný typ. Dostupné typy: &9%types%"
+  warp-type-changed: "%prefix% &7Typ warpu %warp% byl změněn na %type%"
+  privacy-changed: "%prefix% &7Soukromí warpu %warp% bylo změněno"
+  display-name-changed: "%prefix% &7Zobrazovaný název warpu %warp% byl změněn na %displayName%"
+  favorite-warp-added: "%prefix% &7Warp %warp% byl přidán do vašeho seznamu oblíbených"
+  remove-favorite-warp: "%prefix% &7Warp %warp% byl odebrán z vašeho seznamu oblíbených"
+  warp-not-contains-favlist: "%prefix% &7Warp %warp% není v seznamu oblíbených"
+  warp-already-contains-favlist: "%prefix% &7Warp %warp% je již přidán do vašeho seznamu oblíbených"
+  search-warp: "&aVyhledat Warp"
+  search-warp-lore:
+    - "&7Klikněte pro vyhledání warpu"
+    - "&7podle názvu"
+  # Lore inside /pwarp GUI
+  # Possible placeholders:
+  #   %owner-name% - jméno hráče, který vlastní tento pwarp
+  #   %visits% - počet návštěv
+  #   %today% - návštěvy za 1 den
+  #   %stars% - zobrazuje hvězdy podle hodnocení (★☆☆☆☆ - ★★★★★)
+  #   %voters% - kolik hráčů hlasovalo
+  #   %ratings% - hodnocení v číslech (1 - 5)
+  #   %lore% - lore pwarp hráče
+  #   %status% - stav pwarp
+  #   %creationDate% - kdy byl pwarp vytvořen
+  #   %world% - kde se pwarp nachází
+  warp-lore:
+    - " "
+    - "&7Vlastník: &f%owner-name%"
+    - "&7Vytvořeno: &f%creationDate%"
+    - "&7Svět: &f%world%"
+    - "&7Návštěvy: &f%visits% &8(%today% dnes)"
+    - "&7Hodnocení: &e%stars% &6%ratings% &8(%voters% hlasů)"
+    - "&7Stav: %status%"
+    - "&7Cena: &6%price%"
+    - "&7Popis:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Levý klik pro teleportaci"
+    - "&e► SHIFT + Levý klik pro uložení/odstranění"
+    - "&e► Pravý klik pro hodnocení"
+  own-warp-lore:
+    - " "
+    - "&7Návštěvy: &f%visits% &8(%today% dnes)"
+    - "&7Vytvořeno: &f%creationDate%"
+    - "&7Hodnocení: &e%stars% &6%ratings% &8(%voters% hlasů)"
+    - "&7Dostupnost: %status%"
+    - "&7Cena: &6%price%"
+    - "&7Popis:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Levý klik pro teleportaci"
+    - "&e► Pravý klik pro úpravu"
+  # This will be used, if the teleportation price is 0
+  free-of-charge: "&fZdarma"
+  warp-active: "&a✔ Aktivní"
+  warp-inactive: "&c❌ Neaktivní"
+  help-display-name: "&b&lNápověda"
+  help-lore:
+    - ' '
+    - '&7 Pro vytvoření warpu použijte'
+    - '&7 příkaz:'
+    - ' '
+    - '&2  ● &a/pwarp create ◁název▷'
+    - ' '
+    - '&7  potom můžete nastavit'
+    - '&7  svůj warp pomocí:'
+    - ' '
+    - '&6  ● &e/pwarp setup ◁název▷'
+    - ' '
+  #
+  # Settings menu
+  #
+  change-display-name: "&aZměnit zobrazovaný název"
+  change-display-name-lore:
+    - "&8&lPOZNÁMKA:&8 Můžete použít barevné kódy (&)"
+    - " "
+    - "&e► Klikněte pro změnu zobrazovaného názvu"
+  remove-warp: "&cOdstranit warp"
+  remove-warp-lore:
+    - " "
+    - "&e► Klikněte pro odstranění"
+  change-type: "&aZměnit typ warpu"
+  change-type-lore:
+    - " "
+    - "&e► Klikněte pro změnu"
+  change-item: "&aZměnit položku warpu"
+  change-item-lore:
+    - " "
+    - "&e► Klikněte pro změnu"
+  change-label: "&aZměnit popis warpu"
+  change-label-lore:
+    - " "
+    - "&e► Klikněte pro změnu"
+  pwarp-accessibility: "&aDostupnost warpu"
+  pwarp-accessibility-lore:
+    - " "
+    - "&7Aktuální stav: &2%status%"
+    - " "
+    - "&e► Změnit dostupnost warpu"
+  set-price: "&aCena teleportace"
+  set-price-lore:
+    - " "
+    - "&7Můžete nastavit cenu za"
+    - "&7návštěvu vašeho warpu"
+    - " "
+    - "&e► Klikněte pro nastavení ceny"
+  change-owner: "&eZměnit vlastníka"
+  change-owner-lore:
+    - " "
+    - "&e► Klikněte pro změnu vlastníka"
+  rename-warp: "&ePřejmenovat warp"
+  rename-warp-lore:
+    - " "
+    - "&e► Klikněte pro přejmenování"
+  warp-relocation: "&ePřesunout váš warp"
+  warp-relocation-lore:
+    - "&7Kliknutím změníte"
+    - "&7lokaci warpu"
+    - " "
+    - "&e► Klikněte pro přesunutí"

@@ -25,17 +25,17 @@ public class TransferOwnershipAction implements WarpAction<Player> {
             }
 
             warp.setOwner(newOwner.getUniqueId());
-            player.sendMessage(Lang.TRANSFER_SUCCESSFUL.asColoredString()
+            player.sendMessage(Lang.OWNERSHIP_TRANSFER_SUCCESSFUL.asColoredString()
                     .replace("%player%", newOwner.getName())
                     .replace("%warp%", warp.getName()));
             if (newOwner.isOnline()) {
-                newOwner.sendMessage(Lang.TRANSFER_INFO.asColoredString()
+                newOwner.sendMessage(Lang.OWNERSHIP_TRANSFER_INFO.asColoredString()
                         .replace("%player%", player.getName())
                         .replace("%warp%", warp.getName()));
             }
 
         } else {
-            player.sendMessage(Lang.TRANSFER_ERROR.asColoredString());
+            player.sendMessage(Lang.OWNERSHIP_TRANSFER_ERROR.asColoredString());
             return false;
         }
 

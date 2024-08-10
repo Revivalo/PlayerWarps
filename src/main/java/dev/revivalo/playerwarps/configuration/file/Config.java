@@ -9,75 +9,76 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.*;
 
 public enum Config {
-    WARP_NAME_FORMAT("warp-name-format"),
-    BANNED_ITEMS("banned-items"),
-    BANNED_WORLDS("disabled-worlds"),
-    UPDATE_CHECKER("update-checker"),
-    AUTO_SAVE_ENABLED("autosave-enabled"),
-    AUTO_SAVE_ANNOUNCE("autosave-announce"),
-    AUTO_SAVE_INTERVAL("autosave-interval"),
-    WARP_CREATION_NOTIFICATION("warp-creation-notification"),
-    WARP_VISIT_NOTIFICATION("warp-visit-notification"),
-    TELEPORTATION_DELAY("teleport-delay"),
-    ALLOW_COLORS_IN_WARP_DISPLAY_NAMES("allow-colors-in-warp-display-names"),
-    WARP_PRICE("warp-price"),
-    DATE_FORMAT("date-format"),
-    ENABLE_HINTS("enable-hints"),
-    DELETE_WARP_REFUND("delete-warp-refund"),
-    WARP_NAME_MAX_LENGTH("warp-name-max-length"),
-    MAX_WARP_ADMISSION("max-warp-admission"),
-    RELOCATE_WARP_FEE("relocate-warp-fee"),
-    RENAME_WARP_FEE("rename-warp-fee"),
-    TRANSFER_OWNERSHIP_FEE("transfer-ownership-fee"),
-    SET_STATUS_FEE("set-status-fee"),
-    DEFAULT_WARP_STATUS("default-warp-status"),
-    SET_TYPE_FEE("set-type-fee"),
-    SET_PREVIEW_ITEM_FEE("set-preview-item-fee"),
-    SET_DESCRIPTION_FEE("set-description-fee"),
-    SET_DISPLAY_NAME_FEE("set-display-name-fee"),
-    SET_ADMISSION_FEE("set-admission-fee"),
-    DEFAULT_WARP_ITEM("default-warp-item"),
-    DEFAULT_LIMIT_SIZE("default-limit-size"),
-    ALLOW_ACCEPT_TELEPORT_MENU("allow-teleport-accept-menu"),
-    CONFIRM_ITEM("confirm-item"),
-    DENY_ITEM("deny-item"),
-    NO_WARP_FOUND_ITEM("no-warp-found-item"),
-    INSUFFICIENT_PERMISSIONS_ITEM("insufficient-permissions-item"),
-    FAVORITE_WARPS_ITEM("favorite-warps-item"),
-    CATEGORIES_BACKGROUND_ITEM("categories-background-item"),
-    WARP_LIST_ITEM("warp-list-item"),
-    SEARCH_WARP_ITEM("search-warp-item"),
-    SORT_WARPS_ITEM("sort-warps-item"),
-    MY_WARPS_ITEM("my-warps-item"),
-    HELP_ITEM("help-item"),
-    STAR_REVIEW_ITEM("star-review-item"),
-    SET_PRICE_ITEM("set-price-item"),
-    SET_CATEGORY_ITEM("set-category-item"),
-    CHANGE_DISPLAY_NAME_ITEM("change-display-name-item"),
-    CHANGE_PREVIEW_ITEM("change-preview-item"),
-    CHANGE_DESCRIPTION_ITEM("change-description-item"),
-    CHANGE_ACCESSIBILITY_ITEM("change-accessibility-item"),
-    RENAME_WARP_ITEM("rename-warp-item"),
-    REMOVE_WARP_ITEM("remove-warp-item"),
-    RELOCATE_WARP_ITEM("relocate-warp-item"),
-    CHANGE_OWNER_ITEM("change-owner-item"),
-    NEXT_PAGE_ITEM("next-page-item"),
-    PREVIOUS_PAGE_ITEM("previous-page-item"),
-    ENABLE_CATEGORIES("enable-categories"),
-    ENABLE_WARP_SEARCH("enable-warp-search"),
-    ENABLE_WARP_RATING("enable-warp-rating"),
-    CURRENCY_SYMBOL("currency-symbol"),
-    SET_PRICE_POSITION("set-price-position"),
-    SET_CATEGORY_POSITION("set-category-position"),
-    CHANGE_DISPLAY_NAME_POSITION("change-display-name-position"),
-    CHANGE_PREVIEW_ITEM_POSITION("change-preview-item-position"),
-    CHANGE_DESCRIPTION_POSITION("change-description-position"),
-    CHANGE_ACCESSIBILITY_POSITION("change-accessibility-position"),
-    REMOVE_WARP_POSITION("remove-warp-position"),
-    RENAME_WARP_POSITION("rename-warp-position"),
-    RELOCATE_WARP_POSITION("relocate-warp-position"),
-    CHANGE_OWNER_POSITION("change-owner-position"),
-    BACK_ITEM("back-item");
+    LANGUAGE,
+    WARP_NAME_FORMAT,
+    BANNED_ITEMS,
+    BANNED_WORLDS,
+    UPDATE_CHECKER,
+    AUTOSAVE_ENABLED,
+    AUTOSAVE_ANNOUNCE,
+    AUTOSAVE_INTERVAL,
+    WARP_CREATION_NOTIFICATION,
+    WARP_VISIT_NOTIFICATION,
+    TELEPORT_DELAY,
+    ALLOW_COLORS_IN_WARP_DISPLAY_NAMES,
+    WARP_PRICE,
+    DATE_FORMAT,
+    ENABLE_HINTS,
+    DELETE_WARP_REFUND,
+    WARP_NAME_MAX_LENGTH,
+    MAX_WARP_ADMISSION,
+    RELOCATE_WARP_FEE,
+    RENAME_WARP_FEE,
+    TRANSFER_OWNERSHIP_FEE,
+    SET_STATUS_FEE,
+    DEFAULT_WARP_STATUS,
+    SET_TYPE_FEE,
+    SET_PREVIEW_ITEM_FEE,
+    SET_DESCRIPTION_FEE,
+    SET_DISPLAY_NAME_FEE,
+    SET_ADMISSION_FEE,
+    DEFAULT_WARP_ITEM,
+    DEFAULT_LIMIT_SIZE,
+    ALLOW_ACCEPT_TELEPORT_MENU,
+    CONFIRM_ITEM,
+    DENY_ITEM,
+    NO_WARP_FOUND_ITEM,
+    INSUFFICIENT_PERMISSIONS_ITEM,
+    FAVORITE_WARPS_ITEM,
+    CATEGORIES_BACKGROUND_ITEM,
+    WARP_LIST_ITEM,
+    SEARCH_WARP_ITEM,
+    SORT_WARPS_ITEM,
+    MY_WARPS_ITEM,
+    HELP_ITEM,
+    STAR_REVIEW_ITEM,
+    SET_PRICE_ITEM,
+    SET_CATEGORY_ITEM,
+    CHANGE_DISPLAY_NAME_ITEM,
+    CHANGE_PREVIEW_ITEM,
+    CHANGE_DESCRIPTION_ITEM,
+    CHANGE_ACCESSIBILITY_ITEM,
+    RENAME_WARP_ITEM,
+    REMOVE_WARP_ITEM,
+    RELOCATE_WARP_ITEM,
+    CHANGE_OWNER_ITEM,
+    NEXT_PAGE_ITEM,
+    PREVIOUS_PAGE_ITEM,
+    ENABLE_CATEGORIES,
+    ENABLE_WARP_SEARCH,
+    ENABLE_WARP_RATING,
+    CURRENCY_SYMBOL,
+    SET_PRICE_POSITION,
+    SET_CATEGORY_POSITION,
+    CHANGE_DISPLAY_NAME_POSITION,
+    CHANGE_PREVIEW_ITEM_POSITION,
+    CHANGE_DESCRIPTION_POSITION,
+    CHANGE_ACCESSIBILITY_POSITION,
+    REMOVE_WARP_POSITION,
+    RENAME_WARP_POSITION,
+    RELOCATE_WARP_POSITION,
+    CHANGE_OWNER_POSITION,
+    BACK_ITEM;
 
     private static final YamlFile configYamlFile = new YamlFile(
             "config.yml",
@@ -103,10 +104,11 @@ public enum Config {
         configuration
                 .getKeys(false)
                 .forEach(key -> {
+                    String editedKey = key.toUpperCase(Locale.ENGLISH).replace("-", "_");
                     if (configuration.isList(key)) {
-                        lists.put(key, configuration.getStringList(key));
+                        lists.put(editedKey, configuration.getStringList(key));
                     } else
-                        strings.put(key, configuration.getString(key));
+                        strings.put(editedKey, configuration.getString(key));
                 });
 
         Lang.reload();
@@ -117,10 +119,10 @@ public enum Config {
     }
 
     public int asInteger() {
-        return Integer.parseInt(strings.get(text));}
+        return Integer.parseInt(strings.get(this.name()));}
 
     public String asString() {
-        return strings.get(text);
+        return strings.get(this.name());
     }
 
     public String asReplacedString(Map<String, String> definitions) {
@@ -153,11 +155,11 @@ public enum Config {
         return Boolean.parseBoolean(asString());
     }
 
-    public List<String> asReplacedList(Map<String, String> definitions) {
-        return lists.get(text);
+    public List<String> asList() {
+        return lists.get(this.name());
     }
 
     public long asLong() {
-        return Long.parseLong(strings.get(text));
+        return Long.parseLong(strings.get(this.name()));
     }
 }

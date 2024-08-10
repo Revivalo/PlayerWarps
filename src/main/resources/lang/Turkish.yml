@@ -1,0 +1,248 @@
+lang:
+  prefix: "&f&lOYUNCU&3&lWARPS&7 &8⏵"
+  unknown-command: "%prefix% &cBilinmeyen komut, /pwarp help kullanın"
+  insufficient-permissions: "%prefix% &7Bu işlem için %permission% iznine ihtiyacınız var!"
+  bad-command-syntax: "%prefix% &cKomutun doğru sözdizimi: &4%syntax%"
+  help-message-lore:
+    - "&7-------------------< &f&lOYUNCU&3&lWARPS&7 >--------------------"
+    - "&b/pwarp &8- &7tüm listedeki warpları içeren ana menüyü açar"
+    - "&b/pwarp teleport <warp> &8- &7belirtilen warp'a ışınlanır"
+    - "&b/pwarp create <warp> &8- &7belirtilen isimle bir warp oluşturur"
+    - "&b/pwarp remove <warp> &8- &7belirtilen warp'ı kaldırır"
+    - "&b/pwarp favorite <warp> &8- &7warp'ı favori listeye ekler"
+    - "&b/pwarp reload &8- &7plugin dosyalarını yeniden yükler"
+    - "&7-----------------------------------------------------"
+  reload-message: "%prefix% &7Plugin başarıyla yeniden yüklendi!"
+  limit-reached: "%prefix% &7Oluşturduğunuz warp sayısına &7(%limit%) ulaştınız"
+  limit-reached-other: "%prefix% &7Oyuncu %player% daha fazla warp'a sahip olamaz!"
+
+  warp-visit-notification: "%prefix% &f%player%&7 warp'ı ziyaret etti &f%warp%"
+  warp-creation-notification: "%prefix% &f%player%&7 bir warp oluşturdu &f%warp%"
+
+  insufficient-perms-for-category: "&4Kilitli kategori"
+  insufficient-perms-for-category-lore:
+    - "&cBu kategoriyi görüntülemek için %permission% iznine ihtiyacınız var"
+
+  no-warp-found: "&cHiçbir warp bulunamadı"
+  warp-in-deleted-world: "&cWarp silinmiş/etkin olmayan dünyada"
+  no-warp-at-position: "&cPozisyonda warp yok"
+
+  latest: "Son"
+  visits: "Ziyaretler"
+  rating: "Değerlendirme"
+
+  opened-status: "&aAÇIK"
+  closed-status: "&cKAPALI"
+  password-protected-status: "&eŞİFRE KORUMALI"
+
+  invalid-input: "%prefix% &cGeçersiz giriş!"
+  password-too-short: "%prefix% &cŞifre en az 3 karakter uzunluğunda olmalıdır!"
+  non-existing-warp: "%prefix% &cBu warp mevcut değil!"
+  warp-already-created: "%prefix% &cBu isimde bir warp zaten var!"
+  warp-created: "%prefix% &7Bir warp %name% oluşturduk, yapılandırmak için &l&nBURAYA&7 tıklayın."
+  # Bu mesaj Vault yüklüyse gönderilecektir
+  warp-created-with-price: "%prefix% &7Bir warp &e%name% &c(-%price% $)&7 oluşturduk, yapılandırmak için &l&nBURAYA&7 tıklayın."
+  tried-to-create-warp-in-disabled-world: "%prefix% &cWarp bu dünyada (%world%) oluşturulamaz"
+  tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp bu dünyaya (%world%) taşınamaz"
+  insufficient-balance-for-action: "%prefix% &cBunu yapmak için yeterli bakiye yok! (%price% $)"
+  insufficient-balance-to-teleport: "%prefix% &c%warp% warp'ına ışınlanmak için yeterli bakiye yok"
+  warp-removed: "%prefix% &7Bu warp'ı kaldırdınız"
+  # Bu mesaj Vault yüklüyse gönderilecektir
+  warp-removed-with-refund: "%prefix% &7Bu warp'ı kaldırdınız &a(+ %refund% $)"
+  try-to-remove-not-owning-warp: "%prefix% &cBaşkalarının warp'larını kaldıramazsınız"
+  click-to-configure: "&7Warp'ı yapılandırmak için tıklayın"
+  click-to-cancel-input: "&7Giriş modundan çıkmak için tıklayın"
+  teleportation: "%prefix% &7Işınlanma &e%time% saniye içinde!"
+  teleportation-cancelled: "%prefix% &cIşınlanma iptal edildi!"
+  teleport-to-warp: "%prefix% &7%player% tarafından %warp% warp'ına ışınlandınız"
+  teleport-to-warp-with-admission: "%prefix% &7Oyuncu %player%'ın warp'ına ışınlanma &c(-%price% $)"
+  accept-teleport-with-admission: "Işınlanmak istiyor musunuz? &c(-%price% $)"
+  teleport-between-worlds-error: "%prefix% &7Işınlanma iptal edildi. Sadece kendi dünyanızdaki warplara ışınlanabilirsiniz!"
+  name-cant-contain-space: "%prefix% &7İsim boşluk içeremez"
+  enter-password: "Şifre Girin"
+  enter-warps-name: "Warp'ların Adını Girin"
+  password-setting-cancelled: "%prefix% &7Şifre ayarı iptal edildi."
+  password-changed: "%prefix% &7Şifre değiştirildi!"
+  password-length: "%prefix% &cŞifre en az 3 karakter içermelidir!"
+  entered-wrong-password: "%prefix% &7Yanlış şifre girildi!"
+  categories-are-disabled: "&cKategoriler devre dışı bırakıldı!"
+  item-changed: "%prefix% &7Menü öğesini %item% olarak değiştirdiniz"
+  title-write-msg: "%prefix% &7Şimdi warp listesinde %warp% warp'ınızın altına metninizi yazın:"
+  item-write-msg: "%prefix% &7Şimdi %warp% warp'ını temsil edecek öğe adını yazın:"
+  write-new-display-name: "%prefix% &7Şimdi bu warp'ın yeni görüntü adını yazın:"
+  cancel-input: "&c               [İptal etmek için tıklayın]"
+  input-cancelled: "%prefix% &7Giriş modundan çıktınız."
+  text-size-error: "%prefix% &7Metin 5 ile 32 karakter arasında olmalıdır"
+  description-changed: "%prefix% &7Warp %warp% açıklamanızı değiştirdiniz"
+  not-owning: "%prefix% &7Bu sizin warp'ınız değil"
+  already-owning: "%prefix% &7Bu warp'ı zaten sahibisiniz!"
+  invalid-item: "%prefix% &7Bu öğe mevcut değil"
+  already-reviewed: "%prefix% &7Bu warp'ı zaten değerlendirdiniz!"
+  invalid-review: "%prefix% &71 - 5 yıldız arasında bir seçim yapmalısınız"
+  self-review: "%prefix% &7Kendi warp'ınızı değerlendiremezsiniz!"
+  review-warp-title: "%warp% warp'ını derecelendirin"
+  warp-reviewed: "%prefix% &7Bu warp'ı (%warp%) %stars% yıldız ile değerlendirdiniz"
+  tried-to-set-banned-item: "%prefix% &7Bu öğe yasaklanmış"
+  not-a-number: "%prefix% &7Girilen fiyat bir sayı değil"
+  price-write-msg: "%prefix% &7Şimdi warp'ınızın %warp%'ın fiyatını yazın:"
+  price-changed: "%prefix% &7Warp %warp%'ına ışınlanma fiyatı %price% olarak değiştirildi"
+  invalid-entered-price: "%prefix% &7Fiyat negatif olamaz"
+  entered-higher-price-than-allowed: "%prefix% &7Fiyat %max% $'tan yüksek olamaz"
+  ownership-transfer-successful: "%prefix% &7Bu warp'ı oyuncu %player%'a başarıyla devrettiniz"
+  ownership-transfer-info: "%prefix% &7Oyuncu %player% warp %warp%'ı size devretti"
+  ownership-transfer-error: "%prefix% &7Geçersiz oyuncu!"
+  owner-change-msg: "%prefix% &7Şimdi %warp% warp'ının sahibinin adını yazın:"
+  password-change-msg: "%prefix% &7Şimdi %warp% warp'ının yeni şifresini yazın:"
+  warp-name-changed: "%prefix% &7Başarıyla warp %oldName% ismini %newName% olarak değiştirdiniz"
+  warp-status-changed: "%prefix% &7Warp'ın durumu &e%status% olarak değiştirildi"
+  warp-relocated: "%prefix% &7Warp %warp% taşındı!"
+  rename-write-msg: "%prefix% &7Şimdi %warp%'ın yeni ismini yazın:"
+  set-description-msg: "%prefix% &7Şimdi %warp%'ın yeni açıklamasını yazın:"
+  dangerous-position-msg: "%prefix% &7Warp'ın konumu güvenli değil, ışınlanma iptal ediliyor"
+  warp-name-is-above-letters-limit: "%prefix% &7Warp'ın ismi %limit% harften kısa olmalıdır"
+  warps-item-name: "&e&lWarps genel görünümü"
+  my-warps-item-name: "&e&lWarplarımı yönet"
+  own-warp-item-name: "&fWarp: &a%warp%"
+  help-item-name: "&e&lWarp nasıl oluşturulur"
+  favorite-warps-item-name: "&e&lKaydedilmiş Warps"
+  my-warp-title: "Benim Warplarım &7%page%. sayfa"
+  warps-title: "Warps &7%page%. sayfa"
+  change-warp-category-title: "%warp%'ın kategorisini değiştir:"
+  edit-warp-menu-title: "%warp% warp'ını düzenleme"
+  category-title: "Kategoriler"
+  help-title: "Yardım"
+  set-warp-status-title: "Warp'ın durumunu ayarla:"
+  favorites-title: "Kaydedilmiş Warps &7%page%. sayfa"
+  confirmation-menu-title: "İşlemi onaylıyor musunuz? (%warp%)"
+  accept: "&a&lKabul Et"
+  deny: "&c&lReddet"
+  sort-warps: "&aWarpları Sırala"
+  click-to-sort-by: "&b► %selector% göre sırala için tıklayın"
+  next-page: "&aSonraki sayfa"
+  previous-page: "&cÖnceki sayfa"
+  no-description: "&3&oSahip açıklama eklemedi"
+  back-name: "&c&lGeri"
+  one-stars: "&e&l1 yıldız"
+  two-stars: "&e&l2 yıldız"
+  three-stars: "&e&l3 yıldız"
+  four-stars: "&e&l4 yıldız"
+  five-stars: "&e&l5 yıldız"
+  warp-enabled: "%prefix% &7Warp'ınızı &aaktif ettiniz &f%warp%"
+  warp-disabled: "%prefix% &7Warp'ınızı &cdevre dışı bıraktınız &f%warp%"
+  warp-is-disabled: "%prefix% &7Sahip bu warp'ı geçici olarak devre dışı bıraktı &7(%warp%)"
+  entered-invalid-type-of-warp: "%prefix% &7Geçersiz bir tür girdiniz. Kullanılabilir türler: &9%types%"
+  warp-type-changed: "%prefix% &7%warp% warp'ının türünü &7%type% olarak değiştirdiniz"
+  privacy-changed: "%prefix% &7%warp% warp'ının gizliliğini değiştirdiniz"
+  display-name-changed: "%prefix% &7%warp% warp'ının görüntü adı %displayName% olarak değiştirildi"
+  favorite-warp-added: "%prefix% &7%warp% warp'ı favori listenize eklendi"
+  remove-favorite-warp: "%prefix% &7%warp% warp'ını favori listenizden kaldırdınız"
+  warp-not-contains-favlist: "%prefix% &7%warp% warp'ı favori listenize dahil değil"
+  warp-already-contains-favlist: "%prefix% &7%warp% warp'ı zaten favori listenize eklenmiş"
+  search-warp: "&aWarp Ara"
+  search-warp-lore:
+    - "&7Warp'ı isimle aramak için tıklayın"
+  # /pwarp GUI içindeki Lore
+  # Kullanılabilir yer tutucular:
+  #   %owner-name% - bu pwarp'ı sahiplenen oyuncunun adı
+  #   %visits% - tüm zamanların ziyaret sayısı
+  #   %today% - 1 gün içindeki ziyaretler
+  #   %stars% - değerlendirme yıldızlarını gösterir (★☆☆☆☆ - ★★★★★)
+  #   %voters% - kaç oyuncunun oy kullandığı
+  #   %ratings% - numara ile değerlendirme (1 - 5)
+  #   %lore% - oyuncunun pwarp'ının açıklaması
+  #   %status% - pwarp'ın durumunu gösterir
+  #   %creationDate% - pwarp'ın oluşturulma tarihi
+  #   %world% - pwarp'ın bulunduğu dünya
+  warp-lore:
+    - " "
+    - "&7Sahip: &f%owner-name%"
+    - "&7Oluşturuldu: &f%creationDate%"
+    - "&7Dünya: &f%world%"
+    - "&7Ziyaretler: &f%visits% &8(%today% bugün)"
+    - "&7Değerlendirmeler: &e%stars% &6%ratings% &8(%voters% oy veren)"
+    - "&7Durum: %status%"
+    - "&7Fiyat: &6%price%"
+    - "&7Açıklama:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Işınlanmak için sol tıklayın"
+    - "&e► Favorilere ekle/çıkar için SHIFT + Sol tıklayın"
+    - "&e► İncelemek için sağ tıklayın"
+  own-warp-lore:
+    - " "
+    - "&7Ziyaretler: &f%visits% &8(%today% bugün)"
+    - "&7Oluşturuldu: &f%creationDate%"
+    - "&7Değerlendirmeler: &e%stars% &6%ratings% &8(%voters% oy veren)"
+    - "&7Uygunluk: %status%"
+    - "&7Fiyat: &6%price%"
+    - "&7Açıklama:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Işınlanmak için sol tıklayın"
+    - "&e► Düzenlemek için sağ tıklayın"
+  # Bu, ışınlanma fiyatı 0 ise kullanılacaktır
+  free-of-charge: "&fÜcretsiz"
+  warp-active: "&a✔ Aktif"
+  warp-inactive: "&c❌ Pasif"
+  help-display-name: "&b&lYardım"
+  help-lore:
+    - ' '
+    - '&7 Warp oluşturmak için kullanın'
+    - '&7 komut:'
+    - ' '
+    - '&2  ● &a/pwarp create ◁isim▷'
+    - ' '
+    - '&7  ardından warp'ınızı ayarlamak için:'
+    - ' '
+    - '&6  ● &e/pwarp setup ◁isim▷'
+    - ' '
+  #
+  # Ayarlar menüsü
+  #
+  change-display-name: "&aGörüntü adını değiştir"
+  change-display-name-lore:
+    - "&8&lNOT:&8 Renk kodları (&) kullanabilirsiniz"
+    - " "
+    - "&e► Görüntü adını değiştirmek için tıklayın"
+  remove-warp: "&cWarp'ı kaldır"
+  remove-warp-lore:
+    - " "
+    - "&e► Kaldırmak için tıklayın"
+  change-type: "&aWarp türünü değiştir"
+  change-type-lore:
+    - " "
+    - "&e► Türü değiştirmek için tıklayın"
+  change-item: "&aWarp öğesini değiştir"
+  change-item-lore:
+    - " "
+    - "&e► Öğeyi değiştirmek için tıklayın"
+  change-label: "&aWarp açıklamasını değiştir"
+  change-label-lore:
+    - " "
+    - "&e► Açıklamayı değiştirmek için tıklayın"
+  pwarp-accessibility: "&aWarp erişilebilirliği"
+  pwarp-accessibility-lore:
+    - " "
+    - "&7Geçerli durum: &2%status%"
+    - " "
+    - "&e► Warp erişilebilirliğini değiştirmek için tıklayın"
+  set-price: "&aIşınlanma fiyatı"
+  set-price-lore:
+    - " "
+    - "&7Warp'ınızı ziyaret etmek için fiyatı ayarlayabilirsiniz"
+    - " "
+    - "&e► Fiyatı ayarlamak için tıklayın"
+  change-owner: "&eSahibi değiştir"
+  change-owner-lore:
+    - " "
+    - "&e► Sahibi değiştirmek için tıklayın"
+  rename-warp: "&eWarp'ı yeniden adlandır"
+  rename-warp-lore:
+    - " "
+    - "&e► Yeniden adlandırmak için tıklayın"
+  warp-relocation: "&eWarp'ınızı taşımak"
+  warp-relocation-lore:
+    - "&7Warp'ın konumunu değiştirmek için"
+    - "&7tıklayın"
+    - " "
+    - "&e► Taşımak için tıklayın"

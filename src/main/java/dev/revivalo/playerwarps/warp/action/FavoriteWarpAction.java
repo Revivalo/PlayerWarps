@@ -18,10 +18,10 @@ public class FavoriteWarpAction implements WarpAction<Void> {
 
         if (favorites.contains(warpString)) {
             favorites.remove(warpString);
-            player.sendMessage(Lang.REMOVE_FAVORITE.asColoredString().replace("%warp%", warp.getName()));
+            player.sendMessage(Lang.REMOVE_FAVORITE_WARP.asColoredString().replace("%warp%", warp.getName()));
         } else {
             favorites.add(warpString);
-            player.sendMessage(Lang.ADD_FAVORITE.asColoredString().replace("%warp%", warp.getName()));
+            player.sendMessage(Lang.FAVORITE_WARP_ADDED.asColoredString().replace("%warp%", warp.getName()));
         }
 
         playerData.set("favorites", favorites);

@@ -22,7 +22,7 @@ public final class ItemUtil {
     private static final String CUSTOM_MODEL_PREFIX = "CUSTOMMODEL";
     private static final String CUSTOM_SKULL_MODEL_PREFIX = "CUSTOMSKULL";
 
-    public static final ItemStack ONE_STAR = ItemBuilder.from(ItemUtil.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(1).setName(Lang.ONE_STAR.asColoredString()).build();
+    public static final ItemStack ONE_STAR = ItemBuilder.from(ItemUtil.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(1).setName(Lang.ONE_STARS.asColoredString()).build();
     public static final ItemStack TWO_STARS = ItemBuilder.from(ItemUtil.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(2).setName(Lang.TWO_STARS.asColoredString()).build();
     public static final ItemStack THREE_STARS = ItemBuilder.from(ItemUtil.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(3).setName(Lang.THREE_STARS.asColoredString()).build();
     public static final ItemStack FOUR_STARS = ItemBuilder.from(ItemUtil.getItem(Config.STAR_REVIEW_ITEM.asString())).amount(4).setName(Lang.FOUR_STARS.asColoredString()).build();

@@ -20,7 +20,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
     public boolean execute(Player player, Warp warp, String data) {
         final Category category = warp.getCategory();
         if (!category.hasPermission(player)) {
-            player.sendMessage(Lang.INSUFFICIENT_PERMS.asColoredString().replace("%permission%", category.getPermission()));
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", category.getPermission()));
             return false;
         }
 

@@ -1,0 +1,252 @@
+lang:
+  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
+  unknown-command: "%prefix% &cUnbekannter Befehl, benutze /pwarp help"
+  insufficient-permissions: "%prefix% &7Du benötigst %permission% für diese Aktion!"
+  bad-command-syntax: "%prefix% &cKorrekte Syntax des Befehls: &4%syntax%"
+  help-message-lore:
+    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
+    - "&b/pwarp &8- &7öffnet das Hauptmenü mit allen gelisteten Warps"
+    - "&b/pwarp teleport <warp> &8- &7teleportiert zu dem angegebenen Warp"
+    - "&b/pwarp create <warp> &8- &7erstellt einen Warp mit dem angegebenen Namen"
+    - "&b/pwarp remove <warp> &8- &7entfernt den angegebenen Warp"
+    - "&b/pwarp favorite <warp> &8- &7fügt den Warp zur Favoritenliste hinzu"
+    - "&b/pwarp reload &8- &7lädt die Dateien des Plugins neu"
+    - "&7-----------------------------------------------------"
+  reload-message: "%prefix% &7Das Plugin wurde erfolgreich neu geladen!"
+  limit-reached: "%prefix% &7Du hast dein Limit an erstellten Warps erreicht &7(%limit%)"
+  limit-reached-other: "%prefix% &7Spieler %player% kann nicht mehr Warps besitzen!"
+
+  warp-visit-notification: "%prefix% &f%player%&7 hat den Warp &f%warp% besucht"
+  warp-creation-notification: "%prefix% &f%player%&7 hat einen Warp &f%warp% erstellt"
+
+  insufficient-perms-for-category: "&4Geschlossene Kategorie"
+  insufficient-perms-for-category-lore:
+    - "&cDu benötigst %permission%, um"
+    - "&c diese Kategorie ansehen zu können"
+
+  no-warp-found: "&cKein Warp gefunden"
+  warp-in-deleted-world: "&cWarp befindet sich in einer gelöschten/inaktiven Welt"
+  no-warp-at-position: "&cKein Warp an dieser Position"
+
+  latest: "Neueste"
+  visits: "Besuche"
+  rating: "Bewertung"
+
+  opened-status: "&aGEÖFFNET"
+  closed-status: "&cGESCHLOSSEN"
+  password-protected-status: "&ePASSWORTGESCHÜTZT"
+
+  invalid-input: "%prefix% &cUngültige Eingabe!"
+  password-too-short: "%prefix% &cDas Passwort muss mindestens 3 Zeichen lang sein!"
+  non-existing-warp: "%prefix% &cDieser Warp existiert nicht!"
+  warp-already-created: "%prefix% &cEin Warp mit diesem Namen existiert bereits!"
+  warp-created: "%prefix% &7Du hast einen Warp %name% erstellt, klicke &l&nHIER&7, um ihn zu konfigurieren."
+  # Diese Nachricht wird gesendet, wenn Vault installiert ist
+  warp-created-with-price: "%prefix% &7Du hast einen Warp &e%name% &c(-%price% $)&7 erstellt, klicke &l&nHIER&7, um ihn zu konfigurieren."
+  tried-to-create-warp-in-disabled-world: "%prefix% &cWarp kann nicht in der Welt (%world%) erstellt werden"
+  tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp kann nicht in diese Welt (%world%) verschoben werden"
+  insufficient-balance-for-action: "%prefix% &cNicht genügend Guthaben, um dies zu tun! (%price% $)"
+  insufficient-balance-to-teleport: "%prefix% &cNicht genügend Guthaben, um zum Warp %warp% zu teleportieren"
+  warp-removed: "%prefix% &7Du hast diesen Warp entfernt"
+  # Diese Nachricht wird gesendet, wenn Vault installiert ist
+  warp-removed-with-refund: "%prefix% &7Du hast diesen Warp entfernt &a(+ %refund% $)"
+  try-to-remove-not-owning-warp: "%prefix% &cDu kannst keine Warps anderer entfernen"
+  click-to-configure: "&7Klicke, um den Warp zu konfigurieren"
+  click-to-cancel-input: "&7Klicke, um den Eingabemodus zu verlassen"
+  teleportation: "%prefix% &7Teleportation in &e%time% Sekunden!"
+  teleportation-cancelled: "%prefix% &cTeleportation abgebrochen!"
+  teleport-to-warp: "%prefix% &7Teleported zu Warp %warp% durch %player%"
+  teleport-to-warp-with-admission: "%prefix% &7Teleportation zum Warp von Spieler %player% &c(-%price% $)"
+  accept-teleport-with-admission: "Teleportieren? &c(-%price% $)"
+  teleport-between-worlds-error: "%prefix% &7Teleportation wurde abgebrochen. Du kannst nur zu Warps in deiner Welt teleportieren!"
+  name-cant-contain-space: "%prefix% &7Der Name darf keine Leerzeichen enthalten"
+  enter-password: "Passwort eingeben"
+  enter-warps-name: "Name des Warps eingeben"
+  password-setting-cancelled: "%prefix% &7Die Passwort-Einstellung wurde abgebrochen."
+  password-changed: "%prefix% &7Das Passwort wurde geändert!"
+  password-length: "%prefix% &cDas Passwort muss mindestens 3 Zeichen enthalten!"
+  entered-wrong-password: "%prefix% &7Falsches Passwort eingegeben!"
+  categories-are-disabled: "&cKategorien sind deaktiviert!"
+  item-changed: "%prefix% &7Menüelement wurde auf %item% geändert"
+  title-write-msg: "%prefix% &7Bitte schreibe jetzt deinen Text unter deinem %warp% Warp in der Warp-Liste:"
+  item-write-msg: "%prefix% &7Bitte schreibe jetzt den Namen des Gegenstands, der den %warp% Warp darstellen soll:"
+  write-new-display-name: "%prefix% &7Bitte schreibe jetzt den neuen Anzeigenamen dieses Warps:"
+  cancel-input: "&c               [Klicke, um abzubrechen]"
+  input-cancelled: "%prefix% &7Du hast den Eingabemodus verlassen."
+  text-size-error: "%prefix% &7Der Text muss zwischen 5 und 32 Zeichen lang sein"
+  description-changed: "%prefix% &7Du hast die Beschreibung deines Warps %warp% geändert"
+  not-owning: "%prefix% &7Das ist nicht dein Warp"
+  already-owning: "%prefix% &7Du besitzt diesen Warp bereits!"
+  invalid-item: "%prefix% &7Dieser Gegenstand existiert nicht"
+  already-reviewed: "%prefix% &7Du hast diesen Warp bereits bewertet!"
+  invalid-review: "%prefix% &7Du musst zwischen 1 - 5 Sternen wählen"
+  self-review: "%prefix% &7Du kannst deinen eigenen Warp nicht bewerten!"
+  review-warp-title: "%warp% Warp bewerten"
+  warp-reviewed: "%prefix% &7Du hast diesen Warp (%warp%) mit %stars% Sternen bewertet"
+  tried-to-set-banned-item: "%prefix% &7Dieser Gegenstand ist nicht erlaubt"
+  not-a-number: "%prefix% &7Der eingegebene Preis ist keine Zahl"
+  price-write-msg: "%prefix% &7Bitte schreibe jetzt den Preis für das Teleportieren zu %warp%:"
+  price-changed: "%prefix% &7Der Preis für das Teleportieren zu deinem Warp %warp% wurde auf %price% geändert"
+  invalid-entered-price: "%prefix% &7Der Preis darf nicht negativ sein"
+  entered-higher-price-than-allowed: "%prefix% &7Der Preis darf nicht höher als %max% $ sein"
+  ownership-transfer-successful: "%prefix% &7Du hast diesen Warp erfolgreich an Spieler %player% übertragen"
+  ownership-transfer-info: "%prefix% &7Spieler %player% hat Warp %warp% an dich übertragen"
+  ownership-transfer-error: "%prefix% &7Spieler nicht verfügbar!"
+  owner-change-msg: "%prefix% &7Bitte schreibe jetzt den Namen des neuen Besitzers des Warps %warp%:"
+  password-change-msg: "%prefix% &7Bitte schreibe jetzt das neue Passwort für den Warp %warp%:"
+  warp-name-changed: "%prefix% &7Warp %oldName% wurde erfolgreich in %newName% umbenannt"
+  warp-status-changed: "%prefix% &7Der Status des Warps wurde auf: &e%status% geändert"
+  warp-relocated: "%prefix% &7Warp %warp% wurde verlegt!"
+  rename-write-msg: "%prefix% &7Bitte schreibe jetzt den neuen Namen für %warp%:"
+  set-description-msg: "%prefix% &7Bitte schreibe jetzt die neue Beschreibung für %warp%:"
+  dangerous-position-msg: "%prefix% &7Der Standort des Warps ist nicht sicher, Teleportation wird abgebrochen"
+  warp-name-is-above-letters-limit: "%prefix% &7Der Name des Warps muss kürzer als %limit% Buchstaben sein"
+  warps-item-name: "&e&lWarp-Übersicht"
+  my-warps-item-name: "&e&lMeine Warps verwalten"
+  own-warp-item-name: "&fWarp: &a%warp%"
+  help-item-name: "&e&lWie man einen Warp erstellt"
+  favorite-warps-item-name: "&e&lGespeicherte Warps"
+  my-warp-title: "Meine Warps &7%page%. Seite"
+  warps-title: "Warps &7%page%. Seite"
+  change-warp-category-title: "Kategorie von %warp% ändern:"
+  edit-warp-menu-title: "Warp %warp% bearbeiten"
+  category-title: "Kategorien"
+  help-title: "Hilfe"
+  set-warp-status-title: "Status des Warps festlegen:"
+  favorites-title: "Gespeicherte Warps &7%page%. Seite"
+  confirmation-menu-title: "Aktion bestätigen? (%warp%)"
+  accept: "&a&lAkzeptieren"
+  deny: "&c&lAblehnen"
+  sort-warps: "&aWarps sortieren"
+  click-to-sort-by: "&b► Klicke, um nach %selector% zu sortieren"
+  next-page: "&aNächste Seite"
+  previous-page: "&cVorherige Seite"
+  no-description: "&3&oBesitzer hat keine Beschreibung festgelegt"
+  back-name: "&c&lZurück"
+  one-stars: "&e&l1 Stern"
+  two-stars: "&e&l2 Sterne"
+  three-stars: "&e&l3 Sterne"
+  four-stars: "&e&l4 Sterne"
+  five-stars: "&e&l5 Sterne"
+  warp-enabled: "%prefix% &7Du hast deinen Warp %warp% &aaufgetaut&f"
+  warp-disabled: "%prefix% &7Du hast deinen Warp %warp% &cgefrostet&f"
+  warp-is-disabled: "%prefix% &7Der Besitzer hat diesen Warp vorübergehend deaktiviert &7(%warp%)"
+  entered-invalid-type-of-warp: "%prefix% &7Ungültigen Typ eingegeben. Verfügbare Typen: &9%types%"
+  warp-type-changed: "%prefix% &7Du hast den Typ des Warps %warp% auf %type% geändert"
+  privacy-changed: "%prefix% &7Du hast die Privatsphäre von Warp %warp% geändert"
+  display-name-changed: "%prefix% &7Der Anzeigename des Warps %warp% wurde auf %displayName% geändert"
+  favorite-warp-added: "%prefix% &7Warp %warp% wurde zu deiner Favoritenliste hinzugefügt"
+  remove-favorite-warp: "%prefix% &7Du hast Warp %warp% aus deiner Favoritenliste entfernt"
+  warp-not-contains-favlist: "%prefix% &7Warp %warp% ist nicht in deiner Favoritenliste enthalten"
+  warp-already-contains-favlist: "%prefix% &7Warp %warp% ist bereits in deiner Favoritenliste enthalten"
+  search-warp: "&aWarp suchen"
+  search-warp-lore:
+    - "&7Klicke, um Warp"
+    - "&7nach Namen zu suchen"
+  # Lore innerhalb des /pwarp GUIs
+  # Mögliche Platzhalter:
+  #   %owner-name% - Name des Spielers, der diesen pwarp besitzt
+  #   %visits% - Anzahl aller Besuche
+  #   %today% - Besuche an einem Tag
+  #   %stars% - zeigt die Sterne, die durch die Bewertung vergeben wurden (★☆☆☆☆ - ★★★★★)
+  #   %voters% - wie viele Spieler bewertet haben
+  #   %ratings% - Bewertung in Zahlen (1 - 5)
+  #   %lore% - Lore des Spieler-pwarp
+  #   %status% - zeigt den Status des pwarp
+  #   %creationDate% - wann der pwarp erstellt wurde
+  #   %world% - wo sich der pwarp befindet
+  warp-lore:
+    - " "
+    - "&7Besitzer: &f%owner-name%"
+    - "&7Erstellt: &f%creationDate%"
+    - "&7Welt: &f%world%"
+    - "&7Besuche: &f%visits% &8(%today% heute)"
+    - "&7Bewertungen: &e%stars% &6%ratings% &8(%voters% Bewertungen)"
+    - "&7Status: %status%"
+    - "&7Preis: &6%price%"
+    - "&7Beschreibung:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Linksklick, um zu teleportieren"
+    - "&e► SHIFT + Linksklick, um zu speichern/entfernen"
+    - "&e► Rechtsklick, um zu bewerten"
+  own-warp-lore:
+    - " "
+    - "&7Besuche: &f%visits% &8(%today% heute)"
+    - "&7Erstellt: &f%creationDate%"
+    - "&7Bewertungen: &e%stars% &6%ratings% &8(%voters% Bewertungen)"
+    - "&7Verfügbarkeit: %status%"
+    - "&7Preis: &6%price%"
+    - "&7Beschreibung:"
+    - "&8 &9%lore%"
+    - " "
+    - "&e► Linksklick, um zu teleportieren"
+    - "&e► Rechtsklick, um zu bearbeiten"
+  # Dies wird verwendet, wenn der Preis für das Teleportieren 0 ist
+  free-of-charge: "&fKostenlos"
+  warp-active: "&a✔ Aktiv"
+  warp-inactive: "&c❌ Inaktiv"
+  help-display-name: "&b&lHinweis"
+  help-lore:
+    - ' '
+    - '&7 Um einen Warp zu erstellen, benutze'
+    - '&7 den Befehl:'
+    - ' '
+    - '&2  ● &a/pwarp create ◁name▷'
+    - ' '
+    - '&7 Danach kannst du deinen Warp'
+    - '&7  einrichten mit:'
+    - ' '
+    - '&6  ● &e/pwarp setup ◁name▷'
+    - ' '
+  #
+  # Einstellungsmenü
+  #
+  change-display-name: "&aAnzeigenamen ändern"
+  change-display-name-lore:
+    - "&8&lHINWEIS:&8 Du kannst Farb-Codes (&)"
+    - " "
+    - "&e► Klicke, um den Anzeigenamen zu ändern"
+  remove-warp: "&cWarp entfernen"
+  remove-warp-lore:
+    - " "
+    - "&e► Klicke, um zu entfernen"
+  change-type: "&aTyp des Warps ändern"
+  change-type-lore:
+    - " "
+    - "&e► Klicke, um zu ändern"
+  change-item: "&aGegenstand des Warps ändern"
+  change-item-lore:
+    - " "
+    - "&e► Klicke, um zu ändern"
+  change-label: "&aBeschreibung des Warps ändern"
+  change-label-lore:
+    - " "
+    - "&e► Klicke, um zu ändern"
+  pwarp-accessibility: "&aWarp-Verfügbarkeit"
+  pwarp-accessibility-lore:
+    - " "
+    - "&7Aktueller Status: &2%status%"
+    - " "
+    - "&e► Verfügbarkeit des Warps ändern"
+  set-price: "&aTeleportationspreis"
+  set-price-lore:
+    - " "
+    - "&7Du kannst den Preis für"
+    - "&7das Besuchen deines Warps festlegen"
+    - " "
+    - "&e► Klicke, um den Preis festzulegen"
+  change-owner: "&eBesitzer ändern"
+  change-owner-lore:
+    - " "
+    - "&e► Klicke, um den Besitzer zu ändern"
+  rename-warp: "&eWarp umbenennen"
+  rename-warp-lore:
+    - " "
+    - "&e► Klicke, um umzubenennen"
+  warp-relocation: "&eWarp verlegen"
+  warp-relocation-lore:
+    - "&7Durch Klicken wird"
+    - "&7der Standort des Warps geändert"
+    - " "
+    - "&e► Klicke, um zu verlegen"
