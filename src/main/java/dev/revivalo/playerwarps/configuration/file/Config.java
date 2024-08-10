@@ -3,7 +3,6 @@ package dev.revivalo.playerwarps.configuration.file;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.YamlFile;
 import dev.revivalo.playerwarps.util.TextUtil;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -91,12 +90,6 @@ public enum Config {
         reload();
     }
 
-    private final String text;
-
-    Config(String text) {
-        this.text = text;
-    }
-
     public static void reload() {
         configYamlFile.reload();
         final ConfigurationSection configuration = configYamlFile.getConfiguration().getConfigurationSection("config");
@@ -111,7 +104,7 @@ public enum Config {
                         strings.put(editedKey, configuration.getString(key));
                 });
 
-        Lang.reload();
+        Lang.reload(LANGUAGE);
     }
 
     public YamlFile getConfiguration() {
@@ -126,26 +119,18 @@ public enum Config {
     }
 
     public String asReplacedString(Map<String, String> definitions) {
-        return TextUtil.replaceString(strings.get(text), definitions);
+        return TextUtil.replaceString(strings.get(this.name()), definitions);
     }
 
-    public Material asMaterial(){
-        try {
-            return Material.valueOf(asUppercase());
-        } catch (IllegalArgumentException e) {
-            return Material.STONE;
-        }
-    }
-
-    public Map<String, String> asStringMap() {
-        Map<String, String> map = new HashMap<>();
-        ConfigurationSection section = configYamlFile.getConfiguration().getConfigurationSection(asString());
-        if (section == null) return map;
-        for (String key : section.getKeys(false)) {
-            map.put(key, section.getString(key));
-        }
-        return map;
-    }
+//    public Map<String, String> asStringMap() {
+//        Map<String, String> map = new HashMap<>();
+//        ConfigurationSection section = configYamlFile.getConfiguration().getConfigurationSection(asString());
+//        if (section == null) return map;
+//        for (String key : section.getKeys(false)) {
+//            map.put(key, section.getString(key));
+//        }
+//        return map;
+//    }
 
     public String asUppercase() {
         return this.asString().toUpperCase();
