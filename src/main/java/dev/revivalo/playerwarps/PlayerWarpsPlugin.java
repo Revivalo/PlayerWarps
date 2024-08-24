@@ -56,6 +56,8 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         copyResource("lang/Polish.yml");
         copyResource("lang/Russian.yml");
         copyResource("lang/Turkish.yml");
+        copyResource("lang/Portuguese.yml");
+        copyResource("lang/Spanish.yml");
 
         Config.reload();
 
