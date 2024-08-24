@@ -38,7 +38,7 @@ public class WarpHandler {
         warps = new HashSet<>();
 
         bannedWorlds = new ArrayList<>();
-        bannedWorlds.addAll(Config.BANNED_WORLDS.asList());
+        bannedWorlds.addAll(Config.DISABLED_WORLDS.asList());
     }
 
     public void reloadWarps(CommandSender sender) {
