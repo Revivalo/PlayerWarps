@@ -6,9 +6,9 @@ import dev.revivalo.playerwarps.configuration.Data;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.hook.Hook;
 import dev.revivalo.playerwarps.listener.ChatSendListener;
-import dev.revivalo.playerwarps.listener.PlayerJoinListener;
 import dev.revivalo.playerwarps.updatechecker.UpdateChecker;
 import dev.revivalo.playerwarps.updatechecker.UpdateNotificator;
+import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.util.VersionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpHandler;
@@ -62,6 +62,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         Config.reload();
 
         new Metrics(this, 12061);
+        new UserHandler(this);
 
         Hook.hook();
 
@@ -112,8 +113,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         registerCommands();
         registerEvents(
                 new UpdateNotificator(),
-                new ChatSendListener(),
-                new PlayerJoinListener()
+                new ChatSendListener()
         );
     }
 
