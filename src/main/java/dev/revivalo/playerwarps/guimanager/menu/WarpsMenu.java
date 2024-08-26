@@ -94,7 +94,8 @@ public class WarpsMenu implements Menu {
         }}));
 
         if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
-            paginatedGui.setItem(52, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
+            paginatedGui
+                    .setItem(52, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
                     .setName(Lang.SEARCH_WARP.asColoredString())
                     .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
                     .asGuiItem(
@@ -107,7 +108,8 @@ public class WarpsMenu implements Menu {
         }
 
         if (getMenuType() != MenuType.OWNED_LIST_MENU)
-            paginatedGui.setItem(46, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
+            paginatedGui
+                    .setItem(46, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
                     .setName(Lang.SORT_WARPS.asColoredString())
                     .setLore(sortLore)
                     .asGuiItem(event -> {
@@ -149,7 +151,8 @@ public class WarpsMenu implements Menu {
         if (warps.isEmpty()) {
             if (menuType == MenuType.OWNED_LIST_MENU && Config.ENABLE_HINTS.asBoolean()) {
                 guiItem = new GuiItem(
-                        ItemBuilder.from(ItemUtil.getItem(Config.HELP_ITEM.asUppercase()))
+                        ItemBuilder
+                                .from(ItemUtil.getItem(Config.HELP_ITEM.asUppercase()))
                                 .setName(Lang.HELP_DISPLAY_NAME.asColoredString())
                                 .setLore(Lang.HELP_LORE.asReplacedList())
                                 .build()
@@ -157,7 +160,8 @@ public class WarpsMenu implements Menu {
                 paginatedGui.setItem(22, guiItem);
             } else {
                 guiItem = new GuiItem(
-                        ItemBuilder.from(ItemUtil.getItem(Config.NO_WARP_FOUND_ITEM.asUppercase()))
+                        ItemBuilder
+                                .from(ItemUtil.getItem(Config.NO_WARP_FOUND_ITEM.asUppercase()))
                                 .setName(Lang.NO_WARP_FOUND.asColoredString())
                                 .build()
                 );
@@ -166,12 +170,17 @@ public class WarpsMenu implements Menu {
         } else {
             for (Warp warp : warps) {
                 if (warp.getLocation() == null) {
-                    guiItem = new GuiItem(ItemBuilder.from(Material.BARRIER)
+                    guiItem = new GuiItem(ItemBuilder
+                            .from(Material.BARRIER)
                             .setName(TextUtil.color(warp.getDisplayName()))
                             .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
                             .build());
                 } else {
-                    guiItem = ItemBuilder.from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
+
+                    //guiItem = ItemBuilder.skull()
+                    guiItem = ItemBuilder
+                            .from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), warp.getOwner()) : warp.getMenuItem().clone()))
+                            //.from(warp.getItem())
                             .setName(TextUtil.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
                             .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
                                         put("%creationDate%", DateUtil.getFormatter().format(warp.getDateCreated()));
