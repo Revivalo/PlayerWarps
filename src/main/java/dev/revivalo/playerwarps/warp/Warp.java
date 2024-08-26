@@ -32,6 +32,7 @@ public class Warp implements ConfigurationSerializable {
     private long dateCreated;
     private long lastActivity;
     private ItemStack menuItem;
+    //private SkullBuilder tempItem;
     private String stars;
 
     public Warp(Map<String, Object> map) {
@@ -65,6 +66,15 @@ public class Warp implements ConfigurationSerializable {
         }
 
         if (reviewers != null) stars = TextUtil.createRatingFormat(this);
+
+//        if (tempItem == null) {
+//            PlayerWarpsPlugin.get().getLogger().info("Temp item");
+//            if (Config.DEFAULT_WARP_ITEM.asUppercase().contains("SKULL")) {
+//                tempItem = ItemBuilder.skull(ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), owner)).owner(PlayerWarpsPlugin.get().getServer().getOfflinePlayer(owner));
+//            }
+//
+//            tempItem = ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), owner);
+//        }
     }
 
     @NotNull
@@ -89,6 +99,16 @@ public class Warp implements ConfigurationSerializable {
             put("last-activity", getLastActivity());
         }};
     }
+
+//    public SkullBuilder getItem() {
+//        if (tempItem == null) {
+//            PlayerWarpsPlugin.get().getLogger().info("Temp item");
+//            tempItem = ItemBuilder.skull().owner(PlayerWarpsPlugin.get().getServer().getOfflinePlayer(owner));
+//            //tempItem = ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), owner);
+//        }
+//
+//        return tempItem;
+//    }
 
     public float getConvertedRating() {
         return (float) getRating() / getReviewers().size();
