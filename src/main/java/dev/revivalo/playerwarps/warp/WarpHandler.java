@@ -35,8 +35,31 @@ public class WarpHandler {
     private final Set<Warp> warps;
     private final List<String> bannedWorlds;
 
+    private final SortingManager sortingManager;
+
     public WarpHandler() {
         warps = new HashSet<>();
+
+        List<Sortable> sortableList = new ArrayList<>();
+        for (String sortableFromConfig : Config.SORT_BY.asList()) {
+            switch (sortableFromConfig.toUpperCase(Locale.ENGLISH)) {
+                case "ALPHABETICAL":
+                    sortableList.add(new AlphabeticalSort());
+                    break;
+                case "VISITS":
+                    sortableList.add(new VisitsSort());
+                    break;
+                case "LATEST":
+                    sortableList.add(new LatestSort());
+                    break;
+                case "RATING":
+                    sortableList.add(new RatingSort());
+                    break;
+            }
+        }
+        sortingManager = new SortingManager(
+                sortableList
+        );
 
         bannedWorlds = new ArrayList<>();
         bannedWorlds.addAll(Config.DISABLED_WORLDS.asList());
@@ -281,5 +304,9 @@ public class WarpHandler {
 
     public List<String> getBannedWorlds() {
         return bannedWorlds;
+    }
+
+    public SortingManager getSortingManager() {
+        return sortingManager;
     }
 }

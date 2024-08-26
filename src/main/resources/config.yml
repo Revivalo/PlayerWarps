@@ -30,6 +30,11 @@ config:
   # For no price just set it to 0
   warp-price: 5000
   # To disable the fee features, set them to 0
+  sort-by:
+    - ALPHABETICAL
+    - VISITS
+    - LATEST
+    - RATING
   relocate-warp-fee: 1000
   rename-warp-fee: 500
   transfer-ownership-fee: 0

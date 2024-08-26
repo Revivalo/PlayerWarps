@@ -1,5 +1,6 @@
 package dev.revivalo.playerwarps.commandmanager.command;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.commandmanager.MainCommand;
 import dev.revivalo.playerwarps.commandmanager.argumentmatcher.StartingWithStringArgumentMatcher;
 import dev.revivalo.playerwarps.commandmanager.subcommand.*;

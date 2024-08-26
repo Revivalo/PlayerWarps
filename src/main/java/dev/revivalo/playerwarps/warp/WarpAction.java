@@ -7,7 +7,6 @@ import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
 import dev.revivalo.playerwarps.hook.Hook;
 import dev.revivalo.playerwarps.util.PermissionUtil;
-import dev.revivalo.playerwarps.util.SortingUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
