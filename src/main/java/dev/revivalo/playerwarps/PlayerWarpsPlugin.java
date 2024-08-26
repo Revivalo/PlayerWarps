@@ -49,16 +49,15 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
             langFolder.mkdirs();
         }
 
-        copyResource("lang/English.yml");
-        copyResource("lang/Czech.yml");
-        copyResource("lang/Chinese.yml");
-        copyResource("lang/French.yml");
-        copyResource("lang/German.yml");
-        copyResource("lang/Polish.yml");
-        copyResource("lang/Russian.yml");
-        copyResource("lang/Turkish.yml");
-        copyResource("lang/Portuguese.yml");
-        copyResource("lang/Spanish.yml");
+        String[] languages = {
+                "English", "Czech", "Chinese", "French",
+                "German", "Polish", "Russian", "Turkish",
+                "Portuguese", "Spanish"
+        };
+
+        for (String language : languages) {
+            copyResource("lang/" + language + ".yml");
+        }
 
         Config.reload();
 
