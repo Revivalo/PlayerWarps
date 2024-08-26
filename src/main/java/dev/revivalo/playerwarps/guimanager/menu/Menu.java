@@ -1,14 +1,24 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.sort.Sortable;
 import dev.revivalo.playerwarps.util.ItemUtil;
-import dev.revivalo.playerwarps.util.SortingUtil;
+import dev.revivalo.playerwarps.warp.WarpHandler;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.entity.Player;
 
 public interface Menu {
+    default WarpHandler getWarpHandler() {
+        return PlayerWarpsPlugin.getWarpHandler();
+    }
+
+    default Sortable getDefaultSortType() {
+        return getWarpHandler().getSortingManager().getDefaultSortType();
+    }
+
     MenuType getMenuType();
 
     default void setDefaultItems(Player player, BaseGui gui) {
@@ -21,7 +31,7 @@ public interface Menu {
                             if (Config.ENABLE_CATEGORIES.asBoolean()) {
                                 new CategoriesMenu().open(player);
                             } else {
-                                new WarpsMenu(MenuType.DEFAULT_LIST_MENU).setPage(1).open(player, "all", SortingUtil.SortType.LATEST);
+                                new WarpsMenu(MenuType.DEFAULT_LIST_MENU).setPage(1).open(player, "all", getWarpHandler().getSortingManager().getDefaultSortType());
                             }
                         })
         );
@@ -34,7 +44,7 @@ public interface Menu {
                         .asGuiItem(event ->
                                 new WarpsMenu(MenuType.OWNED_LIST_MENU)
                                         .setPage(1)
-                                        .open(player, null, SortingUtil.SortType.LATEST)
+                                        .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType())
                         )
         );
 
@@ -46,7 +56,7 @@ public interface Menu {
                         .asGuiItem(event ->
                                 new WarpsMenu(MenuType.FAVORITE_LIST_MENU)
                                         .setPage(1)
-                                        .open(player, null, SortingUtil.SortType.LATEST)
+                                        .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType())
                         )
         );
     }

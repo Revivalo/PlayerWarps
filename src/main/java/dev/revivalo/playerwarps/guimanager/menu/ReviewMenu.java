@@ -6,7 +6,6 @@ import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
 import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.util.ItemUtil;
-import dev.revivalo.playerwarps.util.SortingUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.ReviewWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
@@ -51,7 +50,7 @@ public class ReviewMenu implements Menu {
                         .asGuiItem(
                                 event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage((int) user.getData(DataSelectorType.ACTUAL_PAGE))
-                                        .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), SortingUtil.SortType.LATEST)
+                                        .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), getDefaultSortType())
                         )
         );
 

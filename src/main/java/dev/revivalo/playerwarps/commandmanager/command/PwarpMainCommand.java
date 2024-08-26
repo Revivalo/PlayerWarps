@@ -9,7 +9,6 @@ import dev.revivalo.playerwarps.guimanager.menu.CategoriesMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
-import dev.revivalo.playerwarps.util.SortingUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -45,7 +44,7 @@ public class PwarpMainCommand extends MainCommand {
             } else {
                 new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                         .setPage(1)
-                        .open(player, "all", SortingUtil.SortType.LATEST);
+                        .open(player, "all", PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType());
             }
         } else {
             player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.USE.get()));

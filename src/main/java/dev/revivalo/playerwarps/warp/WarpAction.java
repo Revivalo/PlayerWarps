@@ -66,7 +66,7 @@ public interface WarpAction<T> {
                 case OWNED_LIST_MENU:
                     new WarpsMenu(menuToOpen)
                             .setPage(page)
-                            .open(player, null, SortingUtil.SortType.LATEST);
+                            .open(player, null, PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType());
                     break;
             }
         }

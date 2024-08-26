@@ -57,7 +57,7 @@ public class CategoriesMenu implements Menu {
                                 .setLore(category.getLore())
                                 .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
                                         .setPage(1)
-                                        .open(player, category.toString(), SortingUtil.SortType.LATEST))
+                                        .open(player, category.toString(), getDefaultSortType()))
                                 : INSUFFICIENT_PERMISSION_ITEM
                                     .setLore(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", category.getPermission());}}))
                                     .asGuiItem()

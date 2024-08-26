@@ -6,7 +6,6 @@ import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.guimanager.menu.WarpSearch;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
-import dev.revivalo.playerwarps.util.SortingUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.entity.Player;
@@ -32,7 +31,7 @@ public class SearchWarpAction implements WarpAction<String> {
         try {
             PlayerWarpsPlugin.get().runSync(() ->
                     new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
-                    .open(player, "all", SortingUtil.SortType.LATEST, warpList));
+                    .open(player, "all", PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType(), warpList));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import dev.revivalo.playerwarps.category.Category;
 import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.sort.*;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
 import dev.revivalo.playerwarps.user.UserHandler;
@@ -53,14 +54,14 @@ public class WarpsMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        open(player, "all", SortingUtil.SortType.LATEST, null);
+        open(player, "all", getWarpHandler().getSortingManager().getDefaultSortType(), null);
     }
 
-    public void open(Player player, String categoryName, SortingUtil.SortType sortType) {
+    public void open(Player player, String categoryName, Sortable sortType) {
         open(player, categoryName, sortType, null);
     }
 
-    public void open(Player player, String categoryName, SortingUtil.SortType sortType, List<Warp> foundWarps) {
+    public void open(Player player, String categoryName, Sortable sortType, List<Warp> foundWarps) {
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
         user.addData(DataSelectorType.ACTUAL_MENU, getMenuType());
@@ -79,9 +80,18 @@ public class WarpsMenu implements Menu {
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
-        SortingUtil.SortType nextSortType = sortType == SortingUtil.SortType.LATEST ? SortingUtil.SortType.VISITS
-                : sortType == SortingUtil.SortType.VISITS
-                ? SortingUtil.SortType.RATING : SortingUtil.SortType.LATEST;
+        Sortable nextSortType = getWarpHandler().getSortingManager().nextSortType(sortType);
+
+        List<String> sortLore = new ArrayList<>();
+        for (Sortable cachedSortType : getWarpHandler().getSortingManager().getSortTypes()) {
+            sortLore.add(TextUtil.color((sortType.equals(cachedSortType) ? "&a" : "&7") + "► " + cachedSortType.getName().asColoredString()));
+        }
+
+        sortLore.add(" ");
+
+        sortLore.add(Lang.CLICK_TO_SORT_BY.asReplacedString(player, new HashMap<String, String>() {{
+            put("%selector%", nextSortType.getName().asColoredString());
+        }}));
 
         if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
             paginatedGui.setItem(52, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
@@ -99,17 +109,7 @@ public class WarpsMenu implements Menu {
         if (getMenuType() != MenuType.OWNED_LIST_MENU)
             paginatedGui.setItem(46, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
                     .setName(Lang.SORT_WARPS.asColoredString())
-                    .setLore(
-                            " ",
-                            TextUtil.getColorizedString(player, sortType == SortingUtil.SortType.LATEST ? "&a" : "&7") + "► " + Lang.LATEST.asColoredString(),
-                            TextUtil.getColorizedString(player, sortType == SortingUtil.SortType.VISITS ? "&a" : "&7") + "► " + Lang.VISITS.asColoredString(),
-                            TextUtil.getColorizedString(player, sortType == SortingUtil.SortType.RATING ? "&a" : "&7") + "► " + Lang.RATING.asColoredString(),
-                            " ",
-                            Lang.CLICK_TO_SORT_BY.asReplacedString(player, new HashMap<String, String>() {{
-                                put("%selector%", nextSortType.getName());
-                            }})
-                    )
-
+                    .setLore(sortLore)
                     .asGuiItem(event -> {
                         paginatedGui.clearPageItems();
                         open(player, categoryName, nextSortType, foundWarps);
@@ -131,7 +131,8 @@ public class WarpsMenu implements Menu {
                             .filter(warp -> warp.isAccessible() && (warp.getCategory() == null || warp.getCategory().getType().equalsIgnoreCase(categoryName)))
                             .collect(Collectors.toList()));
                 }
-                warps.sort(sortType.getComparator());
+
+                getWarpHandler().getSortingManager().sortWarps(warps, sortType);
 
                 break;
             case OWNED_LIST_MENU:
