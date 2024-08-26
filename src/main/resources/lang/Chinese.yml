@@ -27,6 +27,7 @@ lang:
   warp-in-deleted-world: "&c传送门在已删除/不活跃的世界中"
   no-warp-at-position: "&c没有传送门"
 
+  alphabetical: "按字母顺序排列"
   latest: "最新"
   visits: "访问"
   rating: "评分"

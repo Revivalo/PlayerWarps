@@ -7,7 +7,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.util.*;
 
 public enum Lang {
@@ -34,6 +33,7 @@ public enum Lang {
     NO_WARP_FOUND,
     NO_WARP_AT_POSITION,
     ALREADY_OWNING,
+    ALPHABETICAL,
     LATEST,
     VISITS,
     RATING,
@@ -154,7 +154,7 @@ public enum Lang {
     private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
 
     public static void reload(Config language) {
-        YamlFile langYamlFile = new YamlFile("lang" + File.separator + language.asString() + ".yml",
+        YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
                 PlayerWarpsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 
         langYamlFile.reload();
@@ -190,12 +190,15 @@ public enum Lang {
     }
 
     public String asColoredString() {return asColoredString(null);}
+
     public String asColoredString(Player player) {
         return TextUtil.getColorizedString(player, messages.get(this.name()));
     }
+
     public String asReplacedString(Map<String, String> definitions) {
         return TextUtil.getColorizedString(null, TextUtil.replaceString(messages.get(this.name()), definitions));
     }
+
     public String asReplacedString(Player player, Map<String, String> definitions) {
         return TextUtil.getColorizedString(player, TextUtil.replaceString(messages.get(this.name()), definitions));
     }
