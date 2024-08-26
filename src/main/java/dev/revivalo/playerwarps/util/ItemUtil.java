@@ -35,7 +35,7 @@ public final class ItemUtil {
     }
 
     public static ItemStack getItem(String name, Player player) {
-        return getItem(name, player.getUniqueId());
+        return getItem(name, player == null ? null : player.getUniqueId());
     }
 
     public static ItemStack getItem(String name, UUID playerUUID) {
