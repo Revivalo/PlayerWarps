@@ -138,7 +138,7 @@ public class WarpsMenu implements Menu {
 
                 break;
             case OWNED_LIST_MENU:
-                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(warp -> warp.canManage(player)).collect(Collectors.toList()));
+                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(warp -> warp.isOwner(player)).collect(Collectors.toList()));
                 break;
             case FAVORITE_LIST_MENU:
                 warps.addAll(PlayerWarpsPlugin.getWarpHandler().getPlayerFavoriteWarps(player));

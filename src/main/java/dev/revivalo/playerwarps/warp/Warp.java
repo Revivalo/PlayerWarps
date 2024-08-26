@@ -107,6 +107,10 @@ public class Warp implements ConfigurationSerializable {
             || Objects.equals(player.getUniqueId(), getOwner());
     }
 
+    public boolean isOwner(Player player) {
+        return Objects.equals(owner, player.getUniqueId());
+    }
+
     public UUID getWarpID() {
         return warpID;
     }
