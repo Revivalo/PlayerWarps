@@ -35,6 +35,9 @@ config:
     - VISITS
     - LATEST
     - RATING
+
+  selected-sort: "&a ► "
+  other-sort: "&7  "
   relocate-warp-fee: 1000
   rename-warp-fee: 500
   transfer-ownership-fee: 0

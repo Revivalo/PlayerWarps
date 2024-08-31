@@ -84,7 +84,7 @@ public class WarpsMenu implements Menu {
 
         List<String> sortLore = new ArrayList<>();
         for (Sortable cachedSortType : getWarpHandler().getSortingManager().getSortTypes()) {
-            sortLore.add(TextUtil.color((sortType.equals(cachedSortType) ? "&a" : "&7") + "► " + cachedSortType.getName().asColoredString()));
+            sortLore.add(TextUtil.color((sortType.equals(cachedSortType) ? Config.SELECTED_SORT.asString() : Config.OTHER_SORT.asString()) + cachedSortType.getName().asColoredString()));
         }
 
         sortLore.add(" ");
