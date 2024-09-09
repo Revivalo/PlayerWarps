@@ -7,7 +7,9 @@ import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -19,13 +21,27 @@ public class SetPreviewItemAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String item) {
         try {
-            ItemStack displayItem = new ItemStack(Material.valueOf(item.toUpperCase()));
+            ItemStack displayItem;
+            if (item.equalsIgnoreCase("HAND")) {
+                displayItem = new ItemStack(player.getInventory().getItemInMainHand().getType());
+            } else {
+                displayItem = new ItemStack(Material.valueOf(item.toUpperCase()));
+            }
+
+            ItemMeta meta = displayItem.getItemMeta();
+            if (meta != null) {
+                meta.addItemFlags(ItemFlag.values());
+                displayItem.setItemMeta(meta);
+            }
+
+            String itemName = displayItem.getType().name().toLowerCase(Locale.ENGLISH);
+
             if (bannedItems.contains(displayItem.getType())) {
                 player.sendMessage(Lang.TRIED_TO_SET_BANNED_ITEM.asColoredString());
                 return false;
             } else {
                 if (!player.hasPermission("playerwarps.icon.*")) {
-                    String iconPermission = "playerwarps.icon." + item.toLowerCase(Locale.ENGLISH);
+                    String iconPermission = "playerwarps.icon." + itemName;
                     if (!player.hasPermission(iconPermission)) {
                         player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", iconPermission));
                         return false;
@@ -33,7 +49,7 @@ public class SetPreviewItemAction implements WarpAction<String> {
                 }
 
                 warp.setMenuItem(displayItem);
-                player.sendMessage(Lang.ITEM_CHANGED.asColoredString().replace("%item%", item));
+                player.sendMessage(Lang.ITEM_CHANGED.asColoredString().replace("%item%", itemName));
             }
         } catch (IllegalArgumentException exception) {
             player.sendMessage(Lang.INVALID_ITEM.asColoredString());

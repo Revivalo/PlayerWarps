@@ -1,6 +1,8 @@
 package dev.revivalo.playerwarps.listener;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
+import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
@@ -14,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,7 +24,7 @@ import java.util.UUID;
 public class ChatSendListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onChat(final AsyncPlayerChatEvent event){
+    public void onChat(final AsyncPlayerChatEvent event) {
         final Player editor = event.getPlayer();
         final UUID id = editor.getUniqueId();
         final User user = UserHandler.getUser(id);
@@ -64,5 +67,22 @@ public class ChatSendListener implements Listener {
                     break;
             }
         });
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onChat(final PlayerCommandPreprocessEvent event) {
+        if (event.getMessage().equalsIgnoreCase("/pw cancel")) {
+            event.setCancelled(true)
+            ;
+            final User user = UserHandler.getUser(event.getPlayer());
+
+            user.addData(DataSelectorType.CURRENT_WARP_ACTION, null);
+            user.getData(DataSelectorType.ACTUAL_PAGE);
+
+            new ManageMenu((Warp) user.getData(DataSelectorType.SELECTED_WARP))
+                    .open(user.getPlayer());
+
+            user.getPlayer().sendMessage(Lang.INPUT_CANCELLED.asColoredString());
+        }
     }
 }

@@ -7,7 +7,7 @@
 #                   __/ |                            | |
 #                 |___/                             |_|
 #
-#                                                by Revivalo
+#                                                by Athelion Development
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
@@ -26,10 +26,6 @@ config:
   teleport-delay: 3
   currency-symbol: "$"
   allow-colors-in-warp-display-names: true
-  # This option works only with installed Vault plugin
-  # For no price just set it to 0
-  warp-price: 5000
-  # To disable the fee features, set them to 0
   sort-by:
     - ALPHABETICAL
     - VISITS
@@ -38,6 +34,14 @@ config:
 
   selected-sort: "&a ► "
   other-sort: "&7  "
+
+  # All icons can be found here: https://github.com/webbukkit/dynmap/wiki/Using-Markers
+  dynmap-marker-icon: "blueflag"
+  dynmap-marker-label: "Warp: %warp% by %owner%"
+
+  # To disable the fee features, set them to 0
+  # This option works only with installed Vault plugin
+  warp-price: 5000
   relocate-warp-fee: 1000
   rename-warp-fee: 500
   transfer-ownership-fee: 0
@@ -109,6 +113,9 @@ config:
   remove-warp-item: BARRIER
   relocate-warp-item: WHITE_BANNER
   change-owner-item: PLAYER_HEAD
+
+  # To remove item from menu, set
+  # its position to -1
   set-price-position: 11
   set-category-position: 12
   change-display-name-position: 13

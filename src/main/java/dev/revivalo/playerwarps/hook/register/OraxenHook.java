@@ -1,14 +1,15 @@
 package dev.revivalo.playerwarps.hook.register;
 
-import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.hook.IHook;
 import org.jetbrains.annotations.Nullable;
 
 public class OraxenHook implements IHook<Void> {
 
-    private final boolean isHooked;
-    public OraxenHook(){
-        isHooked = PlayerWarpsPlugin.get().isPluginEnabled("Oraxen");
+    private boolean isHooked;
+
+    @Override
+    public void register() {
+        isHooked = isPluginEnabled("Oraxen");
     }
 
     @Override

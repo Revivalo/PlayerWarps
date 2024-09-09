@@ -1,6 +1,5 @@
 package dev.revivalo.playerwarps.hook.register;
 
-import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.hook.IHook;
 import dev.revivalo.playerwarps.hook.papiresolver.PAPIRegister;
 import org.jetbrains.annotations.Nullable;
@@ -8,12 +7,9 @@ import org.jetbrains.annotations.Nullable;
 public class PlaceholderApiHook implements IHook<PlaceholderApiHook> {
     private boolean isHooked = false;
 
-    public PlaceholderApiHook() {
-        tryToHook();
-    }
-
-    private void tryToHook() {
-        if (PlayerWarpsPlugin.get().isPluginLoaded("PlaceholderAPI")) {
+    @Override
+    public void register() {
+        if (isPluginEnabled("PlaceholderAPI")) {
             new PAPIRegister().register();
             isHooked = true;
         }

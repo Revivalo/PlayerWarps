@@ -2,19 +2,25 @@ package dev.revivalo.playerwarps.hook;
 
 import dev.revivalo.playerwarps.hook.register.*;
 
-public class Hook {
-    private static PlaceholderApiHook PLACEHOLDER_API_HOOK;
-    private static OraxenHook ORAXEN_HOOK;
-    private static ItemsAdderHook ITEMS_ADDER_HOOK;
-    private static VaultHook VAULT_HOOK;
-    private static EssentialsHook ESSENTIALS_HOOK;
+import java.util.HashMap;
+import java.util.Map;
 
-    public static void hook(){
-        PLACEHOLDER_API_HOOK = new PlaceholderApiHook();
-        ORAXEN_HOOK = new OraxenHook();
-        ITEMS_ADDER_HOOK = new ItemsAdderHook();
-        VAULT_HOOK = new VaultHook();
-        ESSENTIALS_HOOK = new EssentialsHook();
+public final class Hook {
+    private static final Map<HookName, IHook<?>> hooks = new HashMap<>();
+
+    public static void hook() {
+        hooks.put(HookName.PLACEHOLDER_API, new PlaceholderApiHook());
+        hooks.put(HookName.ORAXEN, new OraxenHook());
+        hooks.put(HookName.ITEMS_ADDER, new ItemsAdderHook());
+        hooks.put(HookName.VAULT, new VaultHook());
+        hooks.put(HookName.ESSENTIALS, new EssentialsHook());
+        hooks.put(HookName.DYNMAP, new DynmapHook());
+        hooks.put(HookName.BENTO_BOX, new BentoBoxHook());
+        hooks.put(HookName.RESIDENCE, new ResidenceHook());
+
+        for (IHook<?> hook : hooks.values()) {
+            hook.preRegister();
+        }
     }
 
     private Hook() {
@@ -26,22 +32,41 @@ public class Hook {
     }
 
     public static PlaceholderApiHook getPlaceholderApiHook() {
-        return Hook.PLACEHOLDER_API_HOOK;
+        return (PlaceholderApiHook) hooks.get(HookName.PLACEHOLDER_API);
     }
 
     public static OraxenHook getOraxenHook() {
-        return Hook.ORAXEN_HOOK;
+        return (OraxenHook) hooks.get(HookName.ORAXEN);
     }
 
     public static ItemsAdderHook getItemsAdderHook() {
-        return Hook.ITEMS_ADDER_HOOK;
+        return (ItemsAdderHook) hooks.get(HookName.ITEMS_ADDER);
     }
 
     public static VaultHook getVaultHook() {
-        return VAULT_HOOK;
+        return (VaultHook) hooks.get(HookName.VAULT);
     }
 
     public static EssentialsHook getEssentialsHook() {
-        return ESSENTIALS_HOOK;
+        return (EssentialsHook) hooks.get(HookName.ESSENTIALS);
+    }
+
+    public static DynmapHook getDynmapHook() {
+        return (DynmapHook) hooks.get(HookName.DYNMAP);
+    }
+
+    public static BentoBoxHook getBentoBoxHook() {
+        return (BentoBoxHook) hooks.get(HookName.BENTO_BOX);
+    }
+
+    private enum HookName {
+        PLACEHOLDER_API,
+        VAULT,
+        ORAXEN,
+        ITEMS_ADDER,
+        ESSENTIALS,
+        BENTO_BOX,
+        RESIDENCE,
+        DYNMAP
     }
 }

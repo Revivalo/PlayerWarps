@@ -6,6 +6,7 @@ import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.guimanager.menu.sort.*;
+import dev.revivalo.playerwarps.hook.Hook;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.UserHandler;
@@ -110,7 +111,7 @@ public class WarpHandler {
 
                     PlayerWarpsPlugin.get().getLogger().info("Adding new warp " + warp + " with " + category);
 
-                    addWarp(new Warp(
+                    Warp loadedWarp = new Warp(
                             new HashMap<String, Object>() {{
                                 put("uuid", UUID.randomUUID().toString());
                                 put("name", warp);
@@ -129,7 +130,11 @@ public class WarpHandler {
                                 put("date-created", dateCreated);
                                 put("last-activity", lastActivity);
                             }}
-                    ));
+                    );
+
+                    addWarp(loadedWarp);
+
+                    Hook.getDynmapHook().setMarker(loadedWarp);
                 });
 
                 //PlayerWarpsPlugin.getDataManager().getData().set("warps", null);
@@ -139,7 +144,12 @@ public class WarpHandler {
                 warpDataSection.ifPresent(warpSection ->
                         warpSection
                                 .getKeys(false)
-                                .forEach(warpID -> addWarp(warpSection.getSerializable(warpID, Warp.class)))
+                                .forEach(warpID -> {
+                                            Warp warp = warpSection.getSerializable(warpID, Warp.class);
+                                            addWarp(warp);
+                                            Hook.getDynmapHook().setMarker(warp);
+                                        }
+                                )
                 );
             }
         });

@@ -14,11 +14,9 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import world.bentobox.bentobox.database.objects.Island;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class CreateWarpAction implements WarpAction<Void> {
 
@@ -58,6 +56,20 @@ public class CreateWarpAction implements WarpAction<Void> {
             return false;
         }
 
+
+        if (Hook.isHookEnabled(Hook.getBentoBoxHook())) {
+            Optional<Island> islandOptional = Hook.getBentoBoxHook().getApi().getIslands().getIslandAt(player.getLocation());
+            if (islandOptional.isPresent()) {
+                Island island = islandOptional.get();
+                if (island.isOwned()) {
+                    if (!island.getOwner().equals(player.getUniqueId())) {
+                        player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND.asColoredString());
+                        return false;
+                    }
+                }
+            }
+        }
+
         if (/*warpName.contains(".") ||*/ name.contains(" ")) {
             player.sendMessage(Lang.NAME_CANT_CONTAINS_SPACE.asColoredString());
             return false;
@@ -67,7 +79,7 @@ public class CreateWarpAction implements WarpAction<Void> {
         final UUID warpID = UUID.randomUUID();
         final Location loc = player.getLocation();
 
-        PlayerWarpsPlugin.getWarpHandler().addWarp(new Warp(
+        Warp createdWarp = new Warp(
                 new HashMap<String, Object>() {{
                     put("uuid", warpID.toString());
                     put("name", name);
@@ -85,7 +97,11 @@ public class CreateWarpAction implements WarpAction<Void> {
                     put("item", null);
                     put("status", Config.DEFAULT_WARP_STATUS.asUppercase());
                 }}
-        ));
+        );
+
+        PlayerWarpsPlugin.getWarpHandler().addWarp(createdWarp);
+
+        Hook.getDynmapHook().setMarker(createdWarp);
 
         String message = "";
         if (Hook.isHookEnabled(Hook.getVaultHook()))

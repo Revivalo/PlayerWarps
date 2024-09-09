@@ -14,6 +14,7 @@ public class RemoveWarpAction implements WarpAction<Void> {
     @Override
     public boolean execute(Player player, Warp warp, Void data) {
         PlayerWarpsPlugin.getWarpHandler().removeWarp(warp);
+        Hook.getDynmapHook().removeMarker(warp);
         if (Hook.isHookEnabled(Hook.getVaultHook())) {
             PlayerUtil.getOfflinePlayer(warp.getOwner()).thenAccept(
                     offlinePlayer -> {

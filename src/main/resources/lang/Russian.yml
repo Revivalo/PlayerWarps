@@ -45,6 +45,7 @@ lang:
   # Это сообщение будет отправлено, если установлен Vault
   warp-created-with-price: "%prefix% &7Вы создали врата &e%name% &c(-%price% $)&7, нажмите &l&nЗДЕСЬ&7, чтобы настроить их."
   tried-to-create-warp-in-disabled-world: "%prefix% &cВрата не могут быть созданы в мире (%world%)"
+  tried-to-create-warp-in-foreign-island: "%prefix% &cНевозможно создать варп на чужом острове"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cВрата не могут быть перемещены в этот мир (%world%)"
   insufficient-balance-for-action: "%prefix% &cНедостаточно средств для выполнения этого действия! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cНедостаточно средств для телепортации к вратам %warp%"

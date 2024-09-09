@@ -5,15 +5,22 @@ import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.hook.IHook;
 import org.jetbrains.annotations.Nullable;
 
-public class EssentialsHook implements IHook<Essentials> {
+import java.util.logging.Level;
 
-    private final boolean isHooked;
+public class EssentialsHook extends Importable implements IHook<Essentials> {
+
     private Essentials essentials;
+    private boolean isHooked;
 
-    public EssentialsHook() {
-        isHooked = PlayerWarpsPlugin.get().isPluginEnabled("Essentials");
+    public void getWarps() {
+        essentials.getWarps().getList();
+    }
+
+    @Override
+    public void register() {
+        isHooked = isPluginEnabled("Essentials");
         if (isHooked)
-            essentials = (Essentials) PlayerWarpsPlugin.get().getServer().getPluginManager().getPlugin("Essentials");
+            essentials = (Essentials) getPlugin("Essentials");
     }
 
     @Override
@@ -24,5 +31,13 @@ public class EssentialsHook implements IHook<Essentials> {
     @Override
     public @Nullable Essentials getApi() {
         return essentials;
+    }
+
+    @Override
+    public void importWarps() {
+        for (String warpName : essentials.getWarps().getList()) {
+            PlayerWarpsPlugin.get().getLogger().log(Level.INFO, warpName);
+            //PlayerWarpsPlugin.getWarpHandler().addWarp(new Warp(new HashMap<>()));
+        }
     }
 }

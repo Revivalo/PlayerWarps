@@ -45,6 +45,7 @@ lang:
   # This message will be sent with Vault installed
   warp-created-with-price: "%prefix% &7Vytvořili jste warp &e%name% &c(-%price% $)&7, klikněte &l&nZDE&7 pro jeho konfiguraci."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp nelze vytvořit ve světě (%world%)"
+  tried-to-create-warp-in-foreign-island: "%prefix% &cWarp nelze vytvořit na cizím islandu!"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp nelze přesunout do tohoto světa (%world%)"
   insufficient-balance-for-action: "%prefix% &cNemáte dostatek prostředků pro tuto akci! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNemáte dostatek prostředků pro teleportaci na warp %warp%"
@@ -56,7 +57,7 @@ lang:
   click-to-cancel-input: "&7Klikněte pro ukončení režimu zadávání"
   teleportation: "%prefix% &7Teleportace za &e%time% sekund!"
   teleportation-cancelled: "%prefix% &cTeleportace byla zrušena!"
-  teleport-to-warp: "%prefix% &7Teleportováno na warp %warp% hráčem %player%"
+  teleport-to-warp: "%prefix% &7Teleportováno na warp %warp% hráče %player%"
   teleport-to-warp-with-admission: "%prefix% &7Teleportace na warp hráče %player% &c(-%price% $)"
   accept-teleport-with-admission: "Teleportovat? &c(-%price% $)"
   teleport-between-worlds-error: "%prefix% &7Teleportace byla zrušena. Můžete se teleportovat pouze na warpy ve vašem světě!"

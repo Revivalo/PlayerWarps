@@ -13,6 +13,9 @@ softdepend:
   - ChatControlRed
   - ChatControl
   - Essentials
+  - dynmap
+  - BentoBox
+  - Residence
 
 commands:
   pwarp:

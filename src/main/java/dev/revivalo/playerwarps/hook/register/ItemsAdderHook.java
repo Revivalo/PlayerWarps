@@ -6,9 +6,11 @@ import dev.revivalo.playerwarps.listener.ItemsAdderLoadDataListener;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemsAdderHook implements IHook<Void> {
-    private final boolean isHooked;
-    public ItemsAdderHook(){
-        isHooked = PlayerWarpsPlugin.get().isPluginEnabled("ItemsAdder");
+    private boolean isHooked;
+
+    @Override
+    public void register() {
+        isHooked = isPluginEnabled("ItemsAdder");
         if (isHooked){
             PlayerWarpsPlugin.get().registerEvents(new ItemsAdderLoadDataListener());
         }

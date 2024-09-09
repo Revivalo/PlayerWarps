@@ -8,23 +8,23 @@ import org.jetbrains.annotations.Nullable;
 
 public class VaultHook implements IHook<Economy> {
     private Economy economy;
-    private final boolean isHooked;
+    private boolean isHooked;
 
-    public VaultHook() {
-        this.isHooked = load();
-    }
-
-    public boolean load() {
-        if (!PlayerWarpsPlugin.get().isPluginLoaded("Vault")) {
-            return false;
+    @Override
+    public void register() {
+        if (!isPluginEnabled("Vault")) {
+            isHooked = false;
+            return;
         }
 
         RegisteredServiceProvider<Economy> rsp = PlayerWarpsPlugin.get().getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
-            return false;
+            isHooked = false;
+            return;
         }
+
         economy = rsp.getProvider();
-        return true;
+        isHooked = true;
     }
 
     @Override
