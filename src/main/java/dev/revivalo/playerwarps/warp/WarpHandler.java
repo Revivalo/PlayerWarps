@@ -11,7 +11,6 @@ import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.user.WarpAction;
-import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.TextUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -19,11 +18,9 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.io.File;
@@ -86,61 +83,61 @@ public class WarpHandler {
     }
 
     public void loadWarps() {
-        boolean legacyConfig = !Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getString("version")).isPresent();
+        //boolean legacyConfig = !Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getString("version")).isPresent();
         Optional<ConfigurationSection> warpDataSection = Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getConfigurationSection("warps"));
         warpDataSection.ifPresent(warpsSection -> {
-            if (legacyConfig) {
-                warpsSection.getKeys(false).forEach(warp -> {
-                    ConfigurationSection warpSection = warpsSection.getConfigurationSection(warp);
-                    String owner = warpSection.getString("owner-id");
-                    Location location = warpSection.getLocation("loc");
-                    if (location == null || location.getWorld() == null) {
-                        PlayerWarpsPlugin.get().getLogger().info("Warp " + warp + " was not loaded because it is located in a world that does not exist.");
-                        return;
-                    }
-                    ItemStack item = warpSection.getItemStack("item", ItemUtil.getItem(warpSection.getString("item")));
-                    String description = warpSection.getString("lore");
-                    int ratings = warpSection.getInt("ratings");
-                    List<String> reviewers = warpSection.getStringList("reviewers");
-                    String status = warpSection.getBoolean("disabled") ? "CLOSED" : "OPENED";
-                    int visits = warpSection.getInt("visits");
-                    int admission = warpSection.getInt("price");
-                    long dateCreated = warpSection.getLong("date-created");
-                    long lastActivity = warpSection.getLong("warp-action");
-                    String category = warpSection.getString("type");
-
-                    PlayerWarpsPlugin.get().getLogger().info("Adding new warp " + warp + " with " + category);
-
-                    Warp loadedWarp = new Warp(
-                            new HashMap<String, Object>() {{
-                                put("uuid", UUID.randomUUID().toString());
-                                put("name", warp);
-                                put("display-name", warp);
-                                put("owner-id", owner);
-                                put("loc", location);
-                                put("lore", description);
-                                put("category", Optional.ofNullable(category).orElse("all"));
-                                put("item", item);
-                                put("ratings", ratings);
-                                put("reviewers", reviewers);
-                                put("visits", visits);
-                                put("status", status);
-                                put("password", null);
-                                put("admission", admission);
-                                put("date-created", dateCreated);
-                                put("last-activity", lastActivity);
-                            }}
-                    );
-
-                    addWarp(loadedWarp);
-
-                    HookManager.getDynmapHook().setMarker(loadedWarp);
-                });
-
-                //PlayerWarpsPlugin.getDataManager().getData().set("warps", null);
-                PlayerWarpsPlugin.getData().getConfiguration().set("version", "2.0");
-                PlayerWarpsPlugin.getData().getYamlFile().save();
-            } else {
+//            if (legacyConfig) {
+//                warpsSection.getKeys(false).forEach(warp -> {
+//                    ConfigurationSection warpSection = warpsSection.getConfigurationSection(warp);
+//                    String owner = warpSection.getString("owner-id");
+//                    Location location = warpSection.getLocation("loc");
+//                    if (location == null || location.getWorld() == null) {
+//                        PlayerWarpsPlugin.get().getLogger().info("Warp " + warp + " was not loaded because it is located in a world that does not exist.");
+//                        return;
+//                    }
+//                    ItemStack item = warpSection.getItemStack("item", ItemUtil.getItem(warpSection.getString("item")));
+//                    String description = warpSection.getString("lore");
+//                    int ratings = warpSection.getInt("ratings");
+//                    List<String> reviewers = warpSection.getStringList("reviewers");
+//                    String status = warpSection.getBoolean("disabled") ? "CLOSED" : "OPENED";
+//                    int visits = warpSection.getInt("visits");
+//                    int admission = warpSection.getInt("price");
+//                    long dateCreated = warpSection.getLong("date-created");
+//                    long lastActivity = warpSection.getLong("warp-action");
+//                    String category = warpSection.getString("type");
+//
+//                    PlayerWarpsPlugin.get().getLogger().info("Adding new warp " + warp + " with " + category);
+//
+//                    Warp loadedWarp = new Warp(
+//                            new HashMap<String, Object>() {{
+//                                put("uuid", UUID.randomUUID().toString());
+//                                put("name", warp);
+//                                put("display-name", warp);
+//                                put("owner-id", owner);
+//                                put("loc", location);
+//                                put("lore", description);
+//                                put("category", Optional.ofNullable(category).orElse("all"));
+//                                put("item", item);
+//                                put("ratings", ratings);
+//                                put("reviewers", reviewers);
+//                                put("visits", visits);
+//                                put("status", status);
+//                                put("password", null);
+//                                put("admission", admission);
+//                                put("date-created", dateCreated);
+//                                put("last-activity", lastActivity);
+//                            }}
+//                    );
+//
+//                    addWarp(loadedWarp);
+//
+//                    HookManager.getDynmapHook().setMarker(loadedWarp);
+//                });
+//
+//                //PlayerWarpsPlugin.getDataManager().getData().set("warps", null);
+//                PlayerWarpsPlugin.getData().getConfiguration().set("version", "2.0");
+//                PlayerWarpsPlugin.getData().getYamlFile().save();
+//            } else {
                 warpDataSection.ifPresent(warpSection ->
                         warpSection
                                 .getKeys(false)
@@ -151,7 +148,7 @@ public class WarpHandler {
                                         }
                                 )
                 );
-            }
+            //}
         });
     }
 
