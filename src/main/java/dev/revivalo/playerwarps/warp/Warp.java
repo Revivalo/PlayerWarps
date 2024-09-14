@@ -1,5 +1,6 @@
 package dev.revivalo.playerwarps.warp;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.category.Category;
 import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.util.ItemUtil;
@@ -179,6 +180,14 @@ public class Warp implements ConfigurationSerializable {
     }
 
     public void setLocation(Location location) {
+        if (location.getWorld() == null) {
+            return;
+        }
+
+        if (PlayerWarpsPlugin.get().getServer().getWorld(location.getWorld().getName()) == null) {
+            return;
+        }
+
         this.location = location;
     }
 
