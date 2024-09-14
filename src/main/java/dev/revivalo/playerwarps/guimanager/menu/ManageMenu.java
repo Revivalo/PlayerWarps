@@ -41,7 +41,7 @@ public class ManageMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        gui.setItem(4, ItemBuilder.from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
+        gui.setItem(Config.WARP_OVERVIEW_POSITION.asInteger(), ItemBuilder.from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
                 .setName(Lang.OWN_WARP_ITEM_NAME.asColoredString().replace("%warp%", warp.getName()))
                 .setLore(Lang.OWN_WARP_LORE.asReplacedList(player, new HashMap<String, String>() {{
                                                             put("%creationDate%", DateUtil.getFormatter().format(warp.getDateCreated()));
@@ -62,7 +62,7 @@ public class ManageMenu implements Menu {
                                                         }}
                 )).asGuiItem());
 
-        if (Config.SET_PRICE_POSITION.asInteger() > 0) if (Hook.isHookEnabled(Hook.getVaultHook()) && Config.MAX_WARP_ADMISSION.asInteger() > 0) gui.setItem(Config.SET_PRICE_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.SET_PRICE_ITEM.asUppercase())).setName(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName())).setLore(Lang.SET_PRICE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_ADMISSION)));
+        if (Config.SET_PRICE_POSITION.asInteger() > 0) if (HookManager.isHookEnabled(HookManager.getVaultHook()) && Config.MAX_WARP_ADMISSION.asInteger() > 0) gui.setItem(Config.SET_PRICE_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.SET_PRICE_ITEM.asUppercase())).setName(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName())).setLore(Lang.SET_PRICE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_ADMISSION)));
         if (Config.SET_CATEGORY_POSITION.asInteger() > 0) if (Config.ENABLE_CATEGORIES.asBoolean()) gui.setItem(Config.SET_CATEGORY_POSITION.asInteger(), ItemBuilder.from(warp.getCategory() == null ? ItemUtil.getItem(Config.SET_CATEGORY_ITEM.asUppercase()) : warp.getCategory().getItem()).setName((Lang.CHANGE_TYPE.asColoredString())).setLore(Lang.CHANGE_TYPE_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ChangeTypeMenu(warp).open(player)));
 
         if (Config.CHANGE_DISPLAY_NAME_POSITION.asInteger() > 0) gui.setItem(Config.CHANGE_DISPLAY_NAME_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_DISPLAY_NAME_ITEM.asUppercase())).setName(Lang.CHANGE_DISPLAY_NAME.asColoredString()).setLore(Lang.CHANGE_DISPLAY_NAME_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.CHANGE_DISPLAY_NAME)));

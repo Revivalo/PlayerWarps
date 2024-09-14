@@ -41,13 +41,20 @@ public class ConfirmationMenu implements Menu {
     }
 
     public void open(Player player, WarpAction<?> action) {
-        gui.setItem(11, ACCEPT_ITEM.asGuiItem(event -> {
-            action.preExecute(player, warp, null, null);
-            gui.close(player);
-        }));
-        gui.setItem(15, DENY_ITEM.asGuiItem(event -> {
-            gui.close(player);
-        }));
+        for (String position : Config.CONFIRM_ITEM_POSITIONS.asList()) {
+            int slot = Integer.parseInt(position);
+            gui.setItem(slot, ACCEPT_ITEM.asGuiItem(event -> {
+                action.preExecute(player, warp, null, null);
+                gui.close(player);
+            }));
+        }
+
+        for (String position : Config.DENY_ITEM_POSITIONS.asList()) {
+            int slot = Integer.parseInt(position);
+            gui.setItem(slot, DENY_ITEM.asGuiItem(event -> {
+                gui.close(player);
+            }));
+        }
 
         gui.open(player);
     }
