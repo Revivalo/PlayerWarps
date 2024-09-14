@@ -27,7 +27,7 @@ public class PwarpMainCommand extends MainCommand {
         subCommands.add(new ManageCommand());
         subCommands.add(new RemoveCommand());
         subCommands.add(new TeleportCommand());
-        subCommands.add(new ImportCommand());
+        //subCommands.add(new ImportCommand());
     }
 
     @Override
