@@ -1,9 +1,9 @@
 package dev.revivalo.playerwarps.hook.register;
 
-import dev.revivalo.playerwarps.hook.IHook;
+import dev.revivalo.playerwarps.hook.Hook;
 import org.jetbrains.annotations.Nullable;
 
-public class OraxenHook implements IHook<Void> {
+public class OraxenHook implements Hook<Void> {
 
     private boolean isHooked;
 

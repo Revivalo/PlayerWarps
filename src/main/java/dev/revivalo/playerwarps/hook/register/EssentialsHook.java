@@ -2,12 +2,12 @@ package dev.revivalo.playerwarps.hook.register;
 
 import com.earth2me.essentials.Essentials;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.hook.IHook;
+import dev.revivalo.playerwarps.hook.Hook;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Level;
 
-public class EssentialsHook extends Importable implements IHook<Essentials> {
+public class EssentialsHook extends Importable implements Hook<Essentials> {
 
     private Essentials essentials;
     private boolean isHooked;

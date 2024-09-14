@@ -1,72 +1,30 @@
 package dev.revivalo.playerwarps.hook;
 
-import dev.revivalo.playerwarps.hook.register.*;
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.logging.Level;
 
-public final class Hook {
-    private static final Map<HookName, IHook<?>> hooks = new HashMap<>();
-
-    public static void hook() {
-        hooks.put(HookName.PLACEHOLDER_API, new PlaceholderApiHook());
-        hooks.put(HookName.ORAXEN, new OraxenHook());
-        hooks.put(HookName.ITEMS_ADDER, new ItemsAdderHook());
-        hooks.put(HookName.VAULT, new VaultHook());
-        hooks.put(HookName.ESSENTIALS, new EssentialsHook());
-        hooks.put(HookName.DYNMAP, new DynmapHook());
-        hooks.put(HookName.BENTO_BOX, new BentoBoxHook());
-        hooks.put(HookName.RESIDENCE, new ResidenceHook());
-
-        for (IHook<?> hook : hooks.values()) {
-            hook.preRegister();
+public interface Hook<T> {
+    default void preRegister() {
+        register();
+        if (isOn()) {
+            PlayerWarpsPlugin.get().getLogger().log(Level.INFO, this.getClass().getSimpleName() + " has been registered.");
         }
     }
 
-    private Hook() {
-        throw new RuntimeException("This class cannot be instantiated");
+    default boolean isPluginEnabled(String name) {
+        return PlayerWarpsPlugin.get().isPluginEnabled(name);
     }
 
-    public static <T> boolean isHookEnabled(IHook<T> hook) {
-        return hook != null && hook.isOn();
+    default Plugin getPlugin(String name) {
+        return PlayerWarpsPlugin.get().getPlugin(name);
     }
 
-    public static PlaceholderApiHook getPlaceholderApiHook() {
-        return (PlaceholderApiHook) hooks.get(HookName.PLACEHOLDER_API);
-    }
+    void register();
+    boolean isOn();
 
-    public static OraxenHook getOraxenHook() {
-        return (OraxenHook) hooks.get(HookName.ORAXEN);
-    }
-
-    public static ItemsAdderHook getItemsAdderHook() {
-        return (ItemsAdderHook) hooks.get(HookName.ITEMS_ADDER);
-    }
-
-    public static VaultHook getVaultHook() {
-        return (VaultHook) hooks.get(HookName.VAULT);
-    }
-
-    public static EssentialsHook getEssentialsHook() {
-        return (EssentialsHook) hooks.get(HookName.ESSENTIALS);
-    }
-
-    public static DynmapHook getDynmapHook() {
-        return (DynmapHook) hooks.get(HookName.DYNMAP);
-    }
-
-    public static BentoBoxHook getBentoBoxHook() {
-        return (BentoBoxHook) hooks.get(HookName.BENTO_BOX);
-    }
-
-    private enum HookName {
-        PLACEHOLDER_API,
-        VAULT,
-        ORAXEN,
-        ITEMS_ADDER,
-        ESSENTIALS,
-        BENTO_BOX,
-        RESIDENCE,
-        DYNMAP
-    }
+    @Nullable
+    T getApi();
 }

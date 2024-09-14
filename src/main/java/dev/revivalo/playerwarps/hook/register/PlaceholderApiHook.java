@@ -1,10 +1,10 @@
 package dev.revivalo.playerwarps.hook.register;
 
-import dev.revivalo.playerwarps.hook.IHook;
+import dev.revivalo.playerwarps.hook.Hook;
 import dev.revivalo.playerwarps.hook.papiresolver.PAPIRegister;
 import org.jetbrains.annotations.Nullable;
 
-public class PlaceholderApiHook implements IHook<PlaceholderApiHook> {
+public class PlaceholderApiHook implements Hook<PlaceholderApiHook> {
     private boolean isHooked = false;
 
     @Override

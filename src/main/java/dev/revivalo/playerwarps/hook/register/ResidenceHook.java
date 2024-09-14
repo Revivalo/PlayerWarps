@@ -1,9 +1,10 @@
 package dev.revivalo.playerwarps.hook.register;
 
 import com.bekvon.bukkit.residence.Residence;
+import dev.revivalo.playerwarps.hook.Hook;
 import org.jetbrains.annotations.Nullable;
 
-public class ResidenceHook implements dev.revivalo.playerwarps.hook.IHook<Residence> {
+public class ResidenceHook implements Hook<Residence> {
     private Residence residence;
     private boolean isHooked;
     @Override

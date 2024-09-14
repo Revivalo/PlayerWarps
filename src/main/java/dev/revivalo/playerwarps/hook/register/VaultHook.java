@@ -1,12 +1,12 @@
 package dev.revivalo.playerwarps.hook.register;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
-import dev.revivalo.playerwarps.hook.IHook;
+import dev.revivalo.playerwarps.hook.Hook;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.Nullable;
 
-public class VaultHook implements IHook<Economy> {
+public class VaultHook implements Hook<Economy> {
     private Economy economy;
     private boolean isHooked;
 

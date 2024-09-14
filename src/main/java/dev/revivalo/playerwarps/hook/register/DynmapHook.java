@@ -2,7 +2,7 @@ package dev.revivalo.playerwarps.hook.register;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
-import dev.revivalo.playerwarps.hook.IHook;
+import dev.revivalo.playerwarps.hook.Hook;
 import dev.revivalo.playerwarps.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Level;
 
-public class DynmapHook implements IHook<DynmapAPI> {
+public class DynmapHook implements Hook<DynmapAPI> {
     private DynmapAPI dynmapAPI;
 
     private MarkerAPI markerAPI;
