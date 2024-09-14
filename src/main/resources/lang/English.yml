@@ -45,6 +45,7 @@ lang:
   # This message will be sent with Vault installed
   warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $)&7, click &l&nHERE&7 to configure it."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp cannot be created in the world (%world%)"
+  tried-to-create-warp-in-foreign-residence: "%prefix% &cCannot create a warp in a foreign residence"
   tried-to-create-warp-in-foreign-island: "%prefix% &cCannot create a warp on a foreign island"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp cannot be moved to this world (%world%)"
   insufficient-balance-for-action: "%prefix% &cNot enough balance to do this! (%price% $)"

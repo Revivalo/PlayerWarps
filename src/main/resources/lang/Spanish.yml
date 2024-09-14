@@ -46,6 +46,7 @@ lang:
   warp-created-with-price: "%prefix% &7Has creado un warp &e%name% &c(-%price% $)&7, haz clic &l&nAQUÍ&7 para configurarlo."
   tried-to-create-warp-in-disabled-world: "%prefix% &cNo se puede crear un warp en el mundo (%world%)"
   tried-to-create-warp-in-foreign-island: "%prefix% &cNo puede crear una urdimbre en una isla extranjera"
+  tried-to-create-warp-in-foreign-residence: "%prefix% &cNo se puede crear una urdimbre en una residencia extranjera"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cNo se puede mover el warp a este mundo (%world%)"
   insufficient-balance-for-action: "%prefix% &c¡No tienes suficiente saldo para hacer esto! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNo tienes suficiente saldo para teletransportarte al warp %warp%"
