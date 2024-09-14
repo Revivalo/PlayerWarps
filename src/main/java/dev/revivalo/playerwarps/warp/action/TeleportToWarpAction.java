@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.warp.action;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
@@ -41,8 +41,8 @@ public class TeleportToWarpAction implements WarpAction<String> {
                     cancel();
                     if (teleport.getTask().getStatus() == Teleport.Status.SUCCESS) {
                         if (!warp.canManage(player)) {
-                            if (Hook.isHookEnabled(Hook.getVaultHook())) {
-                                Economy economy = Hook.getVaultHook().getApi();
+                            if (HookManager.isHookEnabled(HookManager.getVaultHook())) {
+                                Economy economy = HookManager.getVaultHook().getApi();
 
                                 economy.withdrawPlayer(player, warp.getAdmission());
 

@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.warp.action;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;

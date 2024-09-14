@@ -1,9 +1,9 @@
 package dev.revivalo.playerwarps.hook.register;
 
-import dev.revivalo.playerwarps.hook.IHook;
+import dev.revivalo.playerwarps.hook.Hook;
 import world.bentobox.bentobox.BentoBox;
 
-public class BentoBoxHook implements IHook<BentoBox> {
+public class BentoBoxHook implements Hook<BentoBox> {
 
     private boolean isHooked;
     private BentoBox bentoBox;

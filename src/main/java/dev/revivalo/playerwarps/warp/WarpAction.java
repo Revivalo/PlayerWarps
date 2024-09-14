@@ -5,7 +5,7 @@ import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,8 +32,8 @@ public interface WarpAction<T> {
         }
 
         if (getFee() != 0) {
-            if (Hook.isHookEnabled(Hook.getVaultHook())) {
-                if (!Hook.getVaultHook().getApi().has(player, getFee())) {
+            if (HookManager.isHookEnabled(HookManager.getVaultHook())) {
+                if (!HookManager.getVaultHook().getApi().has(player, getFee())) {
                     player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", String.valueOf(getFee())));
                     return;
                 }
@@ -50,8 +50,8 @@ public interface WarpAction<T> {
         boolean proceeded = execute(player, warp, data);
 
         if (proceeded) {
-            if (Hook.isHookEnabled(Hook.getVaultHook())) {
-                Hook.getVaultHook().getApi().withdrawPlayer(player, getFee());
+            if (HookManager.isHookEnabled(HookManager.getVaultHook())) {
+                HookManager.getVaultHook().getApi().withdrawPlayer(player, getFee());
             }
         }
 

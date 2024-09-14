@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.guimanager.menu;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.user.WarpAction;
 import dev.revivalo.playerwarps.util.DateUtil;
 import dev.revivalo.playerwarps.util.ItemUtil;

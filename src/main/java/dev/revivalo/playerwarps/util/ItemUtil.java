@@ -7,7 +7,7 @@ import dev.lone.itemsadder.api.ItemsAdder;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import io.th0rgal.oraxen.api.OraxenItems;
 import org.bukkit.Material;
@@ -76,12 +76,12 @@ public final class ItemUtil {
             return SkullCreator.itemFromBase64(name);
         } else if (name.equalsIgnoreCase("skullofplayer") && playerUUID != null) {
             return SkullCreator.itemFromUuid(playerUUID);
-        } else if (Hook.getItemsAdderHook().isOn() && ItemsAdder.isCustomItem(name)) {
+        } else if (HookManager.getItemsAdderHook().isOn() && ItemsAdder.isCustomItem(name)) {
 //            if (Hooks.isHookEnabled(Hooks.getPlaceholderApiHook())) {
 //                PlaceholderAPI.setPlaceholders(null, )
 //            }
             return CustomStack.getInstance(name).getItemStack();
-        } else if (Hook.getOraxenHook().isOn() && OraxenItems.exists(name)) {
+        } else if (HookManager.getOraxenHook().isOn() && OraxenItems.exists(name)) {
             return OraxenItems.getItemById(name).build();
         } else {
             if (Material.matchMaterial(name) != null) {

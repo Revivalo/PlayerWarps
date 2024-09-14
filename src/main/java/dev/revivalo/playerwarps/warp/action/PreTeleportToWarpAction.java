@@ -4,7 +4,7 @@ import de.rapha149.signgui.SignGUI;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.category.Category;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
@@ -26,8 +26,8 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
 
         if (!warp.canManage(player)) {
             if (warp.getAdmission() != 0) {
-                if (Hook.getVaultHook().getApi() != null) {
-                    Economy economy = Hook.getVaultHook().getApi();
+                if (HookManager.getVaultHook().getApi() != null) {
+                    Economy economy = HookManager.getVaultHook().getApi();
                     if (!economy.has(player, warp.getAdmission())) {
                         player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString().replace("%warp%", warp.getName()));
                         return false;

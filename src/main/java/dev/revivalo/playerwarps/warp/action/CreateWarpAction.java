@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.warp.action;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
@@ -101,10 +101,10 @@ public class CreateWarpAction implements WarpAction<Void> {
 
         PlayerWarpsPlugin.getWarpHandler().addWarp(createdWarp);
 
-        Hook.getDynmapHook().setMarker(createdWarp);
+        HookManager.getDynmapHook().setMarker(createdWarp);
 
         String message = "";
-        if (Hook.isHookEnabled(Hook.getVaultHook()))
+        if (HookManager.isHookEnabled(HookManager.getVaultHook()))
             message = Lang.WARP_CREATED_WITH_PRICE.asColoredString()
                     .replace("%name%", name)
                     .replace("%price%", String.valueOf(getFee()));

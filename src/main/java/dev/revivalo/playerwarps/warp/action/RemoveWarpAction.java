@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.warp.action;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
@@ -14,11 +14,11 @@ public class RemoveWarpAction implements WarpAction<Void> {
     @Override
     public boolean execute(Player player, Warp warp, Void data) {
         PlayerWarpsPlugin.getWarpHandler().removeWarp(warp);
-        Hook.getDynmapHook().removeMarker(warp);
-        if (Hook.isHookEnabled(Hook.getVaultHook())) {
+        HookManager.getDynmapHook().removeMarker(warp);
+        if (HookManager.isHookEnabled(HookManager.getVaultHook())) {
             PlayerUtil.getOfflinePlayer(warp.getOwner()).thenAccept(
                     offlinePlayer -> {
-                        Hook.getVaultHook().getApi().depositPlayer(offlinePlayer, Config.DELETE_WARP_REFUND.asInteger());
+                        HookManager.getVaultHook().getApi().depositPlayer(offlinePlayer, Config.DELETE_WARP_REFUND.asInteger());
                         player.sendMessage(Lang.WARP_REMOVED_WITH_REFUND.asColoredString().replace("%warp%", warp.getName()).replace("%refund%", Config.DELETE_WARP_REFUND.asString()));
                     }
             );

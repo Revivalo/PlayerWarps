@@ -6,7 +6,7 @@ import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.guimanager.menu.sort.*;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.UserHandler;
@@ -134,7 +134,7 @@ public class WarpHandler {
 
                     addWarp(loadedWarp);
 
-                    Hook.getDynmapHook().setMarker(loadedWarp);
+                    HookManager.getDynmapHook().setMarker(loadedWarp);
                 });
 
                 //PlayerWarpsPlugin.getDataManager().getData().set("warps", null);
@@ -147,7 +147,7 @@ public class WarpHandler {
                                 .forEach(warpID -> {
                                             Warp warp = warpSection.getSerializable(warpID, Warp.class);
                                             addWarp(warp);
-                                            Hook.getDynmapHook().setMarker(warp);
+                                            HookManager.getDynmapHook().setMarker(warp);
                                         }
                                 )
                 );

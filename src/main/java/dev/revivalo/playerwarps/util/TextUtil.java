@@ -4,7 +4,7 @@ import com.google.common.base.Splitter;
 import dev.revivalo.playerwarps.configuration.ColorReplacer;
 import dev.revivalo.playerwarps.configuration.PlaceholderAwareReplacer;
 import dev.revivalo.playerwarps.configuration.StringReplacer;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.warp.Warp;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +26,7 @@ public final class TextUtil {
 
     private static final StringReplacer colorReplacer;
     static {
-        if (Hook.isHookEnabled(Hook.getPlaceholderApiHook())) {
+        if (HookManager.isHookEnabled(HookManager.getPlaceholderApiHook())) {
             colorReplacer = new PlaceholderAwareReplacer();
         } else {
             colorReplacer = new ColorReplacer();
