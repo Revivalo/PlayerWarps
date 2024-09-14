@@ -8,19 +8,27 @@ import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.revivalo.playerwarps.warp.checker.BentoBoxIslandChecker;
+import dev.revivalo.playerwarps.warp.checker.Checker;
+import dev.revivalo.playerwarps.warp.checker.ResidenceChecker;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import world.bentobox.bentobox.database.objects.Island;
 
 import java.util.*;
 
 public class CreateWarpAction implements WarpAction<Void> {
 
     private final String name;
+
+    private static final List<Checker> checkers = new ArrayList<>();
+    static {
+        if (HookManager.isHookEnabled(HookManager.getBentoBoxHook())) checkers.add(new BentoBoxIslandChecker());
+        if (HookManager.isHookEnabled(HookManager.getResidenceHook())) checkers.add(new ResidenceChecker());
+    }
 
     public CreateWarpAction(String name) {
         this.name = name;
@@ -56,17 +64,9 @@ public class CreateWarpAction implements WarpAction<Void> {
             return false;
         }
 
-
-        if (Hook.isHookEnabled(Hook.getBentoBoxHook())) {
-            Optional<Island> islandOptional = Hook.getBentoBoxHook().getApi().getIslands().getIslandAt(player.getLocation());
-            if (islandOptional.isPresent()) {
-                Island island = islandOptional.get();
-                if (island.isOwned()) {
-                    if (!island.getOwner().equals(player.getUniqueId())) {
-                        player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND.asColoredString());
-                        return false;
-                    }
-                }
+        for (Checker checker : checkers) {
+            if (!checker.validate(player)) {
+                return false;
             }
         }
 

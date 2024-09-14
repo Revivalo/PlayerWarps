@@ -7,14 +7,20 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.revivalo.playerwarps.warp.checker.BentoBoxIslandChecker;
+import dev.revivalo.playerwarps.warp.checker.Checker;
+import dev.revivalo.playerwarps.warp.checker.ResidenceChecker;
 import org.bukkit.entity.Player;
-import world.bentobox.bentobox.database.objects.Island;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class RelocateAction implements WarpAction<Void> {
+    private static final List<Checker> checkers = new ArrayList<>();
+    static {
+        if (HookManager.isHookEnabled(HookManager.getBentoBoxHook())) checkers.add(new BentoBoxIslandChecker());
+        if (HookManager.isHookEnabled(HookManager.getResidenceHook())) checkers.add(new ResidenceChecker());
+    }
+
     @Override
     public boolean execute(Player player, Warp warp, Void data) {
         final String worldName = Objects.requireNonNull(player.getLocation().getWorld()).getName();
@@ -24,16 +30,9 @@ public class RelocateAction implements WarpAction<Void> {
             return false;
         }
 
-        if (Hook.isHookEnabled(Hook.getBentoBoxHook())) { //TODO: Do as a checker
-            Optional<Island> islandOptional = Hook.getBentoBoxHook().getApi().getIslands().getIslandAt(player.getLocation());
-            if (islandOptional.isPresent()) {
-                Island island = islandOptional.get();
-                if (island.isOwned()) {
-                    if (!island.getOwner().equals(player.getUniqueId())) {
-                        player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND.asColoredString());
-                        return false;
-                    }
-                }
+        for (Checker checker : checkers) {
+            if (!checker.validate(player)) {
+                return false;
             }
         }
 
