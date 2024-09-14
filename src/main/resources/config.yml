@@ -116,6 +116,7 @@ config:
 
   # To remove item from menu, set
   # its position to -1
+  warp-overview-position: 4
   set-price-position: 11
   set-category-position: 12
   change-display-name-position: 13
@@ -126,3 +127,13 @@ config:
   rename-warp-position: 39
   relocate-warp-position: 41
   change-owner-position: 42
+
+  confirm-item-positions:
+    - 10
+    - 11
+    - 12
+
+  deny-item-positions:
+    - 14
+    - 15
+    - 16

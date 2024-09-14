@@ -46,6 +46,7 @@ lang:
   warp-created-with-price: "%prefix% &7Du hast einen Warp &e%name% &c(-%price% $)&7 erstellt, klicke &l&nHIER&7, um ihn zu konfigurieren."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp kann nicht in der Welt (%world%) erstellt werden"
   tried-to-create-warp-in-foreign-island: "%prefix% &cKann keinen Warp auf einer fremden Insel erstellen"
+  tried-to-create-warp-in-foreign-residence: "%prefix% &cKann keine Warp in einem fremden Wohnsitz erstellen"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp kann nicht in diese Welt (%world%) verschoben werden"
   insufficient-balance-for-action: "%prefix% &cNicht genügend Guthaben, um dies zu tun! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNicht genügend Guthaben, um zum Warp %warp% zu teleportieren"
