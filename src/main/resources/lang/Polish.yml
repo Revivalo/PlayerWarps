@@ -47,6 +47,7 @@ lang:
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp nie może być stworzony w świecie (%world%)"
   tried-to-create-warp-in-foreign-island: "%prefix% &cNie można utworzyć osnowy na obcej wyspie"
   tried-to-create-warp-in-foreign-residence: "%prefix% &cNie można utworzyć osnowy w obcej rezydencji"
+  tried-to-create-warp-in-foreign-region: "%prefix% &cNie można utworzyć osnowy w regionie o nazwie %region%"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp nie może być przeniesiony do tego świata (%world%)"
   insufficient-balance-for-action: "%prefix% &cNiewystarczające środki na wykonanie tej akcji! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &cNiewystarczające środki na teleportację do warpu %warp%"

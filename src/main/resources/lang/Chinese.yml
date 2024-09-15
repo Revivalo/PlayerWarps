@@ -46,6 +46,7 @@ lang:
   tried-to-create-warp-in-disabled-world: "%prefix% &c不能在世界 (%world%) 中创建传送门"
   tried-to-create-warp-in-foreign-island: "%prefix% &c无法在异岛创建翘曲"
   tried-to-create-warp-in-foreign-residence: "%prefix% &c无法在外国居住地创建翘曲"
+  tried-to-create-warp-in-foreign-region: "%prefix% &c无法在名为 %region% 的区域内创建翘曲"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &c不能将传送门移动到这个世界 (%world%)"
   insufficient-balance-for-action: "%prefix% &c余额不足，无法执行此操作！ (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &c余额不足，无法传送到 %warp% 传送门"
