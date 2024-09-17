@@ -9,6 +9,8 @@
 #
 #                                                by Athelion Development
 #
+# Get the new textured custom UI from here: https://builtbybit.com/resources/playerwarps-custom-ui.51704/
+#
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
 # From 1.16 version you can also use HEX colors.
@@ -49,6 +51,7 @@ config:
   set-type-fee: 0
   set-preview-item-fee: 0
   set-description-fee: 0
+  set-description-characters-limit: 42
   set-display-name-fee: 200
   set-admission-fee: 0
   # To disable refund set to 0

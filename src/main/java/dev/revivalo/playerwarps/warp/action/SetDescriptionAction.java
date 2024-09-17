@@ -13,7 +13,7 @@ public class SetDescriptionAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String text) {
         int textLength = text.length();
-        if (textLength < 5 || textLength > 32) {
+        if (textLength < 5 || textLength > Config.SET_DESCRIPTION_CHARACTERS_LIMIT.asInteger()) {
             player.sendMessage(Lang.TEXT_SIZE_ERROR.asColoredString());
             return false;
         }

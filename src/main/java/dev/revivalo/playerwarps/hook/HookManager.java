@@ -17,6 +17,8 @@ public final class HookManager {
         hooks.put(HookName.DYNMAP, new DynmapHook());
         hooks.put(HookName.BENTO_BOX, new BentoBoxHook());
         hooks.put(HookName.RESIDENCE, new ResidenceHook());
+        hooks.put(HookName.SUPERIOR_SKY_BLOCK, new SuperiorSkyBlockHook());
+        hooks.put(HookName.WORLD_GUARD, new WorldGuardHook());
 
         for (Hook<?> hook : hooks.values()) {
             hook.preRegister();
@@ -63,6 +65,14 @@ public final class HookManager {
         return (ResidenceHook) hooks.get(HookName.RESIDENCE);
     }
 
+    public static WorldGuardHook getWorldGuardHook() {
+        return (WorldGuardHook) hooks.get(HookName.WORLD_GUARD);
+    }
+
+    public static SuperiorSkyBlockHook getSuperiorSkyBlockHook() {
+        return (SuperiorSkyBlockHook) hooks.get(HookName.SUPERIOR_SKY_BLOCK);
+    }
+
     private enum HookName {
         PLACEHOLDER_API,
         VAULT,
@@ -70,7 +80,9 @@ public final class HookManager {
         ITEMS_ADDER,
         ESSENTIALS,
         BENTO_BOX,
+        SUPERIOR_SKY_BLOCK,
         RESIDENCE,
+        WORLD_GUARD,
         DYNMAP
     }
 }

@@ -221,4 +221,17 @@ public final class TextUtil {
     public static List<String> replaceListAsString(String listAsStringToReplace, final Map<String, String> definitions) {
         return Splitter.on("ᴪ").splitToList(replaceString(listAsStringToReplace, definitions));
     }
+
+    public static String splitLoreIntoLines(String lore, int wordsPerLine) {
+        String[] words = lore.split("\\s+");
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            result.append(words[i]).append(" ");
+            // Po každých 'wordsPerLine' slovech přidáme nový řádek
+            if ((i + 1) % wordsPerLine == 0) {
+                result.append("\n");
+            }
+        }
+        return result.toString().trim();
+    }
 }

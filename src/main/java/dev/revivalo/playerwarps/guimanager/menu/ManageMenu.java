@@ -12,6 +12,7 @@ import dev.revivalo.playerwarps.util.TextUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.RelocateAction;
 import dev.revivalo.playerwarps.warp.action.RemoveWarpAction;
+import dev.revivalo.playerwarps.warp.action.SetDescriptionAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,7 @@ import org.bukkit.entity.Player;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class ManageMenu implements Menu {
     private final Warp warp;
@@ -67,7 +69,7 @@ public class ManageMenu implements Menu {
 
         if (Config.CHANGE_DISPLAY_NAME_POSITION.asInteger() > 0) gui.setItem(Config.CHANGE_DISPLAY_NAME_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_DISPLAY_NAME_ITEM.asUppercase())).setName(Lang.CHANGE_DISPLAY_NAME.asColoredString()).setLore(Lang.CHANGE_DISPLAY_NAME_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.CHANGE_DISPLAY_NAME)));
         if (Config.CHANGE_PREVIEW_ITEM_POSITION.asInteger() > 0) gui.setItem(Config.CHANGE_PREVIEW_ITEM_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_PREVIEW_ITEM.asUppercase())).setName(Lang.CHANGE_ITEM.asColoredString()).setLore(Lang.CHANGE_ITEM_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_GUI_ITEM)));
-        if (Config.CHANGE_DESCRIPTION_POSITION.asInteger() > 0) gui.setItem(Config.CHANGE_DESCRIPTION_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_DESCRIPTION_ITEM.asUppercase())).setName(Lang.CHANGE_LABEL.asColoredString()).setLore(Lang.CHANGE_LABEL_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_DESCRIPTION)));
+        if (Config.CHANGE_DESCRIPTION_POSITION.asInteger() > 0) gui.setItem(Config.CHANGE_DESCRIPTION_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_DESCRIPTION_ITEM.asUppercase())).setName(Lang.CHANGE_LABEL.asColoredString()).setLore(Lang.CHANGE_LABEL_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, 15, TimeUnit.SECONDS).thenAccept(input -> new SetDescriptionAction().preExecute(player, warp, input, MenuType.MANAGE_MENU))));//PlayerWarpsPlugin.getWarpHandler().markPlayerForChatInput(player, warp, WarpAction.SET_DESCRIPTION)));
         if (Config.CHANGE_ACCESSIBILITY_POSITION.asInteger() > 0) gui.setItem(Config.CHANGE_ACCESSIBILITY_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_ACCESSIBILITY_ITEM.asUppercase())).setName(Lang.PWARP_ACCESSIBILITY.asColoredString()).setLore(Lang.PWARP_ACCESSIBILITY_LORE.asReplacedList(player, new HashMap<String, String>() {{
             put("%status%", warp.getStatus().getText());
         }})).asGuiItem(event -> new SetStatusMenu(warp).open(player)));

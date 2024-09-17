@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>PlayerWarps</artifactId>
-    <version>3.0.0-BETA19</version>
+    <version>3.0.0-BETA21</version>
     <packaging>jar</packaging>
 
     <name>PlayerWarps</name>
@@ -165,6 +165,14 @@
             <id>paper-repo</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>bg-repo</id>
+            <url>https://repo.bg-software.com/repository/api/</url>
+        </repository>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -263,6 +271,18 @@
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
             <version>2.5.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bgsoftware</groupId>
+            <artifactId>SuperiorSkyblockAPI</artifactId>
+            <version>2024.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

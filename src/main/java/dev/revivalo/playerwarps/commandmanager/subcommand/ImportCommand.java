@@ -1,7 +1,7 @@
 package dev.revivalo.playerwarps.commandmanager.subcommand;
 
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
-import dev.revivalo.playerwarps.hook.Hook;
+import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,6 +41,6 @@ public class ImportCommand implements SubCommand {
             return;
         }
 
-        Hook.getEssentialsHook().importWarps();
+        HookManager.getEssentialsHook().importWarps();
     }
 }

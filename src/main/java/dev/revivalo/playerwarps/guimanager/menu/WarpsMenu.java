@@ -180,7 +180,6 @@ public class WarpsMenu implements Menu {
                     //guiItem = ItemBuilder.skull()
                     guiItem = ItemBuilder
                             .from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), warp.getOwner()) : warp.getMenuItem().clone()))
-                            //.from(warp.getItem())
                             .setName(TextUtil.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
                             .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
                                         put("%creationDate%", DateUtil.getFormatter().format(warp.getDateCreated()));
@@ -195,7 +194,7 @@ public class WarpsMenu implements Menu {
                                         put("%stars%", TextUtil.createRatingFormat(warp));
                                         put("%lore%", warp.getDescription() == null
                                                 ? Lang.NO_DESCRIPTION.asColoredString()
-                                                : warp.getDescription());
+                                                : TextUtil.splitLoreIntoLines(warp.getDescription(), 5)); // Použití funkce na rozdělení textu
                                         put("%visits%", String.valueOf(warp.getVisits()));
                                         put("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName()));
                                     }}

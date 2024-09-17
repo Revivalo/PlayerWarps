@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 public class ChangeTypeMenu implements Menu {
     private final Warp warp;

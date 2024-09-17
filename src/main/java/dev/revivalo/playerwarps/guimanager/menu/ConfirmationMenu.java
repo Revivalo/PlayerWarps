@@ -11,6 +11,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 public class ConfirmationMenu implements Menu {
     private final Warp warp;

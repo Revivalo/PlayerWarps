@@ -20,12 +20,12 @@ public class BentoBoxIslandChecker implements Checker {
             return true;
         }
 
-        if (island.getOwner().equals(player.getUniqueId())) {
-            return true;
+        if (!island.getOwner().equals(player.getUniqueId())) {
+            player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND.asColoredString());
+            return false;
         }
 
-        player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND.asColoredString());
-        return false;
+        return true;
     }
 }
 

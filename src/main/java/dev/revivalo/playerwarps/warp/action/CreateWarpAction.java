@@ -8,9 +8,7 @@ import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
-import dev.revivalo.playerwarps.warp.checker.BentoBoxIslandChecker;
-import dev.revivalo.playerwarps.warp.checker.Checker;
-import dev.revivalo.playerwarps.warp.checker.ResidenceChecker;
+import dev.revivalo.playerwarps.warp.checker.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -28,6 +26,8 @@ public class CreateWarpAction implements WarpAction<Void> {
     static {
         if (HookManager.isHookEnabled(HookManager.getBentoBoxHook())) checkers.add(new BentoBoxIslandChecker());
         if (HookManager.isHookEnabled(HookManager.getResidenceHook())) checkers.add(new ResidenceChecker());
+        if (HookManager.isHookEnabled(HookManager.getWorldGuardHook())) checkers.add(new WorldGuardChecker());
+        if (HookManager.isHookEnabled(HookManager.getSuperiorSkyBlockHook())) checkers.add(new SuperiorSkyBlockChecker());
     }
 
     public CreateWarpAction(String name) {
@@ -65,7 +65,7 @@ public class CreateWarpAction implements WarpAction<Void> {
         }
 
         for (Checker checker : checkers) {
-            if (!checker.validate(player)) {
+            if (!checker.check(player)) {
                 return false;
             }
         }

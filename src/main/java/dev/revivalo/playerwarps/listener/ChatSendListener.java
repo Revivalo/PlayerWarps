@@ -71,7 +71,7 @@ public class ChatSendListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(final PlayerCommandPreprocessEvent event) {
-        if (event.getMessage().equalsIgnoreCase("/pw cancel")) {
+        if (event.getMessage().equalsIgnoreCase("/pwcancel")) {
             event.setCancelled(true)
             ;
             final User user = UserHandler.getUser(event.getPlayer());
