@@ -24,7 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.io.File;
@@ -205,24 +206,44 @@ public class WarpHandler {
     public CompletableFuture<String> waitForPlayerInput(Player player, long timeout, TimeUnit unit) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        PlayerWarpsPlugin.get().registerEvents(new Listener() {
+        BaseComponent[] msg = TextComponent.fromLegacyText(Lang.CANCEL_INPUT.asColoredString());
+        for (BaseComponent bc : msg) {
+            bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CANCEL_INPUT.asColoredString())));
+            bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pwcancel"));
+        }
+        player.spigot().sendMessage(msg);
+
+        Listener listener = new Listener() {
             @EventHandler
-            public void onPlayerChat(PlayerChatEvent event) {
+            public void onPlayerChat(AsyncPlayerChatEvent event) {
                 if (event.getPlayer().equals(player)) {
                     event.setCancelled(true);
                     future.complete(event.getMessage());
                     HandlerList.unregisterAll(this);
                 }
             }
-        });
 
-        // Schedule a timeout
-        PlayerWarpsPlugin.get().getScheduler().runTaskLater(PlayerWarpsPlugin.get(), () -> {
+            @EventHandler
+            public void onChat(final PlayerCommandPreprocessEvent event) {
+                if (!event.getPlayer().equals(player))
+                    return;
+
+                if (event.getMessage().equalsIgnoreCase("/pwcancel")) {
+                    event.setCancelled(true);
+                    HandlerList.unregisterAll(this);
+                    player.sendMessage(Lang.INPUT_CANCELLED.asColoredString());
+                }
+            }
+        };
+
+        Bukkit.getPluginManager().registerEvents(listener, PlayerWarpsPlugin.get());
+
+        Bukkit.getScheduler().runTaskLater(PlayerWarpsPlugin.get(), () -> {
             if (!future.isDone()) {
                 future.completeExceptionally(new TimeoutException("Player did not respond in time"));
-                //HandlerList.unregisterAll(this);
+                HandlerList.unregisterAll(listener);
             }
-        }, unit.toSeconds(timeout) * 20); // Convert seconds to ticks
+        }, unit.toSeconds(timeout) * 20);
 
         return future;
     }
