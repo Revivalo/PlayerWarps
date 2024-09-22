@@ -10,8 +10,6 @@ import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.entity.Player;
 
-import java.util.concurrent.CompletableFuture;
-
 public interface Menu {
     default WarpHandler getWarpHandler() {
         return PlayerWarpsPlugin.getWarpHandler();

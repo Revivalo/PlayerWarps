@@ -5,7 +5,6 @@ import dev.revivalo.playerwarps.commandmanager.command.PwarpMainCommand;
 import dev.revivalo.playerwarps.configuration.Data;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.hook.HookManager;
-import dev.revivalo.playerwarps.listener.ChatSendListener;
 import dev.revivalo.playerwarps.updatechecker.UpdateChecker;
 import dev.revivalo.playerwarps.updatechecker.UpdateNotificator;
 import dev.revivalo.playerwarps.user.UserHandler;
@@ -96,6 +95,8 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         ConfigurationSerialization.registerClass(Warp.class);
         setDataManager(new Data());
 
+        registerCommands();
+
         setWarpHandler(new WarpHandler());
         warpHandler.loadWarps();
 
@@ -109,11 +110,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
             }.runTaskTimerAsynchronously(this, intervalInTicks, intervalInTicks);
         }
 
-        registerCommands();
-        registerEvents(
-                new UpdateNotificator(),
-                new ChatSendListener()
-        );
+        new UpdateNotificator();
     }
 
     @Override

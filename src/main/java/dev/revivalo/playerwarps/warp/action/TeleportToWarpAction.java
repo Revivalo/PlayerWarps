@@ -86,23 +86,12 @@ public class TeleportToWarpAction implements WarpAction<String> {
             }
         }.runTaskTimer(PlayerWarpsPlugin.get(), 2, 2);
 
-
         return true;
     }
 
     @Override
     public PermissionUtil.Permission getPermission() {
         return PermissionUtil.Permission.USE;
-    }
-
-    @Override
-    public int getFee() {
-        return 0;
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
     }
 
     @Override

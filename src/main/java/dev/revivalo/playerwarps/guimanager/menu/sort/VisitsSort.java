@@ -9,7 +9,7 @@ import java.util.List;
 public class VisitsSort implements Sortable {
     @Override
     public void sort(List<Warp> warps) {
-        warps.sort(Comparator.comparing(Warp::getVisits));
+        warps.sort(Comparator.comparing(Warp::getVisits).reversed());
     }
 
     @Override

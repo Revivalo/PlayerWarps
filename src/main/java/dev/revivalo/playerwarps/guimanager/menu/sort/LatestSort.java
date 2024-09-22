@@ -9,7 +9,7 @@ import java.util.List;
 public class LatestSort implements Sortable {
     @Override
     public void sort(List<Warp> warps) {
-        warps.sort(Comparator.comparing(Warp::getDateCreated));
+        warps.sort(Comparator.comparing(Warp::getDateCreated).reversed());
     }
 
     @Override

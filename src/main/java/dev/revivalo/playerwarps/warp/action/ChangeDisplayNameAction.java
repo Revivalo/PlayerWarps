@@ -32,17 +32,12 @@ public class ChangeDisplayNameAction implements WarpAction<String> {
     }
 
     @Override
+    public Lang getMessage() {
+        return Lang.WRITE_NEW_DISPLAY_NAME;
+    }
+
+    @Override
     public int getFee() {
         return Config.SET_DISPLAY_NAME_FEE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 }

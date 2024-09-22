@@ -37,16 +37,6 @@ public class FavoriteWarpAction implements WarpAction<Void> {
     }
 
     @Override
-    public int getFee() {
-        return 0;
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
     public boolean isPublicAction() {
         return true;
     }

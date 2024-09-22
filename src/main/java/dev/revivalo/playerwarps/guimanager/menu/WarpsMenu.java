@@ -32,19 +32,13 @@ import java.util.stream.Collectors;
 public class WarpsMenu implements Menu {
     private int page = 1;
     private final MenuType menuType;
-    private final PaginatedGui paginatedGui;
+    private PaginatedGui paginatedGui;
 
     private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
     private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
 
     public WarpsMenu(MenuType menuType) {
         this.menuType = menuType;
-        this.paginatedGui = Gui.paginated()
-                .pageSize(45)
-                .rows(6)
-                .title(Component.text(getMenuType().getTitle().replace("%page%", String.valueOf(page))))
-                .disableAllInteractions()
-                .create();
     }
 
     @Override
@@ -62,6 +56,13 @@ public class WarpsMenu implements Menu {
     }
 
     public void open(Player player, String categoryName, Sortable sortType, List<Warp> foundWarps) {
+        this.paginatedGui = Gui.paginated()
+                .pageSize(45)
+                .rows(6)
+                .title(Component.text(getMenuType().getTitle().replace("%page%", String.valueOf(page))))
+                .disableAllInteractions()
+                .create();
+
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
         user.addData(DataSelectorType.ACTUAL_MENU, getMenuType());
@@ -196,7 +197,7 @@ public class WarpsMenu implements Menu {
                                                 ? Lang.NO_DESCRIPTION.asColoredString()
                                                 : TextUtil.splitLoreIntoLines(warp.getDescription(), 5)); // Použití funkce na rozdělení textu
                                         put("%visits%", String.valueOf(warp.getVisits()));
-                                        put("%owner-name%", Objects.requireNonNull(Bukkit.getOfflinePlayer(warp.getOwner()).getName()));
+                                        put("%owner-name%", Bukkit.getOfflinePlayer(warp.getOwner()).getName() == null ? "Unknown" : Bukkit.getOfflinePlayer(warp.getOwner()).getName());
                                     }}
                             )).asGuiItem();
 
@@ -205,7 +206,7 @@ public class WarpsMenu implements Menu {
                             switch (event.getClick()) {
                                 case LEFT:
                                     player.closeInventory();
-                                    new PreTeleportToWarpAction().preExecute(player, warp, null, null);
+                                    new PreTeleportToWarpAction().setMenuToOpen(this).preExecute(player, warp, null, null);
                                     break;
                                 case RIGHT:
                                 case SHIFT_RIGHT:

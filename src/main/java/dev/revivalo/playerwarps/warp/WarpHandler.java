@@ -5,14 +5,11 @@ import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.sort.*;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
-import dev.revivalo.playerwarps.user.DataSelectorType;
-import dev.revivalo.playerwarps.user.UserHandler;
-import dev.revivalo.playerwarps.user.WarpAction;
 import dev.revivalo.playerwarps.util.PermissionUtil;
-import dev.revivalo.playerwarps.util.TextUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -32,7 +29,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
@@ -91,61 +87,8 @@ public class WarpHandler {
     }
 
     public void loadWarps() {
-        //boolean legacyConfig = !Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getString("version")).isPresent();
         Optional<ConfigurationSection> warpDataSection = Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getConfigurationSection("warps"));
         warpDataSection.ifPresent(warpsSection -> {
-//            if (legacyConfig) {
-//                warpsSection.getKeys(false).forEach(warp -> {
-//                    ConfigurationSection warpSection = warpsSection.getConfigurationSection(warp);
-//                    String owner = warpSection.getString("owner-id");
-//                    Location location = warpSection.getLocation("loc");
-//                    if (location == null || location.getWorld() == null) {
-//                        PlayerWarpsPlugin.get().getLogger().info("Warp " + warp + " was not loaded because it is located in a world that does not exist.");
-//                        return;
-//                    }
-//                    ItemStack item = warpSection.getItemStack("item", ItemUtil.getItem(warpSection.getString("item")));
-//                    String description = warpSection.getString("lore");
-//                    int ratings = warpSection.getInt("ratings");
-//                    List<String> reviewers = warpSection.getStringList("reviewers");
-//                    String status = warpSection.getBoolean("disabled") ? "CLOSED" : "OPENED";
-//                    int visits = warpSection.getInt("visits");
-//                    int admission = warpSection.getInt("price");
-//                    long dateCreated = warpSection.getLong("date-created");
-//                    long lastActivity = warpSection.getLong("warp-action");
-//                    String category = warpSection.getString("type");
-//
-//                    PlayerWarpsPlugin.get().getLogger().info("Adding new warp " + warp + " with " + category);
-//
-//                    Warp loadedWarp = new Warp(
-//                            new HashMap<String, Object>() {{
-//                                put("uuid", UUID.randomUUID().toString());
-//                                put("name", warp);
-//                                put("display-name", warp);
-//                                put("owner-id", owner);
-//                                put("loc", location);
-//                                put("lore", description);
-//                                put("category", Optional.ofNullable(category).orElse("all"));
-//                                put("item", item);
-//                                put("ratings", ratings);
-//                                put("reviewers", reviewers);
-//                                put("visits", visits);
-//                                put("status", status);
-//                                put("password", null);
-//                                put("admission", admission);
-//                                put("date-created", dateCreated);
-//                                put("last-activity", lastActivity);
-//                            }}
-//                    );
-//
-//                    addWarp(loadedWarp);
-//
-//                    HookManager.getDynmapHook().setMarker(loadedWarp);
-//                });
-//
-//                //PlayerWarpsPlugin.getDataManager().getData().set("warps", null);
-//                PlayerWarpsPlugin.getData().getConfiguration().set("version", "2.0");
-//                PlayerWarpsPlugin.getData().getYamlFile().save();
-//            } else {
                 warpDataSection.ifPresent(warpSection ->
                         warpSection
                                 .getKeys(false)
@@ -203,14 +146,18 @@ public class WarpHandler {
         return owned;
     }
 
-    public CompletableFuture<String> waitForPlayerInput(Player player, long timeout, TimeUnit unit) {
+    public CompletableFuture<String> waitForPlayerInput(Player player, Warp warp, WarpAction<?> warpAction) {
         CompletableFuture<String> future = new CompletableFuture<>();
+
+        player.closeInventory();
+        player.sendMessage(warpAction.getMessage().asColoredString().replace("%warp%", warp.getName()));
 
         BaseComponent[] msg = TextComponent.fromLegacyText(Lang.CANCEL_INPUT.asColoredString());
         for (BaseComponent bc : msg) {
             bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CANCEL_INPUT.asColoredString())));
             bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pwcancel"));
         }
+
         player.spigot().sendMessage(msg);
 
         Listener listener = new Listener() {
@@ -219,6 +166,7 @@ public class WarpHandler {
                 if (event.getPlayer().equals(player)) {
                     event.setCancelled(true);
                     future.complete(event.getMessage());
+                    PlayerWarpsPlugin.get().runSync(() -> new ManageMenu(warp).open(player));
                     HandlerList.unregisterAll(this);
                 }
             }
@@ -243,68 +191,9 @@ public class WarpHandler {
                 future.completeExceptionally(new TimeoutException("Player did not respond in time"));
                 HandlerList.unregisterAll(listener);
             }
-        }, unit.toSeconds(timeout) * 20);
+        }, 15 * 20);
 
         return future;
-    }
-
-    public void markPlayerForChatInput(final Player player, Warp warp, WarpAction warpAction) {
-        player.closeInventory();
-        UserHandler.getUser(player)
-                .addData(DataSelectorType.SELECTED_WARP, warp)
-                .addData(DataSelectorType.CURRENT_WARP_ACTION, warpAction);
-
-        String messageToSent;
-        switch (warpAction) {
-            case SET_GUI_ITEM:
-                messageToSent = Lang.ITEM_WRITE_MSG.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            case SET_ADMISSION:
-                messageToSent = Lang.PRICE_WRITE_MSG.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            case CHANGE_DISPLAY_NAME:
-                messageToSent = Lang.WRITE_NEW_DISPLAY_NAME.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            case RENAME:
-                messageToSent = Lang.RENAME_WRITE_MSG.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            case CHANGE_OWNERSHIP:
-                messageToSent = Lang.OWNER_CHANGE_MSG.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            case SET_DESCRIPTION:
-                messageToSent = Lang.SET_DESCRIPTION_MSG.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            case WRITE_PASSWORD:
-                messageToSent = Lang.PASSWORD_CHANGE_MSG.asReplacedString(player, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }});
-                break;
-            default:
-                messageToSent = "error";
-        }
-
-        player.sendMessage(TextUtil.replaceString(messageToSent, new HashMap<String, String>() {{
-            put("%warp%", warp.getName());
-        }}));
-
-        BaseComponent[] msg = TextComponent.fromLegacyText(Lang.CANCEL_INPUT.asColoredString());
-        for (BaseComponent bc : msg) {
-            bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CANCEL_INPUT.asColoredString())));
-            bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pwcancel"));
-        }
-        player.spigot().sendMessage(msg);
     }
 
     public int getCountOfWarps(String type) {

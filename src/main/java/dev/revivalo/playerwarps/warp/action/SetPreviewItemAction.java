@@ -65,18 +65,13 @@ public class SetPreviewItemAction implements WarpAction<String> {
     }
 
     @Override
+    public Lang getMessage() {
+        return Lang.ITEM_WRITE_MSG;
+    }
+
+    @Override
     public int getFee() {
         return Config.SET_PREVIEW_ITEM_FEE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 
     static {

@@ -231,6 +231,10 @@ public class Warp implements ConfigurationSerializable {
         this.category = category;
     }
 
+    public boolean hasAdmission() {
+        return admission > 0;
+    }
+
     public int getAdmission() {
         return admission;
     }

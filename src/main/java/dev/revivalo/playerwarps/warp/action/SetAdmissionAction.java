@@ -42,18 +42,13 @@ public class SetAdmissionAction implements WarpAction<String> {
     }
 
     @Override
+    public Lang getMessage() {
+        return Lang.PRICE_WRITE_MSG;
+    }
+
+    @Override
     public int getFee() {
         return Config.SET_ADMISSION_FEE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 
     private boolean isInt(String str) {

@@ -24,14 +24,4 @@ public class SetStatusAction implements WarpAction<WarpState> {
     public int getFee() {
         return Config.SET_STATUS_FEE.asInteger();
     }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
-    }
 }

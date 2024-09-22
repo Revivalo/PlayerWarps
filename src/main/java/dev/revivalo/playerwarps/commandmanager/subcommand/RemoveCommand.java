@@ -42,13 +42,14 @@ public class RemoveCommand implements SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
 
-        final Player player = (Player) sender;
         final Optional<Warp> warp = PlayerWarpsPlugin.getWarpHandler().getWarpFromName(args[0]);
         if (!warp.isPresent()) {
             sender.sendMessage(Lang.NON_EXISTING_WARP.asColoredString());
             return;
         }
 
-        new ConfirmationMenu(warp.get()).open(player, new RemoveWarpAction());
+        if (sender instanceof Player) {
+            new ConfirmationMenu(warp.get()).open((Player) sender, new RemoveWarpAction());
+        } else new RemoveWarpAction().execute(sender, warp.get());
     }
 }

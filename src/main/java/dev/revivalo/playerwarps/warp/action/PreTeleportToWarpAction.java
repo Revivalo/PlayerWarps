@@ -4,6 +4,8 @@ import de.rapha149.signgui.SignGUI;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.category.Category;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.ConfirmationMenu;
+import dev.revivalo.playerwarps.guimanager.menu.Menu;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
@@ -16,6 +18,7 @@ import org.bukkit.entity.Player;
 import java.util.Collections;
 
 public class PreTeleportToWarpAction implements WarpAction<String> {
+    private Menu menuToOpen = null;
     @Override
     public boolean execute(Player player, Warp warp, String data) {
         final Category category = warp.getCategory();
@@ -25,7 +28,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
         }
 
         if (!warp.canManage(player)) {
-            if (warp.getAdmission() != 0) {
+            if (warp.hasAdmission()) {
                 if (HookManager.getVaultHook().getApi() != null) {
                     Economy economy = HookManager.getVaultHook().getApi();
                     if (!economy.has(player, warp.getAdmission())) {
@@ -59,7 +62,13 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                             }
                         }
 
-                        PlayerWarpsPlugin.get().runDelayed(() -> new TeleportToWarpAction().preExecute(player, warp, input, null), 2);
+                        PlayerWarpsPlugin.get().runDelayed(() -> {
+                            if (warp.hasAdmission() && !warp.canManage(player)) {
+                                new ConfirmationMenu(warp)
+                                        .setMenuToOpen(menuToOpen)
+                                        .open(player, new TeleportToWarpAction());
+                            } else new TeleportToWarpAction().preExecute(player, warp, input, null);
+                        }, 2);
 
                         return Collections.emptyList();
                     })
@@ -68,7 +77,13 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
 
             gui.open(player);
 
-        } else new TeleportToWarpAction().preExecute(player, warp, null, null);
+        } else {
+            if (warp.hasAdmission() && !warp.canManage(player))
+                new ConfirmationMenu(warp)
+                        .setMenuToOpen(menuToOpen)
+                        .open(player, new TeleportToWarpAction());
+            else new TeleportToWarpAction().preExecute(player, warp, null, null);
+        }
         return false;
     }
 
@@ -78,17 +93,12 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
     }
 
     @Override
-    public int getFee() {
-        return 0;
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
     public boolean isPublicAction() {
         return true;
+    }
+
+    public PreTeleportToWarpAction setMenuToOpen(Menu menu) {
+        this.menuToOpen = menu;
+        return this;
     }
 }

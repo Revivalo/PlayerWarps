@@ -1,5 +1,6 @@
 package dev.revivalo.playerwarps.guimanager.menu;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.util.ItemUtil;
@@ -11,7 +12,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.concurrent.CompletableFuture;
 
 public class ConfirmationMenu implements Menu {
     private final Warp warp;
@@ -19,6 +19,8 @@ public class ConfirmationMenu implements Menu {
 
     private static final ItemBuilder ACCEPT_ITEM = ItemBuilder.from(ItemUtil.getItem(Config.CONFIRM_ITEM.asUppercase())).setName(Lang.ACCEPT.asColoredString());
     private static final ItemBuilder DENY_ITEM = ItemBuilder.from(ItemUtil.getItem(Config.DENY_ITEM.asUppercase())).setName(Lang.DENY.asColoredString());
+
+    private Menu menuToOpen = null;
 
     public ConfirmationMenu(Warp warp) {
         this.warp = warp;
@@ -54,9 +56,18 @@ public class ConfirmationMenu implements Menu {
             int slot = Integer.parseInt(position);
             gui.setItem(slot, DENY_ITEM.asGuiItem(event -> {
                 gui.close(player);
+
+                if (menuToOpen != null) {
+                    PlayerWarpsPlugin.get().runDelayed(() -> menuToOpen.open(player), 4);
+                }
             }));
         }
 
         gui.open(player);
+    }
+
+    public ConfirmationMenu setMenuToOpen(Menu menu) {
+        this.menuToOpen = menu;
+        return this;
     }
 }

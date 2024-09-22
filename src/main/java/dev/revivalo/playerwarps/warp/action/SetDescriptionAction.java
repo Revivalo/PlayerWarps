@@ -14,7 +14,7 @@ public class SetDescriptionAction implements WarpAction<String> {
     public boolean execute(Player player, Warp warp, String text) {
         int textLength = text.length();
         if (textLength < 5 || textLength > Config.SET_DESCRIPTION_CHARACTERS_LIMIT.asInteger()) {
-            player.sendMessage(Lang.TEXT_SIZE_ERROR.asColoredString());
+            player.sendMessage(Lang.TEXT_SIZE_ERROR.asColoredString().replace("%limit%", Config.SET_DESCRIPTION_CHARACTERS_LIMIT.asString()));
             return false;
         }
 
@@ -32,17 +32,12 @@ public class SetDescriptionAction implements WarpAction<String> {
     }
 
     @Override
+    public Lang getMessage() {
+        return Lang.SET_DESCRIPTION_MSG;
+    }
+
+    @Override
     public int getFee() {
         return Config.SET_DESCRIPTION_FEE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 }

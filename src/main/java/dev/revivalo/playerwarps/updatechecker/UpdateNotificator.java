@@ -14,7 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class UpdateNotificator implements Listener {
 
-	public static final UpdateNotificator instance = new UpdateNotificator();
+	public UpdateNotificator() {
+		PlayerWarpsPlugin.get().registerEvents(this);
+	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void playerJoin(final PlayerJoinEvent event) {

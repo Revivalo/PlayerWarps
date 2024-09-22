@@ -113,7 +113,7 @@ public class CreateWarpAction implements WarpAction<Void> {
         BaseComponent[] msg = TextComponent.fromLegacyText(message);
         for (BaseComponent bc : msg) {
             bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(Lang.CLICK_TO_CONFIGURE.asColoredString())));
-            bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/pw manage " + name));
+            bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/playerwarps:pwarp manage " + name));
         }
 
         player.spigot().sendMessage(msg);
@@ -136,11 +136,6 @@ public class CreateWarpAction implements WarpAction<Void> {
     @Override
     public int getFee() {
         return Config.WARP_PRICE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
     }
 
     @Override

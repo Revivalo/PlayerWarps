@@ -53,14 +53,4 @@ public class RelocateAction implements WarpAction<Void> {
     public int getFee() {
         return Config.RELOCATE_WARP_FEE.asInteger();
     }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
-    }
 }

@@ -48,17 +48,12 @@ public class TransferOwnershipAction implements WarpAction<Player> {
     }
 
     @Override
+    public Lang getMessage() {
+        return Lang.OWNER_CHANGE_MSG;
+    }
+
+    @Override
     public int getFee() {
         return Config.TRANSFER_OWNERSHIP_FEE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 }

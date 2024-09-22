@@ -80,10 +80,20 @@ public interface WarpAction<T> {
 
     PermissionUtil.Permission getPermission();
 
-    int getFee();
+    default Lang getMessage() {
+        return null;
+    }
 
-    Lang getInputText();
+    default int getFee() {
+        return 0;
+    }
 
-    boolean isPublicAction();
+    default Lang getInputText() {
+        return null;
+    }
+
+    default boolean isPublicAction() {
+        return false;
+    }
 
 }

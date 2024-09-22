@@ -8,6 +8,7 @@ import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class RemoveWarpAction implements WarpAction<Void> {
@@ -27,23 +28,16 @@ public class RemoveWarpAction implements WarpAction<Void> {
         return true;
     }
 
+    public boolean execute(CommandSender sender, Warp warp) {
+        PlayerWarpsPlugin.getWarpHandler().removeWarp(warp);
+        HookManager.getDynmapHook().removeMarker(warp);
+        sender.sendMessage(Lang.WARP_REMOVED.asColoredString().replace("%warp%", warp.getName()));
+
+        return true;
+    }
+
     @Override
     public PermissionUtil.Permission getPermission() {
         return PermissionUtil.Permission.REMOVE_WARP;
-    }
-
-    @Override
-    public int getFee() {
-        return 0;
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 }

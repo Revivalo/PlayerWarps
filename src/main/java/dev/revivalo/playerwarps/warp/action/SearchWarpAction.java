@@ -44,11 +44,6 @@ public class SearchWarpAction implements WarpAction<String> {
     }
 
     @Override
-    public int getFee() {
-        return 0;
-    }
-
-    @Override
     public Lang getInputText() {
         return Lang.ENTER_WARPS_NAME;
     }

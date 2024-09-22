@@ -33,17 +33,12 @@ public class RenameAction implements WarpAction<String> {
     }
 
     @Override
+    public Lang getMessage() {
+        return Lang.RENAME_WRITE_MSG;
+    }
+
+    @Override
     public int getFee() {
         return Config.RENAME_WARP_FEE.asInteger();
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
-    public boolean isPublicAction() {
-        return false;
     }
 }

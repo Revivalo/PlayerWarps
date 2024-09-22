@@ -51,7 +51,7 @@ config:
   set-type-fee: 0
   set-preview-item-fee: 0
   set-description-fee: 0
-  set-description-characters-limit: 42
+  set-description-characters-limit: 32
   set-display-name-fee: 200
   set-admission-fee: 0
   # To disable refund set to 0

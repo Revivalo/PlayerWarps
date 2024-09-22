@@ -40,16 +40,6 @@ public class ReviewWarpAction implements WarpAction<Integer> {
     }
 
     @Override
-    public int getFee() {
-        return 0;
-    }
-
-    @Override
-    public Lang getInputText() {
-        return null;
-    }
-
-    @Override
     public boolean isPublicAction() {
         return true;
     }
