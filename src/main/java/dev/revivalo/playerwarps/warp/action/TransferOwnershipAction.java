@@ -19,7 +19,7 @@ public class TransferOwnershipAction implements WarpAction<Player> {
                 return false;
             }
 
-            if (PlayerWarpsPlugin.getWarpHandler().canHaveWarp(newOwner)) {
+            if (!PlayerWarpsPlugin.getWarpHandler().canHaveWarp(newOwner)) {
                 player.sendMessage(Lang.LIMIT_REACHED_OTHER.asColoredString().replace("%player%", newOwner.getName()));
                 return false;
             }
