@@ -188,7 +188,7 @@ public class WarpsMenu implements Menu {
                                         put("%voters%", String.valueOf(warp.getReviewers().size()));
                                         put("%price%", warp.getAdmission() == 0
                                                 ? Lang.FREE_OF_CHARGE.asColoredString()
-                                                : TextUtil.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
+                                                : NumberUtil.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
                                         put("%today%", String.valueOf(warp.getTodayVisits()));
                                         put("%status%", warp.getStatus().getText());
                                         put("%ratings%", String.valueOf(NumberUtil.round(warp.getConvertedRating(), 1)));
