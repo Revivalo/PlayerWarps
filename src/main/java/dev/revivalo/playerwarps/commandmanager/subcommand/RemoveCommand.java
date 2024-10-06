@@ -41,6 +41,10 @@ public class RemoveCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
+        if (args.length != 1) {
+            sender.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
+            return;
+        }
 
         final Optional<Warp> warp = PlayerWarpsPlugin.getWarpHandler().getWarpFromName(args[0]);
         if (!warp.isPresent()) {

@@ -45,6 +45,11 @@ public class CreateCommand implements SubCommand {
             return;
         }
 
+        if (args.length != 1) {
+            sender.sendMessage(Lang.BAD_COMMAND_SYNTAX.asColoredString().replace("%syntax%", getSyntax()));
+            return;
+        }
+
         final Player player = (Player) sender;
 
         try {
