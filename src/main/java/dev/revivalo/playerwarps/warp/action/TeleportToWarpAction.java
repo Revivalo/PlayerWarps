@@ -54,10 +54,11 @@ public class TeleportToWarpAction implements WarpAction<String> {
 
                         if (Config.WARP_VISIT_NOTIFICATION.asBoolean()) {
                             PlayerUtil.announce(Lang.WARP_VISIT_NOTIFICATION.asColoredString()
-                                    .replace("%warp%", warpName)
-                                    .replace("%player%", player.getName()),
+                                            .replace("%warp%", warpName)
+                                            .replace("%player%", player.getName()),
                                     player
                             );
+                        }
 
                             final UUID ownerID = warp.getOwner();
 
@@ -83,7 +84,7 @@ public class TeleportToWarpAction implements WarpAction<String> {
                         player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
                     }
                 }
-            }
+
         }.runTaskTimer(PlayerWarpsPlugin.get(), 2, 2);
 
         return true;
