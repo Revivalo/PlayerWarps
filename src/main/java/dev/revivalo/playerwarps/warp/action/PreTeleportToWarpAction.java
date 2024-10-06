@@ -7,6 +7,7 @@ import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.guimanager.menu.ConfirmationMenu;
 import dev.revivalo.playerwarps.guimanager.menu.Menu;
 import dev.revivalo.playerwarps.hook.HookManager;
+import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
@@ -32,7 +33,9 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                 if (HookManager.getVaultHook().getApi() != null) {
                     Economy economy = HookManager.getVaultHook().getApi();
                     if (!economy.has(player, warp.getAdmission())) {
-                        player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString().replace("%warp%", warp.getName()));
+                        player.sendMessage(Lang.INSUFFICIENT_BALANCE_TO_TELEPORT.asColoredString()
+                                .replace("%warp%", warp.getName())
+                                .replace("%price%", NumberUtil.formatNumber(warp.getAdmission())));
                         return false;
                     }
                 }
