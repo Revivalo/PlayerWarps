@@ -6,6 +6,7 @@ import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
 import dev.revivalo.playerwarps.hook.HookManager;
+import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,7 +35,7 @@ public interface WarpAction<T> {
         if (getFee() != 0) {
             if (HookManager.isHookEnabled(HookManager.getVaultHook())) {
                 if (!HookManager.getVaultHook().getApi().has(player, getFee())) {
-                    player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", String.valueOf(getFee())));
+                    player.sendMessage(Lang.INSUFFICIENT_BALANCE_FOR_ACTION.asColoredString().replace("%price%", NumberUtil.formatNumber(getFee())));
                     return;
                 }
             }
