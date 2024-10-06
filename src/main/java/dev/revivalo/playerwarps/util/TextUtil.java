@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class TextUtil {
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###,###,###");
     private static final Pattern GRADIENT_PATTERN = Pattern.compile("<(#[A-Fa-f0-9]{6})>(.*?)</(#[A-Fa-f0-9]{6})>");
     private static final Pattern LEGACY_GRADIENT_PATTERN = Pattern.compile("<(&[A-Za-z0-9])>(.*?)</(&[A-Za-z0-9])>");
     private static final Pattern RGB_PATTERN = Pattern.compile("<(#......)>");
@@ -212,10 +210,6 @@ public final class TextUtil {
         }
 
         return ratings.toString();
-    }
-
-    public static String formatNumber(int number) {
-        return DECIMAL_FORMAT.format(number);
     }
 
     public static List<String> replaceListAsString(String listAsStringToReplace, final Map<String, String> definitions) {
