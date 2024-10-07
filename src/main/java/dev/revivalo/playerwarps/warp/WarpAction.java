@@ -41,13 +41,6 @@ public interface WarpAction<T> {
             }
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-            }
-        }.runTaskTimer(PlayerWarpsPlugin.get(), 2, 2);
-
         boolean proceeded = execute(player, warp, data);
 
         if (proceeded) {
