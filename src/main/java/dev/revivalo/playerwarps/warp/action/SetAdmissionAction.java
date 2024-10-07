@@ -3,19 +3,20 @@ package dev.revivalo.playerwarps.warp.action;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.util.PermissionUtil;
+import dev.revivalo.playerwarps.util.TextUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.entity.Player;
 
 public class SetAdmissionAction implements WarpAction<String> {
     @Override
-    public boolean execute(Player player, Warp warp, String text) {
-        if (!isInt(text)) {
-            player.sendMessage(Lang.NOT_A_NUMBER.asColoredString().replace("%input%", text));
+    public boolean execute(Player player, Warp warp, String input) {
+        int price = parseInt(TextUtil.stripColor(input));
+        if (price == -1) {
+            player.sendMessage(Lang.NOT_A_NUMBER.asColoredString().replace("%input%", input));
             return false;
         }
 
-        int price = Integer.parseInt(text);
         if (price < 0) {
             player.sendMessage(Lang.INVALID_ENTERED_PRICE.asColoredString());
             return false;
@@ -51,12 +52,14 @@ public class SetAdmissionAction implements WarpAction<String> {
         return Config.SET_ADMISSION_FEE.asInteger();
     }
 
-    private boolean isInt(String str) {
+    private int parseInt(String str) {
+        int number = -1;
         try {
             Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-            return false;
+        } catch (NumberFormatException ignored) {
+
         }
-        return true;
+
+        return number;
     }
 }
