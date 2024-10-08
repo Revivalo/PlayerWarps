@@ -23,6 +23,11 @@ public class InputMenu implements Menu {
     }
 
     @Override
+    public short getMenuSize() {
+        return -1;
+    }
+
+    @Override
     public void open(Player player) {
         SignGUI gui = SignGUI.builder()
                 .setType(Material.OAK_SIGN)

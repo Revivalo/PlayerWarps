@@ -26,7 +26,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class WarpsMenu implements Menu {
@@ -47,6 +46,11 @@ public class WarpsMenu implements Menu {
     }
 
     @Override
+    public short getMenuSize() {
+        return Config.WARP_LISTING_MENU_SIZE.asShort();
+    }
+
+    @Override
     public void open(Player player) {
         open(player, "all", getWarpHandler().getSortingManager().getDefaultSortType(), null);
     }
@@ -57,8 +61,8 @@ public class WarpsMenu implements Menu {
 
     public void open(Player player, String categoryName, Sortable sortType, List<Warp> foundWarps) {
         this.paginatedGui = Gui.paginated()
-                .pageSize(45)
-                .rows(6)
+                .pageSize(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9)
+                .rows(Config.WARP_LISTING_MENU_SIZE.asInteger() / 9)
                 .title(Component.text(getMenuType().getTitle().replace("%page%", String.valueOf(page))))
                 .disableAllInteractions()
                 .create();
@@ -70,13 +74,13 @@ public class WarpsMenu implements Menu {
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
         //if (paginatedGui.previous())
-        paginatedGui.setItem(45, PREVIOUS_PAGE.asGuiItem(event -> {
+        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9, PREVIOUS_PAGE.asGuiItem(event -> {
             paginatedGui.previous();
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
         //if (paginatedGui.next())
-        paginatedGui.setItem(53, NEXT_PAGE.asGuiItem(event -> {
+        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 1, NEXT_PAGE.asGuiItem(event -> {
             paginatedGui.next();
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
@@ -96,7 +100,7 @@ public class WarpsMenu implements Menu {
 
         if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
             paginatedGui
-                    .setItem(52, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
+                    .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 2, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
                     .setName(Lang.SEARCH_WARP.asColoredString())
                     .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
                     .asGuiItem(
@@ -110,7 +114,7 @@ public class WarpsMenu implements Menu {
 
         if (getMenuType() != MenuType.OWNED_LIST_MENU)
             paginatedGui
-                    .setItem(46, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
+                    .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 8, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
                     .setName(Lang.SORT_WARPS.asColoredString())
                     .setLore(sortLore)
                     .asGuiItem(event -> {
@@ -158,7 +162,7 @@ public class WarpsMenu implements Menu {
                                 .setLore(Lang.HELP_LORE.asReplacedList())
                                 .build()
                 );
-                paginatedGui.setItem(22, guiItem);
+                paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 32, guiItem);
             } else {
                 guiItem = new GuiItem(
                         ItemBuilder
@@ -166,7 +170,7 @@ public class WarpsMenu implements Menu {
                                 .setName(Lang.NO_WARP_FOUND.asColoredString())
                                 .build()
                 );
-                paginatedGui.setItem(22, guiItem);
+                paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 32, guiItem);
             }
         } else {
             for (Warp warp : warps) {

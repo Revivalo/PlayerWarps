@@ -41,6 +41,13 @@ config:
   dynmap-marker-icon: "blueflag"
   dynmap-marker-label: "Warp: %warp% by %owner%"
 
+  # Be sure what you are doing here, if you change the size
+  # of the menu, you have to adjust the item positions inside the menu!
+  warp-listing-menu-size: 54
+  categories-menu-size: 54
+  warp-manage-menu-size: 54
+  confirmation-menu-size: 27
+
   # To disable the fee features, set them to 0
   # This option works only with installed Vault plugin
   warp-price: 5000

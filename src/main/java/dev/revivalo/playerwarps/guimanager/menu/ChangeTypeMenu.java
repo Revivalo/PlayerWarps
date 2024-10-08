@@ -25,7 +25,7 @@ public class ChangeTypeMenu implements Menu {
         this.warp = warp;
         this.gui = Gui.gui()
                 .disableAllInteractions()
-                .rows(3)
+                .rows(getMenuSize() / 9)
                 .title(Component.text(Lang.CHANGE_WARP_CATEGORY_TITLE.asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
@@ -35,6 +35,11 @@ public class ChangeTypeMenu implements Menu {
     @Override
     public MenuType getMenuType() {
         return MenuType.CHANGE_TYPE_MENU;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return (short) 27;
     }
 
     @Override

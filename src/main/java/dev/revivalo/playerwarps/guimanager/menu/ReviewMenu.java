@@ -21,7 +21,7 @@ public class ReviewMenu implements Menu {
         this.warp = warp;
         this.gui = Gui.gui()
                 .disableAllInteractions()
-                .rows(4)
+                .rows(getMenuSize() / 9)
                 .title(Component.text(getMenuType().getTitle().replace("%warp%", warp.getName())))
                 .create();
     }
@@ -29,6 +29,11 @@ public class ReviewMenu implements Menu {
     @Override
     public MenuType getMenuType() {
         return MenuType.REVIEW_MENU;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return 4 * 9;
     }
 
     @Override

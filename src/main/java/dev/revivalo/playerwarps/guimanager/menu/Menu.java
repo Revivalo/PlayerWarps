@@ -22,7 +22,7 @@ public interface Menu {
     MenuType getMenuType();
 
     default void setDefaultItems(Player player, BaseGui gui) {
-        gui.setItem(48,
+        gui.setItem(getMenuSize() - 6,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.WARP_LIST_ITEM.asString()))
                         .glow(getMenuType() == MenuType.DEFAULT_LIST_MENU || getMenuType() == MenuType.CATEGORIES)
@@ -36,7 +36,7 @@ public interface Menu {
                         })
         );
 
-        gui.setItem(49,
+        gui.setItem(getMenuSize() - 5,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.MY_WARPS_ITEM.asString()))
                         .glow(getMenuType() == MenuType.OWNED_LIST_MENU)
@@ -48,7 +48,7 @@ public interface Menu {
                         )
         );
 
-        gui.setItem(50,
+        gui.setItem(getMenuSize() - 4,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.FAVORITE_WARPS_ITEM.asString()))
                         .glow(getMenuType() == MenuType.FAVORITE_LIST_MENU)
@@ -60,6 +60,8 @@ public interface Menu {
                         )
         );
     }
+
+    short getMenuSize();
 
     void open(Player player);
 }

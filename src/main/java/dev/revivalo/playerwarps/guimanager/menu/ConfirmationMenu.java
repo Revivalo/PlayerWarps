@@ -26,7 +26,7 @@ public class ConfirmationMenu implements Menu {
         this.warp = warp;
         this.gui = Gui.gui()
                 .disableAllInteractions()
-                .rows(3)
+                .rows(getMenuSize() / 9)
                 .title(Component.text(Lang.CONFIRMATION_MENU_TITLE.asReplacedString(new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
@@ -36,6 +36,11 @@ public class ConfirmationMenu implements Menu {
     @Override
     public MenuType getMenuType() {
         return MenuType.CONFIRMATION_MENU;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return Config.CONFIRMATION_MENU_SIZE.asShort();
     }
 
     @Override

@@ -20,6 +20,10 @@ public enum Config {
     WARP_VISIT_NOTIFICATION,
     TELEPORT_DELAY,
     ALLOW_COLORS_IN_WARP_DISPLAY_NAMES,
+    WARP_LISTING_MENU_SIZE,
+    CATEGORIES_MENU_SIZE,
+    WARP_MANAGE_MENU_SIZE,
+    CONFIRMATION_MENU_SIZE,
     WARP_PRICE,
     DATE_FORMAT,
     SORT_BY,
@@ -123,6 +127,10 @@ public enum Config {
     public int asInteger() {
         return Integer.parseInt(strings.get(this.name()));}
 
+    public short asShort() {
+        return Short.parseShort(strings.get(this.name()));
+    }
+
     public String asString() {
         return strings.get(this.name());
     }
@@ -130,16 +138,6 @@ public enum Config {
     public String asReplacedString(Map<String, String> definitions) {
         return TextUtil.replaceString(strings.get(this.name()), definitions);
     }
-
-//    public Map<String, String> asStringMap() {
-//        Map<String, String> map = new HashMap<>();
-//        ConfigurationSection section = configYamlFile.getConfiguration().getConfigurationSection(asString());
-//        if (section == null) return map;
-//        for (String key : section.getKeys(false)) {
-//            map.put(key, section.getString(key));
-//        }
-//        return map;
-//    }
 
     public String asUppercase() {
         return this.asString().toUpperCase();

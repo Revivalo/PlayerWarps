@@ -20,7 +20,7 @@ public class SetStatusMenu implements Menu {
         this.warp = warp;
         this.gui = Gui.gui()
                 .disableAllInteractions()
-                .rows(3)
+                .rows(getMenuSize() / 9)
                 .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
@@ -30,6 +30,11 @@ public class SetStatusMenu implements Menu {
     @Override
     public MenuType getMenuType() {
         return MenuType.SET_STATUS_MENU;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return 3 * 9;
     }
 
     @Override

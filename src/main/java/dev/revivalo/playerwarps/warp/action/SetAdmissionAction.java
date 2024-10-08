@@ -55,7 +55,7 @@ public class SetAdmissionAction implements WarpAction<String> {
     private int parseInt(String str) {
         int number = -1;
         try {
-            Integer.parseInt(str);
+            number = Integer.parseInt(str);
         } catch (NumberFormatException ignored) {
 
         }

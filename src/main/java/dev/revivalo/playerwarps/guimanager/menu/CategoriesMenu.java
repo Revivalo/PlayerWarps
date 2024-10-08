@@ -22,7 +22,7 @@ public class CategoriesMenu implements Menu {
 
     public CategoriesMenu() {
         this.gui = Gui.gui()
-                .rows(6)
+                .rows(getMenuSize() / 9)
                 .title(Component.text(Lang.CATEGORY_TITLE.asColoredString()))
                 .disableAllInteractions()
                 .create();
@@ -31,6 +31,11 @@ public class CategoriesMenu implements Menu {
     @Override
     public MenuType getMenuType() {
         return MenuType.CATEGORIES;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return Config.CATEGORIES_MENU_SIZE.asShort();
     }
 
     @Override

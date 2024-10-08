@@ -28,7 +28,7 @@ public class ManageMenu implements Menu {
         this.warp = warp;
         this.gui = Gui.gui()
                 .title(Component.text(Lang.EDIT_WARP_MENU_TITLE.asColoredString().replace("%warp%", warp.getName())))
-                .rows(6)
+                .rows(getMenuSize() / 9)
                 .disableAllInteractions()
                 .create();
     }
@@ -36,6 +36,11 @@ public class ManageMenu implements Menu {
     @Override
     public MenuType getMenuType() {
         return MenuType.MANAGE_MENU;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return Config.WARP_MANAGE_MENU_SIZE.asShort();
     }
 
     @Override
