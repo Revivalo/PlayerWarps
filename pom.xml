@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>PlayerWarps</artifactId>
-    <version>3.0.0-BETA24</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <name>PlayerWarps</name>
