@@ -67,15 +67,14 @@ public abstract class MainCommand implements TabExecutor {
         if (args.length == 1) {
             List<String> subCommandsTC = subCommands.stream().filter(sc -> sc.getPermission() == null || sender.hasPermission(sc.getPermission().get())).map(SubCommand::getName).collect(Collectors.toList());
 
-            List<String> suggestions = getMatchingStrings(subCommandsTC, args[args.length - 1], argumentMatcher);
-
             List<String> accessibleWarps = PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
                     .filter(Warp::isAccessible)
                     .map(Warp::getName)
                     .collect(Collectors.toList());
 
-            suggestions.addAll(accessibleWarps);
-            return suggestions;
+            subCommandsTC.addAll(accessibleWarps);
+
+            return getMatchingStrings(subCommandsTC, args[args.length - 1], argumentMatcher);
         }
 
         SubCommand subCommand = subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(null);
