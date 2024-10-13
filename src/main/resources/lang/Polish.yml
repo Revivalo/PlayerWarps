@@ -6,10 +6,10 @@ lang:
   help-message-lore:
     - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7otwiera główne menu z wszystkimi warpami"
-    - "&b/pwarp teleport <warp> &8- &7teleportuje do określonego warpu"
+    - "&b/pwarp <warp> &8- &7teleportuje do określonego warpu"
     - "&b/pwarp create <warp> &8- &7tworzy warp o podanej nazwie"
     - "&b/pwarp remove <warp> &8- &7usuwa określony warp"
-    - "&b/pwarp favorite <warp> &8- &7dodaje warp do listy ulubionych"
+    - "&b/pwarp manage <warp> &8- &7otwiera menu ustawień"
     - "&b/pwarp reload &8- &7przeładowuje pliki wtyczki"
     - "&7-----------------------------------------------------"
   reload-message: "%prefix% &7Wtyczka została pomyślnie przeładowana!"

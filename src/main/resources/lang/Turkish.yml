@@ -6,10 +6,10 @@ lang:
   help-message-lore:
     - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7tüm listedeki warpları içeren ana menüyü açar"
-    - "&b/pwarp teleport <warp> &8- &7belirtilen warp'a ışınlanır"
+    - "&b/pwarp <warp> &8- &7belirtilen warp'a ışınlanır"
     - "&b/pwarp create <warp> &8- &7belirtilen isimle bir warp oluşturur"
     - "&b/pwarp remove <warp> &8- &7belirtilen warp'ı kaldırır"
-    - "&b/pwarp favorite <warp> &8- &7warp'ı favori listeye ekler"
+    - "&b/pwarp manage <warp> &8- &7ayarlar menüsünü açar"
     - "&b/pwarp reload &8- &7plugin dosyalarını yeniden yükler"
     - "&7-----------------------------------------------------"
   reload-message: "%prefix% &7Plugin başarıyla yeniden yüklendi!"

@@ -6,10 +6,10 @@ lang:
   help-message-lore:
     - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7abre o menu principal com todos os warps listados"
-    - "&b/pwarp teleport <warp> &8- &7teleporta para o warp especificado"
+    - "&b/pwarp <warp> &8- &7teleporta para o warp especificado"
     - "&b/pwarp create <warp> &8- &7cria um warp com o nome indicado"
     - "&b/pwarp remove <warp> &8- &7remove o warp especificado"
-    - "&b/pwarp favorite <warp> &8- &7adiciona o warp à lista de favoritos"
+    - "&b/pwarp manage <warp> &8- &7abre o menu de definições"
     - "&b/pwarp reload &8- &7recarrega os arquivos do plugin"
     - "&7-----------------------------------------------------"
   reload-message: "%prefix% &7O plugin foi recarregado com sucesso!"

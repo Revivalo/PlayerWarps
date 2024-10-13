@@ -6,10 +6,10 @@ lang:
   help-message-lore:
     - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
     - "&b/pwarp &8- &7otevře hlavní menu se všemi warpami"
-    - "&b/pwarp teleport <warp> &8- &7teleportuje vás na zadaný warp"
+    - "&b/pwarp <warp> &8- &7teleportuje vás na zadaný warp"
     - "&b/pwarp create <warp> &8- &7vytvoří warp se zadaným názvem"
     - "&b/pwarp remove <warp> &8- &7odstraní zadaný warp"
-    - "&b/pwarp favorite <warp> &8- &7přidá warp do seznamu oblíbených"
+    - "&b/pwarp manage <warp> &8- &7otevře menu s nastavením"
     - "&b/pwarp reload &8- &7načte znovu soubory pluginu"
     - "&7-----------------------------------------------------"
   reload-message: "%prefix% &7Plugin byl úspěšně načten znovu!"
