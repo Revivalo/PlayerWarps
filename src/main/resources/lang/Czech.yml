@@ -63,6 +63,7 @@ lang:
   teleport-to-warp-with-admission: "%prefix% &7Teleportace na warp hráče %player% &c(-%price% $)"
   accept-teleport-with-admission: "Teleportovat? &c(-%price% $)"
   teleport-between-worlds-error: "%prefix% &7Teleportace byla zrušena. Můžete se teleportovat pouze na warpy ve vašem světě!"
+  warp-access-blocked: "%prefix% &cPřístup k tomuto warpu (%warp%) ti byl zablokován!"
   name-cant-contain-space: "%prefix% &7Název nesmí obsahovat mezery"
   enter-password: "Zadejte heslo"
   enter-warps-name: "Zadejte název warpu"
@@ -233,6 +234,20 @@ lang:
     - "&7Aktuální stav: &2%status%"
     - " "
     - "&e► Změnit dostupnost warpu"
+  blocked-player-input: "%prefix% &7Nyní napište jméno hráče, kterého chcete z tohoto warpu omezit:"
+  blocked-players-title: "Blokovaní hráči"
+  blocked-players: "&aBlokovaní hráči &2(%amount%)"
+  blocked-players-lore:
+    - " "
+    - "&7Hráči, kteří jsou blokováni"
+    - "&7z tohoto warpu"
+    - " "
+    - "&e► Klikněte pro správu"
+  blocked-player-manage: "&c%player%"
+  blocked-player-manage-lore:
+    - " "
+    - "&e► Klikněte pro odblokování"
+  blocked-player-add: "&ePřidat hráče"
   set-price: "&aCena teleportace"
   set-price-lore:
     - " "

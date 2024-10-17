@@ -20,14 +20,20 @@ import java.util.UUID;
 public class TeleportToWarpAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String password) {
-        if (warp == null)
+        if (warp == null) {
             return false;
+        }
 
         final String warpName = warp.getName();
         boolean isOwner = warp.canManage(player);
 
         if (!warp.isAccessible() && !isOwner) {
             player.sendMessage(Lang.WARP_IS_DISABLED.asColoredString().replace("%warp%", warpName));
+            return false;
+        }
+
+        if (warp.isBlocked(player)) {
+            player.sendMessage(Lang.WARP_ACCESS_BLOCKED.asColoredString().replace("%warp%", warpName));
             return false;
         }
 

@@ -62,6 +62,7 @@ lang:
   teleport-to-warp-with-admission: "%prefix% &7传送到玩家 %player% 的传送门 &c(-%price% $)"
   accept-teleport-with-admission: "传送？ &c(-%price% $)"
   teleport-between-worlds-error: "%prefix% &7传送已取消。您只能传送到您所在世界的传送门！"
+  warp-access-blocked: "%prefix% &c您已被阻止访问此 %warp% warp"
   name-cant-contain-space: "%prefix% &7名称不能包含空格"
   enter-password: "输入密码"
   enter-warps-name: "输入传送门名称"
@@ -232,6 +233,20 @@ lang:
     - "&7当前状态: &2%status%"
     - " "
     - "&e► 更改传送门的可用性"
+  blocked-player-input: "%prefix% &7现在输入您要限制无法进入此传送点的玩家名称："
+  blocked-players-title: "被阻止的玩家"
+  blocked-players: "&a被阻止的玩家 &2(%amount%)"
+  blocked-players-lore:
+    - " "
+    - "&7被阻止的玩家"
+    - "&7无法进入此传送点"
+    - " "
+    - "&e► 点击进行管理"
+  blocked-player-manage: "&c%player%"
+  blocked-player-manage-lore:
+    - " "
+    - "&e► 点击解除封锁"
+  blocked-player-add: "&e添加玩家"
   set-price: "&a传送价格"
   set-price-lore:
     - " "

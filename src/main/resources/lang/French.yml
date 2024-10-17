@@ -63,6 +63,7 @@ lang:
   teleport-to-warp-with-admission: "%prefix% &7Téléportation vers le warp du joueur %player% &c(-%price% $)"
   accept-teleport-with-admission: "Téléportation ? &c(-%price% $)"
   teleport-between-worlds-error: "%prefix% &7La téléportation a été annulée. Vous ne pouvez téléporter que vers des warps dans votre monde !"
+  warp-access-blocked: "%prefix% &cL'accès à ce %warp% warp a été bloqué."
   name-cant-contain-space: "%prefix% &7Le nom ne peut pas contenir d'espace"
   enter-password: "Entrez le Mot de Passe"
   enter-warps-name: "Entrez le Nom des Warps"
@@ -233,6 +234,20 @@ lang:
     - "&7Statut actuel : &2%status%"
     - " "
     - "&e► Changer la disponibilité du warp"
+  blocked-player-input: "%prefix% &7Écrivez maintenant le nom du joueur que vous souhaitez restreindre de ce warp :"
+  blocked-players-title: "Joueurs bloqués"
+  blocked-players: "&aJoueurs bloqués &2(%amount%)"
+  blocked-players-lore:
+    - " "
+    - "&7Joueurs qui sont bloqués"
+    - "&7de ce warp"
+    - " "
+    - "&e► Cliquez pour gérer"
+  blocked-player-manage: "&c%player%"
+  blocked-player-manage-lore:
+    - " "
+    - "&e► Cliquez pour débloquer"
+  blocked-player-add: "&eAjouter un joueur"
   set-price: "&aPrix de téléportation"
   set-price-lore:
     - " "

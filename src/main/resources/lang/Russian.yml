@@ -63,6 +63,7 @@ lang:
   teleport-to-warp-with-admission: "%prefix% &7Телепортация к вратам игрока %player% &c(-%price% $)"
   accept-teleport-with-admission: "Телепортация? &c(-%price% $)"
   teleport-between-worlds-error: "%prefix% &7Телепортация была отменена. Вы можете телепортироваться только к вратам в вашем мире!"
+  warp-access-blocked: "%prefix% &cВам заблокирован доступ к этому %warp% варпу"
   name-cant-contain-space: "%prefix% &7Имя не может содержать пробел"
   enter-password: "Введите пароль"
   enter-warps-name: "Введите имя врат"
@@ -233,6 +234,20 @@ lang:
     - "&7Текущий статус: &2%status%"
     - " "
     - "&e► Изменить доступность врат"
+  blocked-player-input: "%prefix% &7Теперь введите имя игрока, которого вы хотите ограничить доступом к этому варпу:"
+  blocked-players-title: "Заблокированные игроки"
+  blocked-players: "&aЗаблокированные игроки &2(%amount%)"
+  blocked-players-lore:
+    - " "
+    - "&7Игроки, которые заблокированы"
+    - "&7для этого варпа"
+    - " "
+    - "&e► Нажмите для управления"
+  blocked-player-manage: "&c%player%"
+  blocked-player-manage-lore:
+    - " "
+    - "&e► Нажмите, чтобы разблокировать"
+  blocked-player-add: "&eДобавить игрока"
   set-price: "&aЦена телепортации"
   set-price-lore:
     - " "
