@@ -2,6 +2,7 @@ package dev.revivalo.playerwarps.warp;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.guimanager.menu.BlockedPlayersMenu;
 import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
 import dev.revivalo.playerwarps.guimanager.menu.MenuType;
 import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
@@ -9,7 +10,6 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
 public interface WarpAction<T> {
@@ -53,6 +53,10 @@ public interface WarpAction<T> {
             switch (menuToOpen) {
                 case MANAGE_MENU:
                     new ManageMenu(warp).open(player);
+                    break;
+                case BLOCKED_PLAYERS_MENU:
+                    new BlockedPlayersMenu(warp)
+                            .open(player);
                     break;
                 case DEFAULT_LIST_MENU:
                 case FAVORITE_LIST_MENU:

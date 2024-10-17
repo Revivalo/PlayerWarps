@@ -19,8 +19,8 @@ public class ChangeDisplayNameAction implements WarpAction<String> {
             return false;
         }
 
-
         warp.setDisplayName(text);
+
         player.sendMessage(Lang.DISPLAY_NAME_CHANGED.asReplacedString(player, new HashMap<String, String>() {{
             put("%warp%", warp.getName());
             put("%displayName%", warp.getDisplayName());

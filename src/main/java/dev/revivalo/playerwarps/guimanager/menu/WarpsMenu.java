@@ -181,8 +181,6 @@ public class WarpsMenu implements Menu {
                             .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
                             .build());
                 } else {
-
-                    //guiItem = ItemBuilder.skull()
                     guiItem = ItemBuilder
                             .from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), warp.getOwner()) : warp.getMenuItem().clone()))
                             .setName(TextUtil.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))

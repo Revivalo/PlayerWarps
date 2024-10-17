@@ -32,6 +32,7 @@ public final class PermissionUtil {
         SET_DESCRIPTION("playerwarps.settings.setdescription"),
         SET_ADMISSION("playerwarps.settings.setadmission"),
         SET_STATUS("playerwarps.settings.setstatus"),
+        BLOCK_PLAYER("playerwarps.settings.blockPlayer"),
         CHANGE_DISPLAY_NAME("playerwarps.settings.changedisplayname"),
         BYPASS_TELEPORT_DELAY("playerwarps.delay.bypass"),
         MANAGE_OTHERS("playerwarps.manage.others");

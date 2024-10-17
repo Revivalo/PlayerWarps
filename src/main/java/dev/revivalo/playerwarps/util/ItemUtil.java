@@ -1,7 +1,6 @@
 package dev.revivalo.playerwarps.util;
 
 import com.cryptomorin.xseries.XMaterial;
-import dev.dbassett.skullcreator.SkullCreator;
 import dev.lone.itemsadder.api.CustomStack;
 import dev.lone.itemsadder.api.ItemsAdder;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
@@ -10,6 +9,7 @@ import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import io.th0rgal.oraxen.api.OraxenItems;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -73,9 +73,9 @@ public final class ItemUtil {
             itemStack.setItemMeta(skullMeta);
             return itemStack;
         } else if (name.length() > 64) {
-            return SkullCreator.itemFromBase64(name);
+            return ItemBuilder.skull().texture(name).build();
         } else if (name.equalsIgnoreCase("skullofplayer") && playerUUID != null) {
-            return SkullCreator.itemFromUuid(playerUUID);
+            return ItemBuilder.skull().owner(Bukkit.getOfflinePlayer(playerUUID)).build(); // TODO: Rework
         } else if (HookManager.getItemsAdderHook().isOn() && ItemsAdder.isCustomItem(name)) {
 //            if (Hooks.isHookEnabled(Hooks.getPlaceholderApiHook())) {
 //                PlaceholderAPI.setPlaceholders(null, )

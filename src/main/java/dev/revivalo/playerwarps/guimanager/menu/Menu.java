@@ -21,6 +21,10 @@ public interface Menu {
 
     MenuType getMenuType();
 
+    default void update(Player player) {
+        open(player);
+    }
+
     default void setDefaultItems(Player player, BaseGui gui) {
         gui.setItem(getMenuSize() - 6,
                 ItemBuilder

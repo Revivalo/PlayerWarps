@@ -92,6 +92,7 @@ public class CreateWarpAction implements WarpAction<Void> {
                     put("lore", null);
                     put("admission", 0);
                     put("reviewers", Collections.emptyList());
+                    put("blocked-players", Collections.emptyList());
                     put("todayVisits", 0);
                     put("date-created", System.currentTimeMillis());
                     put("item", null);
@@ -103,7 +104,7 @@ public class CreateWarpAction implements WarpAction<Void> {
 
         HookManager.getDynmapHook().setMarker(createdWarp);
 
-        String message = "";
+        String message;
         if (HookManager.isHookEnabled(HookManager.getVaultHook()))
             message = Lang.WARP_CREATED_WITH_PRICE.asColoredString()
                     .replace("%name%", name)

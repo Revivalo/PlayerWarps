@@ -66,30 +66,30 @@ public class TeleportToWarpAction implements WarpAction<String> {
                             );
                         }
 
-                            final UUID ownerID = warp.getOwner();
+                        final UUID ownerID = warp.getOwner();
 
-                            PlayerUtil.getOfflinePlayer(ownerID).thenAccept(offlinePlayer -> {
-                                if (warp.getAdmission() != 0 && !isOwner) {
-                                    player.sendMessage(Lang.TELEPORT_TO_WARP_WITH_ADMISSION.asColoredString()
-                                            .replace("%price%", String.valueOf(warp.getAdmission()))
-                                            .replace("%warp%", warpName)
-                                            .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
-                                } else
-                                    player.sendMessage(Lang.TELEPORT_TO_WARP.asColoredString()
-                                            .replace("%warp%", warpName)
-                                            .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
+                        PlayerUtil.getOfflinePlayer(ownerID).thenAccept(offlinePlayer -> {
+                            if (warp.getAdmission() != 0 && !isOwner) {
+                                player.sendMessage(Lang.TELEPORT_TO_WARP_WITH_ADMISSION.asColoredString()
+                                        .replace("%price%", String.valueOf(warp.getAdmission()))
+                                        .replace("%warp%", warpName)
+                                        .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
+                            } else
+                                player.sendMessage(Lang.TELEPORT_TO_WARP.asColoredString()
+                                        .replace("%warp%", warpName)
+                                        .replace("%player%", Objects.requireNonNull(Bukkit.getOfflinePlayer(ownerID).getName())));
 
-                            });
+                        });
 
-                            if (!isOwner) {
-                                warp.setVisits(warp.getVisits() + 1);
-                                warp.setTodayVisits(warp.getTodayVisits() + 1);
-                            }
+                        if (!isOwner) {
+                            warp.setVisits(warp.getVisits() + 1);
+                            warp.setTodayVisits(warp.getTodayVisits() + 1);
                         }
-                    } else if (teleport.getTask().getStatus() == Teleport.Status.ERROR) {
-                        player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
                     }
+                } else if (teleport.getTask().getStatus() == Teleport.Status.ERROR) {
+                    player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
                 }
+            }
 
         }.runTaskTimer(PlayerWarpsPlugin.get(), 2, 2);
 

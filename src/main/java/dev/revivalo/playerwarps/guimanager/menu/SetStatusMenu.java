@@ -20,7 +20,7 @@ public class SetStatusMenu implements Menu {
         this.warp = warp;
         this.gui = Gui.gui()
                 .disableAllInteractions()
-                .rows(getMenuSize() / 9)
+                .rows(36 / 9)
                 .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
@@ -29,7 +29,7 @@ public class SetStatusMenu implements Menu {
 
     @Override
     public MenuType getMenuType() {
-        return MenuType.SET_STATUS_MENU;
+        return MenuType.ACCESSIBILITY_MENU;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class SetStatusMenu implements Menu {
                     .setWarpAction(new SetPasswordAction())
                     .open(player);
         }));
+        gui.setItem(31, ItemBuilder
+                .from(Material.PLAYER_HEAD)
+                .setName(Lang.BLOCKED_PLAYERS.asColoredString().replace("%amount%", String.valueOf(warp.getBlockedPlayers().size())))
+                .setLore(Lang.BLOCKED_PLAYERS_LORE.asReplacedList())
+                .asGuiItem(event -> new BlockedPlayersMenu(warp).open(player)));
 
         gui.open(player);
     }

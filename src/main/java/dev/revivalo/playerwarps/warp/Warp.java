@@ -7,6 +7,7 @@ import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.TextUtil;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,24 +18,25 @@ import java.util.stream.Collectors;
 
 public class Warp implements ConfigurationSerializable {
     private UUID warpID;
+    private UUID owner;
+    private WarpState status;
     private String name;
     private String displayName;
     private String password;
-    private UUID owner;
+    private String description;
+    private String stars;
     private Location location;
     private int rating;
-    private Set<UUID> reviewers;
     private int visits;
     private int todayVisits;
-    private Category category;
     private int admission;
-    private String description;
-    private WarpState status;
     private long dateCreated;
     private long lastActivity;
+    private Set<UUID> reviewers;
+    private Set<UUID> blockedPlayers;
+    private Category category;
     private ItemStack menuItem;
     //private SkullBuilder tempItem;
-    private String stars;
 
     public Warp(Map<String, Object> map) {
         for (String key : map.keySet()) {
@@ -46,7 +48,7 @@ public class Warp implements ConfigurationSerializable {
                 case "owner-id": setOwner(UUID.fromString((String) value)); break;
                 case "loc": setLocation((Location) value); break;
                 case "lore": setDescription((String) value); break;
-                case "type":
+                case "type": // category in old versions
                 case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
                 case "item":
                     if (value instanceof String) {
@@ -57,6 +59,7 @@ public class Warp implements ConfigurationSerializable {
                     break;
                 case "ratings": setRating((int) value); break;
                 case "reviewers": setReviewers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(HashSet::new))); break;
+                case "blocked-players": setBlockedPlayers(((List<String>) value).stream().map(UUID::fromString).collect(Collectors.toCollection(HashSet::new))); break;
                 case "visits": setVisits((int) value); break;
                 case "status": setStatus(WarpState.valueOf((String) value)); break;
                 case "password": setPassword(String.valueOf(value)); break;
@@ -91,6 +94,7 @@ public class Warp implements ConfigurationSerializable {
             put("item", getMenuItem());
             put("ratings", getRating());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
+            put("blocked-players", getBlockedPlayers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("category", getCategory() == null ? "all" : getCategory().getType());
             put("password", getPassword());
             put("visits", getVisits());
@@ -126,6 +130,22 @@ public class Warp implements ConfigurationSerializable {
     public boolean canManage(Player player){
         return PermissionUtil.hasPermission(player, PermissionUtil.Permission.MANAGE_OTHERS)
             || Objects.equals(player.getUniqueId(), getOwner());
+    }
+
+    public boolean isBlocked(UUID playerUuid) {
+        return blockedPlayers.contains(playerUuid);
+    }
+
+    public void block(OfflinePlayer player) {
+        blockedPlayers.add(player.getUniqueId());
+    }
+
+    public void unblock(OfflinePlayer player) {
+        blockedPlayers.remove(player.getUniqueId());
+    }
+
+    public boolean isBlocked(OfflinePlayer player) {
+        return isBlocked(player.getUniqueId());
     }
 
     public boolean isOwner(Player player) {
@@ -205,6 +225,14 @@ public class Warp implements ConfigurationSerializable {
 
     public void setReviewers(Set<UUID> reviewers) {
         this.reviewers = reviewers;
+    }
+
+    public Set<UUID> getBlockedPlayers() {
+        return blockedPlayers == null ? Collections.emptySet() : blockedPlayers;
+    }
+
+    public void setBlockedPlayers(Set<UUID> blockedPlayers) {
+        this.blockedPlayers = blockedPlayers;
     }
 
     public int getVisits() {
