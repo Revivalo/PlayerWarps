@@ -1,4 +1,4 @@
-package dev.revivalo.playerwarps.guimanager.menu;
+package dev.revivalo.playerwarps.menu;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;

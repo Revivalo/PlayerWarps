@@ -1,4 +1,4 @@
-package dev.revivalo.playerwarps.guimanager.menu.sort;
+package dev.revivalo.playerwarps.menu.sort;
 
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.warp.Warp;

@@ -1,4 +1,4 @@
-package dev.revivalo.playerwarps.guimanager.menu;
+package dev.revivalo.playerwarps.menu;
 
 import de.rapha149.signgui.SignGUI;
 import dev.revivalo.playerwarps.warp.Warp;
