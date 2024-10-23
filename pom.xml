@@ -272,6 +272,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.angeschossen</groupId>
+            <artifactId>LandsAPI</artifactId>
+            <version>7.9.17</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.bekvon.bukkit.residence</groupId>
             <artifactId>Residence</artifactId>
             <version>5.1.6.2</version>
