@@ -44,8 +44,7 @@ public abstract class MainCommand implements TabExecutor {
                 return true;
             }
 
-            new PreTeleportToWarpAction().preExecute((Player) sender, warpOptional.get(), null, null);
-            //sender.sendMessage(Lang.UNKNOWN_COMMAND.asColoredString());
+            new PreTeleportToWarpAction().preExecute((Player) sender, warpOptional.get());
             return true;
         }
 

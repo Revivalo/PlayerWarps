@@ -70,7 +70,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                                 new ConfirmationMenu(warp)
                                         .setMenuToOpen(menuToOpen)
                                         .open(player, new TeleportToWarpAction());
-                            } else new TeleportToWarpAction().preExecute(player, warp, input, null);
+                            } else new TeleportToWarpAction().preExecute(player, warp, input);
                         }, 2);
 
                         return Collections.emptyList();
@@ -85,7 +85,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                 new ConfirmationMenu(warp)
                         .setMenuToOpen(menuToOpen)
                         .open(player, new TeleportToWarpAction());
-            else new TeleportToWarpAction().preExecute(player, warp, null, null);
+            else new TeleportToWarpAction().preExecute(player, warp);
         }
         return false;
     }
