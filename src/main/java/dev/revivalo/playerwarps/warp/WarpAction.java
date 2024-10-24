@@ -19,7 +19,7 @@ public interface WarpAction<T> {
 
     default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuToOpen, int page) {
         if (!PermissionUtil.hasPermission(player, getPermission())) {
-            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", getPermission().get()));
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", getPermission().asString()));
             return;
         }
 
