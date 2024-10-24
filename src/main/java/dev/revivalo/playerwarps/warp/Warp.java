@@ -201,6 +201,10 @@ public class Warp implements ConfigurationSerializable {
     }
 
     public void setLocation(Location location) {
+        if (location == null) {
+            return;
+        }
+
         if (location.getWorld() == null) {
             return;
         }
