@@ -49,7 +49,7 @@ public class Warp implements ConfigurationSerializable {
                 case "loc": setLocation((Location) value); break;
                 case "lore": setDescription((String) value); break;
                 case "type": // category in old versions
-                case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break; // Možná přes Optional<>
+                case "category": setCategory(CategoryManager.getCategoryFromName((String) value)); break;
                 case "item":
                     if (value instanceof String) {
                         setMenuItem(ItemUtil.getItem((String) value));
@@ -183,6 +183,7 @@ public class Warp implements ConfigurationSerializable {
     public boolean validatePassword(String passwordToValidate) {
         return this.password.equals(passwordToValidate);
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

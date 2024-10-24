@@ -28,5 +28,3 @@ public class BentoBoxIslandChecker implements Checker {
         return true;
     }
 }
-
-

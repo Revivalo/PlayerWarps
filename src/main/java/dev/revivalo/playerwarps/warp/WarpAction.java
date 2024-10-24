@@ -55,8 +55,7 @@ public interface WarpAction<T> {
                     new ManageMenu(warp).open(player);
                     break;
                 case BLOCKED_PLAYERS_MENU:
-                    new BlockedPlayersMenu(warp)
-                            .open(player);
+                    new BlockedPlayersMenu(warp).open(player);
                     break;
                 case DEFAULT_LIST_MENU:
                 case FAVORITE_LIST_MENU:
