@@ -209,7 +209,7 @@ lang:
   #
   change-display-name: "&aAnzeigenamen ändern"
   change-display-name-lore:
-    - "&8&lHINWEIS:&8 Du kannst Farb-Codes (&)"
+    - "&8&lHINWEIS:&8 Du kannst Farb-Codes benutzen (&)"
     - " "
     - "&e► Klicke, um den Anzeigenamen zu ändern"
   remove-warp: "&cWarp entfernen"
