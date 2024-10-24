@@ -15,15 +15,44 @@ import org.bukkit.entity.Player;
 
 public class ReviewMenu implements Menu {
     private final Warp warp;
-    private final Gui gui;
+    private Gui gui;
+    private Player player;
 
     public ReviewMenu(Warp warp) {
         this.warp = warp;
+    }
+
+    @Override
+    public void create() {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(getMenuSize() / 9)
                 .title(Component.text(getMenuType().getTitle().replace("%warp%", warp.getName())))
                 .create();
+    }
+
+    @Override
+    public void fill() {
+        final User user = UserHandler.getUser(player);
+
+        gui.setItem(11, ItemBuilder.from(ItemUtil.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 1)));
+        gui.setItem(12, ItemBuilder.from(ItemUtil.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 2)));
+        gui.setItem(13, ItemBuilder.from(ItemUtil.THREE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 3)));
+        gui.setItem(14, ItemBuilder.from(ItemUtil.FOUR_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 4)));
+        gui.setItem(15, ItemBuilder.from(ItemUtil.FIVE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 5)));
+
+        gui.setItem(
+                31,
+                ItemBuilder.from(
+                                ItemUtil.getItem(Config.BACK_ITEM.asString())
+                        )
+                        .setName(Lang.BACK_NAME.asColoredString())
+                        .asGuiItem(
+                                event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                                        .setPage((int) user.getData(DataSelectorType.ACTUAL_PAGE))
+                                        .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), getDefaultSortType())
+                        )
+        );
     }
 
     @Override
@@ -38,27 +67,16 @@ public class ReviewMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        final User user = UserHandler.getUser(player);
+        this.player = player;
 
-        gui.setItem(11, ItemBuilder.from(ItemUtil.ONE_STAR).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 1, null)));
-        gui.setItem(12, ItemBuilder.from(ItemUtil.TWO_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 2, null)));
-        gui.setItem(13, ItemBuilder.from(ItemUtil.THREE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 3, null)));
-        gui.setItem(14, ItemBuilder.from(ItemUtil.FOUR_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 4, null)));
-        gui.setItem(15, ItemBuilder.from(ItemUtil.FIVE_STARS).asGuiItem(event -> new ReviewWarpAction().preExecute(player, warp, 5, null)));
-
-        gui.setItem(
-                31,
-                ItemBuilder.from(
-                                ItemUtil.getItem(Config.BACK_ITEM.asString())
-                        )
-                        .setName(Lang.BACK_NAME.asColoredString())
-                        .asGuiItem(
-                                event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
-                                        .setPage((int) user.getData(DataSelectorType.ACTUAL_PAGE))
-                                        .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), getDefaultSortType())
-                        )
-        );
+        create();
+        fill();
 
         gui.open(player);
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }

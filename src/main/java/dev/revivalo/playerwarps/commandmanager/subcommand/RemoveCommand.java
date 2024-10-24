@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.commandmanager.subcommand;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.ConfirmationMenu;
+import dev.revivalo.playerwarps.menu.ConfirmationMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.RemoveWarpAction;

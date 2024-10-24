@@ -2,9 +2,9 @@ package dev.revivalo.playerwarps.warp.action;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.MenuType;
-import dev.revivalo.playerwarps.guimanager.menu.WarpSearch;
-import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
+import dev.revivalo.playerwarps.menu.MenuType;
+import dev.revivalo.playerwarps.menu.WarpSearch;
+import dev.revivalo.playerwarps.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;

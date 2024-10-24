@@ -6,9 +6,9 @@ import dev.revivalo.playerwarps.commandmanager.argumentmatcher.StartingWithStrin
 import dev.revivalo.playerwarps.commandmanager.subcommand.*;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.CategoriesMenu;
-import dev.revivalo.playerwarps.guimanager.menu.MenuType;
-import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
+import dev.revivalo.playerwarps.menu.CategoriesMenu;
+import dev.revivalo.playerwarps.menu.MenuType;
+import dev.revivalo.playerwarps.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

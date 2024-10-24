@@ -15,14 +15,18 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.concurrent.CompletableFuture;
 
 public class ChangeTypeMenu implements Menu {
     private final Warp warp;
-    private final Gui gui;
+    private Gui gui;
+    private Player player;
 
     public ChangeTypeMenu(Warp warp) {
         this.warp = warp;
+    }
+
+    @Override
+    public void create() {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(getMenuSize() / 9)
@@ -30,6 +34,19 @@ public class ChangeTypeMenu implements Menu {
                     put("%warp%", warp.getName());
                 }})))
                 .create();
+    }
+
+    @Override
+    public void fill() {
+        Collection<Category> categories = CategoryManager.getCategories();
+        if (!categories.isEmpty()) {
+            categories
+                    .forEach(category -> gui.addItem(ItemBuilder.from(category.getItem()).lore(Collections.emptyList()).setName(StringUtils.capitalize(category.getType())).asGuiItem(event -> {
+                        new SetTypeAction().preExecute(player, warp, category, MenuType.MANAGE_MENU, 1);
+                    })));
+        } else {
+            gui.setItem(13, ItemBuilder.from(Material.BARRIER).setName(Lang.CATEGORIES_ARE_DISABLED.asColoredString()).asGuiItem());
+        }
     }
 
     @Override
@@ -44,17 +61,16 @@ public class ChangeTypeMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        Collection<Category> categories = CategoryManager.getCategories();
-        if (!categories.isEmpty()) {
-            categories
-                    .forEach(category -> gui.addItem(ItemBuilder.from(category.getItem()).lore(Collections.emptyList()).setName(StringUtils.capitalize(category.getType())).asGuiItem(event -> {
-                        //PlayerWarpsPlugin.getWarpHandler().setType(player, warp, category.getType());
-                        new SetTypeAction().preExecute(player, warp, category, MenuType.MANAGE_MENU, 1);
-                    })));
-        } else {
-            gui.setItem(13, ItemBuilder.from(Material.BARRIER).setName(Lang.CATEGORIES_ARE_DISABLED.asColoredString()).asGuiItem());
-        }
+        this.player = player;
+
+        create();
+        fill();
 
         gui.open(player);
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }

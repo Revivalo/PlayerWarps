@@ -11,10 +11,34 @@ import java.util.Collections;
 
 public class InputMenu implements Menu {
     private final Warp warp;
+    private SignGUI gui;
+    private Player player;
     private WarpAction<String> warpAction;
 
     public InputMenu(Warp warp) {
         this.warp = warp;
+    }
+
+    @Override
+    public void create() {
+        this.gui = SignGUI.builder()
+                .setType(Material.OAK_SIGN)
+                .setColor(DyeColor.BLACK)
+                .setLine(1, warpAction.getInputText().asColoredString())
+                .setHandler((p, result) -> {
+                    String input = result.getLineWithoutColor(0);
+
+                    warpAction.preExecute(player, warp, input);
+
+                    return Collections.emptyList();
+                })
+
+                .build();
+    }
+
+    @Override
+    public void fill() {
+        // nothing to fill
     }
 
     @Override
@@ -29,19 +53,8 @@ public class InputMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        SignGUI gui = SignGUI.builder()
-                .setType(Material.OAK_SIGN)
-                .setColor(DyeColor.BLACK)
-                .setLine(1, warpAction.getInputText().asColoredString())
-                .setHandler((p, result) -> {
-                    String input = result.getLineWithoutColor(0);
-
-                    warpAction.preExecute(player, warp, input, null);
-
-                    return Collections.emptyList();
-                })
-
-                .build();
+        this.player = player;
+        create();
 
         gui.open(player);
     }
@@ -49,5 +62,10 @@ public class InputMenu implements Menu {
     public InputMenu setWarpAction(WarpAction<String> warpAction) {
         this.warpAction = warpAction;
         return this;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }

@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.menu;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.sort.Sortable;
+import dev.revivalo.playerwarps.menu.sort.Sortable;
 import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.warp.WarpHandler;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
@@ -21,8 +21,16 @@ public interface Menu {
 
     MenuType getMenuType();
 
-    default void update(Player player) {
-        open(player);
+    void open(Player player);
+
+    void create();
+
+    void fill();
+
+    default void update() {
+        create();
+        fill();
+        open(getPlayer());
     }
 
     default void setDefaultItems(Player player, BaseGui gui) {
@@ -67,5 +75,5 @@ public interface Menu {
 
     short getMenuSize();
 
-    void open(Player player);
+    Player getPlayer();
 }

@@ -14,6 +14,7 @@ import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -22,10 +23,16 @@ import java.util.Objects;
 
 public class ManageMenu implements Menu {
     private final Warp warp;
-    private final Gui gui;
+
+    private Gui gui;
+    private Player player;
 
     public ManageMenu(Warp warp) {
         this.warp = warp;
+    }
+
+    @Override
+    public void create() {
         this.gui = Gui.gui()
                 .title(Component.text(Lang.EDIT_WARP_MENU_TITLE.asColoredString().replace("%warp%", warp.getName())))
                 .rows(getMenuSize() / 9)
@@ -34,17 +41,7 @@ public class ManageMenu implements Menu {
     }
 
     @Override
-    public MenuType getMenuType() {
-        return MenuType.MANAGE_MENU;
-    }
-
-    @Override
-    public short getMenuSize() {
-        return Config.WARP_MANAGE_MENU_SIZE.asShort();
-    }
-
-    @Override
-    public void open(Player player) {
+    public void fill() {
         gui.setItem(Config.WARP_OVERVIEW_POSITION.asInteger(), ItemBuilder.from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), player) : warp.getMenuItem().clone()))
                 .setName(Lang.OWN_WARP_ITEM_NAME.asColoredString().replace("%warp%", warp.getName()))
                 .setLore(Lang.OWN_WARP_LORE.asReplacedList(player, new HashMap<String, String>() {{
@@ -173,7 +170,29 @@ public class ManageMenu implements Menu {
                 .asGuiItem(event -> new BlockedPlayersMenu(warp).open(player)));
 
         setDefaultItems(player, gui);
+    }
 
+    @Override
+    public MenuType getMenuType() {
+        return MenuType.MANAGE_MENU;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return Config.WARP_MANAGE_MENU_SIZE.asShort();
+    }
+
+    @Override
+    public void open(Player player) {
+        this.player = player;
+
+        create();
+        fill();
         gui.open(player);
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }

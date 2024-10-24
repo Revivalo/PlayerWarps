@@ -3,7 +3,7 @@ package dev.revivalo.playerwarps.commandmanager.subcommand;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.commandmanager.SubCommand;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
+import dev.revivalo.playerwarps.menu.ManageMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import org.bukkit.command.CommandSender;

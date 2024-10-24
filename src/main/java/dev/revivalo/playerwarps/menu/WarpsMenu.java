@@ -5,7 +5,7 @@ import dev.revivalo.playerwarps.category.Category;
 import dev.revivalo.playerwarps.category.CategoryManager;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.sort.*;
+import dev.revivalo.playerwarps.menu.sort.Sortable;
 import dev.revivalo.playerwarps.user.DataSelectorType;
 import dev.revivalo.playerwarps.user.User;
 import dev.revivalo.playerwarps.user.UserHandler;
@@ -32,6 +32,10 @@ public class WarpsMenu implements Menu {
     private int page = 1;
     private final MenuType menuType;
     private PaginatedGui paginatedGui;
+    private Player player;
+    private String categoryName;
+    private Sortable sortType;
+    private List<Warp> foundWarps;
 
     private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
     private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
@@ -41,49 +45,34 @@ public class WarpsMenu implements Menu {
     }
 
     @Override
-    public MenuType getMenuType() {
-        return menuType;
-    }
-
-    @Override
-    public short getMenuSize() {
-        return Config.WARP_LISTING_MENU_SIZE.asShort();
-    }
-
-    @Override
-    public void open(Player player) {
-        open(player, "all", getWarpHandler().getSortingManager().getDefaultSortType(), null);
-    }
-
-    public void open(Player player, String categoryName, Sortable sortType) {
-        open(player, categoryName, sortType, null);
-    }
-
-    public void open(Player player, String categoryName, Sortable sortType, List<Warp> foundWarps) {
+    public void create() {
         this.paginatedGui = Gui.paginated()
                 .pageSize(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9)
                 .rows(Config.WARP_LISTING_MENU_SIZE.asInteger() / 9)
                 .title(Component.text(getMenuType().getTitle().replace("%page%", String.valueOf(page))))
                 .disableAllInteractions()
                 .create();
+    }
 
+    @Override
+    public void fill() {
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
         user.addData(DataSelectorType.ACTUAL_MENU, getMenuType());
 
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
-        //if (paginatedGui.previous())
+        //if (paginatedGui.getPrevPageNum() != paginatedGui.getCurrentPageNum())
         paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9, PREVIOUS_PAGE.asGuiItem(event -> {
             paginatedGui.previous();
             paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
-        //if (paginatedGui.next())
-        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 1, NEXT_PAGE.asGuiItem(event -> {
-            paginatedGui.next();
-            paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
-        }));
+        //if (paginatedGui.getNextPageNum() != paginatedGui.getCurrentPageNum())
+            paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 1, NEXT_PAGE.asGuiItem(event -> {
+                paginatedGui.next();
+                paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
+            }));
 
         Sortable nextSortType = getWarpHandler().getSortingManager().nextSortType(sortType);
 
@@ -101,26 +90,26 @@ public class WarpsMenu implements Menu {
         if (Config.ENABLE_WARP_SEARCH.asBoolean()) {
             paginatedGui
                     .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 2, ItemBuilder.from(ItemUtil.getItem(Config.SEARCH_WARP_ITEM.asUppercase()))
-                    .setName(Lang.SEARCH_WARP.asColoredString())
-                    .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
-                    .asGuiItem(
-                            event -> {
-                                new InputMenu(null)
-                                        .setWarpAction(new SearchWarpAction())
-                                        .open(player);
-                            }
-                    ));
+                            .setName(Lang.SEARCH_WARP.asColoredString())
+                            .setLore(Lang.SEARCH_WARP_LORE.asReplacedList())
+                            .asGuiItem(
+                                    event -> {
+                                        new InputMenu(null)
+                                                .setWarpAction(new SearchWarpAction())
+                                                .open(player);
+                                    }
+                            ));
         }
 
         if (getMenuType() != MenuType.OWNED_LIST_MENU)
             paginatedGui
                     .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 8, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
-                    .setName(Lang.SORT_WARPS.asColoredString())
-                    .setLore(sortLore)
-                    .asGuiItem(event -> {
-                        paginatedGui.clearPageItems();
-                        open(player, categoryName, nextSortType, foundWarps);
-                    }));
+                            .setName(Lang.SORT_WARPS.asColoredString())
+                            .setLore(sortLore)
+                            .asGuiItem(event -> {
+                                paginatedGui.clearPageItems();
+                                open(player, categoryName, nextSortType, foundWarps);
+                            }));
 
         final List<Warp> warps = new ArrayList<>();
         switch (getMenuType()) {
@@ -208,7 +197,7 @@ public class WarpsMenu implements Menu {
                             switch (event.getClick()) {
                                 case LEFT:
                                     player.closeInventory();
-                                    new PreTeleportToWarpAction().setMenuToOpen(this).preExecute(player, warp, null, null);
+                                    new PreTeleportToWarpAction().setMenuToOpen(this).preExecute(player, warp);
                                     break;
                                 case RIGHT:
                                 case SHIFT_RIGHT:
@@ -238,11 +227,46 @@ public class WarpsMenu implements Menu {
         }
 
         setDefaultItems(player, paginatedGui);
+    }
+
+    @Override
+    public MenuType getMenuType() {
+        return menuType;
+    }
+
+    @Override
+    public short getMenuSize() {
+        return Config.WARP_LISTING_MENU_SIZE.asShort();
+    }
+
+    @Override
+    public void open(Player player) {
+        open(player, "all", getWarpHandler().getSortingManager().getDefaultSortType(), null);
+    }
+
+    public void open(Player player, String categoryName, Sortable sortType) {
+        open(player, categoryName, sortType, null);
+    }
+
+    public void open(Player player, String categoryName, Sortable sortType, List<Warp> foundWarps) {
+        this.player = player;
+        this.categoryName = categoryName;
+        this.sortType = sortType;
+        this.foundWarps = foundWarps;
+
+        create();
+        fill();
+
         paginatedGui.open(player);
     }
 
     public WarpsMenu setPage(int page) {
         this.page = page;
         return this;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }

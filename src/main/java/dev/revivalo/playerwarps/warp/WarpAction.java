@@ -2,10 +2,10 @@ package dev.revivalo.playerwarps.warp;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.guimanager.menu.BlockedPlayersMenu;
-import dev.revivalo.playerwarps.guimanager.menu.ManageMenu;
-import dev.revivalo.playerwarps.guimanager.menu.MenuType;
-import dev.revivalo.playerwarps.guimanager.menu.WarpsMenu;
+import dev.revivalo.playerwarps.menu.BlockedPlayersMenu;
+import dev.revivalo.playerwarps.menu.ManageMenu;
+import dev.revivalo.playerwarps.menu.MenuType;
+import dev.revivalo.playerwarps.menu.WarpsMenu;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;

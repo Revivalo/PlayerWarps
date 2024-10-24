@@ -14,18 +14,61 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CategoriesMenu implements Menu {
-    private final Gui gui;
+    private Gui gui;
+    private Player player;
 
     private final GuiItem BACKGROUND_FILLER = Config.CATEGORIES_BACKGROUND_ITEM.asString().equalsIgnoreCase("none") ? null : ItemBuilder.from(ItemUtil.getItem(Config.CATEGORIES_BACKGROUND_ITEM.asUppercase())).setName(" ").asGuiItem();
     private final ItemBuilder INSUFFICIENT_PERMISSION_ITEM =  ItemBuilder.from(ItemUtil.getItem(Config.INSUFFICIENT_PERMISSIONS_ITEM.asUppercase()))
             .setName(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY.asColoredString());
 
-    public CategoriesMenu() {
+    @Override
+    public void create() {
         this.gui = Gui.gui()
                 .rows(getMenuSize() / 9)
                 .title(Component.text(Lang.CATEGORY_TITLE.asColoredString()))
                 .disableAllInteractions()
                 .create();
+    }
+
+    @Override
+    public void fill() {
+        if (BACKGROUND_FILLER != null) {
+            for (int i = 0; i < 54; i++) {
+                gui.setItem(i, BACKGROUND_FILLER);
+            }
+        }
+
+        CategoryManager.getCategories()
+                .forEach(category -> gui.setItem(
+                                category.getPosition(),
+                                category.hasPermission(player)
+                                        ? ItemBuilder.from(
+                                                category.getItem()
+                                        )
+                                        .setName(
+                                                category.getName()
+                                                        .replace("%number%", String.valueOf(PlayerWarpsPlugin.getWarpHandler().getCountOfWarps(category.getType())))
+                                        )
+                                        .setLore(category.getLore())
+                                        .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                                                .setPage(1)
+                                                .open(player, category.toString(), getDefaultSortType()))
+                                        : INSUFFICIENT_PERMISSION_ITEM
+                                        .setLore(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", category.getPermission());}}))
+                                        .asGuiItem()
+                        )
+                );
+
+        setDefaultItems(player, gui);
+    }
+
+    @Override
+    public void open(Player player) {
+        this.player = player;
+        create();
+        fill();
+
+        gui.open(player);
     }
 
     @Override
@@ -39,37 +82,7 @@ public class CategoriesMenu implements Menu {
     }
 
     @Override
-    public void open(Player player) {
-
-        if (BACKGROUND_FILLER != null) {
-            for (int i = 0; i < 54; i++) {
-                gui.setItem(i, BACKGROUND_FILLER);
-            }
-        }
-
-        CategoryManager.getCategories()
-                .forEach(category -> gui.setItem(
-                        category.getPosition(),
-                        category.hasPermission(player)
-                            ? ItemBuilder.from(
-                                        category.getItem()
-                                )
-                                .setName(
-                                        category.getName()
-                                                .replace("%number%", String.valueOf(PlayerWarpsPlugin.getWarpHandler().getCountOfWarps(category.getType())))
-                                )
-                                .setLore(category.getLore())
-                                .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
-                                        .setPage(1)
-                                        .open(player, category.toString(), getDefaultSortType()))
-                                : INSUFFICIENT_PERMISSION_ITEM
-                                    .setLore(Lang.INSUFFICIENT_PERMS_FOR_CATEGORY_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", category.getPermission());}}))
-                                    .asGuiItem()
-                        )
-                );
-
-        setDefaultItems(player, gui);
-
-        gui.open(player);
+    public Player getPlayer() {
+        return player;
     }
 }

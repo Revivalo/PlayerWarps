@@ -15,7 +15,9 @@ import java.util.HashMap;
 
 public class ConfirmationMenu implements Menu {
     private final Warp warp;
-    private final Gui gui;
+    private Gui gui;
+    private Player player;
+    private WarpAction<?> action;
 
     private static final ItemBuilder ACCEPT_ITEM = ItemBuilder.from(ItemUtil.getItem(Config.CONFIRM_ITEM.asUppercase())).setName(Lang.ACCEPT.asColoredString());
     private static final ItemBuilder DENY_ITEM = ItemBuilder.from(ItemUtil.getItem(Config.DENY_ITEM.asUppercase())).setName(Lang.DENY.asColoredString());
@@ -24,6 +26,10 @@ public class ConfirmationMenu implements Menu {
 
     public ConfirmationMenu(Warp warp) {
         this.warp = warp;
+    }
+
+    @Override
+    public void create() {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(getMenuSize() / 9)
@@ -31,6 +37,28 @@ public class ConfirmationMenu implements Menu {
                     put("%warp%", warp.getName());
                 }})))
                 .create();
+    }
+
+    @Override
+    public void fill() {
+        for (String position : Config.CONFIRM_ITEM_POSITIONS.asList()) {
+            int slot = Integer.parseInt(position);
+            gui.setItem(slot, ACCEPT_ITEM.asGuiItem(event -> {
+                action.preExecute(player, warp);
+                gui.close(player);
+            }));
+        }
+
+        for (String position : Config.DENY_ITEM_POSITIONS.asList()) {
+            int slot = Integer.parseInt(position);
+            gui.setItem(slot, DENY_ITEM.asGuiItem(event -> {
+                gui.close(player);
+
+                if (menuToOpen != null) {
+                    PlayerWarpsPlugin.get().runDelayed(() -> menuToOpen.open(player), 4);
+                }
+            }));
+        }
     }
 
     @Override
@@ -49,24 +77,11 @@ public class ConfirmationMenu implements Menu {
     }
 
     public void open(Player player, WarpAction<?> action) {
-        for (String position : Config.CONFIRM_ITEM_POSITIONS.asList()) {
-            int slot = Integer.parseInt(position);
-            gui.setItem(slot, ACCEPT_ITEM.asGuiItem(event -> {
-                action.preExecute(player, warp, null, null);
-                gui.close(player);
-            }));
-        }
+        this.player = player;
+        this.action = action;
 
-        for (String position : Config.DENY_ITEM_POSITIONS.asList()) {
-            int slot = Integer.parseInt(position);
-            gui.setItem(slot, DENY_ITEM.asGuiItem(event -> {
-                gui.close(player);
-
-                if (menuToOpen != null) {
-                    PlayerWarpsPlugin.get().runDelayed(() -> menuToOpen.open(player), 4);
-                }
-            }));
-        }
+        create();
+        fill();
 
         gui.open(player);
     }
@@ -74,5 +89,10 @@ public class ConfirmationMenu implements Menu {
     public ConfirmationMenu setMenuToOpen(Menu menu) {
         this.menuToOpen = menu;
         return this;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }
