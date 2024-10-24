@@ -47,7 +47,7 @@ public class PwarpMainCommand extends MainCommand {
                         .open(player, "all", PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType());
             }
         } else {
-            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.USE.get()));
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.USE.asString()));
         }
     }
 }

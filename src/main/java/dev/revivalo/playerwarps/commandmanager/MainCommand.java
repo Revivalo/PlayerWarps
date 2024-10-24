@@ -49,7 +49,7 @@ public abstract class MainCommand implements TabExecutor {
             return true;
         }
 
-        if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission().get())) {
+        if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission().asString())) {
             subCommand.perform(sender, Arrays.copyOfRange(args, 1, args.length));
         } else {
             sender.sendMessage(noPermMessage.asColoredString());

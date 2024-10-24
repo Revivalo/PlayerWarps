@@ -69,7 +69,7 @@ public class WarpHandler {
 
     public void reloadWarps(CommandSender sender) {
         if (!PermissionUtil.hasPermission(sender, PermissionUtil.Permission.RELOAD_PLUGIN)) {
-            sender.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.RELOAD_PLUGIN.get()));
+            sender.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", PermissionUtil.Permission.RELOAD_PLUGIN.asString()));
         } else {
             PlayerWarpsPlugin.get().reloadConfig();
             File configFile = new File(PlayerWarpsPlugin.get().getDataFolder(), "config.yml");

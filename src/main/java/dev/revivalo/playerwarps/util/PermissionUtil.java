@@ -7,11 +7,11 @@ public final class PermissionUtil {
         if (commandSender.isOp())
             return true;
 
-        else if (commandSender.hasPermission(Permission.ADMIN_PERMISSION.get()))
+        else if (commandSender.hasPermission(Permission.ADMIN_PERMISSION.asString()))
             return true;
 
         else
-            return commandSender.hasPermission(permission.get());
+            return commandSender.hasPermission(permission.asString());
     }
 
     public enum Permission {
@@ -42,7 +42,7 @@ public final class PermissionUtil {
             this.permission = permission;
         }
 
-        public String get() {
+        public String asString() {
             return permission;
         }
     }
