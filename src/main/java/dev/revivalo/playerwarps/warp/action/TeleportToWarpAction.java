@@ -85,9 +85,9 @@ public class TeleportToWarpAction implements WarpAction<String> {
                             warp.setVisits(warp.getVisits() + 1);
                             warp.setTodayVisits(warp.getTodayVisits() + 1);
                         }
+                    } else if (teleport.getTask().getStatus() == Teleport.Status.ERROR) {
+                        player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
                     }
-                } else if (teleport.getTask().getStatus() == Teleport.Status.ERROR) {
-                    player.sendMessage(Lang.TELEPORTATION_CANCELLED.asColoredString());
                 }
             }
 
