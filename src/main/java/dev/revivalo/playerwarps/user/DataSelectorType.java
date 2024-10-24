@@ -1,7 +1,7 @@
 package dev.revivalo.playerwarps.user;
 
-import dev.revivalo.playerwarps.guimanager.menu.Menu;
-import dev.revivalo.playerwarps.guimanager.menu.MenuType;
+import dev.revivalo.playerwarps.menu.Menu;
+import dev.revivalo.playerwarps.menu.MenuType;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 
