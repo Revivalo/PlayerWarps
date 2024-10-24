@@ -32,7 +32,7 @@ public class TeleportToWarpAction implements WarpAction<String> {
             return false;
         }
 
-        if (warp.isBlocked(player)) {
+        if (warp.isBlocked(player) && !isOwner) {
             player.sendMessage(Lang.WARP_ACCESS_BLOCKED.asColoredString().replace("%warp%", warpName));
             return false;
         }
