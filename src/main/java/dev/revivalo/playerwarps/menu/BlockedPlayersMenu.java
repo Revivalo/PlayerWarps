@@ -1,7 +1,9 @@
 package dev.revivalo.playerwarps.menu;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
+import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
+import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.BlockPlayerAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
@@ -17,10 +19,58 @@ import java.util.UUID;
 
 public class BlockedPlayersMenu implements Menu {
     private final Warp warp;
-    //private final Gui gui;
+
+    private Player player;
+    private Gui gui;
 
     public BlockedPlayersMenu(Warp warp) {
         this.warp = warp;
+    }
+
+    @Override
+    public void create() {
+        this.gui = Gui.gui()
+                .disableAllInteractions()
+                .rows(getMenuSize() / 9)
+                .title(Component.text(Lang.BLOCKED_PLAYERS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
+                    put("%amount%", String.valueOf(warp.getBlockedPlayers().size()));
+                }})))
+                .create();
+    }
+
+    @Override
+    public void fill() {
+        for (UUID uuid : warp.getBlockedPlayers()) {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+            gui.addItem(ItemBuilder
+                    .from(Material.PLAYER_HEAD)
+                    .setName(Lang.BLOCKED_PLAYER_MANAGE.asColoredString().replace("%player%", offlinePlayer.getName() == null ? "Unknown" : offlinePlayer.getName()))
+                    .setLore(Lang.BLOCKED_PLAYER_MANAGE_LORE.asReplacedList())
+                    .asGuiItem(event -> {
+                        warp.unblock(offlinePlayer);
+                        update();
+                    }));
+        }
+
+        gui.addItem(ItemBuilder
+                .from(Material.CONDUIT)
+                .setName(Lang.BLOCKED_PLAYER_ADD.asColoredString())
+                .asGuiItem(event -> {
+                    BlockPlayerAction blockPlayerAction = new BlockPlayerAction();
+                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, blockPlayerAction).thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, MenuType.BLOCKED_PLAYERS_MENU));
+                }));
+
+        gui.setItem(18, ItemBuilder
+                .from(ItemUtil.getItem(Config.BACK_ITEM.asUppercase()))
+                .setName(Lang.BACK_NAME.asColoredString())
+                .asGuiItem(event -> new ManageMenu(warp).open(player)));
+
+        gui.open(player);
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
@@ -35,36 +85,10 @@ public class BlockedPlayersMenu implements Menu {
 
     @Override
     public void open(Player player) {
-        long nano = System.nanoTime();
-        Gui gui = Gui.gui()
-                .disableAllInteractions()
-                .rows(getMenuSize() / 9)
-                .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
-                    put("%warp%", warp.getName());
-                }})))
-                .create();
-        long estimated = System.nanoTime() - nano;
-        PlayerWarpsPlugin.get().getLogger().info("Menu vytvořeno: " + estimated);
+        this.player = player;
 
-        for (UUID uuid : warp.getBlockedPlayers()) {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-            gui.addItem(ItemBuilder
-                    .from(Material.PLAYER_HEAD)
-                    .setName(Lang.BLOCKED_PLAYER_MANAGE.asColoredString().replace("%player%", offlinePlayer.getName() == null ? "Unknown" : offlinePlayer.getName()))
-                    .setLore(Lang.BLOCKED_PLAYER_MANAGE_LORE.asReplacedList())
-                    .asGuiItem(event -> {
-                        warp.unblock(offlinePlayer);
-                        update(player);
-                    }));
-        }
-
-        gui.addItem(ItemBuilder
-                .from(Material.CONDUIT)
-                .setName(Lang.BLOCKED_PLAYER_ADD.asColoredString())
-                .asGuiItem(event -> {
-                    BlockPlayerAction blockPlayerAction = new BlockPlayerAction();
-                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, blockPlayerAction).thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, MenuType.BLOCKED_PLAYERS_MENU));
-                }));
+        create();
+        fill();
 
         gui.open(player);
     }

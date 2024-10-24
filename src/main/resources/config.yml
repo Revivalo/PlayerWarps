@@ -123,6 +123,7 @@ config:
   remove-warp-item: BARRIER
   relocate-warp-item: WHITE_BANNER
   change-owner-item: PLAYER_HEAD
+  blocked-players-item: SHIELD
 
   # To remove item from menu, set
   # its position to -1
@@ -137,6 +138,7 @@ config:
   rename-warp-position: 39
   relocate-warp-position: 41
   change-owner-position: 42
+  blocked-players-position: 40
 
   confirm-item-positions:
     - 10

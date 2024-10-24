@@ -73,6 +73,7 @@ public enum Config {
     CHANGE_OWNER_ITEM,
     NEXT_PAGE_ITEM,
     PREVIOUS_PAGE_ITEM,
+    BLOCKED_PLAYERS_ITEM,
     ENABLE_CATEGORIES,
     ENABLE_WARP_SEARCH,
     ENABLE_WARP_RATING,
@@ -90,6 +91,7 @@ public enum Config {
     CHANGE_OWNER_POSITION,
     CONFIRM_ITEM_POSITIONS,
     DENY_ITEM_POSITIONS,
+    BLOCKED_PLAYERS_POSITION,
     BACK_ITEM;
 
     private static final YamlFile configYamlFile = new YamlFile(

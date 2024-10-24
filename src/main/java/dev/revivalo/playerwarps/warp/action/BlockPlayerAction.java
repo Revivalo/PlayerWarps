@@ -13,12 +13,16 @@ public class BlockPlayerAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String playerToBlockName) {
         PlayerUtil.getOfflinePlayer(playerToBlockName).thenAccept(offlinePlayer -> {
-                    if (Objects.equals(player.getUniqueId(), offlinePlayer.getUniqueId())) {
-                        player.sendMessage(Lang.CANT_BLOCK_YOURSELF.asColoredString());
-                        return;
-                    }
+                    if (offlinePlayer.hasPlayedBefore() || offlinePlayer.isOnline()) {
+                        if (Objects.equals(player.getUniqueId(), offlinePlayer.getUniqueId())) {
+                            player.sendMessage(Lang.CANT_BLOCK_YOURSELF.asColoredString());
+                            return;
+                        }
 
-                    warp.block(offlinePlayer);
+                        warp.block(offlinePlayer);
+                    } else {
+                        player.sendMessage(Lang.OWNERSHIP_TRANSFER_ERROR.asColoredString());
+                    }
                 }
         );
 

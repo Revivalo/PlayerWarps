@@ -166,6 +166,12 @@ public class ManageMenu implements Menu {
             );
         }
 
+        gui.setItem(Config.BLOCKED_PLAYERS_POSITION.asInteger(), ItemBuilder
+                .from(ItemUtil.getItem(Config.BLOCKED_PLAYERS_ITEM.asUppercase()))
+                .setName(Lang.BLOCKED_PLAYERS.asColoredString().replace("%amount%", String.valueOf(warp.getBlockedPlayers().size())))
+                .setLore(Lang.BLOCKED_PLAYERS_LORE.asReplacedList())
+                .asGuiItem(event -> new BlockedPlayersMenu(warp).open(player)));
+
         setDefaultItems(player, gui);
 
         gui.open(player);
