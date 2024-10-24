@@ -3,7 +3,6 @@ package dev.revivalo.playerwarps.configuration;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -43,9 +42,9 @@ public class YamlFile {
 			configuration.load(file);
 		} catch (FileNotFoundException ex) {
 		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
+			PlayerWarpsPlugin.get().getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
 		} catch (InvalidConfigurationException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
+			PlayerWarpsPlugin.get().getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
 			return;
 		}
 
