@@ -35,7 +35,7 @@ public class TransferOwnershipAction implements WarpAction<Player> {
             }
 
         } else {
-            player.sendMessage(Lang.OWNERSHIP_TRANSFER_ERROR.asColoredString());
+            player.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString());
             return false;
         }
 

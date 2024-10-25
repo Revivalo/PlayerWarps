@@ -96,7 +96,7 @@ lang:
   entered-higher-price-than-allowed: "%prefix% &7O preço não pode ser maior que %max% $"
   ownership-transfer-successful: "%prefix% &7Você transferiu com sucesso este warp para o jogador %player%"
   ownership-transfer-info: "%prefix% &7O jogador %player% transferiu o warp %warp% para você"
-  ownership-transfer-error: "%prefix% &7Jogador indisponível!"
+  unavailable-player: "%prefix% &7Jogador indisponível!"
   owner-change-msg: "%prefix% &7Agora escreva o nome do proprietário do warp %warp%:"
   password-change-msg: "%prefix% &7Agora escreva a nova senha do warp %warp%:"
   warp-name-changed: "%prefix% &7O warp %oldName% foi renomeado para %newName% com sucesso"

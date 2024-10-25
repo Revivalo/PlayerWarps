@@ -95,7 +95,7 @@ lang:
   entered-higher-price-than-allowed: "%prefix% &7Fiyat %max% $'tan yüksek olamaz"
   ownership-transfer-successful: "%prefix% &7Bu warp'ı oyuncu %player%'a başarıyla devrettiniz"
   ownership-transfer-info: "%prefix% &7Oyuncu %player% warp %warp%'ı size devretti"
-  ownership-transfer-error: "%prefix% &7Geçersiz oyuncu!"
+  unavailable-player: "%prefix% &7Geçersiz oyuncu!"
   owner-change-msg: "%prefix% &7Şimdi %warp% warp'ının sahibinin adını yazın:"
   password-change-msg: "%prefix% &7Şimdi %warp% warp'ının yeni şifresini yazın:"
   warp-name-changed: "%prefix% &7Başarıyla warp %oldName% ismini %newName% olarak değiştirdiniz"

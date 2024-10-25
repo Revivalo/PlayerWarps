@@ -96,7 +96,7 @@ lang:
   entered-higher-price-than-allowed: "%prefix% &7Der Preis darf nicht höher als %max% $ sein"
   ownership-transfer-successful: "%prefix% &7Du hast diesen Warp erfolgreich an Spieler %player% übertragen"
   ownership-transfer-info: "%prefix% &7Spieler %player% hat Warp %warp% an dich übertragen"
-  ownership-transfer-error: "%prefix% &7Spieler nicht verfügbar!"
+  unavailable-player: "%prefix% &7Spieler nicht verfügbar!"
   owner-change-msg: "%prefix% &7Bitte schreibe jetzt den Namen des neuen Besitzers des Warps %warp%:"
   password-change-msg: "%prefix% &7Bitte schreibe jetzt das neue Passwort für den Warp %warp%:"
   warp-name-changed: "%prefix% &7Warp %oldName% wurde erfolgreich in %newName% umbenannt"
@@ -209,7 +209,7 @@ lang:
   #
   change-display-name: "&aAnzeigenamen ändern"
   change-display-name-lore:
-    - "&8&lHINWEIS:&8 Du kannst Farb-Codes (&)"
+    - "&8&lHINWEIS:&8 Du kannst Farb-Codes benutzen (&)"
     - " "
     - "&e► Klicke, um den Anzeigenamen zu ändern"
   remove-warp: "&cWarp entfernen"

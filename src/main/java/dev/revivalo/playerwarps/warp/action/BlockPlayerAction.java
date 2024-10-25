@@ -21,7 +21,7 @@ public class BlockPlayerAction implements WarpAction<String> {
 
                         warp.block(offlinePlayer);
                     } else {
-                        player.sendMessage(Lang.OWNERSHIP_TRANSFER_ERROR.asColoredString());
+                        player.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString());
                     }
                 }
         );

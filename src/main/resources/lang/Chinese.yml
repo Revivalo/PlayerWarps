@@ -95,7 +95,7 @@ lang:
   entered-higher-price-than-allowed: "%prefix% &7价格不能高于 %max% $"
   ownership-transfer-successful: "%prefix% &7您已成功将此传送门转让给玩家 %player%"
   ownership-transfer-info: "%prefix% &7玩家 %player% 将传送门 %warp% 转让给了您"
-  ownership-transfer-error: "%prefix% &7玩家不可用！"
+  unavailable-player: "%prefix% &7玩家不可用！"
   owner-change-msg: "%prefix% &7现在输入 %warp% 传送门的所有者名称："
   password-change-msg: "%prefix% &7现在输入 %warp% 传送门的新密码："
   warp-name-changed: "%prefix% &7成功将传送门 %oldName% 重命名为 %newName%"
