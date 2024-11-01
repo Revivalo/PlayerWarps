@@ -21,7 +21,6 @@ public class SearchWarpAction implements WarpAction<String> {
         final List<Warp> warps = PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
                 .filter(Warp::isAccessible).collect(Collectors.toList());
 
-
         WarpSearch warpSearch = new WarpSearch(warps);
         CompletableFuture<List<Warp>> future = warpSearch.searchAsync(input);
         List<Warp> warpList = new ArrayList<>();

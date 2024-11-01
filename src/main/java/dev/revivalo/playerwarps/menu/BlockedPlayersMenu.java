@@ -57,7 +57,9 @@ public class BlockedPlayersMenu implements Menu {
                 .setName(Lang.BLOCKED_PLAYER_ADD.asColoredString())
                 .asGuiItem(event -> {
                     BlockPlayerAction blockPlayerAction = new BlockPlayerAction();
-                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, blockPlayerAction).thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, MenuType.BLOCKED_PLAYERS_MENU));
+                    PlayerWarpsPlugin.getWarpHandler()
+                            .waitForPlayerInput(player, warp, blockPlayerAction)
+                            .thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, MenuType.BLOCKED_PLAYERS_MENU));
                 }));
 
         gui.setItem(18, ItemBuilder
