@@ -96,7 +96,6 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
 
         registerCommands();
 
-        setWarpHandler(new WarpHandler());
         warpHandler.loadWarps();
 
         if (Config.AUTOSAVE_ENABLED.asBoolean()) {
