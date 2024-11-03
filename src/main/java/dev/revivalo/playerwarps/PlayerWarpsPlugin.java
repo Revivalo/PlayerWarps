@@ -91,8 +91,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
 
         CategoryManager.loadCategories();
 
-        reloadConfig();
-        ConfigurationSerialization.registerClass(Warp.class);
+        setWarpHandler(new WarpHandler());
         setDataManager(new Data());
 
         registerCommands();

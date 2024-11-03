@@ -17,6 +17,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -40,6 +41,8 @@ public class WarpHandler {
     private final SortingManager sortingManager;
 
     public WarpHandler() {
+        ConfigurationSerialization.registerClass(Warp.class);
+
         warps = new HashSet<>();
 
         List<Sortable> sortableList = new ArrayList<>();
