@@ -5,13 +5,13 @@ import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.menu.sort.Sortable;
 import dev.revivalo.playerwarps.util.ItemUtil;
-import dev.revivalo.playerwarps.warp.WarpHandler;
+import dev.revivalo.playerwarps.warp.WarpManager;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.entity.Player;
 
 public interface Menu {
-    default WarpHandler getWarpHandler() {
+    default WarpManager getWarpHandler() {
         return PlayerWarpsPlugin.getWarpHandler();
     }
 

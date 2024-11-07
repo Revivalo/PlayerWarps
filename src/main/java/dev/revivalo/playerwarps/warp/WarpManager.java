@@ -33,14 +33,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-public class WarpHandler {
+public class WarpManager {
 
     private final Set<Warp> warps;
     private final List<String> bannedWorlds;
 
     private final SortingManager sortingManager;
 
-    public WarpHandler() {
+    public WarpManager() {
         ConfigurationSerialization.registerClass(Warp.class);
 
         warps = new HashSet<>();

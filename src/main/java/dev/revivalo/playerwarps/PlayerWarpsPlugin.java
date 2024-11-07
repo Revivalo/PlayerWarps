@@ -9,11 +9,9 @@ import dev.revivalo.playerwarps.updatechecker.UpdateChecker;
 import dev.revivalo.playerwarps.updatechecker.UpdateNotificator;
 import dev.revivalo.playerwarps.user.UserHandler;
 import dev.revivalo.playerwarps.util.VersionUtil;
-import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpHandler;
+import dev.revivalo.playerwarps.warp.WarpManager;
 import io.github.g00fy2.versioncompare.Version;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +32,7 @@ import java.util.logging.Level;
 
 public final class PlayerWarpsPlugin extends JavaPlugin {
     private static PlayerWarpsPlugin plugin;
-    private static WarpHandler warpHandler;
+    private static WarpManager warpHandler;
     private static Data data;
     private static String latestVersion;
 
@@ -118,7 +116,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         new PwarpMainCommand().registerMainCommand(this, "pwarp");
     }
 
-    public void registerEvents(Listener... listeners) {
+    public void registerListeners(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
         }

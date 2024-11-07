@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class UpdateNotificator implements Listener {
 
 	public UpdateNotificator() {
-		PlayerWarpsPlugin.get().registerEvents(this);
+		PlayerWarpsPlugin.get().registerListeners(this);
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

@@ -14,7 +14,7 @@ public class ItemsAdderHook implements Hook<Void> {
     public void register() {
         isHooked = isPluginEnabled("ItemsAdder");
         if (isHooked){
-            PlayerWarpsPlugin.get().registerEvents(new ItemsAdderLoadDataListener());
+            PlayerWarpsPlugin.get().registerListeners(new ItemsAdderLoadDataListener());
         }
     }
 
