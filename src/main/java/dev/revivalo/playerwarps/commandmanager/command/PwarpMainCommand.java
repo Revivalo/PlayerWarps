@@ -7,7 +7,6 @@ import dev.revivalo.playerwarps.commandmanager.subcommand.*;
 import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.menu.CategoriesMenu;
-import dev.revivalo.playerwarps.menu.MenuType;
 import dev.revivalo.playerwarps.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import org.bukkit.command.CommandSender;
@@ -41,7 +40,7 @@ public class PwarpMainCommand extends MainCommand {
             if (Config.ENABLE_CATEGORIES.asBoolean()){
                 new CategoriesMenu().open(player);
             } else {
-                new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                new WarpsMenu.DefaultWarpsMenu()
                         .setPage(1)
                         .open(player, "all", PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType());
             }

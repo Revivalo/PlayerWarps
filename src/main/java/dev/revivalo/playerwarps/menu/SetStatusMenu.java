@@ -5,6 +5,7 @@ import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpState;
 import dev.revivalo.playerwarps.warp.action.SetPasswordAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -26,7 +27,7 @@ public class SetStatusMenu implements Menu {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(getMenuSize() / 9)
-                .title(Component.text(Lang.SET_WARP_STATUS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
+                .title(Component.text(getMenuTitle().asReplacedString(null, new HashMap<String, String>() {{
                     put("%warp%", warp.getName());
                 }})))
                 .create();
@@ -49,14 +50,24 @@ public class SetStatusMenu implements Menu {
         }));
     }
 
+//    @Override
+//    public MenuType getMenuType() {
+//        return MenuType.ACCESSIBILITY_MENU;
+//    }
+
     @Override
-    public MenuType getMenuType() {
-        return MenuType.ACCESSIBILITY_MENU;
+    public BaseGui getMenu() {
+        return this.gui;
     }
 
     @Override
     public short getMenuSize() {
         return 3 * 9;
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return Lang.SET_WARP_STATUS_TITLE;
     }
 
     @Override

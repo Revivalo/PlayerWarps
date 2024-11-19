@@ -7,6 +7,6 @@ import org.bukkit.entity.Player;
 public class PlaceholderAwareReplacer implements StringReplacer {
     @Override
     public String replace(Player player, String string) {
-        return PlaceholderAPI.setPlaceholders(player, TextUtil.color(string));
+        return PlaceholderAPI.setPlaceholders(player, TextUtil.colorize(string));
     }
 }

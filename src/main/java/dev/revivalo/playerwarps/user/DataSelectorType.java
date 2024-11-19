@@ -1,13 +1,12 @@
 package dev.revivalo.playerwarps.user;
 
 import dev.revivalo.playerwarps.menu.Menu;
-import dev.revivalo.playerwarps.menu.MenuType;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
 
 public enum DataSelectorType {
     ACTUAL_PAGE(Integer.class),
-    ACTUAL_MENU(MenuType.class),
+    ACTUAL_MENU(Menu.class),
     PREVIOUS_PAGE_TEST(Menu.class),
     CURRENT_WARP_ACTION(WarpAction.class),
     SELECTED_WARP(Warp.class);

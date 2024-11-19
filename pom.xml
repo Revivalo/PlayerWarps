@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>PlayerWarps</artifactId>
-    <version>3.1.0</version>
+    <version>3.3.0</version>
     <packaging>jar</packaging>
 
     <name>PlayerWarps</name>
@@ -124,7 +124,7 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
+       </repository>
         <repository>
             <id>maven-central</id>
             <url>https://oss.sonatype.org/content/groups/public</url>
@@ -162,6 +162,10 @@
             <url>https://repo.bg-software.com/repository/api/</url>
         </repository>
         <repository>
+            <id>bluecolored</id>
+            <url>https://repo.bluecolored.de/releases</url>
+        </repository>
+        <repository>
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
@@ -181,6 +185,12 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.GriefPrevention</groupId>-->
+<!--            <artifactId>GriefPrevention</artifactId>-->
+<!--            <version>16.18.2</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.tchristofferson</groupId>
             <artifactId>ConfigUpdater</artifactId>
@@ -208,7 +218,7 @@
         <dependency>
             <groupId>de.rapha149.signgui</groupId>
             <artifactId>signgui</artifactId>
-            <version>2.4.1</version>
+            <version>2.4.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -275,6 +285,12 @@
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
             <version>7.9.17</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.bluecolored</groupId>
+            <artifactId>bluemap-api</artifactId>
+            <version>2.7.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

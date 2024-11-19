@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class SetAdmissionAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String input) {
-        int price = parseInt(TextUtil.stripColor(input));
+        int price = parseInt(TextUtil.removeColors(input));
         if (price == -1) {
             player.sendMessage(Lang.NOT_A_NUMBER.asColoredString().replace("%input%", input));
             return false;

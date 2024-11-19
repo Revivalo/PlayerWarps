@@ -23,6 +23,9 @@ config:
   autosave-announce: true
   date-format: dd/MM/yyyy
   warp-name-format: "&b&n%warpName%"
+
+  demand-verification: false
+
   # 30 minutes is recommended
   autosave-interval: 30 # in minutes
   teleport-delay: 3
@@ -40,6 +43,11 @@ config:
   # All icons can be found here: https://github.com/webbukkit/dynmap/wiki/Using-Markers
   dynmap-marker-icon: "blueflag"
   dynmap-marker-label: "Warp: %warp% by %owner%"
+
+  warp-description-color: "&9"
+
+  #
+  warp-creation-for-trusted-players: true
 
   # Be sure what you are doing here, if you change the size
   # of the menu, you have to adjust the item positions inside the menu!

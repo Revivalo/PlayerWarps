@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class ChangeDisplayNameAction implements WarpAction<String> {
     @Override
     public boolean execute(Player player, Warp warp, String text) {
-        int textLength = TextUtil.stripColor(text).length();
+        int textLength = TextUtil.removeColors(text).length();
         if (textLength < 3 || textLength > 32) {
             player.sendMessage(Lang.TEXT_SIZE_ERROR.asColoredString());
             return false;

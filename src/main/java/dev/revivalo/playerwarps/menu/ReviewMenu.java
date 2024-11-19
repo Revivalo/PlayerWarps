@@ -9,6 +9,7 @@ import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.ReviewWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -27,7 +28,7 @@ public class ReviewMenu implements Menu {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(getMenuSize() / 9)
-                .title(Component.text(getMenuType().getTitle().replace("%warp%", warp.getName())))
+                .title(Component.text(getMenuTitle().asColoredString().replace("%warp%", warp.getName())))
                 .create();
     }
 
@@ -48,7 +49,7 @@ public class ReviewMenu implements Menu {
                         )
                         .setName(Lang.BACK_NAME.asColoredString())
                         .asGuiItem(
-                                event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                                event -> new WarpsMenu.DefaultWarpsMenu()
                                         .setPage((int) user.getData(DataSelectorType.ACTUAL_PAGE))
                                         .open(player, warp.getCategory() == null ? "all" : warp.getCategory().getType(), getDefaultSortType())
                         )
@@ -56,13 +57,18 @@ public class ReviewMenu implements Menu {
     }
 
     @Override
-    public MenuType getMenuType() {
-        return MenuType.REVIEW_MENU;
+    public BaseGui getMenu() {
+        return this.gui;
     }
 
     @Override
     public short getMenuSize() {
         return 4 * 9;
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return Lang.REVIEW_WARP_TITLE;
     }
 
     @Override

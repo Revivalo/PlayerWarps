@@ -1,11 +1,7 @@
 package dev.revivalo.playerwarps.warp;
 
-import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.menu.BlockedPlayersMenu;
-import dev.revivalo.playerwarps.menu.ManageMenu;
-import dev.revivalo.playerwarps.menu.MenuType;
-import dev.revivalo.playerwarps.menu.WarpsMenu;
+import dev.revivalo.playerwarps.menu.*;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
@@ -21,11 +17,11 @@ public interface WarpAction<T> {
         preExecute(player, warp, data, null);
     }
 
-    default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuType) {
-        preExecute(player, warp, data, menuType, 1);
+    default void preExecute(Player player, Warp warp, T data, @Nullable Menu menu) {
+        preExecute(player, warp, data, menu, 1);
     }
 
-    default void preExecute(Player player, Warp warp, T data, @Nullable MenuType menuToOpen, int page) {
+    default void preExecute(Player player, Warp warp, T data, @Nullable Menu menuToOpen, int page) {
         if (!PermissionUtil.hasPermission(player, getPermission())) {
             player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", getPermission().asString()));
             return;
@@ -58,29 +54,37 @@ public interface WarpAction<T> {
         }
 
         if (menuToOpen != null) {
-            switch (menuToOpen) {
-                case MANAGE_MENU:
-                    new ManageMenu(warp).open(player);
-                    break;
-                case BLOCKED_PLAYERS_MENU:
-                    new BlockedPlayersMenu(warp).open(player);
-                    break;
-                case DEFAULT_LIST_MENU:
-                case FAVORITE_LIST_MENU:
-                case OWNED_LIST_MENU:
-                    new WarpsMenu(menuToOpen)
-                            .setPage(page)
-                            .open(player, null, PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType());
-                    break;
+            if (menuToOpen instanceof WarpsMenu.DefaultWarpsMenu
+                    || menuToOpen instanceof WarpsMenu.FavoriteWarpsMenu
+                    || menuToOpen instanceof WarpsMenu.MyWarpsMenu) {
+                ((WarpsMenu) menuToOpen)
+                        .setPage(page);
             }
+                menuToOpen
+                        .open(player);
         }
+//        if (menuToOpen != null) {
+//            switch (menuToOpen) {
+//                case MANAGE_MENU:
+//                    new ManageMenu(warp).open(player);
+//                    break;
+//                case BLOCKED_PLAYERS_MENU:
+//                    new BlockedPlayersMenu(warp).open(player);
+//                    break;
+//                case DEFAULT_LIST_MENU:
+//                case FAVORITE_LIST_MENU:
+//                case OWNED_LIST_MENU:
+//                    new WarpsMenu(menuToOpen)
+//                            .setPage(page)
+//                            .open(player, null, PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType());
+//                    break;
+//            }
+//        }
     }
 
     /*
     Pořešit otevírání menu
      */
-
-
     boolean execute(Player player, Warp warp, T data);
 
     PermissionUtil.Permission getPermission();

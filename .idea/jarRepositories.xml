@@ -106,5 +106,10 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="bluecolored" />
+      <option name="name" value="bluecolored" />
+      <option name="url" value="https://repo.bluecolored.de/releases" />
+    </remote-repository>
   </component>
 </project>

@@ -1,8 +1,10 @@
 package dev.revivalo.playerwarps.menu;
 
 import de.rapha149.signgui.SignGUI;
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -42,13 +44,23 @@ public class InputMenu implements Menu {
     }
 
     @Override
-    public MenuType getMenuType() {
-        return MenuType.INPUT_MENU;
+    public BaseGui getMenu() {
+        return null;
     }
+
+    //    @Override
+//    public MenuType getMenuType() {
+//        return MenuType.INPUT_MENU;
+//    }
 
     @Override
     public short getMenuSize() {
         return -1;
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return null;
     }
 
     @Override

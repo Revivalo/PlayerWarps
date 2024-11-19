@@ -6,6 +6,6 @@ import org.bukkit.entity.Player;
 public class ColorReplacer implements StringReplacer {
     @Override
     public String replace(Player player, String string) {
-        return TextUtil.color(string);
+        return TextUtil.colorize(string);
     }
 }

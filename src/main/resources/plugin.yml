@@ -14,6 +14,7 @@ softdepend:
   - ChatControl
   - Essentials
   - dynmap
+  - BlueMap
   - BentoBox
   - SuperiorSkyblock2
   - WorldGuard

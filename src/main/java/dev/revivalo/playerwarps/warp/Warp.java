@@ -20,6 +20,7 @@ public class Warp implements ConfigurationSerializable {
     private UUID warpID;
     private UUID owner;
     private WarpState status;
+    private boolean verificationNeeded;
     private String name;
     private String displayName;
     private String password;
@@ -33,7 +34,7 @@ public class Warp implements ConfigurationSerializable {
     private long dateCreated;
     private long lastActivity;
     private Set<UUID> reviewers;
-    private Set<UUID> blockedPlayers;
+    private Set<UUID> blockedPlayers = new HashSet<>();
     private Category category;
     private ItemStack menuItem;
     //private SkullBuilder tempItem;
@@ -46,6 +47,7 @@ public class Warp implements ConfigurationSerializable {
                 case "name": setName((String) value); break;
                 case "display-name": setDisplayName((String) value); break;
                 case "owner-id": setOwner(UUID.fromString((String) value)); break;
+                case "need-verification": setVerificationNeeded((boolean) value); break;
                 case "loc": setLocation((Location) value); break;
                 case "lore": setDescription((String) value); break;
                 case "type": // category in old versions
@@ -93,6 +95,7 @@ public class Warp implements ConfigurationSerializable {
             put("lore", getDescription());
             put("item", getMenuItem());
             put("ratings", getRating());
+            put("need-verification", isVerificationNeeded());
             put("reviewers", getReviewers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("blocked-players", getBlockedPlayers().stream().map(UUID::toString).collect(Collectors.toList()));
             put("category", getCategory() == null ? "all" : getCategory().getType());
@@ -123,8 +126,12 @@ public class Warp implements ConfigurationSerializable {
         return getStatus() == WarpState.PASSWORD_PROTECTED;
     }
 
+    public boolean isVerified() {
+        return !verificationNeeded;
+    }
+
     public boolean isAccessible(){
-        return getStatus() != WarpState.CLOSED;
+        return isVerified() && getStatus() != WarpState.CLOSED;
     }
 
     public boolean canManage(Player player){
@@ -338,5 +345,13 @@ public class Warp implements ConfigurationSerializable {
     @Override
     public int hashCode() {
         return Objects.hash(warpID);
+    }
+
+    public boolean isVerificationNeeded() {
+        return verificationNeeded;
+    }
+
+    public void setVerificationNeeded(boolean verificationNeeded) {
+        this.verificationNeeded = verificationNeeded;
     }
 }

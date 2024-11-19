@@ -78,6 +78,7 @@ public class CreateWarpAction implements WarpAction<Void> {
 
         final UUID ownerID = player.getUniqueId();
         final UUID warpID = UUID.randomUUID();
+
         final Location loc = player.getLocation();
 
         Warp createdWarp = new Warp(
@@ -86,6 +87,7 @@ public class CreateWarpAction implements WarpAction<Void> {
                     put("name", name);
                     put("displayName", name);
                     put("owner-id", ownerID.toString());
+                    put("need-verification", Config.DEMAND_VERIFICATION.asBoolean());
                     put("loc", loc);
                     put("ratings", 0);
                     put("visits", 0);

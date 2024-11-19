@@ -89,7 +89,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
 
         CategoryManager.loadCategories();
 
-        setWarpHandler(new WarpHandler());
+        setWarpHandler(new WarpManager());
         setDataManager(new Data());
 
         registerCommands();
@@ -130,7 +130,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
                     getLogger().log(Level.SEVERE, "Resource " + resourcePath + " not found in the plugin JAR!");
                     return;
                 }
-                outFile.getParentFile().mkdirs(); // Vytvoří cílovou složku, pokud neexistuje
+                outFile.getParentFile().mkdirs();
                 Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 getLogger().log(Level.INFO, "Resource " + resourcePath + " successfully copied.");
             } catch (IOException e) {
@@ -191,7 +191,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         return PlayerWarpsPlugin.plugin;
     }
 
-    public static WarpHandler getWarpHandler() {
+    public static WarpManager getWarpHandler() {
         return warpHandler;
     }
 
@@ -199,7 +199,7 @@ public final class PlayerWarpsPlugin extends JavaPlugin {
         return data;
     }
 
-    public static void setWarpHandler(WarpHandler warpHandler) {
+    public static void setWarpHandler(WarpManager warpHandler) {
         PlayerWarpsPlugin.warpHandler = warpHandler;
     }
 

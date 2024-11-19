@@ -28,6 +28,11 @@ public enum Lang {
     RELOAD_MESSAGE,
     WARP_CREATION_NOTIFICATION,
     WARP_VISIT_NOTIFICATION,
+    WAIT_BEFORE_NEXT_ACTION,
+    WARP_SUBMITTED_FOR_APPROVAL,
+    WARP_APPROVED,
+    WARP_DENIED,
+
     LIMIT_REACHED,
     LIMIT_REACHED_OTHER,
     NO_WARP_FOUND,
@@ -54,6 +59,7 @@ public enum Lang {
     TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND,
     TRIED_TO_CREATE_WARP_IN_FOREIGN_REGION,
     TRIED_TO_CREATE_WARP_IN_FOREIGN_RESIDENCE,
+    TRIED_TO_CREATE_WARP_IN_FOREIGN_LAND,
     TELEPORTATION,
     TELEPORTATION_CANCELLED,
     TELEPORT_TO_WARP,
@@ -89,6 +95,7 @@ public enum Lang {
     FAVORITES_TITLE,
     CONFIRMATION_MENU_TITLE,
     ACCEPT,
+    ACCEPT_WITH_PRICE,
     DENY,
     OPENED_STATUS,
     CLOSED_STATUS,
@@ -134,6 +141,7 @@ public enum Lang {
     REMOVE_WARP,
     CHANGE_TYPE,
     CHANGE_ITEM,
+    ITEM_FROM_HAND,
     CHANGE_LABEL,
     CANT_BLOCK_YOURSELF,
     BLOCKED_PLAYER_INPUT,
@@ -190,28 +198,28 @@ public enum Lang {
     }
 
     public List<String> asReplacedList() {
-        return TextUtil.getColorizedList(null, TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), Collections.emptyMap()));
+        return TextUtil.colorize(TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), Collections.emptyMap()));
     }
 
     public List<String> asReplacedList(final Map<String, String> definitions) {
-        return TextUtil.getColorizedList(null, TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
+        return TextUtil.colorize(TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
     }
 
     public List<String> asReplacedList(Player player, final Map<String, String> definitions) {
-        return TextUtil.getColorizedList(player, TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
+        return TextUtil.colorize(TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
     }
 
     public String asColoredString() {return asColoredString(null);}
 
     public String asColoredString(Player player) {
-        return TextUtil.getColorizedString(player, messages.get(this.name()));
+        return TextUtil.colorize(messages.get(this.name()));
     }
 
     public String asReplacedString(Map<String, String> definitions) {
-        return TextUtil.getColorizedString(null, TextUtil.replaceString(messages.get(this.name()), definitions));
+        return TextUtil.colorize(TextUtil.replaceString(messages.get(this.name()), definitions));
     }
 
     public String asReplacedString(Player player, Map<String, String> definitions) {
-        return TextUtil.getColorizedString(player, TextUtil.replaceString(messages.get(this.name()), definitions));
+        return TextUtil.colorize(TextUtil.replaceString(messages.get(this.name()), definitions));
     }
 }

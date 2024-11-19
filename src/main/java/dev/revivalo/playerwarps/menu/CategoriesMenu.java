@@ -6,6 +6,7 @@ import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
@@ -25,7 +26,7 @@ public class CategoriesMenu implements Menu {
     public void create() {
         this.gui = Gui.gui()
                 .rows(getMenuSize() / 9)
-                .title(Component.text(Lang.CATEGORY_TITLE.asColoredString()))
+                .title(Component.text(getMenuTitle().asColoredString()))
                 .disableAllInteractions()
                 .create();
     }
@@ -50,7 +51,7 @@ public class CategoriesMenu implements Menu {
                                                         .replace("%number%", String.valueOf(PlayerWarpsPlugin.getWarpHandler().getCountOfWarps(category.getType())))
                                         )
                                         .setLore(category.getLore())
-                                        .asGuiItem(event -> new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                                        .asGuiItem(event -> new WarpsMenu.DefaultWarpsMenu()
                                                 .setPage(1)
                                                 .open(player, category.toString(), getDefaultSortType()))
                                         : INSUFFICIENT_PERMISSION_ITEM
@@ -71,14 +72,24 @@ public class CategoriesMenu implements Menu {
         gui.open(player);
     }
 
+//    @Override
+//    public MenuType getMenuType() {
+//        return MenuType.CATEGORIES;
+//    }
+
     @Override
-    public MenuType getMenuType() {
-        return MenuType.CATEGORIES;
+    public BaseGui getMenu() {
+        return this.gui;
     }
 
     @Override
     public short getMenuSize() {
         return Config.CATEGORIES_MENU_SIZE.asShort();
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return Lang.CATEGORY_TITLE;
     }
 
     @Override

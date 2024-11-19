@@ -7,6 +7,7 @@ import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.BlockPlayerAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -14,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class BlockedPlayersMenu implements Menu {
@@ -32,9 +32,7 @@ public class BlockedPlayersMenu implements Menu {
         this.gui = Gui.gui()
                 .disableAllInteractions()
                 .rows(getMenuSize() / 9)
-                .title(Component.text(Lang.BLOCKED_PLAYERS_TITLE.asReplacedString(null, new HashMap<String, String>() {{
-                    put("%amount%", String.valueOf(warp.getBlockedPlayers().size()));
-                }})))
+                .title(Component.text(getMenuTitle().asColoredString().replace("%amount%", String.valueOf(warp.getBlockedPlayers().size()))))
                 .create();
     }
 
@@ -59,7 +57,7 @@ public class BlockedPlayersMenu implements Menu {
                     BlockPlayerAction blockPlayerAction = new BlockPlayerAction();
                     PlayerWarpsPlugin.getWarpHandler()
                             .waitForPlayerInput(player, warp, blockPlayerAction)
-                            .thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, MenuType.BLOCKED_PLAYERS_MENU));
+                            .thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, new BlockedPlayersMenu(warp)));
                 }));
 
         gui.setItem(18, ItemBuilder
@@ -75,14 +73,24 @@ public class BlockedPlayersMenu implements Menu {
         return player;
     }
 
+//    @Override
+//    public MenuType getMenuType() {
+//        return MenuType.BLOCKED_PLAYERS_MENU;
+//    }
+
     @Override
-    public MenuType getMenuType() {
-        return MenuType.BLOCKED_PLAYERS_MENU;
+    public BaseGui getMenu() {
+        return this.gui;
     }
 
     @Override
     public short getMenuSize() {
         return 27;
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return Lang.BLOCKED_PLAYERS_TITLE;
     }
 
     @Override

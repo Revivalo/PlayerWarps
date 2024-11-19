@@ -20,6 +20,7 @@ public final class HookManager {
         hooks.put(HookName.SUPERIOR_SKY_BLOCK, new SuperiorSkyBlockHook());
         hooks.put(HookName.WORLD_GUARD, new WorldGuardHook());
         hooks.put(HookName.ANGESCHOSSEN_LANDS, new AngeschossenLandsHook());
+        hooks.put(HookName.BLUEMAP, new BlueMapHook());
 
         for (Hook<?> hook : hooks.values()) {
             hook.preRegister();
@@ -78,6 +79,10 @@ public final class HookManager {
         return (AngeschossenLandsHook) hooks.get(HookName.ANGESCHOSSEN_LANDS);
     }
 
+    public static BlueMapHook getBlueMapHook() {
+        return (BlueMapHook) hooks.get(HookName.BLUEMAP);
+    }
+
     private enum HookName {
         PLACEHOLDER_API,
         VAULT,
@@ -89,6 +94,7 @@ public final class HookManager {
         RESIDENCE,
         WORLD_GUARD,
         ANGESCHOSSEN_LANDS,
-        DYNMAP
+        DYNMAP,
+        BLUEMAP
     }
 }

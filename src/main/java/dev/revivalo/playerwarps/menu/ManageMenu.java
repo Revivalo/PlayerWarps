@@ -11,10 +11,10 @@ import dev.revivalo.playerwarps.util.TextUtil;
 import dev.revivalo.playerwarps.warp.Warp;
 import dev.revivalo.playerwarps.warp.action.*;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class ManageMenu implements Menu {
     @Override
     public void create() {
         this.gui = Gui.gui()
-                .title(Component.text(Lang.EDIT_WARP_MENU_TITLE.asColoredString().replace("%warp%", warp.getName())))
+                .title(Component.text(getMenuTitle().asColoredString().replace("%warp%", warp.getName())))
                 .rows(getMenuSize() / 9)
                 .disableAllInteractions()
                 .create();
@@ -73,7 +73,8 @@ public class ManageMenu implements Menu {
                                 .setName(Lang.SET_PRICE.asColoredString().replace("%warp%", warp.getName()))
                                 .setLore(Lang.SET_PRICE_LORE.asReplacedList(player, Collections.emptyMap()))
                                 .asGuiItem(event ->
-                                        PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setAdmissionAction).thenAccept(input -> setAdmissionAction.preExecute(player, warp, input, MenuType.MANAGE_MENU))
+                                        PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setAdmissionAction)
+                                                .thenAccept(input -> setAdmissionAction.preExecute(player, warp, input, new ManageMenu(warp)))
                                 )
                 );
         }
@@ -90,7 +91,8 @@ public class ManageMenu implements Menu {
                             .setName(Lang.CHANGE_DISPLAY_NAME.asColoredString())
                             .setLore(Lang.CHANGE_DISPLAY_NAME_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, changeDisplayNameAction).thenAccept(input -> changeDisplayNameAction.preExecute(player, warp, input, MenuType.MANAGE_MENU))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, changeDisplayNameAction)
+                                            .thenAccept(input -> changeDisplayNameAction.preExecute(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
@@ -104,7 +106,8 @@ public class ManageMenu implements Menu {
                             .setName(Lang.CHANGE_ITEM.asColoredString())
                             .setLore(Lang.CHANGE_ITEM_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setPreviewItemAction).thenAccept(input -> setPreviewItemAction.preExecute(player, warp, input, MenuType.MANAGE_MENU))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setPreviewItemAction)
+                                            .thenAccept(input -> setPreviewItemAction.preExecute(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
@@ -118,11 +121,11 @@ public class ManageMenu implements Menu {
                             .setName(Lang.CHANGE_LABEL.asColoredString())
                             .setLore(Lang.CHANGE_LABEL_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setDescriptionAction).thenAccept(input -> setDescriptionAction.preExecute(player, warp, input, MenuType.MANAGE_MENU))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setDescriptionAction)
+                                            .thenAccept(input -> setDescriptionAction.preExecute(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
-
 
         if (Config.CHANGE_ACCESSIBILITY_POSITION.asInteger() > 0) {
             gui.setItem(Config.CHANGE_ACCESSIBILITY_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.CHANGE_ACCESSIBILITY_ITEM.asUppercase())).setName(Lang.PWARP_ACCESSIBILITY.asColoredString()).setLore(Lang.PWARP_ACCESSIBILITY_LORE.asReplacedList(player, new HashMap<String, String>() {{
@@ -139,7 +142,7 @@ public class ManageMenu implements Menu {
                             .setName(Lang.RENAME_WARP.asColoredString())
                             .setLore(Lang.RENAME_WARP_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, renameAction).thenAccept(input -> renameAction.preExecute(player, warp, input, MenuType.MANAGE_MENU))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, renameAction).thenAccept(input -> renameAction.preExecute(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
@@ -147,7 +150,7 @@ public class ManageMenu implements Menu {
         if (Config.REMOVE_WARP_POSITION.asInteger() > 0)
             gui.setItem(Config.REMOVE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.REMOVE_WARP_ITEM.asUppercase())).setName(Lang.REMOVE_WARP.asColoredString()).setLore(Lang.REMOVE_WARP_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ConfirmationMenu(warp).open(player, new RemoveWarpAction())));
         if (Config.RELOCATE_WARP_POSITION.asInteger() > 0)
-            gui.setItem(Config.RELOCATE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.RELOCATE_WARP_ITEM.asUppercase())).setName(Lang.WARP_RELOCATION.asColoredString()).setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, MenuType.MANAGE_MENU, 1)));
+            gui.setItem(Config.RELOCATE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.RELOCATE_WARP_ITEM.asUppercase())).setName(Lang.WARP_RELOCATION.asColoredString()).setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, new ManageMenu(warp), 1)));
 
         TransferOwnershipAction transferOwnershipAction = new TransferOwnershipAction();
         if (Config.CHANGE_OWNER_POSITION.asInteger() > 0) {
@@ -158,7 +161,7 @@ public class ManageMenu implements Menu {
                             .setName(Lang.CHANGE_OWNER.asColoredString())
                             .setLore(Lang.CHANGE_OWNER_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, transferOwnershipAction).thenAccept(input -> transferOwnershipAction.preExecute(player, warp, Bukkit.getPlayerExact(input), MenuType.MANAGE_MENU))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, transferOwnershipAction).thenAccept(input -> transferOwnershipAction.preExecute(player, warp, Bukkit.getPlayerExact(input), new ManageMenu(warp)))
                             )
             );
         }
@@ -173,13 +176,18 @@ public class ManageMenu implements Menu {
     }
 
     @Override
-    public MenuType getMenuType() {
-        return MenuType.MANAGE_MENU;
+    public BaseGui getMenu() {
+        return this.gui;
     }
 
     @Override
     public short getMenuSize() {
         return Config.WARP_MANAGE_MENU_SIZE.asShort();
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return Lang.EDIT_WARP_MENU_TITLE;
     }
 
     @Override

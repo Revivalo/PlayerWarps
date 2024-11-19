@@ -30,11 +30,11 @@ public class CategoryManager {
                             new Category(
                                 categorySection.getName(),
                                 categorySection.getBoolean("default"),
-                                    TextUtil.getColorizedString(null, categorySection.getString("name")),
+                                    TextUtil.colorize(categorySection.getString("name")),
                                 categorySection.getString("permission"),
                                     ItemUtil.getItem(categorySection.getString("item")),
                                 categorySection.getInt("position"),
-                                TextUtil.getColorizedList(null, categorySection.getStringList("lore"))
+                                TextUtil.colorize(categorySection.getStringList("lore"))
                         )
                 ));
 

@@ -15,6 +15,7 @@ import dev.revivalo.playerwarps.warp.action.FavoriteWarpAction;
 import dev.revivalo.playerwarps.warp.action.PreTeleportToWarpAction;
 import dev.revivalo.playerwarps.warp.action.SearchWarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -26,30 +27,29 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class WarpsMenu implements Menu {
     private int page = 1;
-    private final MenuType menuType;
     private PaginatedGui paginatedGui;
     private Player player;
     private String categoryName;
     private Sortable sortType;
     private List<Warp> foundWarps;
 
+    private final Map<Player, Long> sortingCooldowns = new HashMap<>();
+    private static final long SORT_COOLDOWN_MS = 700;
+
     private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
     private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
-
-    public WarpsMenu(MenuType menuType) {
-        this.menuType = menuType;
-    }
 
     @Override
     public void create() {
         this.paginatedGui = Gui.paginated()
                 .pageSize(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9)
                 .rows(Config.WARP_LISTING_MENU_SIZE.asInteger() / 9)
-                .title(Component.text(getMenuType().getTitle().replace("%page%", String.valueOf(page))))
+                .title(Component.text(this.getMenuTitle().asColoredString().replace("%page%", String.valueOf(page))))
                 .disableAllInteractions()
                 .create();
     }
@@ -58,27 +58,27 @@ public class WarpsMenu implements Menu {
     public void fill() {
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
-        user.addData(DataSelectorType.ACTUAL_MENU, getMenuType());
+        user.addData(DataSelectorType.ACTUAL_MENU, this);
 
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
         //if (paginatedGui.getPrevPageNum() != paginatedGui.getCurrentPageNum())
         paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 9, PREVIOUS_PAGE.asGuiItem(event -> {
             paginatedGui.previous();
-            paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
+            paginatedGui.updateTitle(this.getMenuTitle().asColoredString().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
         }));
 
         //if (paginatedGui.getNextPageNum() != paginatedGui.getCurrentPageNum())
-            paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 1, NEXT_PAGE.asGuiItem(event -> {
-                paginatedGui.next();
-                paginatedGui.updateTitle(getMenuType().getTitle().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
-            }));
+        paginatedGui.setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 1, NEXT_PAGE.asGuiItem(event -> {
+            paginatedGui.next();
+            paginatedGui.updateTitle(this.getMenuTitle().asColoredString().replace("%page%", String.valueOf(paginatedGui.getCurrentPageNum())));
+        }));
 
         Sortable nextSortType = getWarpHandler().getSortingManager().nextSortType(sortType);
 
         List<String> sortLore = new ArrayList<>();
         for (Sortable cachedSortType : getWarpHandler().getSortingManager().getSortTypes()) {
-            sortLore.add(TextUtil.color((sortType.equals(cachedSortType) ? Config.SELECTED_SORT.asString() : Config.OTHER_SORT.asString()) + cachedSortType.getName().asColoredString()));
+            sortLore.add(TextUtil.colorize((sortType.equals(cachedSortType) ? Config.SELECTED_SORT.asString() : Config.OTHER_SORT.asString()) + cachedSortType.getName().asColoredString()));
         }
 
         sortLore.add(" ");
@@ -101,49 +101,51 @@ public class WarpsMenu implements Menu {
                             ));
         }
 
-        if (getMenuType() != MenuType.OWNED_LIST_MENU)
+        if (!(this instanceof MyWarpsMenu))
             paginatedGui
                     .setItem(Config.WARP_LISTING_MENU_SIZE.asInteger() - 8, ItemBuilder.from(ItemUtil.getItem(Config.SORT_WARPS_ITEM.asUppercase()))
                             .setName(Lang.SORT_WARPS.asColoredString())
                             .setLore(sortLore)
                             .asGuiItem(event -> {
-                                paginatedGui.clearPageItems();
-                                open(player, categoryName, nextSortType, foundWarps);
-                            }));
+                                if (canSort(player)) {
+                                    paginatedGui.clearPageItems();
+                                    open(player, categoryName, nextSortType, foundWarps);
+                                } else {
+                                    player.sendMessage(Lang.WAIT_BEFORE_NEXT_ACTION.asColoredString());
+                                }
+                            })
+                    );
 
         final List<Warp> warps = new ArrayList<>();
-        switch (getMenuType()) {
-            case DEFAULT_LIST_MENU:
-                if (openedCategory.isDefaultCategory()) {
-                    if (foundWarps == null) {
-                        warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
-                                .filter(Warp::isAccessible)
-                                .collect(Collectors.toList()));
-                    } else {
-                        warps.addAll(foundWarps);
-                    }
-                } else {
+
+        if (this instanceof DefaultWarpsMenu) {
+            if (openedCategory.isDefaultCategory()) {
+                if (foundWarps == null) {
                     warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
-                            .filter(warp -> warp.isAccessible() && (warp.getCategory() == null || warp.getCategory().getType().equalsIgnoreCase(categoryName)))
+                            .filter(Warp::isAccessible)
                             .collect(Collectors.toList()));
+                } else {
+                    warps.addAll(foundWarps);
                 }
+            } else {
+                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
+                        .filter(warp -> warp.isAccessible() && (warp.getCategory() == null || warp.getCategory().getType().equalsIgnoreCase(categoryName)))
+                        .collect(Collectors.toList()));
+            }
 
-                getWarpHandler().getSortingManager().sortWarps(warps, sortType);
+            getWarpHandler().getSortingManager().sortWarps(warps, sortType); //TODO: Async
 
-                break;
-            case OWNED_LIST_MENU:
-                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(warp -> warp.isOwner(player)).collect(Collectors.toList()));
-                break;
-            case FAVORITE_LIST_MENU:
-                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getPlayerFavoriteWarps(player));
-                break;
+        } else if (this instanceof MyWarpsMenu) {
+            warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(warp -> warp.isOwner(player)).collect(Collectors.toList()));
+        } else if (this instanceof FavoriteWarpsMenu) {
+            warps.addAll(PlayerWarpsPlugin.getWarpHandler().getPlayerFavoriteWarps(player));
         }
 
-        final Lang warpLore = getMenuType() == MenuType.OWNED_LIST_MENU ? Lang.OWN_WARP_LORE : Lang.WARP_LORE;
+        final Lang warpLore = this instanceof MyWarpsMenu ? Lang.OWN_WARP_LORE : Lang.WARP_LORE;
 
         GuiItem guiItem;
         if (warps.isEmpty()) {
-            if (menuType == MenuType.OWNED_LIST_MENU && Config.ENABLE_HINTS.asBoolean()) {
+            if (this instanceof MyWarpsMenu && Config.ENABLE_HINTS.asBoolean()) {
                 guiItem = new GuiItem(
                         ItemBuilder
                                 .from(ItemUtil.getItem(Config.HELP_ITEM.asUppercase()))
@@ -166,30 +168,37 @@ public class WarpsMenu implements Menu {
                 if (warp.getLocation() == null) {
                     guiItem = new GuiItem(ItemBuilder
                             .from(Material.BARRIER)
-                            .setName(TextUtil.color(warp.getDisplayName()))
+                            .setName(TextUtil.colorize(warp.getDisplayName()))
                             .setLore(Lang.WARP_IN_DELETED_WORLD.asColoredString())
                             .build());
                 } else {
+                    List<String> lore = warpLore.asReplacedList(player, new HashMap<String, String>() {{
+                                put("%creationDate%", DateUtil.getFormatter().format(warp.getDateCreated()));
+                                put("%world%", warp.getLocation().getWorld().getName());
+                                put("%voters%", String.valueOf(warp.getReviewers().size()));
+                                put("%price%", warp.getAdmission() == 0
+                                        ? Lang.FREE_OF_CHARGE.asColoredString()
+                                        : NumberUtil.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
+                                put("%today%", String.valueOf(warp.getTodayVisits()));
+                                put("%status%", warp.getStatus().getText());
+                                put("%ratings%", String.valueOf(NumberUtil.round(warp.getConvertedRating(), 1)));
+                                put("%stars%", TextUtil.createRatingFormat(warp));
+//                                        put("%lore%", warp.getDescription() == null
+//                                                ? Lang.NO_DESCRIPTION.asColoredString()
+//                                                : TextUtil.splitLoreIntoLines(warp.getDescription(), 5)); // Použití funkce na rozdělení textu
+                                put("%visits%", String.valueOf(warp.getVisits()));
+                                put("%owner-name%", Bukkit.getOfflinePlayer(warp.getOwner()).getName() == null ? "Unknown" : Bukkit.getOfflinePlayer(warp.getOwner()).getName());
+                            }}
+                    );
+
+
                     guiItem = ItemBuilder
                             .from((warp.getMenuItem() == null ? ItemUtil.getItem(Config.DEFAULT_WARP_ITEM.asString(), warp.getOwner()) : warp.getMenuItem().clone()))
-                            .setName(TextUtil.getColorizedString(player, Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
-                            .setLore(warpLore.asReplacedList(player, new HashMap<String, String>() {{
-                                        put("%creationDate%", DateUtil.getFormatter().format(warp.getDateCreated()));
-                                        put("%world%", warp.getLocation().getWorld().getName());
-                                        put("%voters%", String.valueOf(warp.getReviewers().size()));
-                                        put("%price%", warp.getAdmission() == 0
-                                                ? Lang.FREE_OF_CHARGE.asColoredString()
-                                                : NumberUtil.formatNumber(warp.getAdmission()) + " " + Config.CURRENCY_SYMBOL.asString());
-                                        put("%today%", String.valueOf(warp.getTodayVisits()));
-                                        put("%status%", warp.getStatus().getText());
-                                        put("%ratings%", String.valueOf(NumberUtil.round(warp.getConvertedRating(), 1)));
-                                        put("%stars%", TextUtil.createRatingFormat(warp));
-                                        put("%lore%", warp.getDescription() == null
-                                                ? Lang.NO_DESCRIPTION.asColoredString()
-                                                : TextUtil.splitLoreIntoLines(warp.getDescription(), 5)); // Použití funkce na rozdělení textu
-                                        put("%visits%", String.valueOf(warp.getVisits()));
-                                        put("%owner-name%", Bukkit.getOfflinePlayer(warp.getOwner()).getName() == null ? "Unknown" : Bukkit.getOfflinePlayer(warp.getOwner()).getName());
-                                    }}
+                            .setName(TextUtil.colorize(Config.WARP_NAME_FORMAT.asString().replace("%warpName%", warp.getDisplayName())))
+                            .setLore(TextUtil.colorize(TextUtil.insertListIntoList(
+                                            lore,
+                                            TextUtil.splitByWords(warp.getDescription() == null ? Lang.NO_DESCRIPTION.asColoredString() : warp.getDescription(), 5, Config.WARP_DESCRIPTION_COLOR.asString())
+                                    )
                             )).asGuiItem();
 
                     guiItem.setAction(event -> {
@@ -201,7 +210,7 @@ public class WarpsMenu implements Menu {
                                     break;
                                 case RIGHT:
                                 case SHIFT_RIGHT:
-                                    if (getMenuType() == MenuType.OWNED_LIST_MENU) {
+                                    if (this instanceof MyWarpsMenu) {
                                         if (!player.hasPermission("playerwarps.settings")) {
                                             player.sendMessage(Lang.INSUFFICIENT_PERMISSIONS.asColoredString().replace("%permission%", "playerwarps.settings"));
                                             return;
@@ -214,7 +223,7 @@ public class WarpsMenu implements Menu {
                                     }
                                     break;
                                 case SHIFT_LEFT:
-                                    MenuType actualMenu = (MenuType) user.getData(DataSelectorType.ACTUAL_MENU);
+                                    Menu actualMenu = (Menu) user.getData(DataSelectorType.ACTUAL_MENU);
                                     new FavoriteWarpAction().preExecute(player, warp, null, actualMenu, page);
                                     break;
                             }
@@ -229,14 +238,31 @@ public class WarpsMenu implements Menu {
         setDefaultItems(player, paginatedGui);
     }
 
+    private boolean canSort(Player player) {
+        long currentTime = System.currentTimeMillis();
+        if (sortingCooldowns.containsKey(player)) {
+            long lastSortTime = sortingCooldowns.get(player);
+            if (currentTime - lastSortTime < SORT_COOLDOWN_MS) {
+                return false; // Hráč ještě nemůže třídit
+            }
+        }
+        sortingCooldowns.put(player, currentTime);
+        return true;
+    }
+
     @Override
-    public MenuType getMenuType() {
-        return menuType;
+    public BaseGui getMenu() {
+        return this.paginatedGui;
     }
 
     @Override
     public short getMenuSize() {
         return Config.WARP_LISTING_MENU_SIZE.asShort();
+    }
+
+    @Override
+    public Lang getMenuTitle() {
+        return Lang.DENY;
     }
 
     @Override
@@ -268,5 +294,29 @@ public class WarpsMenu implements Menu {
     @Override
     public Player getPlayer() {
         return player;
+    }
+
+    public static class MyWarpsMenu extends WarpsMenu {
+
+        @Override
+        public Lang getMenuTitle() {
+            return Lang.MY_WARP_TITLE;
+        }
+    }
+
+    public static class FavoriteWarpsMenu extends WarpsMenu {
+
+        @Override
+        public Lang getMenuTitle() {
+            return Lang.FAVORITES_TITLE;
+        }
+    }
+
+    public static class DefaultWarpsMenu extends WarpsMenu {
+
+        @Override
+        public Lang getMenuTitle() {
+            return Lang.WARPS_TITLE;
+        }
     }
 }

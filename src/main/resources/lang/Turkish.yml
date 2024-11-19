@@ -37,6 +37,7 @@ lang:
   password-protected-status: "&eŞİFRE KORUMALI"
 
   invalid-input: "%prefix% &cGeçersiz giriş!"
+  wait-before-next-action: "%prefix% &cWait a moment before repeating the action!"
   password-too-short: "%prefix% &cŞifre en az 3 karakter uzunluğunda olmalıdır!"
   non-existing-warp: "%prefix% &cBu warp mevcut değil!"
   warp-already-created: "%prefix% &cBu isimde bir warp zaten var!"
@@ -48,9 +49,13 @@ lang:
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp bu dünyaya (%world%) taşınamaz"
   tried-to-create-warp-in-foreign-residence: "%prefix% &cYabancı bir konutta çözgü oluşturulamıyor"
   tried-to-create-warp-in-foreign-region: "%prefix% &c%region% adlı bir bölgede warp oluşturulamıyor"
+  tried-to-create-warp-in-foreign-land: "%prefix% &cCannot create a warp in unowned land"
   insufficient-balance-for-action: "%prefix% &cBunu yapmak için yeterli bakiye yok! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &c%warp% warp'ına ışınlanmak için yeterli bakiye yok"
   warp-removed: "%prefix% &7Bu warp'ı kaldırdınız"
+  warp-submitted-for-approval: "%prefix% &7Warp has been submitted for approval"
+  warp-approved: "%prefix% &7Warp %warp% has been approved!"
+  warp-denied: "%prefix% &7Warp approval has been denied, hover for more information"
   # Bu mesaj Vault yüklüyse gönderilecektir
   warp-removed-with-refund: "%prefix% &7Bu warp'ı kaldırdınız &a(+ %refund% $)"
   try-to-remove-not-owning-warp: "%prefix% &cBaşkalarının warp'larını kaldıramazsınız"

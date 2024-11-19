@@ -17,6 +17,7 @@ public final class PermissionUtil {
     public enum Permission {
         ADMIN_PERMISSION("playerwarps.admin"),
         RELOAD_PLUGIN("playerwarps.reload"),
+        VERIFY("playerwarps.verify"),
         USE("playerwarps.use"),
         MANAGE("playerwarps.manage"),
         HELP("playerwarps.help"),

@@ -1,5 +1,6 @@
 package dev.revivalo.playerwarps.warp.checker;
 
+import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.hook.HookManager;
 import me.angeschossen.lands.api.land.Land;
 import me.angeschossen.lands.api.land.LandWorld;
@@ -16,10 +17,16 @@ public class AngeschossenLandsChecker implements Checker {
 
         Chunk chunk = player.getLocation().getChunk();
         Land land = world.getLandByChunk(chunk.getX(), chunk.getZ());
+
         if (land == null) {
             return true;
         }
 
-        return land.isTrusted(player.getUniqueId());
+        if (!land.isTrusted(player.getUniqueId())) {
+            player.sendMessage(Lang.TRIED_TO_CREATE_WARP_IN_FOREIGN_LAND.asColoredString());
+            return false;
+        }
+
+        return true;
     }
 }

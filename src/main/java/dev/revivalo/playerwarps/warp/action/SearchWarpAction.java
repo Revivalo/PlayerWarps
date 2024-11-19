@@ -2,7 +2,6 @@ package dev.revivalo.playerwarps.warp.action;
 
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.configuration.file.Lang;
-import dev.revivalo.playerwarps.menu.MenuType;
 import dev.revivalo.playerwarps.menu.WarpSearch;
 import dev.revivalo.playerwarps.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
@@ -29,7 +28,7 @@ public class SearchWarpAction implements WarpAction<String> {
 
         try {
             PlayerWarpsPlugin.get().runSync(() ->
-                    new WarpsMenu(MenuType.DEFAULT_LIST_MENU)
+                    new WarpsMenu.DefaultWarpsMenu()
                     .open(player, "all", PlayerWarpsPlugin.getWarpHandler().getSortingManager().getDefaultSortType(), warpList));
         } catch (Exception e) {
             e.printStackTrace();

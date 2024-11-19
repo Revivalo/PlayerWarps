@@ -207,10 +207,12 @@ public class WarpManager {
     }
 
     public void addWarp(Warp warp) {
+        sortingManager.invalidateCache();
         warps.add(warp);
     }
 
     public void removeWarp(Warp warp) {
+        sortingManager.invalidateCache();
         warps.remove(warp);
     }
 

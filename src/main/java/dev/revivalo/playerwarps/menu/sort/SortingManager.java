@@ -1,11 +1,17 @@
 package dev.revivalo.playerwarps.menu.sort;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.warp.Warp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SortingManager {
     private final List<Sortable> sortTypes;
+    private final Map<Sortable, List<Warp>> cachedSortedWarps = new HashMap<>();
+
 
     public SortingManager(List<Sortable> sortTypes) {
         this.sortTypes = sortTypes;
@@ -27,8 +33,32 @@ public class SortingManager {
     }
 
     public void sortWarps(List<Warp> warps, Sortable sortType) {
-        sortType.sort(warps);
+        if (!cachedSortedWarps.containsKey(sortType)) {
+            List<Warp> sorted = new ArrayList<>(warps);
+            sortType.sort(sorted); // Třídění se provede jen jednou
+            cachedSortedWarps.put(sortType, sorted);
+        }
+        warps.clear();
+        warps.addAll(cachedSortedWarps.get(sortType));
     }
+
+    public void sortWarpsAsync(List<Warp> warps, Sortable sortType, Runnable callback) {
+        PlayerWarpsPlugin.get().getScheduler().runTaskAsynchronously(PlayerWarpsPlugin.get(), () -> {
+            List<Warp> sorted = new ArrayList<>(warps);
+            sortType.sort(sorted);
+
+            PlayerWarpsPlugin.get().getScheduler().runTask(PlayerWarpsPlugin.get(), () -> {
+                warps.clear();
+                warps.addAll(sorted);
+                callback.run();
+            });
+        });
+    }
+
+    public void invalidateCache() {
+        cachedSortedWarps.clear();
+    }
+
 
     public List<Sortable> getSortTypes() {
         return sortTypes;
