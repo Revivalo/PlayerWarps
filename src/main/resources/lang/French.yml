@@ -126,6 +126,7 @@ lang:
   favorites-title: "Warps Sauvegardés &7%page%. page"
   confirmation-menu-title: "Confirmer l'action ? (%warp%)"
   accept: "&a&lAccepter"
+  accept-with-price: "&a&lAccepter &c(-%price% $)"
   deny: "&c&lRefuser"
   sort-warps: "&aTrier les Warps"
   click-to-sort-by: "&b► Cliquez pour trier par %selector%"

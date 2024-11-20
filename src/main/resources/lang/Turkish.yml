@@ -125,6 +125,7 @@ lang:
   favorites-title: "Kaydedilmiş Warps &7%page%. sayfa"
   confirmation-menu-title: "İşlemi onaylıyor musunuz? (%warp%)"
   accept: "&a&lKabul Et"
+  accept-with-price: "&a&lKabul Et &c(-%price% $)"
   deny: "&c&lReddet"
   sort-warps: "&aWarpları Sırala"
   click-to-sort-by: "&b► %selector% göre sırala için tıklayın"

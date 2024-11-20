@@ -126,6 +126,7 @@ lang:
   favorites-title: "Uložené warpy &7%page%. stránka"
   confirmation-menu-title: "Potvrdit akci? (%warp%)"
   accept: "&a&lPřijmout"
+  accept-with-price: "&a&lPřijmout &c(-%price% $)"
   deny: "&c&lOdmítnout"
   sort-warps: "&aSeřadit warpy"
   click-to-sort-by: "&b► Klikněte pro seřazení podle %selector%"

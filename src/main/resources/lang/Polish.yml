@@ -126,6 +126,7 @@ lang:
   favorites-title: "Ulubione Warpy &7%page%. strona"
   confirmation-menu-title: "Potwierdź akcję? (%warp%)"
   accept: "&a&lAkceptuj"
+  accept-with-price: "&a&lAkceptuj &c(-%price% $)"
   deny: "&c&lOdrzuć"
   sort-warps: "&aSortuj Warpy"
   click-to-sort-by: "&b► Kliknij, aby sortować według %selector%"

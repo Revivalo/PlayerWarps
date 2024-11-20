@@ -150,6 +150,7 @@ lang:
   warp-not-contains-favlist: "%prefix% &7Врата %warp% не содержат ваш список избранного"
   warp-already-contains-favlist: "%prefix% &7Врата %warp% уже добавлены в ваш список избранного"
   search-warp: "&aПоиск врат"
+  accept-with-price: "&a&lПринять &c(-%price% $)"
   search-warp-lore:
     - "&7Нажмите, чтобы искать врата"
     - "&7по имени"

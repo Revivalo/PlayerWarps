@@ -125,6 +125,7 @@ lang:
   favorites-title: "收藏的传送门 &7%page% 页"
   confirmation-menu-title: "确认操作？ (%warp%)"
   accept: "&a&l接受"
+  accept-with-price: "&a&l接受 &c(-%price% $)"
   deny: "&c&l拒绝"
   sort-warps: "&a排序传送门"
   click-to-sort-by: "&b► 点击按 %selector% 排序"
