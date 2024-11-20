@@ -99,6 +99,7 @@ public class WarpManager {
                                             Warp warp = warpSection.getSerializable(warpID, Warp.class);
                                             addWarp(warp);
                                             HookManager.getDynmapHook().setMarker(warp);
+                                            HookManager.getBlueMapHook().setMarker(warp);
                                         }
                                 )
                 );

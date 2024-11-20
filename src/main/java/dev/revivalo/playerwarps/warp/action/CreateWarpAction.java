@@ -106,6 +106,7 @@ public class CreateWarpAction implements WarpAction<Void> {
         PlayerWarpsPlugin.getWarpHandler().addWarp(createdWarp);
 
         HookManager.getDynmapHook().setMarker(createdWarp);
+        HookManager.getBlueMapHook().setMarker(createdWarp);
 
         String message;
         if (HookManager.isHookEnabled(HookManager.getVaultHook()))
