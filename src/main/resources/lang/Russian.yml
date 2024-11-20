@@ -1,159 +1,180 @@
+# Перевод: Reizi
 lang:
-  prefix: "&f&lPLAYER&3&lWARPS&7 &8⏵"
-  unknown-command: "%prefix% &cНеизвестная команда, используйте /pwarp help"
-  insufficient-permissions: "%prefix% &7Вам нужна %permission% для этого действия!"
-  bad-command-syntax: "%prefix% &cПравильный синтаксис команды: &4%syntax%"
+  prefix: '&f&lPLAYER&3&lWARPS&7 &8⏵'
+  unknown-command: '%prefix% &cНеизвестная команда, используйте /pwarp help'
+  insufficient-permissions: '%prefix% &7Вам нужен %permission% для этого действия!'
+  bad-command-syntax: '%prefix% &cПравильный синтаксис команды: &4%syntax%'
   help-message-lore:
-    - "&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------"
-    - "&b/pwarp &8- &7открывает главное меню со всеми списками врат"
-    - "&b/pwarp <warp> &8- &7телепортируется к указанным вратам"
-    - "&b/pwarp create <warp> &8- &7создает врата с указанным именем"
-    - "&b/pwarp remove <warp> &8- &7удаляет указанные врата"
-    - "&b/pwarp manage <warp> &8- &7открывает меню настроек"
-    - "&b/pwarp reload &8- &7перезагружает файлы плагина"
-    - "&7-----------------------------------------------------"
-  reload-message: "%prefix% &7Плагин успешно перезагружен!"
-  limit-reached: "%prefix% &7Вы достигли лимита созданных врат &7(%limit%)"
-  limit-reached-other: "%prefix% &7Игрок %player% не может владеть больше вратами!"
-
-  warp-visit-notification: "%prefix% &f%player%&7 посетил врата &f%warp%"
-  warp-creation-notification: "%prefix% &f%player%&7 создал врата &f%warp%"
-
-  insufficient-perms-for-category: "&4Закрытая категория"
-  insufficient-perms-for-category-lore:
-    - "&cВам нужен %permission%, чтобы"
-    - "&cпросмотреть эту категорию"
-
-  no-warp-found: "&cВрата не найдены"
-  warp-in-deleted-world: "&cВрата находятся в удаленном/неактивном мире"
-  no-warp-at-position: "&cВрат нет"
-
-  alphabetical: "По алфавиту"
-  latest: "Последние"
-  visits: "Посещения"
-  rating: "Рейтинг"
-
-  opened-status: "&aОТКРЫТО"
-  closed-status: "&cЗАКРЫТО"
-  password-protected-status: "&eЗАЩИЩЕНО ПАРОЛЕМ"
-
-  invalid-input: "%prefix% &cНеверный ввод!"
+    - '&7-------------------< &f&lPLAYER&3&lWARPS&7 >--------------------'
+    - '&b/pwarp &8- &7открытие главного меню со всеми категориями варпов'
+    - '&b/pwarp teleport <warp> &8- &7телепортирование к определённому варпу'
+    - '&b/pwarp create <warp> &8- &7создание варпа с указанным названием'
+    - '&b/pwarp remove <warp> &8- &7удаление указанного варпа'
+    - '&b/pwarp favorite <warp> &8- &7добавление варпа в список избранных варпов'
+    - '&b/pwarp reload &8- &7перезагрузка файлов плагина'
+    - '&7-----------------------------------------------------'
+  reload-message: '%prefix% &7Плагин успешно перезагружен!'
   wait-before-next-action: "%prefix% &cWait a moment before repeating the action!"
-  password-too-short: "%prefix% &cПароль должен содержать не менее 3 символов!"
-  non-existing-warp: "%prefix% &cЭти врата не существуют!"
-  warp-already-created: "%prefix% &cВрата с этим именем уже существуют!"
-  warp-created: "%prefix% &7Вы создали врата %name%, нажмите &l&nЗДЕСЬ&7, чтобы настроить их."
+  limit-reached: '%prefix% &7Вы достигли лимита создания варпов &7(%limit%)'
+  limit-reached-other: '%prefix% &7Игрок %player% не может иметь больше варпов!'
+
+  warp-visit-notification: '%prefix% &f%player%&7 посетил варп &f%warp%'
+  warp-creation-notification: '%prefix% &f%player%&7 создал варп &f%warp%'
+
+  insufficient-perms-for-category: '&4Закрытая категория'
+  insufficient-perms-for-category-lore:
+    - '&cВам нужен %permission%, чтобы'
+    - '&cпросмотреть эту категорию'
+
+  no-warp-found: Варп не найден
+  warp-in-deleted-world: '&cВарпы находятся в удалённом/неактивном мире'
+  no-warp-at-position: '&cНет варпа'
+
+  alphabetical: по алфавиту
+  latest: по последнему посещению
+  visits: по количеству посещений
+  rating: по степени рейтинга
+
+  opened-status: '&aОТКРЫТ'
+  closed-status: '&cЗАКРЫТ'
+  password-protected-status: '&eЗАЩИЩЕНО ПАРОЛЕМ'
+
+  invalid-input: '%prefix% &cНеверный ввод!'
+  password-too-short: '%prefix% &cПароль должен содержать не менее 3 символов!'
+  non-existing-warp: '%prefix% &cТакого варпа не существует!'
+  warp-already-created: '%prefix% &cВаоп с этим названием уже существует!'
+  warp-created: '%prefix% &7Вы создали варп %name%, нажмите &l&nЗДЕСЬ&7, чтобы настроить его.'
   warp-submitted-for-approval: "%prefix% &7Warp has been submitted for approval"
   warp-approved: "%prefix% &7Warp %warp% has been approved!"
   warp-denied: "%prefix% &7Warp approval has been denied, hover for more information"
   # Это сообщение будет отправлено, если установлен Vault
-  warp-created-with-price: "%prefix% &7Вы создали врата &e%name% &c(-%price% $)&7, нажмите &l&nЗДЕСЬ&7, чтобы настроить их."
-  tried-to-create-warp-in-disabled-world: "%prefix% &cВрата не могут быть созданы в мире (%world%)"
-  tried-to-create-warp-in-foreign-island: "%prefix% &cНевозможно создать варп на чужом острове"
-  tried-to-create-warp-in-foreign-residence: "%prefix% &cНевозможно создать искривление в чужой резиденции"
-  tried-to-create-warp-in-foreign-region: "%prefix% &cНевозможно создать варп в регионе с именем %region%"
-  tried-to-create-warp-in-foreign-land: "%prefix% &cCannot create a warp in unowned land"
-  tried-to-relocate-warp-to-disabled-world: "%prefix% &cВрата не могут быть перемещены в этот мир (%world%)"
-  insufficient-balance-for-action: "%prefix% &cНедостаточно средств для выполнения этого действия! (%price% $)"
-  insufficient-balance-to-teleport: "%prefix% &cНедостаточно средств для телепортации к вратам %warp%"
-  warp-removed: "%prefix% &7Вы удалили эти врата"
+  warp-created-with-price: '%prefix% &7Вы создали варп &e%name% &c(-%price% $)&7, нажмите
+    &l&nЗДЕСЬ&7, чтобы настроить его.'
+  tried-to-create-warp-in-disabled-world: '%prefix% &cВарп не может быть создан в мире
+    (%world%)'
+  tried-to-create-warp-in-foreign-island: '%prefix% &cНевозможно создать варп на чужом
+    острове'
+  tried-to-create-warp-in-foreign-residence: '%prefix% &cНевозможно создать варп в чужой
+    резиденции'
+  tried-to-create-warp-in-foreign-region: '%prefix% &cНевозможно создать варп в регионе
+    с именем %region%'
+  tried-to-relocate-warp-to-disabled-world: '%prefix% &cВарп не может быть перемещён
+    в этот мир (%world%)'
+  insufficient-balance-for-action: '%prefix% &cНедостаточно средств на балансе для выполнения
+    этого действия! (%price% $)'
+  insufficient-balance-to-teleport: '%prefix% &cНедостаточно средств на балансе для
+    телепортации к этому варпу &f%warp%'
+  warp-removed: '%prefix% &7Вы удалили этот варп'
   # Это сообщение будет отправлено, если установлен Vault
-  warp-removed-with-refund: "%prefix% &7Вы удалили эти врата &a(+ %refund% $)"
-  try-to-remove-not-owning-warp: "%prefix% &cВы не можете удалить чужие врата"
-  click-to-configure: "&7Нажмите, чтобы настроить врата"
-  click-to-cancel-input: "&7Нажмите, чтобы выйти из режима ввода"
-  teleportation: "%prefix% &7Телепортация через &e%time% секунд!"
-  teleportation-cancelled: "%prefix% &cТелепортация отменена!"
-  teleport-to-warp: "%prefix% &7Телепортирован к вратам %warp% от %player%"
-  teleport-to-warp-with-admission: "%prefix% &7Телепортация к вратам игрока %player% &c(-%price% $)"
-  accept-teleport-with-admission: "Телепортация? &c(-%price% $)"
-  teleport-between-worlds-error: "%prefix% &7Телепортация была отменена. Вы можете телепортироваться только к вратам в вашем мире!"
-  warp-access-blocked: "%prefix% &cВам заблокирован доступ к этому %warp% варпу"
-  name-cant-contain-space: "%prefix% &7Имя не может содержать пробел"
-  enter-password: "Введите пароль"
-  enter-warps-name: "Введите имя врат"
-  password-setting-cancelled: "%prefix% &7Настройка пароля была отменена."
-  password-changed: "%prefix% &7Пароль был изменен!"
-  password-length: "%prefix% &cПароль должен содержать не менее 3 символов!"
-  entered-wrong-password: "%prefix% &7Введен неверный пароль!"
-  categories-are-disabled: "&cКатегории отключены!"
-  item-changed: "%prefix% &7Изменен элемент меню на %item%"
-  title-write-msg: "%prefix% &7Теперь напишите ваш текст под вратами %warp% в списке врат:"
-  item-write-msg: "%prefix% &7Теперь напишите название элемента, который будет представлять врата %warp%:"
-  write-new-display-name: "%prefix% &7Теперь напишите новое отображаемое имя этих врат:"
-  cancel-input: "&c               [Нажмите, чтобы отменить]"
-  input-cancelled: "%prefix% &7Вы вышли из режима ввода."
-  text-size-error: "%prefix% &7Текст должен содержать от 5 до 32 символов"
-  description-changed: "%prefix% &7Вы изменили описание ваших врат %warp%"
-  not-owning: "%prefix% &7Это не ваши врата"
-  already-owning: "%prefix% &7Вы уже владеете этими вратами!"
-  invalid-item: "%prefix% &7Этот элемент не существует"
-  already-reviewed: "%prefix% &7Вы уже оценили эти врата!"
-  invalid-review: "%prefix% &7Вы должны выбрать от 1 до 5 звезд"
-  self-review: "%prefix% &7Вы не можете оценивать свои собственные врата!"
-  review-warp-title: "Оцените врата %warp%"
-  warp-reviewed: "%prefix% &7Вы оценили эти врата (%warp%) на %stars% звезд"
-  tried-to-set-banned-item: "%prefix% &7Этот элемент не разрешен"
-  not-a-number: "%prefix% &7Введенная цена не является числом"
-  price-write-msg: "%prefix% &7Пожалуйста, укажите цену телепортации к вашим вратам %warp%:"
-  price-changed: "%prefix% &7Цена телепортации к вашим вратам %warp% была изменена на %price%"
-  invalid-entered-price: "%prefix% &7Цена не может быть отрицательной"
-  entered-higher-price-than-allowed: "%prefix% &7Цена не может быть выше %max% $"
-  ownership-transfer-successful: "%prefix% &7Вы успешно передали эти врата игроку %player%"
-  ownership-transfer-info: "%prefix% &7Игрок %player% передал вам врата %warp%"
-  unavailable-player: "%prefix% &7Игрок недоступен!"
-  owner-change-msg: "%prefix% &7Теперь напишите имя владельца врат %warp%:"
-  password-change-msg: "%prefix% &7Теперь напишите новый пароль для врат %warp%:"
-  warp-name-changed: "%prefix% &7Врата %oldName% были успешно переименованы в %newName%"
-  warp-status-changed: "%prefix% &7Статус врат был изменен на: &e%status%"
-  warp-relocated: "%prefix% &7Врата %warp% были перемещены!"
-  rename-write-msg: "%prefix% &7Теперь напишите новое имя для врат %warp%:"
-  set-description-msg: "%prefix% &7Теперь напишите новое описание для врат %warp%:"
-  dangerous-position-msg: "%prefix% &7Местоположение врат небезопасно, отмена телепортации"
-  warp-name-is-above-letters-limit: "%prefix% &7Имя врат должно быть короче %limit% букв"
-  warps-item-name: "&e&lОбзор врат"
-  my-warps-item-name: "&e&lУправление моими вратами"
-  own-warp-item-name: "&fВрата: &a%warp%"
-  help-item-name: "&e&lКак создать врата"
-  favorite-warps-item-name: "&e&lИзбранные врата"
-  my-warp-title: "Мои врата &7%page%. страница"
-  warps-title: "Врата &7%page%. страница"
-  change-warp-category-title: "Изменить категорию врат %warp%:"
-  edit-warp-menu-title: "Редактирование врат %warp%"
-  category-title: "Категории"
-  help-title: "Помощь"
-  set-warp-status-title: "Установите статус врат:"
-  favorites-title: "Избранные врата &7%page%. страница"
-  confirmation-menu-title: "Подтвердите действие? (%warp%)"
-  accept: "&a&lПринять"
-  deny: "&c&lОтклонить"
-  sort-warps: "&aСортировать врата"
-  click-to-sort-by: "&b► Нажмите, чтобы отсортировать по %selector%"
-  next-page: "&aСледующая страница"
-  previous-page: "&cПредыдущая страница"
-  no-description: "&3&oВладелец не установил описание"
-  back-name: "&c&lНазад"
-  one-stars: "&e&l1 звезда"
-  two-stars: "&e&l2 звезды"
-  three-stars: "&e&l3 звезды"
-  four-stars: "&e&l4 звезды"
-  five-stars: "&e&l5 звезд"
-  warp-enabled: "%prefix% &7Вы &aразблокировали&f ваши врата %warp%"
-  warp-disabled: "%prefix% &7Вы &cзаблокировали&f ваши врата %warp%"
-  warp-is-disabled: "%prefix% &7Владелец временно отключил эти врата &7(%warp%)"
-  entered-invalid-type-of-warp: "%prefix% &7Введен неверный тип. Доступные типы: &9%types%"
-  warp-type-changed: "%prefix% &7Вы изменили тип врат %warp% на &7%type%"
-  privacy-changed: "%prefix% &7Вы изменили конфиденциальность врат %warp%"
-  display-name-changed: "%prefix% &7Отображаемое имя врат %warp% было изменено на %displayName%"
-  favorite-warp-added: "%prefix% &7Врата %warp% были добавлены в ваш список избранного"
-  remove-favorite-warp: "%prefix% &7Вы удалили врата %warp% из списка избранного"
-  warp-not-contains-favlist: "%prefix% &7Врата %warp% не содержат ваш список избранного"
-  warp-already-contains-favlist: "%prefix% &7Врата %warp% уже добавлены в ваш список избранного"
-  search-warp: "&aПоиск врат"
+  warp-removed-with-refund: '%prefix% &7Вы удалили этот варп &a(+ %refund% $)'
+  try-to-remove-not-owning-warp: '%prefix% &cВы не можете удалить чужой варп'
+  click-to-configure: '&7Нажмите, чтобы настроить варп'
+  click-to-cancel-input: '&7Нажмите, чтобы выйти из режима ввода'
+  teleportation: '%prefix% &7Телепортация через &e%time% сек.!'
+  teleportation-cancelled: '%prefix% &cТелепортация отменена!'
+  teleport-to-warp: '%prefix% &7Вы были телепортированы на варп &f%warp%'
+  teleport-to-warp-with-admission: '%prefix% &7Телепортация на варп игрока %player%
+    &c(-%price% $)'
+  accept-teleport-with-admission: Телепортация? &c(-%price% $)
+  teleport-between-worlds-error: '%prefix% &7Телепортация была отменена. Вы можете телепортироваться
+    только на варп в вашем мире!'
+  warp-access-blocked: '%prefix% &cВам заблокирован доступ к этому &f%warp% &cварпу'
+  name-cant-contain-space: '%prefix% &7Название не может содержать пробел'
+  enter-password: Введите пароль...
+  enter-warps-name: Введите название варпа...
+  password-setting-cancelled: '%prefix% &7Настройка пароля была отменена.'
+  password-changed: '%prefix% &7Пароль был изменён!'
+  password-length: '%prefix% &cПароль должен содержать не менее 3 символов!'
+  entered-wrong-password: '%prefix% &7Введён неверный пароль!'
+  categories-are-disabled: '&cКатегории отключены!'
+  item-changed: '%prefix% &7Изменён элемент меню на %item%'
+  title-write-msg: '%prefix% &7Теперь напишите ваш текст под варпом &f%warp% &7в списке
+    варпов:'
+  item-write-msg: '%prefix% &7Теперь напишите название элемента, который будет представлять
+    варп &f%warp%&7:'
+  write-new-display-name: '%prefix% &7Теперь напишите новое отображаемое название этого
+    варпа:'
+  cancel-input: '&c               [Нажмите, чтобы отменить]'
+  input-cancelled: '%prefix% &7Вы вышли из режима ввода.'
+  text-size-error: '%prefix% &7Текст должен содержать от 5 до 32 символов'
+  description-changed: '%prefix% &7Вы изменили описание вашего варпа &f%warp%'
+  not-owning: '%prefix% &7Это не ваш варп'
+  already-owning: '%prefix% &7Вы уже владеете этим варпом!'
+  invalid-item: '%prefix% &7Этот элемент не существует'
+  already-reviewed: '%prefix% &7Вы уже оценили этот варп!'
+  invalid-review: '%prefix% &7Вы должны выбрать от 1 до 5 звёзд'
+  self-review: '%prefix% &7Вы не можете оценивать собственный варп!'
+  review-warp-title: Оцените варп &f%warp%
+  warp-reviewed: '%prefix% &7Вы оценили этот варп (&f%warp%&7) на %stars% звёзд'
+  tried-to-set-banned-item: '%prefix% &7Этот элемент не разрешён'
+  not-a-number: '%prefix% &7Введённая цена не является числом'
+  price-write-msg: '%prefix% &7Пожалуйста, укажите цену телепортации к вашему варпу
+    &f%warp%&7:'
+  price-changed: '%prefix% &7Цена телепортации к вашему варпу &f%warp% &7была изменена
+    на %price%'
+  invalid-entered-price: '%prefix% &7Цена не может быть меньше нуля'
+  entered-higher-price-than-allowed: '%prefix% &7Цена не может быть выше %max% $'
+  ownership-transfer-successful: '%prefix% &7Вы успешно передали этот варпу игроку %player%'
+  ownership-transfer-info: '%prefix% &7Игрок %player% передал вам варп &f%warp%'
+  unavailable-player: '%prefix% &7Игрок недоступен!'
+  owner-change-msg: '%prefix% &7Теперь напишите название владельца варпа &f%warp%&7:'
+  password-change-msg: '%prefix% &7Теперь напишите новый пароль для варпа &f%warp%&7:'
+  warp-name-changed: '%prefix% &7Варп %oldName% были успешно переименован в %newName%'
+  warp-status-changed: '%prefix% &7Статус варпа был изменён на: &e%status%'
+  warp-relocated: '%prefix% &7Варп &f%warp% &7был перемещён!'
+  rename-write-msg: '%prefix% &7Теперь напишите новое название для варпа &f%warp%&7:'
+  set-description-msg: '%prefix% &7Теперь напишите новое описание для варпа &f%warp%&7:'
+  dangerous-position-msg: '%prefix% &7Местоположение варпа небезопасно, отмена телепортации'
+  warp-name-is-above-letters-limit: '%prefix% &7Название варпа должно быть короче %limit%
+    букв'
+  warps-item-name: '&e&lОбзор варпов'
+  my-warps-item-name: '&e&lУправление моими варпами'
+  own-warp-item-name: '&fВарп: &a%warp%'
+  help-item-name: '&e&lКак создать варп'
+  favorite-warps-item-name: '&e&lИзбранные варпы'
+  my-warp-title: Мои варпы &7%page%. стр.
+  warps-title: Варпы &7%page%. стр.
+  change-warp-category-title: 'Изменить категорию варпа &a%warp%:'
+  edit-warp-menu-title: Редактирование варпа &a%warp%
+  category-title: Категории
+  help-title: Помощь
+  set-warp-status-title: 'Установите статус варпа:'
+  favorites-title: Избранные варпы &7%page%. стр.
+  confirmation-menu-title: Подтвердите действие (%warp%)
+  accept: '&a&lПринять'
   accept-with-price: "&a&lПринять &c(-%price% $)"
+  deny: '&c&lОтклонить'
+  sort-warps: '&aСортировать варпы'
+  click-to-sort-by: '&b► Нажмите, чтобы отсортировать %selector%'
+  next-page: '&aСледующая страница'
+  previous-page: '&cПредыдущая страница'
+  no-description: '&3&oВладелец не установил описание'
+  back-name: '&c&lНазад'
+  one-stars: '&e&l1 звезда'
+  two-stars: '&e&l2 звезды'
+  three-stars: '&e&l3 звезды'
+  four-stars: '&e&l4 звезды'
+  five-stars: '&e&l5 звёзд'
+  warp-enabled: '%prefix% &7Вы &aразблокировали&f свой варп &f%warp%'
+  warp-disabled: '%prefix% &7Вы &cзаблокировали&f свой варп &f%warp%'
+  warp-is-disabled: '%prefix% &7Владелец временно заблокировал этот варп (&f%warp%&7)'
+  entered-invalid-type-of-warp: '%prefix% &7Введён неверный тип. Доступные типы: &9%types%'
+  warp-type-changed: '%prefix% &7Вы изменили тип варпа &f%warp% &7на %type%'
+  privacy-changed: '%prefix% &7Вы изменили конфиденциальность варпа &f%warp%'
+  display-name-changed: '%prefix% &7Отображаемое название варпа &f%warp% &7было изменено
+    на %displayName%'
+  favorite-warp-added: '%prefix% &7Варп &f%warp% &7был добавлен в ваш список избранных
+    варпов'
+  remove-favorite-warp: '%prefix% &7Вы удалили варп &f%warp% &7из списка избранного
+    варпов'
+  warp-not-contains-favlist: '%prefix% &7Варпа &f%warp% &7нет в вашем списке избранных
+    варпов'
+  warp-already-contains-favlist: '%prefix% &7Варп &f%warp% &7уже добавлен в ваш список
+    избранных варпов'
+  search-warp: '&aПоиск варпа'
   search-warp-lore:
-    - "&7Нажмите, чтобы искать врата"
-    - "&7по имени"
+    - '&7Нажмите, чтобы искать варп'
+    - '&7по имени'
   # Lore inside /pwarp GUI
   # Возможные placeholders:
   #   %owner-name% - имя игрока, который владеет этими вратами
@@ -167,111 +188,112 @@ lang:
   #   %creationDate% - дата создания врат
   #   %world% - мир, в котором находятся врата
   warp-lore:
-    - " "
-    - "&7Владелец: &f%owner-name%"
-    - "&7Создано: &f%creationDate%"
-    - "&7Мир: &f%world%"
-    - "&7Посещения: &f%visits% &8(%today% сегодня)"
-    - "&7Рейтинг: &e%stars% &6%ratings% &8(%voters% голосов)"
-    - "&7Статус: %status%"
-    - "&7Цена: &6%price%"
-    - "&7Описание:"
-    - "&8 &9%lore%"
-    - " "
-    - "&e► Левый клик, чтобы телепортироваться"
-    - "&e► SHIFT + Левый клик, чтобы добавить/удалить из избранного"
-    - "&e► Правый клик, чтобы оценить"
+    - ' '
+    - '&7Владелец: &f%owner-name%'
+    - '&7Создание: &f%creationDate%'
+    - '&7Мир: &f%world%'
+    - '&7Посещений: &f%visits% &8(%today% сегодня)'
+    - '&7Рейтинг: &e%stars% &6%ratings% &8(%voters% голосов)'
+    - '&7Статус: %status%'
+    - '&7Цена: &6%price%'
+    - '&7Описание:'
+    - '&8 &9%lore%'
+    - ' '
+    - '&e► ЛКМ, чтобы телепортироваться'
+    - '&e► SHIFT + ЛКМ, чтобы добавить/удалить из списка избранных варпов'
+    - '&e► ПКМ, чтобы оценить'
   own-warp-lore:
-    - " "
-    - "&7Посещения: &f%visits% &8(%today% сегодня)"
-    - "&7Создано: &f%creationDate%"
-    - "&7Рейтинг: &e%stars% &6%ratings% &8(%voters% голосов)"
-    - "&7Доступность: %status%"
-    - "&7Цена: &6%price%"
-    - "&7Описание:"
-    - "&8 &9%lore%"
-    - " "
-    - "&e► Левый клик, чтобы телепортироваться"
-    - "&e► Правый клик, чтобы редактировать"
+    - ' '
+    - '&7Посещений: &f%visits% &8(%today% сегодня)'
+    - '&7Создание: &f%creationDate%'
+    - '&7Рейтинг: &e%stars% &6%ratings% &8(%voters% голосов)'
+    - '&7Статус: %status%'
+    - '&7Цена: &6%price%'
+    - '&7Описание:'
+    - '&8 &9%lore%'
+    - ' '
+    - '&e► ЛКМ, чтобы телепортироваться'
+    - '&e► ПКМ, чтобы редактировать'
   # Это будет использоваться, если цена телепортации равна 0
-  free-of-charge: "&fБесплатно"
-  warp-active: "&a✔ Активно"
-  warp-inactive: "&c❌ Неактивно"
-  help-display-name: "&b&lПодсказка"
+  free-of-charge: '&fБесплатно'
+  warp-active: '&a✔ Активно'
+  warp-inactive: '&c❌ Неактивно'
+  help-display-name: '&b&lПодсказка'
   help-lore:
     - ' '
-    - '&7 Чтобы создать врата, используйте'
+    - '&7 Чтобы создать варп, используйте'
     - '&7 команду:'
     - ' '
     - '&2  ● &a/pwarp create ◁name▷'
     - ' '
     - '&7 Затем вы можете настроить'
-    - '&7  свои врата с помощью:'
+    - '&7  свой варп с помощью:'
     - ' '
     - '&6  ● &e/pwarp setup ◁name▷'
     - ' '
   #
   # Меню настроек
   #
-  change-display-name: "&aИзменить отображаемое имя"
+  change-display-name: '&aИзменить отображаемое название'
   change-display-name-lore:
-    - "&8&lПРИМЕЧАНИЕ:&8 Вы можете использовать цветовые коды (&)"
-    - " "
-    - "&e► Нажмите, чтобы изменить отображаемое имя"
-  remove-warp: "&cУдалить врата"
+    - '&8&lПРИМЕЧАНИЕ:&8 Вы можете использовать цветовые коды (&)'
+    - ' '
+    - '&e► Нажмите, чтобы изменить отображаемое название'
+  remove-warp: '&cУдалить варп'
   remove-warp-lore:
-    - " "
-    - "&e► Нажмите, чтобы удалить"
-  change-type: "&aИзменить тип врат"
+    - ' '
+    - '&e► Нажмите, чтобы удалить'
+  change-type: '&aИзменить тип варпа'
   change-type-lore:
-    - " "
-    - "&e► Нажмите, чтобы изменить"
-  change-item: "&aИзменить элемент врат"
+    - ' '
+    - '&e► Нажмите, чтобы изменить тип'
+  change-item: '&aЗаменить элемент варпа'
   change-item-lore:
-    - " "
-    - "&e► Нажмите, чтобы изменить"
-  change-label: "&aИзменить описание врат"
+    - ' '
+    - '&e► Нажмите, чтобы заменить элемент'
+  change-label: '&aИзменить описание варпа'
   change-label-lore:
-    - " "
-    - "&e► Нажмите, чтобы изменить"
-  pwarp-accessibility: "&aДоступность врат"
+    - ' '
+    - '&e► Нажмите, чтобы изменить описание'
+  pwarp-accessibility: '&aСтатус варпа'
   pwarp-accessibility-lore:
-    - " "
-    - "&7Текущий статус: &2%status%"
-    - " "
-    - "&e► Изменить доступность врат"
-  blocked-player-input: "%prefix% &7Теперь введите имя игрока, которого вы хотите ограничить доступом к этому варпу:"
-  blocked-players-title: "Заблокированные игроки"
-  blocked-players: "&aЗаблокированные игроки &2(%amount%)"
+    - ' '
+    - '&7Текущий статус: &2%status%'
+    - ' '
+    - '&e► Нажмите, чтобы изменить статус'
+  blocked-player-input: '%prefix% &7Теперь введите название игрока, которому вы хотите
+    добавить в чёрный список своего варпа:'
+  blocked-players-title: Чёрный список
+  blocked-players: '&aИгроков в чёрном списке &2(%amount%)'
   blocked-players-lore:
-    - " "
-    - "&7Игроки, которые заблокированы"
-    - "&7для этого варпа"
-    - " "
-    - "&e► Нажмите для управления"
-  blocked-player-manage: "&c%player%"
+    - ' '
+    - '&7Игроки, которые в чёрном списке'
+    - '&7для этого варпа'
+    - ' '
+    - '&e► Нажмите для управления'
+  blocked-player-manage: '&c%player%'
   blocked-player-manage-lore:
-    - " "
-    - "&e► Нажмите, чтобы разблокировать"
-  blocked-player-add: "&eДобавить игрока"
-  set-price: "&aЦена телепортации"
+    - ' '
+    - '&e► Нажмите, чтобы удалить из чёрного списка'
+  blocked-player-add: '&eДобавить игрока'
+  set-price: '&aЦена телепортации'
   set-price-lore:
-    - " "
-    - "&7Вы можете установить цену за"
-    - "&7посещение ваших врат"
-    - " "
-    - "&e► Нажмите, чтобы установить цену"
-  change-owner: "&eИзменить владельца"
+    - ' '
+    - '&7Вы можете установить цену за'
+    - '&7посещение вашего варпа'
+    - ' '
+    - '&e► Нажмите, чтобы установить цену'
+  change-owner: '&eИзменить владельца'
   change-owner-lore:
-    - " "
-    - "&e► Нажмите, чтобы изменить владельца"
-  rename-warp: "&eПереименовать врата"
+    - ' '
+    - '&e► Нажмите, чтобы изменить владельца'
+  rename-warp: '&eПереименовать варп'
   rename-warp-lore:
-    - " "
-    - "&e► Нажмите, чтобы переименовать"
-  warp-relocation: "&eПереместить ваши врата"
+    - ' '
+    - '&e► Нажмите, чтобы переименовать'
+  warp-relocation: '&eПереместить варп'
   warp-relocation-lore:
-    - "&7При клике изменится"
-    - "&7местоположение врат"
-    - " "
-    - "&e► Нажмите, чтобы переместить"
+    - '&7При нажатии изменится'
+    - '&7местоположение варпа'
+    - ' '
+    - '&e► Нажмите, чтобы переместить'
