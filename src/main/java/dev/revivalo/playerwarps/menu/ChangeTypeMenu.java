@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ChangeTypeMenu implements Menu {
+public class ChangeTypeMenu extends Menu {
     private final Warp warp;
     private Gui gui;
     private Player player;
@@ -40,7 +40,7 @@ public class ChangeTypeMenu implements Menu {
         if (!categories.isEmpty()) {
             categories
                     .forEach(category -> gui.addItem(ItemBuilder.from(category.getItem()).lore(Collections.emptyList()).setName(StringUtils.capitalize(category.getType())).asGuiItem(event -> {
-                        new SetTypeAction().preExecute(player, warp, category, new ManageMenu(warp), 1);
+                        new SetTypeAction().proceed(player, warp, category, new ManageMenu(warp), 1);
                     })));
         } else {
             gui.setItem(13, ItemBuilder.from(Material.BARRIER).setName(Lang.CATEGORIES_ARE_DISABLED.asColoredString()).asGuiItem());

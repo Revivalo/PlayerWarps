@@ -10,33 +10,36 @@ import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.entity.Player;
 
-public interface Menu {
-    default WarpManager getWarpHandler() {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public abstract class Menu {
+    protected static final ExecutorService MENU_EXECUTOR = Executors.newFixedThreadPool(3);
+
+    protected WarpManager getWarpHandler() {
         return PlayerWarpsPlugin.getWarpHandler();
     }
 
-    default Sortable getDefaultSortType() {
+    protected Sortable getDefaultSortType() {
         return getWarpHandler().getSortingManager().getDefaultSortType();
     }
 
     //MenuType getMenuType();
-    BaseGui getMenu();
+    abstract BaseGui getMenu();
 
-    void open(Player player);
+    public abstract void open(Player player);
 
-    void create();
+    abstract void create();
 
-    void fill();
+    abstract void fill();
 
-    default void update() {
+    protected void update() {
         create();
         fill();
         open(getPlayer());
     }
 
-    //
-
-    default void setDefaultItems(Player player, BaseGui gui) {
+    protected void setDefaultItems(Player player, BaseGui gui) {
         gui.setItem(getMenuSize() - 6,
                 ItemBuilder
                         .from(ItemUtil.getItem(Config.WARP_LIST_ITEM.asString()))
@@ -56,10 +59,12 @@ public interface Menu {
                         .from(ItemUtil.getItem(Config.MY_WARPS_ITEM.asString()))
                         .glow(this instanceof WarpsMenu.MyWarpsMenu)
                         .setName(Lang.MY_WARPS_ITEM_NAME.asColoredString())
-                        .asGuiItem(event ->
-                                new WarpsMenu.MyWarpsMenu()
-                                        .setPage(1)
-                                        .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType())
+                        .asGuiItem(event -> {
+                            if (!(this instanceof WarpsMenu.MyWarpsMenu))
+                                    new WarpsMenu.MyWarpsMenu()
+                                            .setPage(1)
+                                            .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType());
+                                }
                         )
         );
 
@@ -68,17 +73,19 @@ public interface Menu {
                         .from(ItemUtil.getItem(Config.FAVORITE_WARPS_ITEM.asString()))
                         .glow(this instanceof WarpsMenu.FavoriteWarpsMenu)
                         .setName(Lang.FAVORITE_WARPS_ITEM_NAME.asColoredString())
-                        .asGuiItem(event ->
-                                new WarpsMenu.FavoriteWarpsMenu()
-                                        .setPage(1)
-                                        .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType())
+                        .asGuiItem(event -> {
+                            if (!(this instanceof WarpsMenu.FavoriteWarpsMenu))
+                                    new WarpsMenu.FavoriteWarpsMenu()
+                                            .setPage(1)
+                                            .open(player, null, getWarpHandler().getSortingManager().getDefaultSortType());
+                                }
                         )
         );
     }
 
-    short getMenuSize();
+    abstract short getMenuSize();
 
-    Lang getMenuTitle();
+    abstract Lang getMenuTitle();
 
-    Player getPlayer();
+    abstract Player getPlayer();
 }

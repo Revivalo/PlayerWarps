@@ -18,6 +18,7 @@ softdepend:
   - BentoBox
   - SuperiorSkyblock2
   - WorldGuard
+  - GriefPrevention
   - Residence
 
 commands:

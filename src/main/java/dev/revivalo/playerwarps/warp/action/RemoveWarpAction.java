@@ -7,7 +7,6 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

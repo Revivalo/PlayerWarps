@@ -21,6 +21,7 @@ public final class HookManager {
         hooks.put(HookName.WORLD_GUARD, new WorldGuardHook());
         hooks.put(HookName.ANGESCHOSSEN_LANDS, new AngeschossenLandsHook());
         hooks.put(HookName.BLUEMAP, new BlueMapHook());
+        hooks.put(HookName.GRIEF_PREVENTION, new GriefPreventionHook());
 
         for (Hook<?> hook : hooks.values()) {
             hook.preRegister();
@@ -59,6 +60,10 @@ public final class HookManager {
         return (DynmapHook) hooks.get(HookName.DYNMAP);
     }
 
+    public static GriefPreventionHook getGriefPreventionHook() {
+        return (GriefPreventionHook) hooks.get(HookName.GRIEF_PREVENTION);
+    }
+
     public static BentoBoxHook getBentoBoxHook() {
         return (BentoBoxHook) hooks.get(HookName.BENTO_BOX);
     }
@@ -93,6 +98,7 @@ public final class HookManager {
         SUPERIOR_SKY_BLOCK,
         RESIDENCE,
         WORLD_GUARD,
+        GRIEF_PREVENTION,
         ANGESCHOSSEN_LANDS,
         DYNMAP,
         BLUEMAP

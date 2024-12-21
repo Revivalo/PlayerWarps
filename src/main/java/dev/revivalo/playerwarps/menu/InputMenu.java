@@ -1,9 +1,10 @@
 package dev.revivalo.playerwarps.menu;
 
 import de.rapha149.signgui.SignGUI;
+import de.rapha149.signgui.exception.SignGUIVersionException;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.revivalo.playerwarps.warp.action.WarpAction;
 import dev.triumphteam.gui.guis.BaseGui;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -11,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
-public class InputMenu implements Menu {
+public class InputMenu extends Menu {
     private final Warp warp;
     private SignGUI gui;
     private Player player;
@@ -23,19 +24,23 @@ public class InputMenu implements Menu {
 
     @Override
     public void create() {
-        this.gui = SignGUI.builder()
-                .setType(Material.OAK_SIGN)
-                .setColor(DyeColor.BLACK)
-                .setLine(1, warpAction.getInputText().asColoredString())
-                .setHandler((p, result) -> {
-                    String input = result.getLineWithoutColor(0);
+        try {
+            this.gui = SignGUI.builder()
+                    .setType(Material.OAK_SIGN)
+                    .setColor(DyeColor.BLACK)
+                    .setLine(1, warpAction.getInputText().asColoredString())
+                    .setHandler((p, result) -> {
+                        String input = result.getLineWithoutColor(0);
 
-                    warpAction.preExecute(player, warp, input);
+                        warpAction.proceed(player, warp, input);
 
-                    return Collections.emptyList();
-                })
+                        return Collections.emptyList();
+                    })
 
-                .build();
+                    .build();
+        } catch (SignGUIVersionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

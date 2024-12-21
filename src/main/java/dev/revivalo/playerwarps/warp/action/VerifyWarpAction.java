@@ -2,7 +2,6 @@ package dev.revivalo.playerwarps.warp.action;
 
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.entity.Player;
 
 public class VerifyWarpAction implements WarpAction<Boolean> {

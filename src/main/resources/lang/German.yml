@@ -52,6 +52,7 @@ lang:
   tried-to-create-warp-in-foreign-island: "%prefix% &cKann keinen Warp auf einer fremden Insel erstellen"
   tried-to-create-warp-in-foreign-region: "%prefix% &cEs kann kein Warp in einer Region namens %region% erstellt werden"
   tried-to-create-warp-in-foreign-residence: "%prefix% &cKann keine Warp in einem fremden Wohnsitz erstellen"
+  tried-to-create-warp-in-foreign-claim: "%prefix% &cCannot create a warp in a unowned claim"
   tried-to-create-warp-in-foreign-land: "%prefix% &cCannot create a warp in unowned land"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp kann nicht in diese Welt (%world%) verschoben werden"
   insufficient-balance-for-action: "%prefix% &cNicht genügend Guthaben, um dies zu tun! (%price% $)"

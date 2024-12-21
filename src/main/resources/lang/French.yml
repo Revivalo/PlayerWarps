@@ -51,6 +51,7 @@ lang:
   tried-to-create-warp-in-disabled-world: "%prefix% &cLe warp ne peut pas être créé dans le monde (%world%)"
   tried-to-create-warp-in-foreign-island: "%prefix% &cImpossible de créer un warp sur une île étrangère"
   tried-to-create-warp-in-foreign-residence: "%prefix% &cImpossible de créer un warp dans une résidence étrangère"
+  tried-to-create-warp-in-foreign-claim: "%prefix% &cCannot create a warp in a unowned claim"
   tried-to-create-warp-in-foreign-region: "%prefix% &cImpossible de créer un warp dans une région nommée %region%"
   tried-to-create-warp-in-foreign-land: "%prefix% &cCannot create a warp in unowned land"
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cLe warp ne peut pas être déplacé dans ce monde (%world%)"

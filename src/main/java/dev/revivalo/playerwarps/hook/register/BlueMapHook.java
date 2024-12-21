@@ -2,7 +2,6 @@ package dev.revivalo.playerwarps.hook.register;
 
 import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
-import de.bluecolored.bluemap.api.markers.Marker;
 import de.bluecolored.bluemap.api.markers.MarkerSet;
 import de.bluecolored.bluemap.api.markers.POIMarker;
 import dev.revivalo.playerwarps.configuration.file.Config;
@@ -11,12 +10,16 @@ import dev.revivalo.playerwarps.warp.Warp;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
-public class BlueMapHook implements Hook<BlueMapAPI> {
+public class BlueMapHook implements Hook<Void> {
     private BlueMapAPI blueMapAPI = null;
     private MarkerSet markerSet;
     @Override
     public void register() {
-        this.blueMapAPI = (getPlugin("BlueMap") != null ? BlueMapAPI.getInstance().get() : null);
+        this.blueMapAPI = (getPlugin("BlueMap") != null
+                ? BlueMapAPI.getInstance().isPresent()
+                    ? BlueMapAPI.getInstance().get()
+                    : null
+                : null);
         if (isOn()) {
              markerSet = MarkerSet.builder()
                     .label("PlayerWarp's Markers")
@@ -26,12 +29,12 @@ public class BlueMapHook implements Hook<BlueMapAPI> {
 
     @Override
     public boolean isOn() {
-        return blueMapAPI != null;
+        return false;
     }
 
     @Override
-    public @Nullable BlueMapAPI getApi() {
-        return blueMapAPI;
+    public @Nullable Void getApi() {
+        return null;
     }
 
     public void setMarker(Warp warp) {
@@ -54,21 +57,6 @@ public class BlueMapHook implements Hook<BlueMapAPI> {
                     map.getMarkerSets().put("playerwarpmarkers", markerSet);
                 }
             });
-//            String markerId = warp.getWarpID().toString();
-//
-//            Location location = warp.getLocation();
-//            Marker marker = markerSet.createMarker(
-//                    markerId,
-//                    markerLabel,
-//                    location.getWorld().getName(),
-//                    location.getX(),
-//                    location.getY(),
-//                    location.getZ(),
-//                    markerAPI.getMarkerIcon(Config.DYNMAP_MARKER_ICON.asString()),
-//                    false);
-//            if (marker == null) {
-//                PlayerWarpsPlugin.get().getLogger().log(Level.WARNING, "Failed to create a marker.");
-//            }
         }
     }
 

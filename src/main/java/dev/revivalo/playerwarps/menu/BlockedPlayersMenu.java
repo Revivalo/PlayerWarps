@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class BlockedPlayersMenu implements Menu {
+public class BlockedPlayersMenu extends Menu {
     private final Warp warp;
 
     private Player player;
@@ -57,7 +57,7 @@ public class BlockedPlayersMenu implements Menu {
                     BlockPlayerAction blockPlayerAction = new BlockPlayerAction();
                     PlayerWarpsPlugin.getWarpHandler()
                             .waitForPlayerInput(player, warp, blockPlayerAction)
-                            .thenAccept(input -> blockPlayerAction.preExecute(player, warp, input, new BlockedPlayersMenu(warp)));
+                            .thenAccept(input -> blockPlayerAction.proceed(player, warp, input, new BlockedPlayersMenu(warp)));
                 }));
 
         gui.setItem(18, ItemBuilder

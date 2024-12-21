@@ -1,6 +1,9 @@
 package dev.revivalo.playerwarps.util;
 
+import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public final class PermissionUtil {
     public static boolean hasPermission(CommandSender commandSender, Permission permission){
@@ -13,6 +16,28 @@ public final class PermissionUtil {
         else
             return commandSender.hasPermission(permission.asString());
     }
+
+    public static int getLimit(Player player, int defaultValue) {
+        String permissionPrefix = "playerwarps.limit.";
+        int maxLimit = defaultValue;
+
+        for (PermissionAttachmentInfo attachmentInfo : player.getEffectivePermissions()) {
+            if (attachmentInfo.getPermission().startsWith(permissionPrefix)) {
+                try {
+                    // Získání čísla na konci oprávnění
+                    int limit = Integer.parseInt(attachmentInfo.getPermission().substring(permissionPrefix.length()));
+                    // Aktualizace maxLimit, pokud je nalezen vyšší limit
+                    maxLimit = Math.max(maxLimit, limit);
+                } catch (NumberFormatException e) {
+                    // Ignoruje neplatné oprávnění, které není celé číslo
+                    PlayerWarpsPlugin.get().getLogger().warning("Invalid limit permission: " + attachmentInfo.getPermission());
+                }
+            }
+        }
+
+        return maxLimit;
+    }
+
 
     public enum Permission {
         ADMIN_PERMISSION("playerwarps.admin"),

@@ -7,7 +7,6 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import dev.revivalo.playerwarps.warp.teleport.Teleport;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

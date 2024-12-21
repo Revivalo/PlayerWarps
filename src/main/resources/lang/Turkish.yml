@@ -49,6 +49,7 @@ lang:
   tried-to-relocate-warp-to-disabled-world: "%prefix% &cWarp bu dünyaya (%world%) taşınamaz"
   tried-to-create-warp-in-foreign-residence: "%prefix% &cYabancı bir konutta çözgü oluşturulamıyor"
   tried-to-create-warp-in-foreign-region: "%prefix% &c%region% adlı bir bölgede warp oluşturulamıyor"
+  tried-to-create-warp-in-foreign-claim: "%prefix% &cCannot create a warp in a unowned claim"
   tried-to-create-warp-in-foreign-land: "%prefix% &cCannot create a warp in unowned land"
   insufficient-balance-for-action: "%prefix% &cBunu yapmak için yeterli bakiye yok! (%price% $)"
   insufficient-balance-to-teleport: "%prefix% &c%warp% warp'ına ışınlanmak için yeterli bakiye yok"

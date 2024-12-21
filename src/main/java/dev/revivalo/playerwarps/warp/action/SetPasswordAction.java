@@ -5,7 +5,6 @@ import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.menu.ManageMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import dev.revivalo.playerwarps.warp.WarpState;
 import org.bukkit.entity.Player;
 

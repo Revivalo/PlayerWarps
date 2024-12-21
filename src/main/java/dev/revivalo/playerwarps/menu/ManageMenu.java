@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class ManageMenu implements Menu {
+public class ManageMenu extends Menu {
     private final Warp warp;
 
     private Gui gui;
@@ -74,7 +74,7 @@ public class ManageMenu implements Menu {
                                 .setLore(Lang.SET_PRICE_LORE.asReplacedList(player, Collections.emptyMap()))
                                 .asGuiItem(event ->
                                         PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setAdmissionAction)
-                                                .thenAccept(input -> setAdmissionAction.preExecute(player, warp, input, new ManageMenu(warp)))
+                                                .thenAccept(input -> setAdmissionAction.proceed(player, warp, input, new ManageMenu(warp)))
                                 )
                 );
         }
@@ -92,7 +92,9 @@ public class ManageMenu implements Menu {
                             .setLore(Lang.CHANGE_DISPLAY_NAME_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
                                     PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, changeDisplayNameAction)
-                                            .thenAccept(input -> changeDisplayNameAction.preExecute(player, warp, input, new ManageMenu(warp)))
+                                            .thenAccept(input -> {
+                                                changeDisplayNameAction.proceed(player, warp, input, new ManageMenu(warp));
+                                            })
                             )
             );
         }
@@ -107,7 +109,7 @@ public class ManageMenu implements Menu {
                             .setLore(Lang.CHANGE_ITEM_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
                                     PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setPreviewItemAction)
-                                            .thenAccept(input -> setPreviewItemAction.preExecute(player, warp, input, new ManageMenu(warp)))
+                                            .thenAccept(input -> setPreviewItemAction.proceed(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
@@ -122,7 +124,7 @@ public class ManageMenu implements Menu {
                             .setLore(Lang.CHANGE_LABEL_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
                                     PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, setDescriptionAction)
-                                            .thenAccept(input -> setDescriptionAction.preExecute(player, warp, input, new ManageMenu(warp)))
+                                            .thenAccept(input -> setDescriptionAction.proceed(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
@@ -142,7 +144,7 @@ public class ManageMenu implements Menu {
                             .setName(Lang.RENAME_WARP.asColoredString())
                             .setLore(Lang.RENAME_WARP_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, renameAction).thenAccept(input -> renameAction.preExecute(player, warp, input, new ManageMenu(warp)))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, renameAction).thenAccept(input -> renameAction.proceed(player, warp, input, new ManageMenu(warp)))
                             )
             );
         }
@@ -150,7 +152,12 @@ public class ManageMenu implements Menu {
         if (Config.REMOVE_WARP_POSITION.asInteger() > 0)
             gui.setItem(Config.REMOVE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.REMOVE_WARP_ITEM.asUppercase())).setName(Lang.REMOVE_WARP.asColoredString()).setLore(Lang.REMOVE_WARP_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new ConfirmationMenu(warp).open(player, new RemoveWarpAction())));
         if (Config.RELOCATE_WARP_POSITION.asInteger() > 0)
-            gui.setItem(Config.RELOCATE_WARP_POSITION.asInteger(), ItemBuilder.from(ItemUtil.getItem(Config.RELOCATE_WARP_ITEM.asUppercase())).setName(Lang.WARP_RELOCATION.asColoredString()).setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap())).asGuiItem(event -> new RelocateAction().preExecute(player, warp, null, new ManageMenu(warp), 1)));
+            gui.setItem(Config.RELOCATE_WARP_POSITION.asInteger(),
+                    ItemBuilder
+                            .from(ItemUtil.getItem(Config.RELOCATE_WARP_ITEM.asUppercase()))
+                            .setName(Lang.WARP_RELOCATION.asColoredString())
+                            .setLore(Lang.WARP_RELOCATION_LORE.asReplacedList(player, Collections.emptyMap()))
+                            .asGuiItem(event -> new RelocateAction().proceed(player, warp, null, new ManageMenu(warp), 1)));
 
         TransferOwnershipAction transferOwnershipAction = new TransferOwnershipAction();
         if (Config.CHANGE_OWNER_POSITION.asInteger() > 0) {
@@ -161,7 +168,7 @@ public class ManageMenu implements Menu {
                             .setName(Lang.CHANGE_OWNER.asColoredString())
                             .setLore(Lang.CHANGE_OWNER_LORE.asReplacedList(player, Collections.emptyMap()))
                             .asGuiItem(event ->
-                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, transferOwnershipAction).thenAccept(input -> transferOwnershipAction.preExecute(player, warp, Bukkit.getPlayerExact(input), new ManageMenu(warp)))
+                                    PlayerWarpsPlugin.getWarpHandler().waitForPlayerInput(player, warp, transferOwnershipAction).thenAccept(input -> transferOwnershipAction.proceed(player, warp, Bukkit.getPlayerExact(input), new ManageMenu(warp)))
                             )
             );
         }

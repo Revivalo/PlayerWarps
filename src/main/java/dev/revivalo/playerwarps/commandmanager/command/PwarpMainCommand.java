@@ -19,11 +19,11 @@ public class PwarpMainCommand extends MainCommand {
 
     @Override
     protected void registerSubCommands() {
-        subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());
         subCommands.add(new CreateCommand());
         subCommands.add(new ManageCommand());
         subCommands.add(new RemoveCommand());
+        subCommands.add(new HelpCommand());
         //subCommands.add(new ImportCommand());
     }
 

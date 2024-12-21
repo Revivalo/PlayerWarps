@@ -26,6 +26,11 @@ public final class PlayerUtil {
         }
     }
 
+//    public static void sendMessage(Player player, String message) {
+//        if (!message.isEmpty()) player.sendMessage(message);
+//        dokončit a otestovat!
+//    }
+
     public static void announce(String message) {
         announce(message, new Player[]{});
     }

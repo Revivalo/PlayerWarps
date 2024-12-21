@@ -10,6 +10,7 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.menu.sort.*;
 import dev.revivalo.playerwarps.playerconfig.PlayerConfig;
 import dev.revivalo.playerwarps.util.PermissionUtil;
+import dev.revivalo.playerwarps.warp.action.WarpAction;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -91,20 +92,16 @@ public class WarpManager {
 
     public void loadWarps() {
         Optional<ConfigurationSection> warpDataSection = Optional.ofNullable(PlayerWarpsPlugin.getData().getConfiguration().getConfigurationSection("warps"));
-        warpDataSection.ifPresent(warpsSection -> {
-                warpDataSection.ifPresent(warpSection ->
-                        warpSection
-                                .getKeys(false)
-                                .forEach(warpID -> {
-                                            Warp warp = warpSection.getSerializable(warpID, Warp.class);
-                                            addWarp(warp);
-                                            HookManager.getDynmapHook().setMarker(warp);
-                                            HookManager.getBlueMapHook().setMarker(warp);
-                                        }
-                                )
-                );
-            //}
-        });
+        warpDataSection.flatMap(warpsSection -> warpDataSection).ifPresent(warpSection ->
+                warpSection
+                        .getKeys(false)
+                        .forEach(warpID -> {
+                                    Warp warp = warpSection.getSerializable(warpID, Warp.class);
+                                    addWarp(warp);
+                                    HookManager.getDynmapHook().setMarker(warp);
+                                    HookManager.getBlueMapHook().setMarker(warp);
+                                }
+                        ));
     }
 
     public void saveWarps() {
@@ -118,22 +115,10 @@ public class WarpManager {
         }
     }
 
-    public int getAmount(Player player, int defaultValue) {
-        String permissionPrefix = "playerwarps.limit.";
-
-        for (PermissionAttachmentInfo attachmentInfo : player.getEffectivePermissions()) {
-            if (attachmentInfo.getPermission().startsWith(permissionPrefix)) {
-                return Integer.parseInt(attachmentInfo.getPermission().substring(attachmentInfo.getPermission().lastIndexOf(".") + 1));
-            }
-        }
-
-        return defaultValue;
-    }
-
     public boolean canHaveWarp(final Player player) {
         UUID id = player.getUniqueId();
         if (!player.hasPermission("playerwarps.limit.unlimited")) {
-            return getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInteger()) != getOwnedWarps(id);
+            return PermissionUtil.getLimit(player, Config.DEFAULT_LIMIT_SIZE.asInteger()) != getOwnedWarps(id);
         }
         return true;
     }
@@ -170,7 +155,9 @@ public class WarpManager {
                 if (event.getPlayer().equals(player)) {
                     event.setCancelled(true);
                     future.complete(event.getMessage());
-                    PlayerWarpsPlugin.get().runSync(() -> new ManageMenu(warp).open(player));
+                    PlayerWarpsPlugin.get().runSync(() -> {
+                        if (!warpAction.hasFee()) new ManageMenu(warp).open(player);
+                    });
                     HandlerList.unregisterAll(this);
                 }
             }

@@ -7,6 +7,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public enum Lang {
@@ -57,6 +59,7 @@ public enum Lang {
     WARP_REMOVED_WITH_REFUND,
     WARP_IN_DELETED_WORLD,
     TRIED_TO_CREATE_WARP_IN_FOREIGN_ISLAND,
+    TRIED_TO_CREATE_WARP_IN_FOREIGN_CLAIM,
     TRIED_TO_CREATE_WARP_IN_FOREIGN_REGION,
     TRIED_TO_CREATE_WARP_IN_FOREIGN_RESIDENCE,
     TRIED_TO_CREATE_WARP_IN_FOREIGN_LAND,
@@ -171,42 +174,100 @@ public enum Lang {
     RENAME_WARP_LORE;
 
     private static final Map<String, String> messages = new HashMap<>();
-    private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
+    private static final Map<String, List<String>> lists = new HashMap<>();
+
+//    public static void reload(Config language) {
+//        YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
+//                PlayerWarpsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
+//
+//        langYamlFile.reload();
+//        final YamlConfiguration configuration = langYamlFile.getConfiguration();
+//
+//        ConfigurationSection langSection = configuration.getConfigurationSection("lang");
+//        if (langSection == null) {
+//            PlayerWarpsPlugin.get().getLogger().info("Invalid configuration in " + langYamlFile.getFilePath());
+//            return;
+//        }
+//
+//        langSection
+//                .getKeys(false)
+//                .forEach(key -> {
+//                    String editedKey = key.toUpperCase(Locale.ENGLISH).replace("-", "_");
+//                    if (langSection.isList(key)) {
+//                        lists.put(editedKey, langSection.getStringList(key));
+//                    } else
+//                        messages.put(editedKey, Objects.requireNonNull(langSection.getString(key)).replace("%prefix%", Lang.PREFIX.asColoredString()));
+//                });
+//    }
 
     public static void reload(Config language) {
+        // Načtení překladu
         YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
                 PlayerWarpsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
-
         langYamlFile.reload();
         final YamlConfiguration configuration = langYamlFile.getConfiguration();
 
-        ConfigurationSection langSection = configuration.getConfigurationSection("lang");
-        if (langSection == null) {
-            PlayerWarpsPlugin.get().getLogger().info("Invalid configuration in " + langYamlFile.getFilePath());
+        // Načtení výchozího souboru z .jar
+        YamlConfiguration defaultConfig = new YamlConfiguration();
+        try (InputStream defaultLangStream = PlayerWarpsPlugin.get().getResource("lang/English.yml")) {
+            if (defaultLangStream == null) {
+                PlayerWarpsPlugin.get().getLogger().severe("Default language file 'English.yml' not found in jar!");
+                return;
+            }
+            defaultConfig.load(new InputStreamReader(defaultLangStream));
+        } catch (Exception e) {
+            PlayerWarpsPlugin.get().getLogger().severe("Failed to load default language file from jar!");
+            e.printStackTrace();
             return;
         }
 
-        langSection
-                .getKeys(false)
-                .forEach(key -> {
-                    String editedKey = key.toUpperCase(Locale.ENGLISH).replace("-", "_");
-                    if (langSection.isList(key)) {
-                        listsStoredAsStrings.put(editedKey, String.join("ᴪ", langSection.getStringList(key)));
-                    } else
-                        messages.put(editedKey, Objects.requireNonNull(langSection.getString(key)).replace("%prefix%", Lang.PREFIX.asColoredString()));
-                });
+        // Kontrola a přidání chybějících klíčů z výchozího souboru
+        ConfigurationSection defaultLangSection = defaultConfig.getConfigurationSection("lang");
+        ConfigurationSection langSection = configuration.getConfigurationSection("lang");
+
+        if (defaultLangSection == null) {
+            PlayerWarpsPlugin.get().getLogger().severe("Invalid default language configuration in jar!");
+            return;
+        }
+
+        if (langSection == null) {
+            PlayerWarpsPlugin.get().getLogger().severe("Invalid configuration in " + langYamlFile.getFilePath());
+            return;
+        }
+
+        // Porovnání klíčů a doplnění chybějících
+        defaultLangSection.getKeys(true).forEach(defaultKey -> {
+            if (!langSection.contains(defaultKey)) {
+                langSection.set(defaultKey, defaultLangSection.get(defaultKey));
+            }
+        });
+
+        // Uložení aktualizovaného souboru překladu (pokud bylo něco přidáno)
+        langYamlFile.save();
+
+        // Načtení hodnot do map
+        langSection.getKeys(false).forEach(key -> {
+            String editedKey = key.toUpperCase(Locale.ENGLISH).replace("-", "_");
+            if (langSection.isList(key)) {
+                lists.put(editedKey, langSection.getStringList(key));
+            } else {
+                messages.put(editedKey, Objects.requireNonNull(langSection.getString(key))
+                        .replace("%prefix%", Lang.PREFIX.asColoredString()));
+            }
+        });
     }
 
+
     public List<String> asReplacedList() {
-        return TextUtil.colorize(TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), Collections.emptyMap()));
+        return TextUtil.colorize(TextUtil.replaceList(lists.get(this.name()), Collections.emptyMap()));
     }
 
     public List<String> asReplacedList(final Map<String, String> definitions) {
-        return TextUtil.colorize(TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
+        return TextUtil.colorize(TextUtil.replaceList(lists.get(this.name()), definitions));
     }
 
     public List<String> asReplacedList(Player player, final Map<String, String> definitions) {
-        return TextUtil.colorize(TextUtil.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
+        return TextUtil.colorize(TextUtil.replaceList(lists.get(this.name()), definitions));
     }
 
     public String asColoredString() {return asColoredString(null);}

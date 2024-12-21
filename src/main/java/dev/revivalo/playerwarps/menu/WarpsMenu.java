@@ -24,13 +24,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-public class WarpsMenu implements Menu {
+public class WarpsMenu extends Menu {
     private int page = 1;
     private PaginatedGui paginatedGui;
     private Player player;
@@ -38,8 +36,8 @@ public class WarpsMenu implements Menu {
     private Sortable sortType;
     private List<Warp> foundWarps;
 
-    private final Map<Player, Long> sortingCooldowns = new HashMap<>();
-    private static final long SORT_COOLDOWN_MS = 700;
+    private final Set<Player> sortingCooldowns = new HashSet<>();
+    //private static final long SORT_COOLDOWN_MS = 500;
 
     private final ItemBuilder NEXT_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.NEXT_PAGE_ITEM.asUppercase())).setName(Lang.NEXT_PAGE.asColoredString());
     private final ItemBuilder PREVIOUS_PAGE = ItemBuilder.from(ItemUtil.getItem(Config.PREVIOUS_PAGE_ITEM.asUppercase())).setName(Lang.PREVIOUS_PAGE.asColoredString());
@@ -55,10 +53,12 @@ public class WarpsMenu implements Menu {
     }
 
     @Override
-    public void fill() {
+    public void fill(/*List<Warp> foundWarps*/) {
         final User user = UserHandler.getUser(player);
         user.addData(DataSelectorType.ACTUAL_PAGE, paginatedGui.getCurrentPageNum());
         user.addData(DataSelectorType.ACTUAL_MENU, this);
+        user.addData(DataSelectorType.SELECTED_CATEGORY, categoryName);
+        user.addData(DataSelectorType.SELECTED_SORT, sortType);
 
         final Category openedCategory = CategoryManager.getCategoryFromName(categoryName);
 
@@ -116,30 +116,32 @@ public class WarpsMenu implements Menu {
                             })
                     );
 
-        final List<Warp> warps = new ArrayList<>();
+        final List<Warp> warps = (foundWarps == null) ? new ArrayList<>() : foundWarps;
 
-        if (this instanceof DefaultWarpsMenu) {
-            if (openedCategory.isDefaultCategory()) {
-                if (foundWarps == null) {
+        if (warps.isEmpty() && foundWarps == null) {
+            if (this instanceof DefaultWarpsMenu) {
+                if (openedCategory.isDefaultCategory()) {
                     warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
                             .filter(Warp::isAccessible)
                             .collect(Collectors.toList()));
                 } else {
-                    warps.addAll(foundWarps);
+                    warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
+                            .filter(warp -> warp.isAccessible() && (warp.getCategory() == null || warp.getCategory().getType().equalsIgnoreCase(categoryName)))
+                            .collect(Collectors.toList()));
                 }
-            } else {
-                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream()
-                        .filter(warp -> warp.isAccessible() && (warp.getCategory() == null || warp.getCategory().getType().equalsIgnoreCase(categoryName)))
-                        .collect(Collectors.toList()));
+
+
+                getWarpHandler().getSortingManager().sortWarps(warps, sortType); //TODO: Async
+
+            } else if (this instanceof MyWarpsMenu) {
+                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(warp -> warp.isOwner(player)).collect(Collectors.toList()));
+            } else if (this instanceof FavoriteWarpsMenu) {
+                warps.addAll(PlayerWarpsPlugin.getWarpHandler().getPlayerFavoriteWarps(player));
             }
-
-            getWarpHandler().getSortingManager().sortWarps(warps, sortType); //TODO: Async
-
-        } else if (this instanceof MyWarpsMenu) {
-            warps.addAll(PlayerWarpsPlugin.getWarpHandler().getWarps().stream().filter(warp -> warp.isOwner(player)).collect(Collectors.toList()));
-        } else if (this instanceof FavoriteWarpsMenu) {
-            warps.addAll(PlayerWarpsPlugin.getWarpHandler().getPlayerFavoriteWarps(player));
         }
+
+        //getWarpHandler().getSortingManager().sortWarps(warps, sortType);
+        //new SortWarpAction().execute(player, null, new SortWarpAction.Pair(warps, sortType));
 
         final Lang warpLore = this instanceof MyWarpsMenu ? Lang.OWN_WARP_LORE : Lang.WARP_LORE;
 
@@ -206,7 +208,7 @@ public class WarpsMenu implements Menu {
                             switch (event.getClick()) {
                                 case LEFT:
                                     player.closeInventory();
-                                    new PreTeleportToWarpAction().setMenuToOpen(this).preExecute(player, warp);
+                                    new PreTeleportToWarpAction().setMenuToOpen(this).proceed(player, warp);
                                     break;
                                 case RIGHT:
                                 case SHIFT_RIGHT:
@@ -224,7 +226,7 @@ public class WarpsMenu implements Menu {
                                     break;
                                 case SHIFT_LEFT:
                                     Menu actualMenu = (Menu) user.getData(DataSelectorType.ACTUAL_MENU);
-                                    new FavoriteWarpAction().preExecute(player, warp, null, actualMenu, page);
+                                    new FavoriteWarpAction().proceed(player, warp, null, actualMenu, page);
                                     break;
                             }
                         }
@@ -239,15 +241,7 @@ public class WarpsMenu implements Menu {
     }
 
     private boolean canSort(Player player) {
-        long currentTime = System.currentTimeMillis();
-        if (sortingCooldowns.containsKey(player)) {
-            long lastSortTime = sortingCooldowns.get(player);
-            if (currentTime - lastSortTime < SORT_COOLDOWN_MS) {
-                return false; // Hráč ještě nemůže třídit
-            }
-        }
-        sortingCooldowns.put(player, currentTime);
-        return true;
+        return !sortingCooldowns.contains(player);
     }
 
     @Override
@@ -280,8 +274,14 @@ public class WarpsMenu implements Menu {
         this.sortType = sortType;
         this.foundWarps = foundWarps;
 
+        sortingCooldowns.add(player);
+
         create();
-        fill();
+
+        CompletableFuture.runAsync(this::fill, MENU_EXECUTOR).thenAccept(unused -> {
+            sortingCooldowns.remove(player);
+            getMenu().update();
+        });
 
         paginatedGui.open(player);
     }

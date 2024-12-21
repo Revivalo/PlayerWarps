@@ -48,22 +48,14 @@ lang:
   warp-approved: "%prefix% &7Warp %warp% has been approved!"
   warp-denied: "%prefix% &7Warp approval has been denied, hover for more information"
   # Это сообщение будет отправлено, если установлен Vault
-  warp-created-with-price: '%prefix% &7Вы создали варп &e%name% &c(-%price% $)&7, нажмите
-    &l&nЗДЕСЬ&7, чтобы настроить его.'
-  tried-to-create-warp-in-disabled-world: '%prefix% &cВарп не может быть создан в мире
-    (%world%)'
-  tried-to-create-warp-in-foreign-island: '%prefix% &cНевозможно создать варп на чужом
-    острове'
-  tried-to-create-warp-in-foreign-residence: '%prefix% &cНевозможно создать варп в чужой
-    резиденции'
-  tried-to-create-warp-in-foreign-region: '%prefix% &cНевозможно создать варп в регионе
-    с именем %region%'
-  tried-to-relocate-warp-to-disabled-world: '%prefix% &cВарп не может быть перемещён
-    в этот мир (%world%)'
-  insufficient-balance-for-action: '%prefix% &cНедостаточно средств на балансе для выполнения
-    этого действия! (%price% $)'
-  insufficient-balance-to-teleport: '%prefix% &cНедостаточно средств на балансе для
-    телепортации к этому варпу &f%warp%'
+  warp-created-with-price: '%prefix% &7Вы создали варп &e%name% &c(-%price% $)&7, нажмите &l&nЗДЕСЬ&7, чтобы настроить его.'
+  tried-to-create-warp-in-disabled-world: '%prefix% &cВарп не может быть создан в мире (%world%)'
+  tried-to-create-warp-in-foreign-island: '%prefix% &cНевозможно создать варп на чужом острове'
+  tried-to-create-warp-in-foreign-residence: '%prefix% &cНевозможно создать варп в чужой резиденции'
+  tried-to-create-warp-in-foreign-region: '%prefix% &cНевозможно создать варп в регионе с именем %region%'
+  tried-to-relocate-warp-to-disabled-world: '%prefix% &cВарп не может быть перемещён в этот мир (%world%)'
+  insufficient-balance-for-action: '%prefix% &cНедостаточно средств на балансе для выполнения этого действия! (%price% $)'
+  insufficient-balance-to-teleport: '%prefix% &cНедостаточно средств на балансе для телепортации к этому варпу &f%warp%'
   warp-removed: '%prefix% &7Вы удалили этот варп'
   # Это сообщение будет отправлено, если установлен Vault
   warp-removed-with-refund: '%prefix% &7Вы удалили этот варп &a(+ %refund% $)'

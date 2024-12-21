@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CategoriesMenu implements Menu {
+public class CategoriesMenu extends Menu {
     private Gui gui;
     private Player player;
 
@@ -71,11 +71,6 @@ public class CategoriesMenu implements Menu {
 
         gui.open(player);
     }
-
-//    @Override
-//    public MenuType getMenuType() {
-//        return MenuType.CATEGORIES;
-//    }
 
     @Override
     public BaseGui getMenu() {

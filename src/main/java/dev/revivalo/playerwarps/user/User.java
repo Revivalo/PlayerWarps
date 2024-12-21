@@ -1,5 +1,6 @@
 package dev.revivalo.playerwarps.user;
 
+import dev.revivalo.playerwarps.menu.Menu;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 public class User {
     private final Player player;
     private Map<DataSelectorType, Object> data;
+    private Menu actualMenu;
+    private Menu previousMenu;
 
     public User(Player player, Map<DataSelectorType, Object> data) {
         this.player = player;

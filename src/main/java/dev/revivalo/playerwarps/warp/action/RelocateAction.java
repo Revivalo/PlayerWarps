@@ -6,7 +6,6 @@ import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import dev.revivalo.playerwarps.warp.checker.*;
 import org.bukkit.entity.Player;
 
@@ -20,6 +19,7 @@ public class RelocateAction implements WarpAction<Void> {
         if (HookManager.isHookEnabled(HookManager.getWorldGuardHook())) checkers.add(new WorldGuardChecker());
         if (HookManager.isHookEnabled(HookManager.getSuperiorSkyBlockHook())) checkers.add(new SuperiorSkyBlockChecker());
         if (HookManager.isHookEnabled(HookManager.getAngeschossenLands())) checkers.add(new AngeschossenLandsChecker());
+        if (HookManager.isHookEnabled(HookManager.getGriefPreventionHook())) checkers.add(new GriefPreventationChecker());
     }
 
     @Override

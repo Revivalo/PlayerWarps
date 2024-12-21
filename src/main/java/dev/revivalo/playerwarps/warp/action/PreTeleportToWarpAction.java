@@ -10,7 +10,6 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.NumberUtil;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -70,7 +69,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                                 new ConfirmationMenu(warp)
                                         .setMenuToOpen(menuToOpen)
                                         .open(player, new TeleportToWarpAction());
-                            } else new TeleportToWarpAction().preExecute(player, warp, input);
+                            } else new TeleportToWarpAction().proceed(player, warp, input);
                         }, 2);
 
                         return Collections.emptyList();
@@ -85,7 +84,7 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
                 new ConfirmationMenu(warp)
                         .setMenuToOpen(menuToOpen)
                         .open(player, new TeleportToWarpAction());
-            else new TeleportToWarpAction().preExecute(player, warp);
+            else new TeleportToWarpAction().proceed(player, warp);
         }
         return false;
     }

@@ -5,20 +5,20 @@ import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.util.ItemUtil;
 import dev.revivalo.playerwarps.util.NumberUtil;
-import dev.revivalo.playerwarps.util.TextUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
+import dev.revivalo.playerwarps.warp.action.WarpAction;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
-public class ConfirmationMenu implements Menu {
+public class ConfirmationMenu<T> extends Menu {
     private final Warp warp;
+    private final T data;
     private Gui gui;
     private Player player;
-    private WarpAction<?> action;
+    private WarpAction<T> action;
 
     private static final ItemBuilder DENY_ITEM = ItemBuilder.from(ItemUtil.getItem(Config.DENY_ITEM.asUppercase())).setName(Lang.DENY.asColoredString());
 
@@ -26,6 +26,12 @@ public class ConfirmationMenu implements Menu {
 
     public ConfirmationMenu(Warp warp) {
         this.warp = warp;
+        this.data = null;
+    }
+
+    public ConfirmationMenu(Warp warp, T data) {
+        this.warp = warp;
+        this.data = data;
     }
 
     @Override
@@ -48,7 +54,7 @@ public class ConfirmationMenu implements Menu {
                             : Lang.ACCEPT_WITH_PRICE.asColoredString().replace("%price%", NumberUtil.formatNumber(action.getFee()))
                     )
                     .asGuiItem(event -> {
-                        action.preExecute(player, warp);
+                        action.proceed(player, warp, data, null, 1, true);
                         gui.close(player);
                     }));
         }
@@ -80,7 +86,7 @@ public class ConfirmationMenu implements Menu {
         open(player, null);
     }
 
-    public void open(Player player, WarpAction<?> action) {
+    public void open(Player player, WarpAction<T> action) {
         this.player = player;
         this.action = action;
 

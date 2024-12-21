@@ -50,6 +50,7 @@ lang:
   warp-created-with-price: "%prefix% &7You have created a warp &e%name% &c(-%price% $)&7, click &l&nHERE&7 to configure it."
   tried-to-create-warp-in-disabled-world: "%prefix% &cWarp cannot be created in the world (%world%)"
   tried-to-create-warp-in-foreign-residence: "%prefix% &cCannot create a warp in a unowned residence"
+  tried-to-create-warp-in-foreign-claim: "%prefix% &cCannot create a warp in a unowned claim"
   tried-to-create-warp-in-foreign-region: "%prefix% &cCannot create a warp in a region named %region%"
   tried-to-create-warp-in-foreign-island: "%prefix% &cCannot create a warp on a unowned island"
   tried-to-create-warp-in-foreign-land: "%prefix% &cCannot create a warp in unowned land"

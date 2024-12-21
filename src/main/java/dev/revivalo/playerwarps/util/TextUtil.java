@@ -207,8 +207,19 @@ public final class TextUtil {
         return ratings.toString();
     }
 
-    public static List<String> replaceListAsString(String listAsStringToReplace, final Map<String, String> definitions) {
-        return Splitter.on("ᴪ").splitToList(replaceString(listAsStringToReplace, definitions));
+    public static List<String> replaceList(List<String> lore, Map<String, String> definitions) {
+        List<String> newLore = new ArrayList<>(lore.size());
+        final String[] keys = definitions.keySet().toArray(new String[0]);
+        final String[] values = definitions.values().toArray(new String[0]);
+
+        for (String line : lore) {
+            newLore.add(replaceString(line, keys, values));
+        }
+        return newLore;
+    }
+
+    public static String replaceString(String message, String[] keys, String[] values) {
+        return StringUtils.replaceEach(message, keys, values);
     }
 
     public static List<String> splitByWords(String input, int wordsPerChunk, String prefix) {

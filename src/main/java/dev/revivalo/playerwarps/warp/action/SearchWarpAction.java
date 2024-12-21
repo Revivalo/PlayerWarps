@@ -6,7 +6,6 @@ import dev.revivalo.playerwarps.menu.WarpSearch;
 import dev.revivalo.playerwarps.menu.WarpsMenu;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

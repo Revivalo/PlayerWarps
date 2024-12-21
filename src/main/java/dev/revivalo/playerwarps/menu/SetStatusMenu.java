@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class SetStatusMenu implements Menu {
+public class SetStatusMenu extends Menu {
     private final Warp warp;
     private Gui gui;
     private Player player;

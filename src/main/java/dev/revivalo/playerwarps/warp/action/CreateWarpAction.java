@@ -7,7 +7,6 @@ import dev.revivalo.playerwarps.hook.HookManager;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.util.PlayerUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import dev.revivalo.playerwarps.warp.checker.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -29,6 +28,7 @@ public class CreateWarpAction implements WarpAction<Void> {
         if (HookManager.isHookEnabled(HookManager.getWorldGuardHook())) checkers.add(new WorldGuardChecker());
         if (HookManager.isHookEnabled(HookManager.getSuperiorSkyBlockHook())) checkers.add(new SuperiorSkyBlockChecker());
         if (HookManager.isHookEnabled(HookManager.getAngeschossenLands())) checkers.add(new AngeschossenLandsChecker());
+        if (HookManager.isHookEnabled(HookManager.getGriefPreventionHook())) checkers.add(new GriefPreventationChecker());
     }
 
     public CreateWarpAction(String name) {
@@ -41,7 +41,7 @@ public class CreateWarpAction implements WarpAction<Void> {
             player.sendMessage(Lang.LIMIT_REACHED.asColoredString()
                     .replace(
                             "%limit%",
-                            String.valueOf(PlayerWarpsPlugin.getWarpHandler().getAmount(player, Config.DEFAULT_LIMIT_SIZE.asInteger()))
+                            String.valueOf(PermissionUtil.getLimit(player, Config.DEFAULT_LIMIT_SIZE.asInteger()))
                     )
             );
             return false;

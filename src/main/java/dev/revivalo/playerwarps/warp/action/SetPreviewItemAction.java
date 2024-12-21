@@ -4,7 +4,6 @@ import dev.revivalo.playerwarps.configuration.file.Config;
 import dev.revivalo.playerwarps.configuration.file.Lang;
 import dev.revivalo.playerwarps.util.PermissionUtil;
 import dev.revivalo.playerwarps.warp.Warp;
-import dev.revivalo.playerwarps.warp.WarpAction;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -17,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SetPreviewItemAction implements WarpAction<String> {
-    private static final Set<Material> bannedItems;
+    private static final Set<Material> BANNED_ITEMS;
     @Override
     public boolean execute(Player player, Warp warp, String item) {
         try {
@@ -36,7 +35,7 @@ public class SetPreviewItemAction implements WarpAction<String> {
 
             String itemName = displayItem.getType().name().toLowerCase(Locale.ENGLISH);
 
-            if (bannedItems.contains(displayItem.getType())) {
+            if (BANNED_ITEMS.contains(displayItem.getType())) {
                 player.sendMessage(Lang.TRIED_TO_SET_BANNED_ITEM.asColoredString());
                 return false;
             } else {
@@ -75,10 +74,10 @@ public class SetPreviewItemAction implements WarpAction<String> {
     }
 
     static {
-        bannedItems = new HashSet<>();
-        bannedItems.add(Material.NETHER_PORTAL);
-        bannedItems.add(Material.END_PORTAL);
-        bannedItems.add(Material.AIR);
-        bannedItems.addAll(Config.BANNED_ITEMS.asList().stream().map(Material::valueOf).collect(Collectors.toList()));
+        BANNED_ITEMS = new HashSet<>();
+        BANNED_ITEMS.add(Material.NETHER_PORTAL);
+        BANNED_ITEMS.add(Material.END_PORTAL);
+        BANNED_ITEMS.add(Material.AIR);
+        BANNED_ITEMS.addAll(Config.BANNED_ITEMS.asList().stream().map(Material::valueOf).collect(Collectors.toList()));
     }
 }
