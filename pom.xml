@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>PlayerWarps</artifactId>
-    <version>3.3.0</version>
+    <version>3.3.1</version>
     <packaging>jar</packaging>
 
     <name>PlayerWarps</name>
@@ -299,6 +299,13 @@
             <version>5.1.6.2</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/Residence5.1.6.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eu.athelion.territory</groupId>
+            <artifactId>Territory</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/Territory-1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.GriefPrevention</groupId>

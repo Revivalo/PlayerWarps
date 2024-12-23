@@ -1,6 +1,7 @@
 package dev.revivalo.playerwarps.warp.action;
 
 import de.rapha149.signgui.SignGUI;
+import de.rapha149.signgui.exception.SignGUIVersionException;
 import dev.revivalo.playerwarps.PlayerWarpsPlugin;
 import dev.revivalo.playerwarps.category.Category;
 import dev.revivalo.playerwarps.configuration.file.Lang;
@@ -42,40 +43,45 @@ public class PreTeleportToWarpAction implements WarpAction<String> {
         }
 
         if (warp.isPasswordProtected() && !warp.canManage(player)) {
-            SignGUI gui = SignGUI.builder()
-                    .setType(Material.OAK_SIGN)
-                    .setColor(DyeColor.BLACK)
-                    .setLine(1, Lang.ENTER_PASSWORD.asColoredString())
-                    .setHandler((p, result) -> {
-                        String input = result.getLineWithoutColor(0);
+            SignGUI gui = null;
+            try {
+                gui = SignGUI.builder()
+                        .setType(Material.OAK_SIGN)
+                        .setColor(DyeColor.BLACK)
+                        .setLine(1, Lang.ENTER_PASSWORD.asColoredString())
+                        .setHandler((p, result) -> {
+                            String input = result.getLineWithoutColor(0);
 
-                        if (input.isEmpty()) {
-                            return Collections.emptyList();
-                        }
-
-                        if (input.length() < 3 || input.length() > 15) {
-                            return Collections.emptyList();
-                        }
-
-                        if (warp.isPasswordProtected()) {
-                            if (!warp.validatePassword(input)) {
-                                player.sendMessage(Lang.ENTERED_WRONG_PASSWORD.asColoredString());
+                            if (input.isEmpty()) {
                                 return Collections.emptyList();
                             }
-                        }
 
-                        PlayerWarpsPlugin.get().runDelayed(() -> {
-                            if (warp.hasAdmission() && !warp.canManage(player)) {
-                                new ConfirmationMenu(warp)
-                                        .setMenuToOpen(menuToOpen)
-                                        .open(player, new TeleportToWarpAction());
-                            } else new TeleportToWarpAction().proceed(player, warp, input);
-                        }, 2);
+                            if (input.length() < 3 || input.length() > 15) {
+                                return Collections.emptyList();
+                            }
 
-                        return Collections.emptyList();
-                    })
+                            if (warp.isPasswordProtected()) {
+                                if (!warp.validatePassword(input)) {
+                                    player.sendMessage(Lang.ENTERED_WRONG_PASSWORD.asColoredString());
+                                    return Collections.emptyList();
+                                }
+                            }
 
-                    .build();
+                            PlayerWarpsPlugin.get().runDelayed(() -> {
+                                if (warp.hasAdmission() && !warp.canManage(player)) {
+                                    new ConfirmationMenu(warp)
+                                            .setMenuToOpen(menuToOpen)
+                                            .open(player, new TeleportToWarpAction());
+                                } else new TeleportToWarpAction().proceed(player, warp, input);
+                            }, 2);
+
+                            return Collections.emptyList();
+                        })
+
+                        .build();
+            } catch (SignGUIVersionException e) {
+                throw new RuntimeException(e);
+            }
 
             gui.open(player);
 

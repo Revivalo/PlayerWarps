@@ -20,6 +20,7 @@ softdepend:
   - WorldGuard
   - GriefPrevention
   - Residence
+  - Territory # Get the plugin here:
 
 commands:
   pwarp:

@@ -22,6 +22,7 @@ public final class HookManager {
         hooks.put(HookName.ANGESCHOSSEN_LANDS, new AngeschossenLandsHook());
         hooks.put(HookName.BLUEMAP, new BlueMapHook());
         hooks.put(HookName.GRIEF_PREVENTION, new GriefPreventionHook());
+        hooks.put(HookName.TERRITORY, new TerritoryHook());
 
         for (Hook<?> hook : hooks.values()) {
             hook.preRegister();
@@ -88,6 +89,8 @@ public final class HookManager {
         return (BlueMapHook) hooks.get(HookName.BLUEMAP);
     }
 
+    public static TerritoryHook getTerritoryHook() {return (TerritoryHook) hooks.get(HookName.TERRITORY);}
+
     private enum HookName {
         PLACEHOLDER_API,
         VAULT,
@@ -101,6 +104,7 @@ public final class HookManager {
         GRIEF_PREVENTION,
         ANGESCHOSSEN_LANDS,
         DYNMAP,
-        BLUEMAP
+        BLUEMAP,
+        TERRITORY
     }
 }

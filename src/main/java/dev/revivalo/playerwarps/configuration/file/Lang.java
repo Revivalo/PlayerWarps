@@ -201,13 +201,11 @@ public enum Lang {
 //    }
 
     public static void reload(Config language) {
-        // Načtení překladu
         YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
                 PlayerWarpsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
         langYamlFile.reload();
         final YamlConfiguration configuration = langYamlFile.getConfiguration();
 
-        // Načtení výchozího souboru z .jar
         YamlConfiguration defaultConfig = new YamlConfiguration();
         try (InputStream defaultLangStream = PlayerWarpsPlugin.get().getResource("lang/English.yml")) {
             if (defaultLangStream == null) {
@@ -221,7 +219,6 @@ public enum Lang {
             return;
         }
 
-        // Kontrola a přidání chybějících klíčů z výchozího souboru
         ConfigurationSection defaultLangSection = defaultConfig.getConfigurationSection("lang");
         ConfigurationSection langSection = configuration.getConfigurationSection("lang");
 
@@ -235,17 +232,14 @@ public enum Lang {
             return;
         }
 
-        // Porovnání klíčů a doplnění chybějících
         defaultLangSection.getKeys(true).forEach(defaultKey -> {
             if (!langSection.contains(defaultKey)) {
                 langSection.set(defaultKey, defaultLangSection.get(defaultKey));
             }
         });
 
-        // Uložení aktualizovaného souboru překladu (pokud bylo něco přidáno)
         langYamlFile.save();
 
-        // Načtení hodnot do map
         langSection.getKeys(false).forEach(key -> {
             String editedKey = key.toUpperCase(Locale.ENGLISH).replace("-", "_");
             if (langSection.isList(key)) {
